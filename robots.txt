@@ -1,0 +1,3 @@
+# Vorschau-Version — bewusst nicht in Suchmaschinen
+User-agent: *
+Disallow: /

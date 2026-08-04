@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<title>AGB — LOVE Creative</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="description" content="Allgemeine Geschäftsbedingungen von LOVE Creative: Buchung, Bezahlung, Storno, Gutscheine, Keramik-Abholung, Haftung, Hausordnung, Shop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+:root{
+  --green:#337357; --asparagus:#6D9F71; --mimi:#FFDBE5; --amaranth:#EA9AB2; --rose:#E27396;
+  --cream:#FBF7F1; --warmwhite:#F7F2EC; --ink:#2C3A31; --ink-soft:#56685D;
+  --line:rgba(51,115,87,.22); --line-soft:rgba(51,115,87,.13);
+  --f-d:"Jost","Futura","Century Gothic","Segoe UI",sans-serif;
+  --f-serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --f-b:"Mulish","Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{
+  margin:0;background:var(--cream);color:var(--ink);
+  font-family:var(--f-b);font-size:16px;line-height:1.7;
+  overflow-x:hidden;
+}
+a{color:var(--green);text-decoration-color:var(--amaranth);text-underline-offset:2px;}
+a:hover{color:var(--rose);}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px;border-radius:4px;}
+.skip{position:absolute;left:-999px;top:8px;background:var(--green);color:var(--cream);
+  font-family:var(--f-d);padding:8px 16px;border-radius:8px;z-index:99;}
+.skip:focus{left:8px;}
+
+/* ---------- Header mit Wortmarke ---------- */
+.topbar{border-bottom:1px solid var(--line-soft);background:var(--warmwhite);}
+.topbar-in{
+  max-width:72rem;margin:0 auto;padding:22px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.brand{display:inline-flex;flex-direction:column;align-items:center;gap:.35em;
+  text-decoration:none;color:var(--green);}
+.mark-stack{
+  display:grid;grid-template-columns:.74em .74em;column-gap:.02em;row-gap:.1em;
+  font:700 30px/.8 var(--f-d);text-transform:uppercase;letter-spacing:0;
+}
+.mark-stack b{font-weight:700;}
+.mark-stack b:nth-child(odd){justify-self:start;}
+.mark-stack b:nth-child(even){justify-self:end;}
+.rule-heart{display:flex;align-items:center;gap:.3em;width:100%;}
+.rule-heart i{flex:1;max-width:5em;height:1px;background:var(--rose);opacity:.6;}
+.rule-heart .heart{color:var(--rose);font-style:normal;font-size:10px;line-height:1;}
+.sub-label{
+  font:500 9.5px var(--f-d);text-transform:uppercase;letter-spacing:.28em;
+  color:var(--green);padding-left:.28em;
+}
+.back{
+  font-family:var(--f-d);font-weight:500;font-size:14px;letter-spacing:.04em;
+  text-decoration:none;border:1px solid var(--line);border-radius:999px;
+  padding:9px 18px;background:var(--cream);transition:background .15s ease;
+}
+.back:hover{background:var(--mimi);}
+
+/* ---------- Vorlage-Banner ---------- */
+.notice{max-width:72rem;margin:26px auto 0;padding:0 24px;}
+.notice-in{
+  background:var(--mimi);border:1.5px solid var(--rose);border-radius:14px;
+  padding:14px 20px;display:flex;gap:12px;align-items:flex-start;
+}
+.notice-in .dot{flex:none;margin-top:.35em;width:10px;height:10px;border-radius:50%;background:var(--rose);}
+.notice-in p{margin:0;font-size:14.5px;color:var(--ink);}
+.notice-in strong{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.1em;
+  font-size:12.5px;color:var(--green);display:block;margin-bottom:2px;}
+
+/* ---------- Dokument ---------- */
+main{max-width:68ch;margin:0 auto;padding:48px 24px 72px;}
+.eyebrow{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.32em;
+  font-size:11px;color:var(--rose);font-weight:600;margin:0 0 10px;}
+h1{font-family:var(--f-d);font-weight:600;color:var(--green);
+  font-size:clamp(1.8rem,1.3rem + 2vw,2.6rem);line-height:1.12;margin:0 0 6px;
+  letter-spacing:-.01em;text-wrap:balance;}
+.tagline{font-family:var(--f-serif);font-style:italic;font-size:1.18rem;
+  color:var(--ink-soft);margin:0 0 6px;}
+.stand{font-size:13px;color:var(--ink-soft);margin:0;}
+h2{font-family:var(--f-d);font-weight:600;color:var(--green);font-size:1.28rem;
+  margin:0 0 .4em;display:flex;align-items:baseline;gap:12px;
+  border-top:1px solid var(--line-soft);padding-top:30px;text-wrap:balance;}
+h2 .n{font-size:.8rem;color:var(--rose);font-weight:600;letter-spacing:.1em;}
+h3{font-family:var(--f-d);font-weight:600;color:var(--ink);font-size:.98rem;
+  letter-spacing:.03em;margin:1.5em 0 .35em;text-transform:uppercase;}
+section{margin-top:34px;}
+p{margin:.55em 0;}
+ul,ol{margin:.5em 0;padding-left:1.25em;}
+li{margin:.3em 0;}
+.card{
+  background:var(--warmwhite);border:1px solid var(--line-soft);border-radius:14px;
+  padding:20px 24px;margin:14px 0;
+}
+.card .lbl{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.12em;
+  font-size:11px;color:var(--ink-soft);font-weight:600;display:block;margin-bottom:2px;}
+.card p{margin:.35em 0;}
+.callout{
+  background:var(--warmwhite);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;
+  padding:14px 20px;margin:16px 0;
+}
+.callout p{margin:.3em 0;}
+.ph{
+  background:#fff;border:1px dashed var(--rose);border-radius:6px;
+  padding:0 .32em;font-family:var(--f-d);font-size:.94em;color:var(--green);
+}
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line-soft);border-radius:12px;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:480px;}
+caption{text-align:left;font-family:var(--f-d);font-weight:600;color:var(--green);
+  font-size:.95rem;padding:12px 14px 4px;}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+th{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.08em;font-size:10.5px;
+  color:var(--green);font-weight:600;border-bottom:1px solid var(--line);background:var(--warmwhite);}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--green);font-weight:600;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:nth-child(even){background:rgba(247,242,236,.55);}
+
+/* ---------- Fusszeile ---------- */
+footer{border-top:1px solid var(--line);background:var(--warmwhite);}
+.foot-in{max-width:72rem;margin:0 auto;padding:26px 24px 34px;
+  display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;}
+.foot-nav{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;
+  font-family:var(--f-d);font-size:14px;letter-spacing:.04em;}
+.foot-nav a{text-decoration:none;}
+.foot-nav a[aria-current="page"]{color:var(--rose);border-bottom:2px solid var(--rose);}
+.foot-note{font-size:12.5px;color:var(--ink-soft);margin:0;}
+.foot-note .heart{color:var(--rose);font-style:normal;}
+
+/* ---------- Print ---------- */
+@page{size:A4;margin:15mm 14mm;}
+@media print{
+  body{background:#fff;font-size:12px;}
+  .back,.skip{display:none;}
+  main{max-width:none;padding:8mm 0 0;}
+  section,.card,.callout{break-inside:avoid;}
+  .tbl-wrap{overflow:visible;border:none;}
+  table{min-width:0;}
+  a{text-decoration:none;color:var(--ink);}
+}
+@media (max-width:560px){
+  .topbar-in{justify-content:center;}
+  main{padding:36px 18px 56px;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html" aria-label="LOVE Creative — zurück zur Startseite">
+      <span class="mark-stack" aria-hidden="true"><b>L</b><b>O</b><b>V</b><b>E</b></span>
+      <span class="rule-heart" aria-hidden="true"><i></i><span class="heart">♥</span><i></i></span>
+      <span class="sub-label" aria-hidden="true">Creative</span>
+    </a>
+    <a class="back" href="index.html">← Zurück zur Website</a>
+  </div>
+</header>
+
+<div class="notice" role="note" aria-label="Hinweis zur Vorlage">
+  <div class="notice-in">
+    <span class="dot" aria-hidden="true"></span>
+    <p><strong>Vorlage — vor dem Go-Live juristisch prüfen lassen.</strong>
+    Diese AGB sind mit den aktuellen Firmen- und Betriebsangaben befüllt. Vor Veröffentlichung bitte durch eine Fachperson prüfen lassen.</p>
+  </div>
+</div>
+
+<main id="inhalt">
+  <p class="eyebrow">Rechtliches</p>
+  <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
+  <p class="tagline">Damit dein Besuch bei uns so entspannt ist wie das Bemalen selbst — hier die Spielregeln.</p>
+  <p class="stand">Stand: 4. August 2026 · LOVE Creative, Seestrasse 287B, 8804 Au ZH</p>
+
+  <section aria-labelledby="geltung">
+    <h2 id="geltung"><span class="n">01</span> Geltungsbereich</h2>
+    <p>Diese AGB gelten für sämtliche Angebote und Leistungen von
+    LOVE Creative GmbH 
+    (nachfolgend «LOVE Creative», «wir»): Besuche im Studio, offenes Keramik-Bemalen,
+    Workshops, Movie Nights, private Events (z. B. Kindergeburtstage, Bridal Shower / JGA,
+    Team-Events), das Café-Angebot, den Online-Shop auf lovecreative.ch sowie Gutscheine.</p>
+    <p>Mit einer Buchung, einer Bestellung oder der Nutzung unserer Angebote akzeptierst du
+    diese AGB in der jeweils gültigen Fassung. Abweichende Bedingungen gelten nur, wenn wir
+    ihnen ausdrücklich schriftlich zugestimmt haben.</p>
+    <div class="callout">
+      <p><strong>Klarstellung zum Angebot:</strong> Bei LOVE Creative wird vorgefertigte
+      Keramik <strong>bemalt</strong> (Paint-Your-Own-Pottery). Es findet <strong>kein Töpfern
+      und kein Arbeiten an der Drehscheibe</strong> statt. Die bemalten Stücke werden von uns
+      glasiert und gebrannt und stehen in der Regel nach ca. einer Woche zur Abholung bereit.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="vertragspartner">
+    <h2 id="vertragspartner"><span class="n">02</span> Vertragspartnerin &amp; Kontakt</h2>
+    <div class="card">
+      <p><span class="lbl">Vertragspartnerin</span>
+      <strong>LOVE Creative GmbH </strong><br>
+      Seestrasse 287B, 8804 Au ZH, Schweiz<br>
+      UID: CHE-444.010.856<br>
+      E-Mail: <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a> ·
+      Telefon: folgt zur Eröffnung</p>
+    </div>
+    <p>Angaben zur Anbieterin findest du im <a href="impressum.html">Impressum</a>, Angaben
+    zur Datenbearbeitung in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  </section>
+
+  <section aria-labelledby="buchung">
+    <h2 id="buchung"><span class="n">03</span> Buchung &amp; Vertragsschluss</h2>
+    <ul>
+      <li>Workshops, Movie Nights und Events buchst du online über unser Buchungssystem
+      (<strong>Zenamu</strong>), per E-Mail oder direkt im Studio.</li>
+      <li>Der Vertrag kommt zustande, sobald wir deine Buchung bestätigen (Bestätigungs-E-Mail)
+      bzw. — bei Bestellungen im Online-Shop — mit unserer Auftragsbestätigung.</li>
+      <li>Offenes Keramik-Bemalen ist während der Öffnungszeiten (täglich ca. 09:00–21:00 Uhr)
+      ohne Reservation möglich; bei hoher Auslastung empfehlen wir eine Reservation. Der
+      Vertrag kommt in diesem Fall vor Ort zustande.</li>
+      <li>Plätze sind begrenzt. Für bestimmte Formate (z. B. private Events) können wir eine
+      Anzahlung von 50 % verlangen; die Buchung ist erst
+      mit deren Eingang verbindlich.</li>
+      <li>Teilnehmende unter 16 Jahren benötigen für
+      Abend-Formate (Movie Night · Adults) eine erwachsene Begleitperson bzw. das
+      Einverständnis der Erziehungsberechtigten. Kids-Formate richten sich an Kinder in
+      Begleitung; Näheres siehe Ziffer 09.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="preise">
+    <h2 id="preise"><span class="n">04</span> Preise &amp; Bezahlung</h2>
+    <ul>
+      <li>Alle Preise verstehen sich in <strong>Schweizer Franken (CHF)</strong> und — sofern
+      wir mehrwertsteuerpflichtig sind — inklusive der gesetzlichen Mehrwertsteuer.<!-- MWST-Status vor Go-Live prüfen --></li>
+      <li>Beim Keramik-Bemalen setzt sich der Preis aus der Studio-Gebühr und dem gewählten
+      Rohling zusammen; die aktuellen Preise sind im Studio und im Buchungsprozess ersichtlich.</li>
+      <li>Die Bezahlung erfolgt online über unsere Zahlungsdienstleister
+      <strong>Stripe</strong> (Karten) und <strong>TWINT</strong> oder vor Ort im Studio (Karte, TWINT oder bar).</li>
+      <li>Online-Buchungen sind — sofern im Buchungsprozess nichts anderes angegeben ist —
+      im Voraus zu bezahlen. Für Shop-Bestellungen gilt: Zahlung bei Bestellung.</li>
+      <li>Offensichtliche Preis- oder Systemfehler berechtigen uns zum Rücktritt; bereits
+      geleistete Zahlungen werden in diesem Fall vollständig zurückerstattet.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="storno">
+    <h2 id="storno"><span class="n">05</span> Stornierung &amp; Umbuchung (Workshops, Movie Nights, Events)</h2>
+    <p>Wir kalkulieren mit begrenzten Plätzen, reserviertem Material und teils gebuchten
+    Filmen — deshalb gelten folgende Regeln:</p>
+    <div class="tbl-wrap" tabindex="0" role="group" aria-label="Stornobedingungen">
+      <table>
+        <caption>Stornobedingungen</caption>
+        <thead>
+          <tr><th scope="col">Abmeldung vor Termin</th><th scope="col">Kosten</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>bis 48 Stunden</td><td class="num">kostenlos</td></tr>
+          <tr><td>bis 24 Stunden</td><td class="num">50 % des Preises</td></tr>
+          <tr><td>danach oder bei Nichterscheinen (No-Show)</td><td class="num">100 % des Preises</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Umbuchung:</strong> Bis 48 Stunden
+      vor dem Termin kannst du einmalig kostenlos auf einen anderen Termin umbuchen
+      (nach Verfügbarkeit). Spätere Umbuchungen behandeln wir wie eine Stornierung.</li>
+      <li><strong>Ersatzperson:</strong> Du darfst jederzeit kostenlos eine Ersatzperson
+      stellen — gib uns einfach kurz Bescheid.</li>
+      <li><strong>Private Events</strong> (z. B. Private Movie Night, Kindergeburtstag,
+      Team-Event): Es gelten die in der Offerte bzw. Buchungsbestätigung genannten
+      Fristen. Ohne anderslautende Angabe gilt: kostenlos bis 7 Tage vor dem Event, danach 50 %, ab 48 Stunden vor dem Event 100 %.</li>
+      <li><strong>Absage durch uns:</strong> Erreicht ein Format die in der Ausschreibung genannte Mindestteilnehmerzahl nicht oder müssen wir aus wichtigem Grund absagen
+      (z. B. Krankheit, höhere Gewalt), informieren wir dich so früh wie möglich. Du erhältst
+      wahlweise einen Ersatztermin, einen Gutschein oder den bezahlten Betrag zurück.
+      Weitergehende Ansprüche bestehen nicht.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="gutscheine">
+    <h2 id="gutscheine"><span class="n">06</span> Gutscheine</h2>
+    <ul>
+      <li>Gutscheine sind ab Ausstellungsdatum 5 Jahre gültig.</li>
+      <li>Gutscheine (CHF 25–500, frei wählbarer Betrag) können für <strong>alle Angebote</strong>
+      von LOVE Creative eingelöst werden — Keramik-Bemalen, Workshops, Movie Nights, Café,
+      Floral, Kerzen und Shop-Artikel.</li>
+      <li>Teileinlösung ist möglich; ein Restguthaben bleibt auf dem Gutschein bestehen.</li>
+      <li><strong>Keine Barauszahlung:</strong> Gutscheine werden weder ganz noch teilweise
+      bar ausbezahlt und können nicht gegen Geld zurückgegeben werden.</li>
+      <li><strong>Verlust:</strong> Gutscheine sind Inhaberpapiere — bitte sorgfältig
+      aufbewahren. Für verlorene, gestohlene oder beschädigte Gutscheine leisten wir keinen
+      Ersatz; bei online gekauften Gutscheinen mit Gutschein-Code versuchen wir im Kulanzfall
+      zu helfen, soweit der Code eindeutig zugeordnet werden kann.</li>
+      <li>Der Weiterverkauf zu kommerziellen Zwecken ist untersagt.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="keramik">
+    <h2 id="keramik"><span class="n">07</span> Keramik: Brennen, Abholung &amp; Aufbewahrung</h2>
+    <ul>
+      <li>Bemalte Stücke werden von uns glasiert und gebrannt und sind in der Regel nach
+      <strong>ca. einer Woche</strong> abholbereit. Wir benachrichtigen dich, sobald dein
+      Stück fertig ist.</li>
+      <li>Die Abholung erfolgt im Studio während der Öffnungszeiten. Ein Versand ist derzeit nicht vorgesehen — Abholung im Studio (Click &amp; Collect).</li>
+      <li><strong>Aufbewahrungsfrist:</strong> Wir bewahren fertige Stücke
+      3 Monate ab Benachrichtigung auf. Nach
+      zweimaliger Erinnerung und Ablauf der Frist können wir nicht abgeholte Stücke
+      entsorgen oder anderweitig verwenden; ein Anspruch auf Ersatz oder Rückerstattung
+      besteht dann nicht.</li>
+      <li>Keramik ist ein Naturprodukt: Leichte Abweichungen von Farbe und Glasur nach dem
+      Brand (Farbvertiefung, Glanz, kleine Unregelmässigkeiten) gehören zum Handwerk und
+      stellen keinen Mangel dar.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="haftung">
+    <h2 id="haftung"><span class="n">08</span> Haftung</h2>
+    <ul>
+      <li><strong>Bruch &amp; Brennrisiko:</strong> Trotz sorgfältiger Handhabung kann es beim
+      Glasieren und Brennen in seltenen Fällen zu Rissen, Sprüngen oder Brennfehlern kommen.
+      In diesem Fall bieten wir dir einen kostenlosen Ersatz-Rohling inkl. Studiozeit an — du bemalst dein Stück aufs Haus neu.
+      Ein Anspruch auf Ersatz des ideellen Werts des bemalten Stücks besteht nicht.</li>
+      <li><strong>Verlorene oder verwechselte Stücke:</strong> Kommt ein Stück in unserer
+      Obhut abhanden, gilt dieselbe Regelung wie bei Bruch.</li>
+      <li><strong>Persönliche Gegenstände:</strong> Für Garderobe, Wertsachen und mitgebrachte
+      Gegenstände übernehmen wir keine Haftung.</li>
+      <li><strong>Farben auf Kleidung:</strong> Wir stellen Schürzen zur Verfügung — bitte
+      trotzdem unempfindliche Kleidung tragen. Für Farbflecken auf Kleidung haften wir nicht.</li>
+      <li><strong>Allgemein:</strong> Unsere Haftung für leichte Fahrlässigkeit sowie für
+    indirekte Schäden und Folgeschäden ist im gesetzlich zulässigen Rahmen ausgeschlossen.
+      Zwingende gesetzliche Haftung — insbesondere für Personenschäden sowie für rechtswidrige
+      Absicht und grobe Fahrlässigkeit — bleibt unberührt.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="hausordnung">
+    <h2 id="hausordnung"><span class="n">09</span> Verhalten im Studio (Hausordnung)</h2>
+    <p>Damit sich alle wohlfühlen, gilt im Studio Folgendes:</p>
+    <ul>
+      <li>Bitte geh sorgsam mit Rohlingen, Farben, Pinseln und Einrichtung um. Mutwillig oder
+      grobfahrlässig beschädigtes Material und Inventar stellen wir zum Selbstkostenpreis in
+      Rechnung.</li>
+      <li>Kinder bemalen bei uns herzlich gerne — sie bleiben aber während des gesamten
+      Aufenthalts unter Aufsicht der Begleitpersonen. Bei den betreuten Kids-Formaten
+      (z. B. Movie Night · Kids) gelten die im Buchungsprozess genannten Alters- und
+      Betreuungsangaben.</li>
+      <li>Konsumiert wird das Angebot unseres Cafés; mitgebrachte Speisen und Getränke sind
+      — ausser nach Absprache (z. B. Geburtstagskuchen) — nicht vorgesehen.</li>
+      <li>Bitte nimm Rücksicht auf andere Gäste: ruhige Atmosphäre, keine übermässige
+      Lautstärke, Telefonate nach draussen.</li>
+      <li>Den Anweisungen unseres Teams ist Folge zu leisten. Bei wiederholten oder groben
+      Verstössen können wir Gäste vom Besuch ausschliessen; ein Anspruch auf Rückerstattung
+      besteht in diesem Fall nicht.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="shop">
+    <h2 id="shop"><span class="n">10</span> Online-Shop: Lieferung, Rückgabe &amp; Widerruf</h2>
+    <ul>
+      <li><strong>Lieferung:</strong> Shop-Artikel (z. B. Kerzen, Keramik/Homeware, Gutscheine)
+      liefern wir innerhalb der Schweiz (Versandkosten gemäss Angabe im Bestellprozess; keine Lieferung ins Ausland) oder du holst sie im Studio ab
+      (Click &amp; Collect).</li>
+      <li><strong>Kein gesetzliches Widerrufsrecht (CH):</strong> Nach schweizerischem Recht
+      besteht bei Online-Käufen kein allgemeines gesetzliches Widerrufsrecht. Wir gewähren
+      freiwillig ein Rückgaberecht von 14 Tagen ab
+      Erhalt für ungebrauchte, originalverpackte Artikel gegen Gutschrift oder Umtausch.</li>
+      <li><strong>Ausgenommen von der Rückgabe</strong> sind personalisierte und individuell
+      gefertigte Artikel, von Gästen selbst bemalte Keramik, frische Blumen (Floral Bar) sowie
+      Gutscheine.</li>
+      <li><strong>EU-Verbraucherinnen und -Verbraucher:</strong> Soweit auf einzelne
+      Bestellungen zwingendes ausländisches Verbraucherrecht anwendbar ist (z. B. ein
+      14-tägiges Widerrufsrecht nach EU-Recht), bleibt dieses unberührt.</li>
+      <li><strong>Mängel:</strong> Beschädigt gelieferte oder mangelhafte Artikel melde uns
+      bitte innert 7 Tagen nach Erhalt mit Foto an
+      <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a> — wir ersetzen den
+      Artikel oder erstatten den Kaufpreis. Im Übrigen gelten die gesetzlichen
+      Gewährleistungsrechte (Art. 197 ff. OR).</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="schluss">
+    <h2 id="schluss"><span class="n">11</span> Schlussbestimmungen</h2>
+    <ul>
+      <li><strong>Datenschutz:</strong> Die Bearbeitung von Personendaten richtet sich nach
+      unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</li>
+      <li><strong>Änderungen:</strong> Wir können diese AGB jederzeit anpassen. Für bestehende
+      Buchungen gilt die zum Zeitpunkt der Buchung gültige Fassung.</li>
+      <li><strong>Salvatorische Klausel:</strong> Sollten einzelne Bestimmungen dieser AGB
+      unwirksam sein oder werden, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.
+      Anstelle der unwirksamen Bestimmung tritt eine wirksame Regelung, die dem wirtschaftlichen
+      Zweck am nächsten kommt.</li>
+      <li><strong>Anwendbares Recht:</strong> Es gilt ausschliesslich <strong>schweizerisches
+      Recht</strong> unter Ausschluss des UN-Kaufrechts (CISG) und der Kollisionsnormen.</li>
+      <li><strong>Gerichtsstand:</strong> Ausschliesslicher Gerichtsstand ist — soweit
+      gesetzlich zulässig — der Sitz der Gesellschaft (Wädenswil ZH).
+      Zwingende Gerichtsstände, insbesondere für Konsumentinnen und Konsumenten, bleiben
+      vorbehalten.</li>
+    </ul>
+    <p class="stand">Stand dieser AGB: 4. August 2026</p>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <nav class="foot-nav" aria-label="Rechtliches">
+      <a href="impressum.html">Impressum</a>
+      <span aria-hidden="true">·</span>
+      <a href="datenschutz.html">Datenschutz</a>
+      <span aria-hidden="true">·</span>
+      <a href="agb.html" aria-current="page">AGB</a>
+      <span aria-hidden="true">·</span>
+      <a href="index.html">Zurück zur Startseite</a>
+    </nav>
+    <p class="foot-note">LOVE Creative · Seestrasse 287B · 8804 Au ZH · <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a></p>
+    <p class="foot-note">Made for moments that matter. <span class="heart" aria-hidden="true">♥</span></p>
+  </div>
+</footer>
+</body>
+</html>

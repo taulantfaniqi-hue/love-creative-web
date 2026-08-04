@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<title>Datenschutzerklärung — LOVE Creative</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="description" content="Datenschutzerklärung von LOVE Creative (revDSG & DSGVO): welche Daten wir bearbeiten, wofür, mit welchen Dienstleistern — und welche Rechte du hast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+:root{
+  --green:#337357; --asparagus:#6D9F71; --mimi:#FFDBE5; --amaranth:#EA9AB2; --rose:#E27396;
+  --cream:#FBF7F1; --warmwhite:#F7F2EC; --ink:#2C3A31; --ink-soft:#56685D;
+  --line:rgba(51,115,87,.22); --line-soft:rgba(51,115,87,.13);
+  --f-d:"Jost","Futura","Century Gothic","Segoe UI",sans-serif;
+  --f-serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --f-b:"Mulish","Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{
+  margin:0;background:var(--cream);color:var(--ink);
+  font-family:var(--f-b);font-size:16px;line-height:1.7;
+  overflow-x:hidden;
+}
+a{color:var(--green);text-decoration-color:var(--amaranth);text-underline-offset:2px;}
+a:hover{color:var(--rose);}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px;border-radius:4px;}
+.skip{position:absolute;left:-999px;top:8px;background:var(--green);color:var(--cream);
+  font-family:var(--f-d);padding:8px 16px;border-radius:8px;z-index:99;}
+.skip:focus{left:8px;}
+
+/* ---------- Header mit Wortmarke ---------- */
+.topbar{border-bottom:1px solid var(--line-soft);background:var(--warmwhite);}
+.topbar-in{
+  max-width:72rem;margin:0 auto;padding:22px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.brand{display:inline-flex;flex-direction:column;align-items:center;gap:.35em;
+  text-decoration:none;color:var(--green);}
+.mark-stack{
+  display:grid;grid-template-columns:.74em .74em;column-gap:.02em;row-gap:.1em;
+  font:700 30px/.8 var(--f-d);text-transform:uppercase;letter-spacing:0;
+}
+.mark-stack b{font-weight:700;}
+.mark-stack b:nth-child(odd){justify-self:start;}
+.mark-stack b:nth-child(even){justify-self:end;}
+.rule-heart{display:flex;align-items:center;gap:.3em;width:100%;}
+.rule-heart i{flex:1;max-width:5em;height:1px;background:var(--rose);opacity:.6;}
+.rule-heart .heart{color:var(--rose);font-style:normal;font-size:10px;line-height:1;}
+.sub-label{
+  font:500 9.5px var(--f-d);text-transform:uppercase;letter-spacing:.28em;
+  color:var(--green);padding-left:.28em;
+}
+.back{
+  font-family:var(--f-d);font-weight:500;font-size:14px;letter-spacing:.04em;
+  text-decoration:none;border:1px solid var(--line);border-radius:999px;
+  padding:9px 18px;background:var(--cream);transition:background .15s ease;
+}
+.back:hover{background:var(--mimi);}
+
+/* ---------- Vorlage-Banner ---------- */
+.notice{max-width:72rem;margin:26px auto 0;padding:0 24px;}
+.notice-in{
+  background:var(--mimi);border:1.5px solid var(--rose);border-radius:14px;
+  padding:14px 20px;display:flex;gap:12px;align-items:flex-start;
+}
+.notice-in .dot{flex:none;margin-top:.35em;width:10px;height:10px;border-radius:50%;background:var(--rose);}
+.notice-in p{margin:0;font-size:14.5px;color:var(--ink);}
+.notice-in strong{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.1em;
+  font-size:12.5px;color:var(--green);display:block;margin-bottom:2px;}
+
+/* ---------- Dokument ---------- */
+main{max-width:68ch;margin:0 auto;padding:48px 24px 72px;}
+.eyebrow{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.32em;
+  font-size:11px;color:var(--rose);font-weight:600;margin:0 0 10px;}
+h1{font-family:var(--f-d);font-weight:600;color:var(--green);
+  font-size:clamp(1.8rem,1.3rem + 2vw,2.6rem);line-height:1.12;margin:0 0 6px;
+  letter-spacing:-.01em;text-wrap:balance;}
+.tagline{font-family:var(--f-serif);font-style:italic;font-size:1.18rem;
+  color:var(--ink-soft);margin:0 0 6px;}
+.stand{font-size:13px;color:var(--ink-soft);margin:0;}
+h2{font-family:var(--f-d);font-weight:600;color:var(--green);font-size:1.28rem;
+  margin:0 0 .4em;display:flex;align-items:baseline;gap:12px;
+  border-top:1px solid var(--line-soft);padding-top:30px;text-wrap:balance;}
+h2 .n{font-size:.8rem;color:var(--rose);font-weight:600;letter-spacing:.1em;}
+h3{font-family:var(--f-d);font-weight:600;color:var(--ink);font-size:.98rem;
+  letter-spacing:.03em;margin:1.5em 0 .35em;text-transform:uppercase;}
+section{margin-top:34px;}
+p{margin:.55em 0;}
+ul{margin:.5em 0;padding-left:1.25em;}
+li{margin:.3em 0;}
+address{font-style:normal;}
+.card{
+  background:var(--warmwhite);border:1px solid var(--line-soft);border-radius:14px;
+  padding:20px 24px;margin:14px 0;
+}
+.card .lbl{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.12em;
+  font-size:11px;color:var(--ink-soft);font-weight:600;display:block;margin-bottom:2px;}
+.card p{margin:.35em 0;}
+.ph{
+  background:#fff;border:1px dashed var(--rose);border-radius:6px;
+  padding:0 .32em;font-family:var(--f-d);font-size:.94em;color:var(--green);
+}
+.tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line-soft);border-radius:12px;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px;}
+caption{text-align:left;font-family:var(--f-d);font-weight:600;color:var(--green);
+  font-size:.95rem;padding:12px 14px 4px;}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+th{font-family:var(--f-d);text-transform:uppercase;letter-spacing:.08em;font-size:10.5px;
+  color:var(--green);font-weight:600;border-bottom:1px solid var(--line);background:var(--warmwhite);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:nth-child(even){background:rgba(247,242,236,.55);}
+
+/* ---------- Fusszeile ---------- */
+footer{border-top:1px solid var(--line);background:var(--warmwhite);}
+.foot-in{max-width:72rem;margin:0 auto;padding:26px 24px 34px;
+  display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;}
+.foot-nav{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;
+  font-family:var(--f-d);font-size:14px;letter-spacing:.04em;}
+.foot-nav a{text-decoration:none;}
+.foot-nav a[aria-current="page"]{color:var(--rose);border-bottom:2px solid var(--rose);}
+.foot-note{font-size:12.5px;color:var(--ink-soft);margin:0;}
+.foot-note .heart{color:var(--rose);font-style:normal;}
+
+/* ---------- Print ---------- */
+@page{size:A4;margin:15mm 14mm;}
+@media print{
+  body{background:#fff;font-size:12px;}
+  .back,.skip{display:none;}
+  main{max-width:none;padding:8mm 0 0;}
+  section,.card{break-inside:avoid;}
+  .tbl-wrap{overflow:visible;border:none;}
+  table{min-width:0;}
+  a{text-decoration:none;color:var(--ink);}
+}
+@media (max-width:560px){
+  .topbar-in{justify-content:center;}
+  main{padding:36px 18px 56px;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html" aria-label="LOVE Creative — zurück zur Startseite">
+      <span class="mark-stack" aria-hidden="true"><b>L</b><b>O</b><b>V</b><b>E</b></span>
+      <span class="rule-heart" aria-hidden="true"><i></i><span class="heart">♥</span><i></i></span>
+      <span class="sub-label" aria-hidden="true">Creative</span>
+    </a>
+    <a class="back" href="index.html">← Zurück zur Website</a>
+  </div>
+</header>
+
+<div class="notice" role="note" aria-label="Hinweis zur Vorlage">
+  <div class="notice-in">
+    <span class="dot" aria-hidden="true"></span>
+    <p><strong>Vorlage — vor dem Go-Live juristisch prüfen lassen.</strong>
+    Diese Erklärung ist mit dem aktuellen Setup befüllt. Vor Veröffentlichung bitte durch eine Fachperson prüfen und mit dem tatsächlichen Setup abgleichen.</p>
+  </div>
+</div>
+
+<main id="inhalt">
+  <p class="eyebrow">Rechtliches</p>
+  <h1>Datenschutzerklärung</h1>
+  <p class="tagline">Dein Vertrauen ist uns wichtig — deshalb erklären wir hier ruhig und klar, was mit deinen Daten passiert.</p>
+  <p class="stand">Stand: 4. August 2026 · gilt für lovecreative.ch und unser Studio in Au ZH</p>
+
+  <section aria-labelledby="verantwortlich">
+    <h2 id="verantwortlich"><span class="n">01</span> Verantwortliche Stelle</h2>
+    <p>Verantwortlich für die Bearbeitung deiner Personendaten im Sinne des schweizerischen
+    Datenschutzgesetzes (revDSG) und — soweit anwendbar — der europäischen
+    Datenschutz-Grundverordnung (DSGVO) ist:</p>
+    <div class="card">
+      <address>
+        <span class="lbl">Verantwortliche Stelle</span>
+        <p><strong>LOVE Creative GmbH </strong><br>
+        Seestrasse 287B, 8804 Au ZH, Schweiz<br>
+        E-Mail: <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a><br>
+        Telefon: folgt zur Eröffnung</p>
+        <p><span class="lbl">Datenschutz-Kontakt</span>
+        Taulant Faniqi (Geschäftsführung) —
+        erreichbar über <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a>,
+        Stichwort «Datenschutz»</p>
+      </address>
+    </div>
+    <p>Eine Vertretung in der EU nach Art. 27 DSGVO ist derzeit nicht bestellt; unser Angebot richtet sich an Gäste in der Schweiz.</p>
+  </section>
+
+  <section aria-labelledby="grundsaetze">
+    <h2 id="grundsaetze"><span class="n">02</span> Grundsätze &amp; Rechtsgrundlagen</h2>
+    <p>Wir bearbeiten Personendaten nur, wenn und soweit dies für den jeweiligen Zweck
+    erforderlich ist, und halten uns dabei an die Grundsätze der Rechtmässigkeit,
+    Verhältnismässigkeit, Zweckbindung, Datenrichtigkeit und Datensicherheit.</p>
+    <p>Da unsere Gäste teilweise aus dem EU-/EWR-Raum stammen, richten wir uns neben dem
+    revDSG auch nach der DSGVO. Soweit die DSGVO anwendbar ist, stützen wir die Bearbeitung
+    auf folgende Rechtsgrundlagen:</p>
+    <ul>
+      <li><strong>Vertragserfüllung</strong> (Art. 6 Abs. 1 lit. b DSGVO) — z. B. Buchungen,
+      Käufe, Gutscheine, Abholung deiner Keramik;</li>
+      <li><strong>Einwilligung</strong> (Art. 6 Abs. 1 lit. a DSGVO) — z. B. Newsletter,
+      Warteliste, das Laden externer Inhalte wie Karten;</li>
+      <li><strong>Berechtigte Interessen</strong> (Art. 6 Abs. 1 lit. f DSGVO) — z. B. sicherer
+      Betrieb der Website, Missbrauchsabwehr, einfache Statistiken;</li>
+      <li><strong>Rechtliche Verpflichtungen</strong> (Art. 6 Abs. 1 lit. c DSGVO) — z. B.
+      buchhalterische Aufbewahrungspflichten.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="daten">
+    <h2 id="daten"><span class="n">03</span> Welche Daten wir bearbeiten</h2>
+
+    <h3>a) Besuch der Website</h3>
+    <p>Beim Aufruf von lovecreative.ch verarbeitet der Server unseres Hosting-Providers Cloudflare Pages (Cloudflare, Inc.) automatisch technische Daten (sog. Logdaten):
+    IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browsertyp und Betriebssystem. Diese
+    Daten dienen der Sicherheit und Stabilität der Website und werden nach 30 Tagen gelöscht bzw. anonymisiert.</p>
+
+    <h3>b) Kontakt- und Buchungsanfragen</h3>
+    <p>Wenn du uns über das Kontaktformular schreibst, per E-Mail kontaktierst oder einen
+    Workshop, eine Movie Night oder einen Event über die Formulare unserer Website anfragst oder buchst,
+    bearbeiten wir die Angaben, die du uns dabei mitteilst: Name, E-Mail-Adresse, ggf.
+    Telefonnummer, Buchungsdetails (Datum, Format, Teilnehmerzahl, bei Kids-Formaten ggf.
+    Name/Alter des Kindes) sowie den Inhalt deiner Nachricht. Zweck: Beantwortung deiner
+    Anfrage, Abwicklung und Verwaltung der Buchung, Terminerinnerungen.</p>
+
+    <h3>c) Newsletter &amp; Warteliste</h3>
+    <p>Für unseren Newsletter und die Warteliste (z. B. für ausgebuchte Formate) bearbeiten
+    wir deine E-Mail-Adresse und optional deinen Namen. Details siehe Abschnitt 05.</p>
+
+    <h3>d) Shop &amp; Zahlung</h3>
+    <p>Bei Bestellungen in unserem Online-Shop (Keramik, Kerzen, Gutscheine u. a.) bearbeiten
+    wir Bestell- und Lieferdaten (Name, Adresse, E-Mail, bestellte Artikel). Zahlungsdaten
+    (z. B. Kartennummer, TWINT-Konto) werden <strong>nicht von uns</strong>, sondern direkt
+    von unseren Zahlungsdienstleistern Stripe bzw. TWINT bearbeitet; wir erhalten lediglich
+    eine Bestätigung über die erfolgte Zahlung.</p>
+
+    <h3>e) Vor Ort im Studio</h3>
+    <p>Für die Abholung deiner gebrannten Keramikstücke erfassen wir Name und Kontaktangabe,
+    damit wir dich benachrichtigen können, sobald dein Stück fertig ist (in der Regel nach
+    ca. einer Woche). Eine Videoüberwachung findet nicht statt. Foto- und Filmaufnahmen an Events machen wir nur mit Einwilligung der abgebildeten Personen.</p>
+  </section>
+
+  <section aria-labelledby="dienste">
+    <h2 id="dienste"><span class="n">04</span> Eingesetzte Dienstleister (Auftragsbearbeiter)</h2>
+    <p>Wir arbeiten mit sorgfältig ausgewählten Dienstleistern, die Personendaten in unserem
+    Auftrag bearbeiten. Mit allen Anbietern bestehen — soweit erforderlich — Verträge zur
+    Auftragsbearbeitung; bei Anbietern ausserhalb der Schweiz bzw. des EWR stützen wir die
+    Übermittlung auf einen Angemessenheitsbeschluss oder geeignete Garantien
+    (insbesondere EU-Standardvertragsklauseln, ggf. Swiss-US/EU-US Data Privacy Framework).</p>
+    <div class="tbl-wrap" tabindex="0" role="group" aria-label="Tabelle der eingesetzten Dienstleister">
+      <table>
+        <caption>Übersicht der eingesetzten Dienste</caption>
+        <thead>
+          <tr><th scope="col">Dienst</th><th scope="col">Zweck</th><th scope="col">Anbieter / Sitz</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Website-Formulare</strong></td>
+            <td>Reservationen, Event-Anfragen, Gutschein-Bestellungen und Warteliste — wir speichern die Angaben zur Bearbeitung deiner Anfrage</td>
+            <td>LOVE Creative GmbH, Schweiz (eigene Website, keine Weitergabe)</td>
+          </tr>
+                    <tr>
+            <td><strong>Stripe</strong></td>
+            <td>Zahlungsabwicklung Kreditkarte u. a. (Zahlungsdaten direkt bei Stripe)</td>
+            <td>Stripe Payments Europe Ltd., Irland (Einsatz ab Go-Live geplant)</td>
+          </tr>
+          <tr>
+            <td><strong>TWINT</strong></td>
+            <td>Zahlungsabwicklung TWINT (Zahlungsdaten direkt bei TWINT)</td>
+            <td>TWINT AG, Schweiz</td>
+          </tr>
+          <tr>
+            <td><strong>Brevo</strong></td>
+            <td>Newsletter-Versand, Warteliste und Kontaktverwaltung (CRM)</td>
+            <td>Brevo (Sendinblue SAS), 106 bd Haussmann, 75008 Paris, Frankreich</td>
+          </tr>
+                    <tr>
+            <td><strong>Google</strong></td>
+            <td>Google Fonts — Schriften werden beim Seitenaufruf von Google-Servern geladen; dabei wird deine IP-Adresse an Google übermittelt<!-- für Go-Live optional: Fonts lokal hosten --></td>
+            <td>Google Ireland Ltd., Irland / Google LLC, USA</td>
+          </tr>
+          <tr>
+            <td><strong>Hosting</strong></td>
+            <td>Betrieb der Website lovecreative.ch (Logdaten, siehe Abschnitt 03a)</td>
+            <td>Cloudflare, Inc., USA — Auslieferung über globales Edge-Netzwerk</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Darüber hinaus geben wir Personendaten nur weiter, wenn du eingewilligt hast, wenn es
+    zur Vertragsabwicklung nötig ist oder wenn wir gesetzlich dazu verpflichtet sind. Ein
+    Verkauf deiner Daten findet nicht statt.</p>
+  </section>
+
+  <section aria-labelledby="newsletter">
+    <h2 id="newsletter"><span class="n">05</span> Newsletter &amp; Double-Opt-in</h2>
+    <p>Unseren Newsletter (Neuigkeiten, Workshop-Termine, saisonale Angebote) versenden wir
+    über Brevo und nur mit deiner Einwilligung. Wir verwenden das
+    <strong>Double-Opt-in-Verfahren</strong>: Nach der Anmeldung erhältst du eine E-Mail mit
+    einem Bestätigungslink. Erst wenn du diesen Link anklickst, wird deine Adresse in den
+    Verteiler aufgenommen. Anmeldezeitpunkt und Bestätigung werden protokolliert, um die
+    Einwilligung nachweisen zu können.</p>
+    <p><strong>Widerruf:</strong> Du kannst dich jederzeit abmelden — über den Abmeldelink am
+    Ende jedes Newsletters oder formlos per E-Mail an
+    <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a>. Der Widerruf berührt die
+    Rechtmässigkeit der bis dahin erfolgten Bearbeitung nicht. Dasselbe gilt für die Warteliste.</p>
+  </section>
+
+  <section aria-labelledby="cookies">
+    <h2 id="cookies"><span class="n">06</span> Cookies &amp; Einwilligung</h2>
+    <p>Unsere Website verwendet nur wenige, technisch notwendige Cookies bzw. vergleichbare
+    Technologien (z. B. für den Warenkorb oder gespeicherte Einwilligungen). Diese sind für
+    den Betrieb erforderlich und benötigen keine Einwilligung.</p>
+    <p><strong>Externe Inhalte laden erst nach deiner Einwilligung:</strong> Eingebettete
+    Inhalte von Drittanbietern — insbesondere Kartendienste (z. B. Google Maps für die Anfahrt
+    zur Seestrasse 287B) sowie allfällige externe Skripte oder Videos — werden erst geladen,
+    wenn du sie aktiv freigibst (Click-to-Load bzw. Consent-Banner). Vorher wird keine
+    Verbindung zum Drittanbieter aufgebaut und keine IP-Adresse übermittelt. Deine Auswahl
+    kannst du jederzeit ändern.</p>
+    <p>Wir setzen derzeit kein Analyse-Tool und keine Marketing-Cookies ein.</p>
+  </section>
+
+  <section aria-labelledby="aufbewahrung">
+    <h2 id="aufbewahrung"><span class="n">07</span> Aufbewahrung &amp; Löschung</h2>
+    <p>Wir bewahren Personendaten nur so lange auf, wie es für den jeweiligen Zweck nötig ist
+    oder gesetzliche Pflichten es verlangen:</p>
+    <ul>
+      <li><strong>Anfragen:</strong> bis zur abschliessenden Beantwortung, danach Löschung
+      nach 12 Monaten;</li>
+      <li><strong>Buchungs- und Bestelldaten:</strong> gemäss handels- und steuerrechtlichen
+      Aufbewahrungspflichten in der Regel <strong>10 Jahre</strong> (Art. 958f OR);</li>
+      <li><strong>Newsletter-Daten:</strong> bis zum Widerruf deiner Einwilligung;</li>
+      <li><strong>Server-Logdaten:</strong> 30 Tage.</li>
+    </ul>
+    <p>Nach Ablauf der Fristen werden die Daten gelöscht oder anonymisiert.</p>
+  </section>
+
+  <section aria-labelledby="sicherheit">
+    <h2 id="sicherheit"><span class="n">08</span> Datensicherheit</h2>
+    <p>Wir treffen angemessene technische und organisatorische Massnahmen, um deine Daten
+    gegen unbefugten Zugriff, Verlust und Missbrauch zu schützen — unter anderem
+    TLS-Verschlüsselung der Website, Zugriffsbeschränkungen auf die eingesetzten Systeme und
+    regelmässige Updates. Bitte beachte, dass die Datenübertragung im Internet (z. B. per
+    unverschlüsselter E-Mail) Sicherheitslücken aufweisen kann.</p>
+  </section>
+
+  <section aria-labelledby="rechte">
+    <h2 id="rechte"><span class="n">09</span> Deine Rechte</h2>
+    <p>Dir stehen — im Rahmen des anwendbaren Rechts (revDSG bzw. DSGVO) — folgende Rechte zu:</p>
+    <ul>
+      <li><strong>Auskunft</strong> darüber, ob und welche Personendaten wir über dich bearbeiten;</li>
+      <li><strong>Berichtigung</strong> unrichtiger oder unvollständiger Daten;</li>
+      <li><strong>Löschung</strong> deiner Daten, soweit keine Aufbewahrungspflichten entgegenstehen;</li>
+      <li><strong>Einschränkung</strong> der Bearbeitung;</li>
+      <li><strong>Widerspruch</strong> gegen Bearbeitungen, die auf berechtigten Interessen beruhen;</li>
+      <li><strong>Datenübertragbarkeit</strong> — Herausgabe der Daten, die du uns bereitgestellt
+      hast, in einem gängigen elektronischen Format;</li>
+      <li><strong>Widerruf</strong> erteilter Einwilligungen mit Wirkung für die Zukunft.</li>
+    </ul>
+    <p>Zur Ausübung deiner Rechte genügt eine formlose Mitteilung an
+    <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a> (Stichwort «Datenschutz»).
+    Zur Sicherheit können wir einen Identitätsnachweis verlangen.</p>
+    <h3>Beschwerderecht</h3>
+    <p>Du hast ausserdem das Recht, dich bei einer Aufsichtsbehörde zu beschweren:</p>
+    <ul>
+      <li>in der Schweiz beim <strong>Eidgenössischen Datenschutz- und
+      Öffentlichkeitsbeauftragten (EDÖB)</strong>, Feldeggweg 1, 3003 Bern,
+      <a href="https://www.edoeb.admin.ch" rel="noopener">www.edoeb.admin.ch</a>;</li>
+      <li>im EU-/EWR-Raum bei der für deinen Wohnort zuständigen Datenschutz-Aufsichtsbehörde.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="aenderungen">
+    <h2 id="aenderungen"><span class="n">10</span> Änderungen dieser Erklärung</h2>
+    <p>Wir können diese Datenschutzerklärung jederzeit anpassen, etwa wenn wir neue Dienste
+    einsetzen oder sich die Rechtslage ändert. Es gilt die jeweils auf lovecreative.ch
+    veröffentlichte Fassung. Wesentliche Änderungen kommunizieren wir in geeigneter Form.</p>
+    <p class="stand">Stand dieser Erklärung: 4. August 2026</p>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <nav class="foot-nav" aria-label="Rechtliches">
+      <a href="impressum.html">Impressum</a>
+      <span aria-hidden="true">·</span>
+      <a href="datenschutz.html" aria-current="page">Datenschutz</a>
+      <span aria-hidden="true">·</span>
+      <a href="agb.html">AGB</a>
+      <span aria-hidden="true">·</span>
+      <a href="index.html">Zurück zur Startseite</a>
+    </nav>
+    <p class="foot-note">LOVE Creative · Seestrasse 287B · 8804 Au ZH · <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a></p>
+    <p class="foot-note">Made for moments that matter. <span class="heart" aria-hidden="true">♥</span></p>
+  </div>
+</footer>
+</body>
+</html>

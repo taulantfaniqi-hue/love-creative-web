@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOVE Creative Café — Keramik bemalen, Kaffee & Kino-Nights in Au ZH</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Keramik bemalen, Kaffee geniessen, Momente feiern — LOVE Creative Café an der Seestrasse 287B in Au ZH am Zürichsee. Tisch reservieren, Events planen, Gutscheine verschenken.">
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-dark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "LOVE Creative Café — LOVE Creative GmbH",
+  "description": "Keramik-Bemalstudio (Paint your own pottery) mit Café und wöchentlicher Kino-Night am Zürichsee.",
+  "url": "https://lovecreative.ch",
+  "email": "hallo@lovecreative.ch",
+  "image": "assets/img/interior-cafe.jpeg",
+  "servesCuisine": "Coffee, Matcha, Lemonades, Snacks",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Seestrasse 287B",
+    "postalCode": "8804",
+    "addressLocality": "Au ZH",
+    "addressCountry": "CH"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "09:00",
+    "closes": "21:00"
+  }
+}
+</script>
+<style>
+/* ═══════ LOVE Creative — offizielle Brand-Tokens (Designer-Paket) ═══════ */
+:root{
+  --green:#155437; --asparagus:#87A275; --celadon:#E2E8DC;
+  --mimi:#FDD8E0; --amaranth:#E997AD; --rose:#DB778F;
+  --cream:#FBF7F1; --warmwhite:#F7F2EC;
+  --ink:#2C3A31; --ink-soft:#56685D;
+  --line:rgba(21,84,55,.18); --line-soft:rgba(21,84,55,.10);
+  --r-s:10px; --r-m:18px; --r-arch:999px 999px 14px 14px;
+  --ff-display:"Playfair Display",Georgia,"Times New Roman",serif;
+  --ff-body:"Jost","Futura","Century Gothic","Segoe UI",sans-serif;
+  --ff-script:"Sacramento","Brush Script MT",cursive;
+  --shadow:0 10px 30px rgba(21,84,55,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
+}
+body{font-family:var(--ff-body);font-weight:400;color:var(--ink);background:var(--cream);line-height:1.65;font-size:1.02rem}
+img{max-width:100%;display:block}
+a{color:var(--green)}
+h1,h2,h3{font-family:var(--ff-display);color:var(--green);line-height:1.15;font-weight:700}
+.skip{position:absolute;left:-999px;top:0;background:var(--green);color:#fff;padding:.6rem 1rem;z-index:200;border-radius:0 0 var(--r-s) var(--r-s)}
+.skip:focus{left:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem)}
+section{padding:clamp(3rem,7vw,5.5rem) 0}
+.eyebrow{font-weight:600;text-transform:uppercase;letter-spacing:.18em;font-size:.78rem;color:var(--rose);margin-bottom:.8rem}
+.sect-title{font-size:clamp(1.7rem,1.1rem + 2.4vw,2.6rem);margin-bottom:1rem;text-wrap:balance}
+.sect-lead{color:var(--ink-soft);max-width:46rem;margin-bottom:2rem}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{display:inline-block;font-family:var(--ff-body);font-weight:600;letter-spacing:.04em;border-radius:999px;padding:.85rem 1.7rem;border:1.5px solid transparent;cursor:pointer;text-decoration:none;font-size:.98rem;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.btn-rose{background:var(--rose);color:#fff}
+.btn-rose:hover{background:#c9647d}
+.btn-ghost{background:transparent;color:var(--green);border-color:var(--green)}
+.btn-ghost:hover{background:var(--celadon)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:#0f4029}
+
+/* ═══════ Header ═══════ */
+header.site{position:sticky;top:0;z-index:100;background:rgba(251,247,241,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft);transition:box-shadow .2s ease}
+header.site.scrolled{box-shadow:var(--shadow)}
+.nav-in{display:flex;align-items:center;gap:1rem;padding:.65rem clamp(1rem,4vw,2.5rem);max-width:1280px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.brand img{width:46px;height:46px}
+.brand-name{font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--green);font-size:.92rem;line-height:1.25}
+.brand-name small{display:block;font-weight:400;letter-spacing:.26em;font-size:.6rem;color:var(--ink-soft)}
+nav.main{margin-left:auto}
+nav.main ul{display:flex;gap:1.35rem;list-style:none;align-items:center}
+nav.main a{text-decoration:none;font-weight:500;font-size:.95rem;color:var(--ink);border-bottom:2px solid transparent;padding:.2rem 0}
+nav.main a:hover{color:var(--green);border-color:var(--amaranth)}
+.lang-switch{display:flex;gap:.15rem;border:1px solid var(--line);border-radius:999px;padding:.15rem;margin-left:.5rem}
+.lang-btn{border:0;background:transparent;font-family:var(--ff-body);font-weight:600;font-size:.8rem;letter-spacing:.06em;padding:.3rem .6rem;border-radius:999px;cursor:pointer;color:var(--ink-soft)}
+.lang-btn[aria-pressed="true"]{background:var(--green);color:#fff}
+.nav-cta{margin-left:.35rem}
+.burger{display:none;margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:var(--r-s);padding:.45rem .6rem;cursor:pointer;color:var(--green);font-size:1.1rem;line-height:1}
+@media (max-width:980px){
+  .burger{display:block}
+  nav.main{position:fixed;inset:64px 0 auto 0;background:var(--cream);border-bottom:1px solid var(--line);display:none;padding:1rem 1.5rem 1.5rem}
+  nav.main.open{display:block}
+  nav.main ul{flex-direction:column;align-items:flex-start;gap:1rem}
+  .nav-cta{display:none}
+}
+
+/* ═══════ Hero ═══════ */
+.hero{padding:clamp(2.5rem,6vw,5rem) 0 clamp(3rem,7vw,5rem);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+@media (max-width:880px){.hero-grid{grid-template-columns:1fr}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--mimi);color:var(--green);border-radius:999px;padding:.45rem 1.1rem;font-weight:600;font-size:.85rem;letter-spacing:.05em;margin-bottom:1.4rem}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--rose);flex:none}
+.hero h1{font-size:clamp(2.3rem,1.4rem + 4vw,4.1rem);margin-bottom:1.1rem;text-wrap:balance}
+.hero .tagline{font-family:var(--ff-display);font-style:italic;color:var(--rose);font-size:1.25rem;margin-bottom:1.2rem}
+.hero p.lead{color:var(--ink-soft);max-width:34rem;margin-bottom:1.8rem}
+.hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.hero-meta{color:var(--ink-soft);font-size:.92rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+.hero-meta strong{color:var(--green)}
+.hero-visual{position:relative}
+.arch{border-radius:var(--r-arch);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.arch img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
+.confetti{position:absolute;border-radius:50%;background:var(--amaranth)}
+.c1{width:12px;height:12px;top:-8px;left:12%}
+.c2{width:8px;height:8px;top:22%;right:-14px;background:var(--rose)}
+.c3{width:10px;height:10px;bottom:10%;left:-16px;background:var(--asparagus)}
+
+/* ═══════ Welten ═══════ */
+.worlds{background:var(--celadon)}
+.world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.1rem}
+.world{background:var(--cream);border:1px solid var(--line-soft);border-radius:var(--r-m);padding:1.5rem 1.3rem}
+.world h3{font-size:1.12rem;margin-bottom:.4rem}
+.world .sub{font-family:var(--ff-display);font-style:italic;color:var(--rose);font-size:.92rem;margin-bottom:.5rem}
+.world p{font-size:.92rem;color:var(--ink-soft)}
+
+/* ═══════ Ablauf ═══════ */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;counter-reset:step}
+.step{background:var(--warmwhite);border:1px solid var(--line-soft);border-radius:var(--r-m);padding:1.6rem 1.3rem;position:relative}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);font-family:var(--ff-display);font-weight:700;font-size:2rem;color:var(--amaranth);display:block;margin-bottom:.5rem}
+.step h3{font-size:1.05rem;margin-bottom:.4rem}
+.step p{font-size:.92rem;color:var(--ink-soft)}
+
+/* ═══════ Preise ═══════ */
+.prices{background:linear-gradient(180deg,var(--cream),var(--mimi) 140%)}
+.price-note{background:var(--warmwhite);border:1px solid var(--line);border-radius:var(--r-m);padding:1rem 1.3rem;margin-bottom:1.6rem;font-size:.95rem}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.price-card{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--r-m);padding:1.4rem 1.2rem;text-align:center}
+.price-card.highlight{border-color:var(--rose);box-shadow:var(--shadow)}
+.price-card h3{font-size:1.02rem}
+.price-card .ex{font-size:.85rem;color:var(--ink-soft);min-height:2.4em;margin:.3rem 0 .6rem}
+.price-card .chf{font-family:var(--ff-display);font-weight:700;font-size:1.9rem;color:var(--rose)}
+.price-card .chf small{font-size:.85rem;color:var(--ink-soft);font-family:var(--ff-body);font-weight:400}
+.price-extra{margin-top:1.4rem;display:flex;gap:1.6rem;flex-wrap:wrap;color:var(--ink-soft);font-size:.93rem}
+.price-extra b{color:var(--green)}
+
+/* ═══════ Kino ═══════ */
+.kino{background:var(--green);color:var(--celadon)}
+.kino .eyebrow{color:var(--amaranth)}
+.kino .sect-title,.kino h3{color:#fff}
+.kino .sect-lead{color:var(--celadon)}
+.kino-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.1rem}
+.kino-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-m);padding:1.6rem 1.4rem}
+.kino-card .price{font-family:var(--ff-display);font-size:1.6rem;font-weight:700;color:var(--mimi);margin:.6rem 0 .3rem}
+.kino-card p{font-size:.93rem;color:var(--celadon)}
+.kino-note{margin-top:1.4rem;font-size:.93rem;color:var(--celadon)}
+
+/* ═══════ Café ═══════ */
+.cafe-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
+@media (max-width:880px){.cafe-grid{grid-template-columns:1fr}}
+.script-line{font-family:var(--ff-script);font-size:2.1rem;color:var(--rose);margin:.6rem 0 1rem}
+.menu{background:var(--warmwhite);border:1px solid var(--line);border-radius:var(--r-m);padding:1.6rem 1.5rem}
+.menu h3{font-size:1.05rem;margin:.9rem 0 .5rem}
+.menu h3:first-child{margin-top:0}
+.menu ul{list-style:none}
+.menu li{display:flex;justify-content:space-between;gap:1rem;padding:.32rem 0;border-bottom:1px dashed var(--line-soft);font-size:.95rem}
+.menu li span:last-child{font-variant-numeric:tabular-nums;font-weight:600;color:var(--green)}
+
+/* ═══════ Events + Planner ═══════ */
+.event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-bottom:2.5rem}
+.event-card{background:var(--warmwhite);border:1px solid var(--line-soft);border-radius:var(--r-m);padding:1.4rem 1.2rem}
+.event-card h3{font-size:1.02rem;margin-bottom:.35rem}
+.event-card p{font-size:.9rem;color:var(--ink-soft)}
+.event-card .tag{display:inline-block;background:var(--mimi);color:var(--green);border-radius:999px;font-size:.8rem;font-weight:600;padding:.2rem .7rem;margin-top:.6rem}
+.planner{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--r-m);box-shadow:var(--shadow);overflow:hidden}
+.planner-head{background:var(--green);color:#fff;padding:1.2rem 1.6rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.planner-head h3{color:#fff;font-size:1.15rem}
+.live-price{background:var(--mimi);color:var(--green);border-radius:var(--r-s);padding:.5rem 1rem;font-weight:600;font-size:.95rem}
+.live-price b{font-family:var(--ff-display);font-size:1.25rem}
+.planner-body{padding:1.6rem}
+.p-steps{display:flex;gap:.5rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.p-step-pill{border-radius:999px;border:1px solid var(--line);padding:.35rem .95rem;font-size:.85rem;font-weight:600;color:var(--ink-soft)}
+.p-step-pill.active{background:var(--green);color:#fff;border-color:var(--green)}
+.field{margin-bottom:1.05rem}
+.field label{display:block;font-weight:600;font-size:.9rem;margin-bottom:.35rem;color:var(--green)}
+.field input,.field select,.field textarea{width:100%;font-family:var(--ff-body);font-size:.98rem;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:var(--r-s);background:#fff;color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2.5px solid var(--rose);outline-offset:1px;border-color:var(--rose)}
+.field .hint{font-size:.83rem;color:var(--ink-soft);margin-top:.3rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:640px){.two-col{grid-template-columns:1fr}}
+.check{display:flex;gap:.6rem;align-items:flex-start;font-size:.93rem;margin-bottom:.6rem}
+.check input{width:auto;margin-top:.28rem;accent-color:var(--rose)}
+.p-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:1.4rem}
+.form-err{color:#a4243b;font-size:.9rem;margin-top:.7rem;font-weight:500;min-height:1.2em}
+.success{background:var(--celadon);border:1.5px solid var(--asparagus);border-radius:var(--r-m);padding:1.8rem;text-align:center}
+.success h3{margin-bottom:.6rem}
+.success .code{font-family:var(--ff-display);font-size:1.7rem;font-weight:700;color:var(--rose);letter-spacing:.06em;margin:.8rem 0}
+.success p{color:var(--ink-soft);font-size:.95rem}
+
+/* ═══════ Reservation ═══════ */
+.reserve{background:var(--warmwhite)}
+.reserve-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
+@media (max-width:880px){.reserve-grid{grid-template-columns:1fr}}
+.reserve-form{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--r-m);padding:1.7rem;box-shadow:var(--shadow)}
+
+/* ═══════ Gutscheine ═══════ */
+.voucher{background:var(--mimi)}
+.voucher .planner{border-color:var(--amaranth)}
+.amount-chips{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.8rem}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.5rem 1.15rem;font-family:var(--ff-body);font-weight:600;cursor:pointer;font-size:.95rem;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* ═══════ Galerie ═══════ */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.9rem}
+.gallery-grid img{border-radius:var(--r-m);aspect-ratio:4/3;object-fit:cover;width:100%;border:1px solid var(--line-soft)}
+
+/* ═══════ Erwartung / Warteliste / FAQ / Kontakt ═══════ */
+.expect-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.1rem}
+.expect{border-left:3px solid var(--amaranth);padding:.3rem 0 .3rem 1.2rem}
+.expect h3{font-size:1.05rem;margin-bottom:.35rem}
+.expect p{font-size:.93rem;color:var(--ink-soft)}
+.waitlist{background:var(--green);color:var(--celadon)}
+.waitlist .sect-title{color:#fff}
+.waitlist form{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem}
+.waitlist input[type=email]{flex:1;min-width:240px;padding:.8rem 1rem;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-family:var(--ff-body);font-size:1rem}
+.waitlist input[type=email]::placeholder{color:rgba(255,255,255,.65)}
+.waitlist .check{color:var(--celadon)}
+.waitlist a{color:var(--mimi)}
+.faq details{border:1px solid var(--line);border-radius:var(--r-m);background:var(--warmwhite);margin-bottom:.7rem;overflow:hidden}
+.faq summary{cursor:pointer;font-weight:600;padding:1rem 1.3rem;color:var(--green);list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.faq summary::after{content:"+";font-family:var(--ff-display);font-size:1.3rem;color:var(--rose)}
+.faq details[open] summary::after{content:"–"}
+.faq .a{padding:0 1.3rem 1.1rem;color:var(--ink-soft);font-size:.95rem}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
+@media (max-width:880px){.contact-grid{grid-template-columns:1fr}}
+.addr-card{background:var(--celadon);border:1px solid var(--line);border-radius:var(--r-arch);padding:2.6rem 2rem;text-align:center}
+.addr-card .lbl{font-weight:600;text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;color:var(--rose)}
+.addr-card p{margin:.5rem 0}
+.addr-card .big{font-family:var(--ff-display);font-weight:700;font-size:1.35rem;color:var(--green)}
+.contact-list{list-style:none;margin:1rem 0 1.6rem}
+.contact-list li{padding:.5rem 0;border-bottom:1px dashed var(--line-soft);display:flex;gap:.8rem;font-size:.98rem}
+.contact-list b{min-width:9.5rem;color:var(--green)}
+
+/* ═══════ Footer ═══════ */
+footer.site{background:var(--green);color:var(--celadon);padding:3.5rem 0 2rem;font-size:.93rem}
+.foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+@media (max-width:880px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
+footer.site h4{font-family:var(--ff-body);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--amaranth);margin-bottom:.8rem}
+footer.site ul{list-style:none}
+footer.site li{padding:.22rem 0}
+footer.site a{color:var(--celadon);text-decoration:none}
+footer.site a:hover{color:#fff;text-decoration:underline}
+.foot-brand img{width:74px;margin-bottom:.9rem}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:1.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+.foot-bottom .lang-switch{border-color:rgba(255,255,255,.3)}
+.foot-bottom .lang-btn{color:var(--celadon)}
+.foot-bottom .lang-btn[aria-pressed="true"]{background:var(--mimi);color:var(--green)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
+
+<!-- ═══════ Header ═══════ -->
+<header class="site" id="top">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="LOVE Creative Café — Start">
+      <img src="assets/logo/logo-dark.svg" alt="" width="46" height="46">
+      <span class="brand-name">LOVE<small data-i18n="brand.sub">Creative Café</small></span>
+    </a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mainnav" data-i18n-aria="nav.menu" aria-label="Menü">☰</button>
+    <nav class="main" id="mainnav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="#preise" data-i18n="nav.keramik">Keramik &amp; Preise</a></li>
+        <li><a href="#kino" data-i18n="nav.kino">Kino-Night</a></li>
+        <li><a href="#cafe" data-i18n="nav.cafe">Café</a></li>
+        <li><a href="#events" data-i18n="nav.events">Events</a></li>
+        <li><a href="#gutscheine" data-i18n="nav.gutscheine">Gutscheine</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Sprache / Language">
+      <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn btn-rose nav-cta" href="#reservieren" data-i18n="cta.reserve">Tisch reservieren</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═══════ Hero ═══════ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="hero-badge"><span class="dot"></span><span data-i18n="hero.badge">Eröffnung 29. September 2026 · Seestrasse 287B, Au ZH</span></span>
+      <h1 id="hero-title" data-i18n="hero.title">Keramik bemalen, Kaffee geniessen, Momente feiern.</h1>
+      <p class="tagline">Made for moments that matter.</p>
+      <p class="lead" data-i18n="hero.lead">Dein Kreativ-Café am Zürichsee: Such dir ein Keramikstück aus, bemal es bei Kaffee und Kuchen — wir glasieren und brennen es für dich. Freitags wird das Studio zum Kino.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-rose" href="#reservieren" data-i18n="cta.reserve">Tisch reservieren</a>
+        <a class="btn btn-ghost" href="#preise" data-i18n="hero.cta2">Preise ansehen</a>
+      </div>
+      <p class="hero-meta"><span data-i18n="hero.hours"><strong>Täglich 09:00–21:00</strong></span><span data-i18n="hero.kino"><strong>Kino-Night:</strong> jeden Freitag</span></p>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="arch"><img src="assets/img/interior-cafe.jpeg" alt="Helles Café-Interieur mit Bogen-Nische und Grünpflanzen im LOVE Creative Café" width="800" height="1000" fetchpriority="high"></div>
+      <span class="confetti c1"></span><span class="confetti c2"></span><span class="confetti c3"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 5 Welten ═══════ -->
+<section class="worlds" aria-labelledby="welten-title" id="welten">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="worlds.eyebrow">Eine Marke, fünf Welten</p>
+    <h2 class="sect-title" id="welten-title" data-i18n="worlds.title">Alles unter einem Dach</h2>
+    <p class="sect-lead" data-i18n="worlds.lead">LOVE ist ein Zuhause für fünf kreative Welten — jede ein Anfang, alle miteinander verbunden.</p>
+    <div class="world-grid">
+      <div class="world reveal"><h3>Creative Café</h3><p class="sub">Made for moments.</p><p data-i18n="worlds.cafe">Kaffee aus Neapel, Matcha aus Uji — das Herz des Raums.</p></div>
+      <div class="world reveal"><h3>Pottery Station</h3><p class="sub">Shape your story.</p><p data-i18n="worlds.pottery">Keramik aussuchen und bemalen — wir glasieren und brennen.</p></div>
+      <div class="world reveal"><h3>Floral Bar</h3><p class="sub">Create beauty.</p><p data-i18n="worlds.floral">Bouquets binden und Blumen-Workshops für jeden Anlass.</p></div>
+      <div class="world reveal"><h3>Candle Co.</h3><p class="sub">Good light, good mood.</p><p data-i18n="worlds.candle">Sojakerzen giessen — von Fresh Fig bis Wild Rose.</p></div>
+      <div class="world reveal"><h3>Ceramics &amp; Homeware</h3><p class="sub">Take love home.</p><p data-i18n="worlds.ceramics">Tassen, Schalen und Lieblingsstücke zum Mitnehmen.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Ablauf ═══════ -->
+<section aria-labelledby="ablauf-title" id="ablauf">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="steps.eyebrow">So funktioniert's</p>
+    <h2 class="sect-title" id="ablauf-title" data-i18n="steps.title">Vier Schritte zu deinem Lieblingsstück</h2>
+    <div class="steps">
+      <div class="step reveal"><h3 data-i18n="steps.s1">Aussuchen</h3><p data-i18n="steps.s1t">Wähl dein Stück aus dem Regal — von der Espressotasse bis zur grossen Vase.</p></div>
+      <div class="step reveal"><h3 data-i18n="steps.s2">Bemalen</h3><p data-i18n="steps.s2t">Farben, Pinsel und Techniken sind bereit. Wir zeigen dir die Grundlagen — Erfahrung brauchst du keine.</p></div>
+      <div class="step reveal"><h3 data-i18n="steps.s3">Glasieren &amp; Brennen</h3><p data-i18n="steps.s3t">Wir glasieren und brennen dein Stück im Studio-Ofen — das übernehmen wir für dich.</p></div>
+      <div class="step reveal"><h3 data-i18n="steps.s4">Abholen</h3><p data-i18n="steps.s4t">Nach etwa einer Woche ist dein Stück abholbereit — lebensmittelecht und spülmaschinenfest.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Preise ═══════ -->
+<section class="prices" aria-labelledby="preise-title" id="preise">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="price.eyebrow">Keramik bemalen</p>
+    <h2 class="sect-title" id="preise-title" data-i18n="price.title">Ein Preis pro Stück — alles inklusive</h2>
+    <p class="sect-lead" data-i18n="price.lead">Keine Studiogebühr, keine versteckten Kosten: Im Stückpreis sind 3 Stunden Studiozeit, alle Farben und Pinsel sowie Glasur und Brand enthalten.</p>
+    <div class="price-grid">
+      <div class="price-card reveal"><h3>Mini</h3><p class="ex" data-i18n="price.mini">Espressotassli, Magnet</p><p class="chf">CHF 22</p></div>
+      <div class="price-card reveal"><h3 data-i18n="price.s">Klein</h3><p class="ex" data-i18n="price.sEx">Tasse, Müslischale</p><p class="chf">CHF 32</p></div>
+      <div class="price-card highlight reveal"><h3 data-i18n="price.m">Mittel</h3><p class="ex" data-i18n="price.mEx">Teller, Krug</p><p class="chf">CHF 48</p></div>
+      <div class="price-card reveal"><h3 data-i18n="price.l">Gross</h3><p class="ex" data-i18n="price.lEx">Servierplatte, Vase</p><p class="chf">CHF 58</p></div>
+      <div class="price-card reveal"><h3>Statement</h3><p class="ex" data-i18n="price.xlEx">Grosse Vase, Übertopf</p><p class="chf">CHF 68</p></div>
+    </div>
+    <div class="price-extra">
+      <span data-i18n="price.extra1"><b>Zusatzstunde:</b> CHF 10</span>
+      <span data-i18n="price.extra2"><b>Weitere Stücke:</b> je zum Stückpreis</span>
+      <span data-i18n="price.extra3"><b>Kinder:</b> herzlich willkommen</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Kino-Night ═══════ -->
+<section class="kino" aria-labelledby="kino-title" id="kino">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="kino.eyebrow">Unser Signature-Format</p>
+    <h2 class="sect-title" id="kino-title" data-i18n="kino.title">Kino-Night — jeden Freitag</h2>
+    <p class="sect-lead" data-i18n="kino.lead">Einmal pro Woche wird das Studio zum Kinosaal: Keramik bemalen, während der Film läuft. Die Formate wechseln sich ab — Film, Keramikstück und Snacks sind immer inklusive.</p>
+    <div class="kino-grid">
+      <div class="kino-card reveal">
+        <h3>Family Edition</h3>
+        <p class="price">CHF 38 <small data-i18n="kino.perKid">pro Kind</small></p>
+        <p data-i18n="kino.family">Familienfilm, Keramikstück, Popcorn und heisse Schoggi. Geschwister: CHF 35.</p>
+      </div>
+      <div class="kino-card reveal">
+        <h3>Adults Edition</h3>
+        <p class="price">CHF 88 <small data-i18n="kino.perPers">pro Person</small></p>
+        <p data-i18n="kino.adults">Film (OmU), Keramikstück, ein Glas Wein oder Mocktail und Crêpe. Im Paar: CHF 165.</p>
+      </div>
+      <div class="kino-card reveal">
+        <h3>Private Movie Night</h3>
+        <p class="price">CHF 1'400 <small data-i18n="kino.flat">pauschal</small></p>
+        <p data-i18n="kino.private">Das ganze Studio für euch — bis 18 Personen, mit Wunschfilm. Termin auf Anfrage.</p>
+      </div>
+    </div>
+    <p class="kino-note" data-i18n="kino.note">Reservation über das Formular unten — wir bestätigen Format und Platz per E-Mail.</p>
+  </div>
+</section>
+
+<!-- ═══════ Café ═══════ -->
+<section aria-labelledby="cafe-title" id="cafe">
+  <div class="wrap cafe-grid">
+    <div>
+      <p class="eyebrow">Creative Café</p>
+      <h2 class="sect-title" id="cafe-title" data-i18n="cafe.title">Italianità am Zürichsee</h2>
+      <p class="script-line">amore &amp; caffè</p>
+      <p class="sect-lead" data-i18n="cafe.lead">Unser Kaffee kommt von Caffè Borbone aus Neapel — seit 1997 eine Institution. Dazu Ceremonial-Matcha aus Uji (Kyoto), Tee von Sirocco und Hafer- oder Sojamilch ohne Aufpreis.</p>
+      <div class="arch reveal" style="max-width:420px"><img src="assets/img/interior-cafe-counter.jpeg" alt="Kaffeetheke mit geriffelter Front im LOVE Creative Café" width="800" height="1000" loading="lazy"></div>
+    </div>
+    <div class="menu reveal" aria-label="Menükarte">
+      <h3 data-i18n="cafe.classics">Klassiker</h3>
+      <ul>
+        <li><span>Espresso</span><span>3.00</span></li>
+        <li><span>Americano</span><span>3.50</span></li>
+        <li><span>Cappuccino</span><span>4.50</span></li>
+        <li><span>Latte</span><span>4.50</span></li>
+        <li><span>Flat White</span><span>4.50</span></li>
+        <li><span data-i18n="cafe.hotchoc">Heisse Schokolade</span><span>4.50</span></li>
+        <li><span>Mocha</span><span>5.00</span></li>
+        <li><span>Matcha Latte</span><span>5.00</span></li>
+      </ul>
+      <h3>Specials</h3>
+      <ul>
+        <li><span>Rose Latte</span><span>5.50</span></li>
+        <li><span>Vanilla Matcha</span><span>5.50</span></li>
+        <li><span>Iced Pistachio</span><span>5.50</span></li>
+        <li><span>Berry Smoothie</span><span>6.00</span></li>
+        <li><span>Pink Lemonade</span><span>5.00</span></li>
+        <li><span>Lavender Lemonade</span><span>5.00</span></li>
+      </ul>
+      <p style="margin-top:.9rem;font-size:.85rem;color:var(--ink-soft)" data-i18n="cafe.note">Alle Preise in CHF. Hafer- und Sojamilch ohne Aufpreis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Events ═══════ -->
+<section class="worlds" aria-labelledby="events-title" id="events">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="ev.eyebrow">Anlässe &amp; Events</p>
+    <h2 class="sect-title" id="events-title" data-i18n="ev.title">Feiern, die bleiben</h2>
+    <p class="sect-lead" data-i18n="ev.lead">Vom Kindergeburtstag bis zum Teamevent: Ihr bekommt Tische, Farben und Betreuung — und nehmt selbstgemachte Erinnerungen mit nach Hause.</p>
+    <div class="event-grid">
+      <div class="event-card reveal"><h3 data-i18n="ev.kids">Kindergeburtstag</h3><p data-i18n="ev.kidsT">Bemalen, Feiern, Kuchen — wir kümmern uns um alles.</p><span class="tag">CHF 45 <span data-i18n="ev.perKid">pro Kind</span></span></div>
+      <div class="event-card reveal"><h3>Teambuilding</h3><p data-i18n="ev.teamT">Kreativ statt Konferenzraum — inkl. Kaffee und guter Laune.</p><span class="tag">CHF 65–90 <span data-i18n="ev.perPers">p. P.</span></span></div>
+      <div class="event-card reveal"><h3 data-i18n="ev.jga">JGA &amp; Bridal Shower</h3><p data-i18n="ev.jgaT">Der Anlass vor dem grossen Tag — mit Prosecco-Option.</p><span class="tag">CHF 65 <span data-i18n="ev.perPers2">p. P.</span></span></div>
+      <div class="event-card reveal"><h3>Date Night</h3><p data-i18n="ev.dateT">Zwei Stücke, zwei Getränke, ein Abend für euch.</p><span class="tag">CHF 165 <span data-i18n="ev.forTwo">für zwei</span></span></div>
+    </div>
+
+    <!-- Eventplaner -->
+    <div class="planner reveal" id="eventplaner">
+      <div class="planner-head">
+        <h3 data-i18n="pl.title">Eventplaner — Offerte in 3 Schritten</h3>
+        <div class="live-price" aria-live="polite"><span data-i18n="pl.priceLbl">Preisindikation:</span> <b id="plPrice">CHF 0</b></div>
+      </div>
+      <div class="planner-body">
+        <div class="p-steps" aria-hidden="true">
+          <span class="p-step-pill active" id="pill1"><span data-i18n="pl.s1pill">1 · Event</span></span>
+          <span class="p-step-pill" id="pill2"><span data-i18n="pl.s2pill">2 · Extras</span></span>
+          <span class="p-step-pill" id="pill3"><span data-i18n="pl.s3pill">3 · Kontakt</span></span>
+        </div>
+        <form id="plannerForm" novalidate>
+          <div id="plStep1">
+            <div class="two-col">
+              <div class="field">
+                <label for="plType" data-i18n="pl.type">Art des Events</label>
+                <select id="plType">
+                  <option value="kind" data-i18n="pl.tKind">Kindergeburtstag — CHF 45 pro Kind</option>
+                  <option value="team" data-i18n="pl.tTeam">Teamevent — CHF 75 pro Person</option>
+                  <option value="jga" data-i18n="pl.tJga">JGA / Bridal — CHF 65 pro Person</option>
+                  <option value="privat" data-i18n="pl.tPriv">Privatfeier — CHF 55 pro Person</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="plPersons" data-i18n="pl.persons">Anzahl Personen</label>
+                <input type="number" id="plPersons" min="6" max="40" value="10">
+                <p class="hint" data-i18n="pl.personsHint">Ab 6 Personen — für kleinere Gruppen reserviere einfach einen Tisch.</p>
+              </div>
+            </div>
+            <div class="field">
+              <label for="plDate" data-i18n="pl.date">Wunschdatum</label>
+              <input type="date" id="plDate">
+            </div>
+            <div class="p-nav"><span></span><button type="button" class="btn btn-green" id="plNext1" data-i18n="pl.next">Weiter →</button></div>
+          </div>
+          <div id="plStep2" class="hidden">
+            <p style="font-weight:600;color:var(--green);margin-bottom:.8rem" data-i18n="pl.extras">Extras (pro Person)</p>
+            <label class="check"><input type="checkbox" id="exCafe" value="12"><span data-i18n="pl.exCafe">Café-Package — Getränk &amp; Snack (CHF 12 p. P.)</span></label>
+            <label class="check"><input type="checkbox" id="exProsecco" value="15"><span data-i18n="pl.exPro">Prosecco-Apéro (CHF 15 p. P.)</span></label>
+            <label class="check"><input type="checkbox" id="exCandle" value="18"><span data-i18n="pl.exCandle">Candle-Add-on — eigene Sojakerze giessen (CHF 18 p. P.)</span></label>
+            <label class="check"><input type="checkbox" id="exExclusive" value="400"><span data-i18n="pl.exExcl">Exklusive Nutzung am Abend (pauschal CHF 400)</span></label>
+            <div class="p-nav">
+              <button type="button" class="btn btn-ghost" id="plBack2" data-i18n="pl.back">← Zurück</button>
+              <button type="button" class="btn btn-green" id="plNext2" data-i18n="pl.next2">Weiter →</button>
+            </div>
+          </div>
+          <div id="plStep3" class="hidden">
+            <div class="two-col">
+              <div class="field"><label for="plName" data-i18n="form.name">Name</label><input type="text" id="plName" autocomplete="name"></div>
+              <div class="field"><label for="plEmail" data-i18n="form.email">E-Mail</label><input type="email" id="plEmail" autocomplete="email"></div>
+            </div>
+            <div class="two-col">
+              <div class="field"><label for="plPhone" data-i18n="form.phone">Telefon (optional)</label><input type="tel" id="plPhone" autocomplete="tel"></div>
+              <div class="field"><label for="plMsg" data-i18n="form.msg">Nachricht (optional)</label><input type="text" id="plMsg"></div>
+            </div>
+            <div class="p-nav">
+              <button type="button" class="btn btn-ghost" id="plBack3" data-i18n="pl.back2">← Zurück</button>
+              <button type="submit" class="btn btn-rose" data-i18n="pl.submit">Offerte anfragen</button>
+            </div>
+          </div>
+          <p class="form-err" id="plErr" aria-live="polite"></p>
+        </form>
+        <div class="success hidden" id="plSuccess" aria-live="polite">
+          <h3 data-i18n="pl.okTitle">Anfrage eingegangen — danke!</h3>
+          <p data-i18n="pl.okText">Du erhältst innert 24 Stunden eine unverbindliche Offerte per E-Mail. Magst du nicht warten? Schreib uns direkt an <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a>.</p>
+          <p class="code" id="plRef"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Tischreservation ═══════ -->
+<section class="reserve" aria-labelledby="res-title" id="reservieren">
+  <div class="wrap reserve-grid">
+    <div>
+      <p class="eyebrow" data-i18n="res.eyebrow">Reservation</p>
+      <h2 class="sect-title" id="res-title" data-i18n="res.title">Reserviere deinen Tisch</h2>
+      <p class="sect-lead" data-i18n="res.lead">Eine Reservation gilt für rund 3 Stunden — genug Zeit für Kaffee, Farbe und gute Gespräche. Spontan vorbeikommen geht natürlich auch, solange Platz frei ist.</p>
+      <ul class="contact-list">
+        <li><b data-i18n="res.f1">Zeitfenster</b><span data-i18n="res.f1t">09–12 · 12–15 · 15–18 · 18–21 Uhr</span></li>
+        <li><b data-i18n="res.f2">Gruppengrösse</b><span data-i18n="res.f2t">1–8 Personen — grössere Gruppen über den Eventplaner</span></li>
+        <li><b data-i18n="res.f3">Voll besetzt?</b><span data-i18n="res.f3t">Wir führen eine Warteliste und melden uns, sobald ein Tisch frei wird.</span></li>
+      </ul>
+    </div>
+    <div>
+      <form class="reserve-form" id="resForm" novalidate>
+        <div class="two-col">
+          <div class="field"><label for="resName" data-i18n="form.name2">Name</label><input type="text" id="resName" autocomplete="name"></div>
+          <div class="field"><label for="resEmail" data-i18n="form.email2">E-Mail</label><input type="email" id="resEmail" autocomplete="email"></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label for="resPhone" data-i18n="form.phone2">Telefon (optional)</label><input type="tel" id="resPhone" autocomplete="tel"></div>
+          <div class="field"><label for="resPersons" data-i18n="res.persons">Personen</label><input type="number" id="resPersons" min="1" max="8" value="2"></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label for="resDate" data-i18n="res.date">Datum</label><input type="date" id="resDate"></div>
+          <div class="field">
+            <label for="resTime" data-i18n="res.time">Zeitfenster</label>
+            <select id="resTime">
+              <option value="09:00–12:00">09:00–12:00</option>
+              <option value="12:00–15:00">12:00–15:00</option>
+              <option value="15:00–18:00">15:00–18:00</option>
+              <option value="18:00–21:00">18:00–21:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="resWorld" data-i18n="res.world">Was möchtest du machen?</label>
+          <select id="resWorld">
+            <option value="keramik" data-i18n="res.wKeramik">Keramik bemalen</option>
+            <option value="kino" data-i18n="res.wKino">Kino-Night (Freitag)</option>
+            <option value="cafe" data-i18n="res.wCafe">Nur Café</option>
+            <option value="candle" data-i18n="res.wCandle">Kerzen giessen</option>
+            <option value="floral" data-i18n="res.wFloral">Floral Bar</option>
+          </select>
+        </div>
+        <div class="field"><label for="resMsg" data-i18n="form.msg2">Nachricht (optional)</label><textarea id="resMsg" rows="2"></textarea></div>
+        <button type="submit" class="btn btn-rose" style="width:100%" data-i18n="res.submit">Reservation anfragen</button>
+        <p class="form-err" id="resErr" aria-live="polite"></p>
+      </form>
+      <div class="success hidden" id="resSuccess" aria-live="polite">
+        <h3 data-i18n="res.okTitle">Reservation eingegangen!</h3>
+        <p data-i18n="res.okText">Wir bestätigen dir deinen Tisch per E-Mail. Ist dein Wunschtermin voll, melden wir uns mit Alternativen — du stehst automatisch auf der Warteliste.</p>
+        <p class="code" id="resRef"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Gutscheine ═══════ -->
+<section class="voucher" aria-labelledby="gs-title" id="gutscheine">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="gs.eyebrow">Verschenke Kreativzeit</p>
+    <h2 class="sect-title" id="gs-title" data-i18n="gs.title">Gutscheine</h2>
+    <p class="sect-lead" data-i18n="gs.lead">Von CHF 25 bis CHF 500 — einlösbar für alles bei LOVE: Keramik, Café, Kino-Nights und Workshops. 5 Jahre gültig, Teileinlösung möglich.</p>
+    <div class="planner" style="max-width:640px">
+      <div class="planner-body">
+        <form id="vForm" novalidate>
+          <p style="font-weight:600;color:var(--green);margin-bottom:.6rem" data-i18n="gs.amount">Betrag wählen (CHF)</p>
+          <div class="amount-chips" role="group" aria-label="Betrag">
+            <button type="button" class="chip" data-amount="25" aria-pressed="false">25</button>
+            <button type="button" class="chip" data-amount="50" aria-pressed="true">50</button>
+            <button type="button" class="chip" data-amount="100" aria-pressed="false">100</button>
+            <button type="button" class="chip" data-amount="200" aria-pressed="false">200</button>
+            <button type="button" class="chip" data-amount="500" aria-pressed="false">500</button>
+          </div>
+          <div class="field">
+            <label for="vAmount" data-i18n="gs.free">Oder eigener Betrag (25–500)</label>
+            <input type="number" id="vAmount" min="25" max="500" value="50">
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="vBuyer" data-i18n="gs.buyer">Dein Name</label><input type="text" id="vBuyer" autocomplete="name"></div>
+            <div class="field"><label for="vEmail" data-i18n="form.email3">E-Mail</label><input type="email" id="vEmail" autocomplete="email"></div>
+          </div>
+          <div class="field"><label for="vFor" data-i18n="gs.for">Für wen ist der Gutschein? (optional)</label><input type="text" id="vFor"></div>
+          <button type="submit" class="btn btn-rose" style="width:100%" data-i18n="gs.submit">Gutschein bestellen</button>
+          <p class="form-err" id="vErr" aria-live="polite"></p>
+        </form>
+        <div class="success hidden" id="vSuccess" aria-live="polite">
+          <h3 data-i18n="gs.okTitle">Dein Gutschein ist reserviert!</h3>
+          <p class="code" id="vCode"></p>
+          <p data-i18n="gs.okText">Notier dir den Code. Bezahlung und Übergabe bei uns im Studio — oder wir melden uns per E-Mail mit den Zahlungsdetails (TWINT). Online-Zahlung folgt in Kürze.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Galerie ═══════ -->
+<section aria-labelledby="galerie-title" id="galerie">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="gal.eyebrow">Einblicke</p>
+    <h2 class="sect-title" id="galerie-title" data-i18n="gal.title">Ein Ort zum Wohlfühlen</h2>
+    <div class="gallery-grid">
+      <img src="assets/img/illus-painting-table.jpeg" alt="Maltisch mit Keramik, Pinseln und Farben" loading="lazy" width="600" height="450">
+      <img src="assets/img/interior-pottery-station.jpeg" alt="Regale mit Keramik-Rohlingen in der Pottery Station" loading="lazy" width="600" height="450">
+      <img src="assets/img/illus-ceramic-workshop.jpeg" alt="Gäste bemalen Keramik im Workshop" loading="lazy" width="600" height="450">
+      <img src="assets/img/interior-floral-bar.jpeg" alt="Floral Bar mit frischen Blumen" loading="lazy" width="600" height="450">
+      <img src="assets/img/app-cups-trio.jpeg" alt="Drei bemalte Tassen im LOVE-Design" loading="lazy" width="600" height="450">
+      <img src="assets/img/illus-flower-workshop.jpeg" alt="Blumen-Workshop an der Floral Bar" loading="lazy" width="600" height="450">
+      <img src="assets/img/app-packaging-suite.jpeg" alt="Verpackungen und Karten im LOVE-Branding" loading="lazy" width="600" height="450">
+      <img src="assets/img/board-candle-brand.jpeg" alt="Sojakerzen der LOVE Candle Co." loading="lazy" width="600" height="450">
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Das erwartet dich ═══════ -->
+<section class="worlds" aria-labelledby="expect-title">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="exp.eyebrow">Das erwartet dich</p>
+    <h2 class="sect-title" id="expect-title" data-i18n="exp.title">Kreative Ruhe statt Termindruck</h2>
+    <div class="expect-grid">
+      <div class="expect reveal"><h3 data-i18n="exp.e1">Zeit nur für dich</h3><p data-i18n="exp.e1t">Drei Stunden Studiozeit, gutes Licht, ruhige Musik — und niemand, der dich hetzt.</p></div>
+      <div class="expect reveal"><h3 data-i18n="exp.e2">Für alle Levels</h3><p data-i18n="exp.e2t">Du brauchst keine Erfahrung. Wir zeigen dir Techniken, den Rest macht die Freude am Machen.</p></div>
+      <div class="expect reveal"><h3 data-i18n="exp.e3">Erinnerungen zum Anfassen</h3><p data-i18n="exp.e3t">Dein Stück kommt gebrannt und glasiert zu dir zurück — als Lieblingstasse oder Geschenk.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ Warteliste ═══════ -->
+<section class="waitlist" aria-labelledby="wl-title" id="warteliste">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="wl.eyebrow">Bis zur Eröffnung</p>
+    <h2 class="sect-title" id="wl-title" data-i18n="wl.title">Sei bei der Eröffnung dabei</h2>
+    <p data-i18n="wl.lead">Trag dich ein und erfahre als Erste:r von Eröffnungsangeboten, Kino-Programm und Workshops.</p>
+    <form id="wlForm" novalidate>
+      <input type="email" id="wlEmail" data-i18n-ph="wl.ph" placeholder="deine@email.ch" autocomplete="email" aria-label="E-Mail">
+      <button type="submit" class="btn btn-rose" data-i18n="wl.submit">Eintragen</button>
+    </form>
+    <label class="check" style="margin-top:.8rem"><input type="checkbox" id="wlOptin"><span data-i18n="wl.optin">Ich möchte News per E-Mail erhalten und akzeptiere die <a href="datenschutz.html">Datenschutzerklärung</a>. Abmelden jederzeit möglich.</span></label>
+    <p class="form-err" id="wlErr" aria-live="polite" style="color:var(--mimi)"></p>
+    <p class="hidden" id="wlSuccess" style="margin-top:1rem;font-weight:600;color:var(--mimi)" data-i18n="wl.ok" aria-live="polite">Danke — du bist auf der Liste! Wir melden uns vor der Eröffnung.</p>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="faq" aria-labelledby="faq-title" id="faq">
+  <div class="wrap" style="max-width:840px">
+    <p class="eyebrow" data-i18n="faq.eyebrow">Gut zu wissen</p>
+    <h2 class="sect-title" id="faq-title" data-i18n="faq.title">Häufige Fragen</h2>
+    <details><summary data-i18n="faq.q1">Muss ich reservieren?</summary><p class="a" data-i18n="faq.a1">Nein — spontan vorbeikommen geht immer, solange Platz frei ist. An Wochenenden und für Gruppen empfehlen wir eine Reservation über das Formular.</p></details>
+    <details><summary data-i18n="faq.q2">Ich habe noch nie gemalt — ist das etwas für mich?</summary><p class="a" data-i18n="faq.a2">Unbedingt. Die meisten unserer Gäste malen zum ersten Mal. Wir zeigen dir Techniken und Vorlagen — schiefgehen kann nichts.</p></details>
+    <details><summary data-i18n="faq.q3">Wie lange dauert es, bis mein Stück fertig ist?</summary><p class="a" data-i18n="faq.a3">Nach dem Bemalen glasieren und brennen wir dein Stück — nach etwa einer Woche kannst du es abholen. Wir benachrichtigen dich per E-Mail.</p></details>
+    <details><summary data-i18n="faq.q4">Können Kinder mitmachen?</summary><p class="a" data-i18n="faq.a4">Ja, Kinder sind herzlich willkommen — beim offenen Bemalen, an der Kino-Night Family Edition und am Kindergeburtstag. Unter 16 Jahren bitte in Begleitung bei Abend-Formaten.</p></details>
+    <details><summary data-i18n="faq.q5">Was kostet Keramik bemalen?</summary><p class="a" data-i18n="faq.a5">Ein Preis pro Stück, alles inklusive: Mini CHF 22 · Klein CHF 32 · Mittel CHF 48 · Gross CHF 58 · Statement CHF 68. Inklusive 3 Stunden Studiozeit, Farben, Glasur und Brand.</p></details>
+    <details><summary data-i18n="faq.q6">Kann ich stornieren oder umbuchen?</summary><p class="a" data-i18n="faq.a6">Bis 48 Stunden vor dem Termin kostenlos, bis 24 Stunden 50 %, danach wird der volle Betrag fällig. Tickets sind übertragbar — Details in den <a href="agb.html">AGB</a>.</p></details>
+    <details><summary data-i18n="faq.q7">Wie löse ich einen Gutschein ein?</summary><p class="a" data-i18n="faq.a7">Einfach den Gutschein-Code bei der Reservation angeben oder im Studio zeigen. Teileinlösung ist möglich, das Restguthaben bleibt 5 Jahre gültig.</p></details>
+    <details><summary data-i18n="faq.q8">Wie komme ich zu euch?</summary><p class="a" data-i18n="faq.a8">Mit der S-Bahn bis Bahnhof Au ZH — von dort sind es 5 Minuten zu Fuss an die Seestrasse 287B. Parkplätze gibt es in der Umgebung.</p></details>
+  </div>
+</section>
+
+<!-- ═══════ Kontakt ═══════ -->
+<section aria-labelledby="kontakt-title" id="kontakt">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow" data-i18n="ct.eyebrow">Kontakt</p>
+      <h2 class="sect-title" id="kontakt-title" data-i18n="ct.title">Besuch uns am See</h2>
+      <ul class="contact-list">
+        <li><b data-i18n="ct.addr">Adresse</b><span>Seestrasse 287B, 8804 Au ZH</span></li>
+        <li><b>E-Mail</b><span><a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a></span></li>
+        <li><b data-i18n="ct.tel">Telefon</b><span data-i18n="ct.telV">folgt zur Eröffnung</span></li>
+        <li><b data-i18n="ct.hours">Öffnungszeiten</b><span data-i18n="ct.hoursV">Montag–Sonntag, 09:00–21:00</span></li>
+        <li><b data-i18n="ct.ov">Anreise</b><span data-i18n="ct.ovV">S-Bahn bis Au ZH, 5 Min. zu Fuss · Parkplätze in der Nähe</span></li>
+      </ul>
+      <a class="btn btn-rose" href="#reservieren" data-i18n="cta.reserve2">Tisch reservieren</a>
+    </div>
+    <div class="addr-card reveal">
+      <p class="lbl">LOVE Creative Café</p>
+      <p class="big">Seestrasse 287B</p>
+      <p class="big">8804 Au ZH</p>
+      <p data-i18n="ct.lake">direkt am Zürichsee</p>
+      <img src="assets/logo/logo-dark.svg" alt="" width="72" height="72" style="margin:1rem auto 0">
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ═══════ Footer ═══════ -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo/logo-pink.png" alt="LOVE Creative Café Logo" width="74" height="74" loading="lazy">
+        <p>Made for moments that matter.</p>
+        <p style="margin-top:.7rem;font-size:.85rem" data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen</p>
+      </div>
+      <div>
+        <h4 data-i18n="ft.worlds">Unsere Welten</h4>
+        <ul>
+          <li><a href="#welten">Creative Café</a></li>
+          <li><a href="#preise">Pottery Station</a></li>
+          <li><a href="#welten">Floral Bar</a></li>
+          <li><a href="#welten">Candle Co.</a></li>
+          <li><a href="#welten">Ceramics &amp; Homeware</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.visit">Besuch uns</h4>
+        <ul>
+          <li>Seestrasse 287B, 8804 Au ZH</li>
+          <li><a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a></li>
+          <li data-i18n="ft.hours">Täglich 09:00–21:00</li>
+          <li data-i18n="ft.kino">Kino-Night: jeden Freitag</li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.legal">Rechtliches</h4>
+        <ul>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="datenschutz.html" data-i18n="ft.privacy">Datenschutz</a></li>
+          <li><a href="impressum.html" data-i18n="ft.imprint">Impressum</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="year">2026</span> LOVE Creative GmbH, Wädenswil ZH</p>
+      <div class="lang-switch" role="group" aria-label="Sprache / Language">
+        <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/love-data.js"></script>
+<script>
+(() => {
+'use strict';
+
+/* ═══════ i18n ═══════
+   DE wird beim Laden aus dem HTML eingesammelt (eine Quelle der Wahrheit),
+   EN ist hier vollständig definiert. */
+const EN = {
+  'skip':'Skip to content',
+  'brand.sub':'Creative Café',
+  'nav.menu':'Menu',
+  'nav.keramik':'Ceramics &amp; Prices','nav.kino':'Cinema Night','nav.cafe':'Café','nav.events':'Events','nav.gutscheine':'Gift Cards','nav.kontakt':'Contact',
+  'cta.reserve':'Reserve a table','cta.reserve2':'Reserve a table',
+  'hero.badge':'Opening 29 September 2026 · Seestrasse 287B, Au ZH',
+  'hero.title':'Paint ceramics, enjoy coffee, celebrate moments.',
+  'hero.lead':'Your creative café on Lake Zurich: pick a ceramic piece, paint it over coffee and cake — we glaze and fire it for you. On Fridays, the studio becomes a cinema.',
+  'hero.cta2':'See prices',
+  'hero.hours':'<strong>Daily 9 am – 9 pm</strong>','hero.kino':'<strong>Cinema Night:</strong> every Friday',
+  'worlds.eyebrow':'One brand, five worlds','worlds.title':'Everything under one roof',
+  'worlds.lead':'LOVE is home to five creative worlds — each one a beginning, all of them connected.',
+  'worlds.cafe':'Coffee from Naples, matcha from Uji — the heart of the space.',
+  'worlds.pottery':'Choose your ceramic piece and paint it — we glaze and fire.',
+  'worlds.floral':'Bouquets and flower workshops for every occasion.',
+  'worlds.candle':'Pour your own soy candles — from Fresh Fig to Wild Rose.',
+  'worlds.ceramics':'Cups, bowls and favourite pieces to take home.',
+  'steps.eyebrow':'How it works','steps.title':'Four steps to your favourite piece',
+  'steps.s1':'Choose','steps.s1t':'Pick your piece from the shelf — from espresso cup to statement vase.',
+  'steps.s2':'Paint','steps.s2t':'Paints, brushes and techniques are ready. We show you the basics — no experience needed.',
+  'steps.s3':'Glaze &amp; fire','steps.s3t':'We glaze and fire your piece in our studio kiln — that part is on us.',
+  'steps.s4':'Pick up','steps.s4t':'After about a week your piece is ready — food-safe and dishwasher-proof.',
+  'price.eyebrow':'Ceramic painting','price.title':'One price per piece — everything included',
+  'price.lead':'No studio fee, no hidden costs: each price includes 3 hours of studio time, all paints and brushes, plus glazing and firing.',
+  'price.mini':'Espresso cup, magnet','price.s':'Small','price.sEx':'Mug, cereal bowl',
+  'price.m':'Medium','price.mEx':'Plate, jug','price.l':'Large','price.lEx':'Serving platter, vase',
+  'price.xlEx':'Large vase, planter',
+  'price.extra1':'<b>Extra hour:</b> CHF 10','price.extra2':'<b>Additional pieces:</b> priced per piece','price.extra3':'<b>Kids:</b> very welcome',
+  'kino.eyebrow':'Our signature format','kino.title':'Cinema Night — every Friday',
+  'kino.lead':'Once a week the studio becomes a cinema: paint ceramics while the film plays. Formats alternate — film, ceramic piece and snacks are always included.',
+  'kino.perKid':'per child','kino.perPers':'per person','kino.flat':'flat rate',
+  'kino.family':'Family film, ceramic piece, popcorn and hot chocolate. Siblings: CHF 35.',
+  'kino.adults':'Film (original with subtitles), ceramic piece, a glass of wine or mocktail and a crêpe. Couples: CHF 165.',
+  'kino.private':'The whole studio just for you — up to 18 people, film of your choice. Date on request.',
+  'kino.note':'Reserve via the form below — we confirm format and seats by e-mail.',
+  'cafe.title':'Italianità on Lake Zurich',
+  'cafe.lead':'Our coffee comes from Caffè Borbone in Naples — an institution since 1997. Plus ceremonial matcha from Uji (Kyoto), Sirocco tea, and oat or soy milk at no extra charge.',
+  'cafe.classics':'Classics','cafe.hotchoc':'Hot Chocolate',
+  'cafe.note':'All prices in CHF. Oat and soy milk at no extra charge.',
+  'ev.eyebrow':'Occasions &amp; events','ev.title':'Celebrations that stay with you',
+  'ev.lead':'From kids’ birthdays to team events: you get tables, paints and support — and take home memories you made yourselves.',
+  'ev.kids':'Kids’ birthday','ev.kidsT':'Painting, celebrating, cake — we take care of everything.','ev.perKid':'per child',
+  'ev.teamT':'Creative instead of conference room — coffee and good vibes included.','ev.perPers':'p. p.',
+  'ev.jga':'Bachelorette &amp; bridal shower','ev.jgaT':'The party before the big day — prosecco optional.','ev.perPers2':'p. p.',
+  'ev.dateT':'Two pieces, two drinks, one evening just for you.','ev.forTwo':'for two',
+  'pl.title':'Event planner — quote in 3 steps','pl.priceLbl':'Price indication:',
+  'pl.s1pill':'1 · Event','pl.s2pill':'2 · Extras','pl.s3pill':'3 · Contact',
+  'pl.type':'Type of event',
+  'pl.tKind':'Kids’ birthday — CHF 45 per child','pl.tTeam':'Team event — CHF 75 per person',
+  'pl.tJga':'Bachelorette / bridal — CHF 65 per person','pl.tPriv':'Private party — CHF 55 per person',
+  'pl.persons':'Number of people','pl.personsHint':'From 6 people — for smaller groups, simply reserve a table.',
+  'pl.date':'Preferred date','pl.next':'Next →','pl.next2':'Next →','pl.back':'← Back','pl.back2':'← Back',
+  'pl.extras':'Extras (per person)',
+  'pl.exCafe':'Café package — drink &amp; snack (CHF 12 p. p.)',
+  'pl.exPro':'Prosecco aperitif (CHF 15 p. p.)',
+  'pl.exCandle':'Candle add-on — pour your own soy candle (CHF 18 p. p.)',
+  'pl.exExcl':'Exclusive evening use (flat CHF 400)',
+  'pl.submit':'Request quote',
+  'pl.okTitle':'Request received — thank you!',
+  'pl.okText':'You’ll receive a non-binding quote by e-mail within 24 hours. Can’t wait? Write to us directly at <a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a>.',
+  'form.name':'Name','form.email':'E-mail','form.phone':'Phone (optional)','form.msg':'Message (optional)',
+  'form.name2':'Name','form.email2':'E-mail','form.phone2':'Phone (optional)','form.msg2':'Message (optional)','form.email3':'E-mail',
+  'res.eyebrow':'Reservation','res.title':'Reserve your table',
+  'res.lead':'A reservation covers around 3 hours — plenty of time for coffee, colour and good conversation. Walk-ins are welcome too, as long as there’s space.',
+  'res.f1':'Time slots','res.f1t':'9–12 · 12–3 · 3–6 · 6–9 pm',
+  'res.f2':'Group size','res.f2t':'1–8 people — larger groups via the event planner',
+  'res.f3':'Fully booked?','res.f3t':'We keep a waiting list and contact you as soon as a table opens up.',
+  'res.persons':'People','res.date':'Date','res.time':'Time slot',
+  'res.world':'What would you like to do?',
+  'res.wKeramik':'Paint ceramics','res.wKino':'Cinema Night (Friday)','res.wCafe':'Café only','res.wCandle':'Pour candles','res.wFloral':'Floral Bar',
+  'res.submit':'Request reservation',
+  'res.okTitle':'Reservation received!',
+  'res.okText':'We’ll confirm your table by e-mail. If your preferred slot is full, we’ll suggest alternatives — you’re automatically on the waiting list.',
+  'gs.eyebrow':'Give creative time','gs.title':'Gift cards',
+  'gs.lead':'From CHF 25 to CHF 500 — redeemable for everything at LOVE: ceramics, café, cinema nights and workshops. Valid for 5 years, partial redemption possible.',
+  'gs.amount':'Choose amount (CHF)','gs.free':'Or your own amount (25–500)',
+  'gs.buyer':'Your name','gs.for':'Who is the gift card for? (optional)',
+  'gs.submit':'Order gift card',
+  'gs.okTitle':'Your gift card is reserved!',
+  'gs.okText':'Note down the code. Payment and pick-up at the studio — or we’ll e-mail you the payment details (TWINT). Online payment coming soon.',
+  'gal.eyebrow':'Impressions','gal.title':'A place to feel good',
+  'exp.eyebrow':'What awaits you','exp.title':'Creative calm instead of deadlines',
+  'exp.e1':'Time just for you','exp.e1t':'Three hours of studio time, good light, calm music — and nobody rushing you.',
+  'exp.e2':'For every level','exp.e2t':'No experience needed. We show you techniques — the joy of making does the rest.',
+  'exp.e3':'Memories you can hold','exp.e3t':'Your piece comes back fired and glazed — as a favourite cup or a gift.',
+  'wl.eyebrow':'Until we open','wl.title':'Be there for the opening',
+  'wl.lead':'Sign up and be the first to hear about opening offers, the cinema programme and workshops.',
+  'wl.ph':'your@email.ch','wl.submit':'Sign up',
+  'wl.optin':'I’d like to receive news by e-mail and accept the <a href="datenschutz.html">privacy policy</a>. Unsubscribe anytime.',
+  'wl.ok':'Thank you — you’re on the list! We’ll be in touch before the opening.',
+  'faq.eyebrow':'Good to know','faq.title':'Frequently asked questions',
+  'faq.q1':'Do I need to reserve?','faq.a1':'No — walk-ins are always welcome, as long as there’s space. For weekends and groups we recommend reserving via the form.',
+  'faq.q2':'I’ve never painted — is this for me?','faq.a2':'Absolutely. Most of our guests are painting for the first time. We show you techniques and templates — nothing can go wrong.',
+  'faq.q3':'How long until my piece is ready?','faq.a3':'After painting we glaze and fire your piece — it’s ready for pick-up after about a week. We’ll notify you by e-mail.',
+  'faq.q4':'Can children join?','faq.a4':'Yes, children are very welcome — at open painting, the Family Edition cinema night and birthday parties. Under 16s need an adult companion at evening formats.',
+  'faq.q5':'What does ceramic painting cost?','faq.a5':'One price per piece, all inclusive: Mini CHF 22 · Small CHF 32 · Medium CHF 48 · Large CHF 58 · Statement CHF 68. Includes 3 hours of studio time, paints, glazing and firing.',
+  'faq.q6':'Can I cancel or reschedule?','faq.a6':'Free of charge up to 48 hours before your slot, 50% up to 24 hours, after that the full amount is due. Tickets are transferable — details in the <a href="agb.html">terms</a>.',
+  'faq.q7':'How do I redeem a gift card?','faq.a7':'Simply mention the gift card code when reserving or show it at the studio. Partial redemption is possible; the remaining balance stays valid for 5 years.',
+  'faq.q8':'How do I get to you?','faq.a8':'Take the S-Bahn to Au ZH station — from there it’s a 5-minute walk to Seestrasse 287B. Parking is available nearby.',
+  'ct.eyebrow':'Contact','ct.title':'Visit us by the lake',
+  'ct.addr':'Address','ct.tel':'Phone','ct.telV':'coming with the opening',
+  'ct.hours':'Opening hours','ct.hoursV':'Monday–Sunday, 9 am – 9 pm',
+  'ct.ov':'Getting here','ct.ovV':'S-Bahn to Au ZH, 5 min on foot · parking nearby',
+  'ct.lake':'right on Lake Zurich',
+  'ft.social':'Instagram · TikTok · Pinterest — profiles coming soon',
+  'ft.worlds':'Our worlds','ft.visit':'Visit us','ft.hours':'Daily 9 am – 9 pm','ft.kino':'Cinema Night: every Friday',
+  'ft.legal':'Legal','ft.privacy':'Privacy','ft.imprint':'Imprint','ft.team':'Team portal',
+  'err.required':'Please fill in name and a valid e-mail address.',
+  'err.email':'Please enter a valid e-mail address.',
+  'err.date':'Please choose a date.',
+  'err.persons':'For 9 or more people please use the event planner above.',
+  'err.plPersons':'Events start at 6 people — for smaller groups simply reserve a table.',
+  'err.amount':'Amount must be between CHF 25 and CHF 500.',
+  'err.optin':'Please confirm the checkbox so we may send you news.',
+  'ref.lbl':'Reference: '
+};
+const DE_EXTRA = { // DE-Texte, die nur in JS vorkommen
+  'err.required':'Bitte Name und eine gültige E-Mail-Adresse angeben.',
+  'err.email':'Bitte eine gültige E-Mail-Adresse angeben.',
+  'err.date':'Bitte ein Datum wählen.',
+  'err.persons':'Ab 9 Personen nutze bitte den Eventplaner weiter oben.',
+  'err.plPersons':'Events gibt es ab 6 Personen — für kleinere Gruppen reserviere einfach einen Tisch.',
+  'err.amount':'Der Betrag muss zwischen CHF 25 und CHF 500 liegen.',
+  'err.optin':'Bitte bestätige das Häkchen, damit wir dir News schicken dürfen.',
+  'ref.lbl':'Referenz: '
+};
+
+const DE = Object.assign({}, DE_EXTRA);
+document.querySelectorAll('[data-i18n]').forEach(el => { DE[el.dataset.i18n] = el.innerHTML; });
+document.querySelectorAll('[data-i18n-ph]').forEach(el => { DE[el.dataset.i18nPh] = el.placeholder; });
+document.querySelectorAll('[data-i18n-aria]').forEach(el => { DE[el.dataset.i18nAria] = el.getAttribute('aria-label'); });
+const I18N = { de: DE, en: EN };
+let lang = localStorage.getItem('love.lang') || 'de';
+
+function t(key) {
+  const d = I18N[lang] || {};
+  return (key in d) ? d[key] : (I18N.de[key] !== undefined ? I18N.de[key] : key);
+}
+function applyLang(l) {
+  lang = (l === 'en') ? 'en' : 'de';
+  localStorage.setItem('love.lang', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+  document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  document.title = lang === 'en'
+    ? 'LOVE Creative Café — Paint ceramics, coffee & cinema nights in Au ZH'
+    : 'LOVE Creative Café — Keramik bemalen, Kaffee & Kino-Nights in Au ZH';
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+if (lang !== 'de') applyLang(lang);
+
+/* ═══════ Header / Nav ═══════ */
+const header = document.querySelector('header.site');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 8), { passive: true });
+const burger = document.getElementById('burger');
+const mainnav = document.getElementById('mainnav');
+burger.addEventListener('click', () => {
+  const open = mainnav.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(open));
+});
+mainnav.addEventListener('click', e => { if (e.target.tagName === 'A') { mainnav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); } });
+addEventListener('keydown', e => { if (e.key === 'Escape') { mainnav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); } });
+
+/* ═══════ Scroll-Reveal ═══════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ═══════ Helpers ═══════ */
+const validEmail = s => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s).trim());
+const todayISO = () => new Date().toISOString().slice(0, 10);
+document.getElementById('resDate').min = todayISO();
+document.getElementById('plDate').min = todayISO();
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ═══════ Tischreservation ═══════ */
+document.getElementById('resForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = document.getElementById('resErr');
+  const name = document.getElementById('resName').value.trim();
+  const email = document.getElementById('resEmail').value.trim();
+  const persons = Number(document.getElementById('resPersons').value);
+  const date = document.getElementById('resDate').value;
+  if (!name || !validEmail(email)) { err.textContent = t('err.required'); return; }
+  if (!date) { err.textContent = t('err.date'); return; }
+  if (persons > 8) { err.textContent = t('err.persons'); return; }
+  err.textContent = '';
+  const b = LoveData.addBooking({
+    type: 'tisch', name, email,
+    phone: document.getElementById('resPhone').value.trim(),
+    date, time: document.getElementById('resTime').value,
+    persons, world: document.getElementById('resWorld').value,
+    message: document.getElementById('resMsg').value.trim(), lang
+  });
+  document.getElementById('resForm').classList.add('hidden');
+  document.getElementById('resRef').textContent = t('ref.lbl') + b.id;
+  document.getElementById('resSuccess').classList.remove('hidden');
+});
+
+/* ═══════ Eventplaner ═══════ */
+const BASE = { kind: 45, team: 75, jga: 65, privat: 55 };
+const plType = document.getElementById('plType');
+const plPersons = document.getElementById('plPersons');
+const exBoxes = ['exCafe','exProsecco','exCandle'].map(id => document.getElementById(id));
+const exExclusive = document.getElementById('exExclusive');
+function plCalc() {
+  const p = Math.max(0, Number(plPersons.value) || 0);
+  let sum = (BASE[plType.value] || 0) * p;
+  exBoxes.forEach(cb => { if (cb.checked) sum += Number(cb.value) * p; });
+  if (exExclusive.checked) sum += Number(exExclusive.value);
+  document.getElementById('plPrice').textContent = 'CHF ' + sum.toLocaleString('de-CH').replace(/,/g, "'");
+  return sum;
+}
+[plType, plPersons, ...exBoxes, exExclusive].forEach(el => el.addEventListener('input', plCalc));
+plCalc();
+
+const steps = [document.getElementById('plStep1'), document.getElementById('plStep2'), document.getElementById('plStep3')];
+const pills = [document.getElementById('pill1'), document.getElementById('pill2'), document.getElementById('pill3')];
+function showStep(i) {
+  steps.forEach((s, j) => s.classList.toggle('hidden', j !== i));
+  pills.forEach((p, j) => p.classList.toggle('active', j === i));
+  document.getElementById('plErr').textContent = '';
+}
+document.getElementById('plNext1').addEventListener('click', () => {
+  const p = Number(plPersons.value);
+  if (!p || p < 6) { document.getElementById('plErr').textContent = t('err.plPersons'); return; }
+  if (!document.getElementById('plDate').value) { document.getElementById('plErr').textContent = t('err.date'); return; }
+  showStep(1);
+});
+document.getElementById('plBack2').addEventListener('click', () => showStep(0));
+document.getElementById('plNext2').addEventListener('click', () => showStep(2));
+document.getElementById('plBack3').addEventListener('click', () => showStep(1));
+
+document.getElementById('plannerForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = document.getElementById('plErr');
+  const name = document.getElementById('plName').value.trim();
+  const email = document.getElementById('plEmail').value.trim();
+  if (!name || !validEmail(email)) { err.textContent = t('err.required'); return; }
+  err.textContent = '';
+  const extras = [];
+  if (exBoxes[0].checked) extras.push('Café-Package');
+  if (exBoxes[1].checked) extras.push('Prosecco');
+  if (exBoxes[2].checked) extras.push('Candle-Add-on');
+  if (exExclusive.checked) extras.push('Exklusiv-Abend');
+  const price = plCalc();
+  const b = LoveData.addBooking({
+    type: 'event', name, email,
+    phone: document.getElementById('plPhone').value.trim(),
+    date: document.getElementById('plDate').value,
+    persons: Number(plPersons.value), world: plType.value,
+    message: (extras.length ? 'Extras: ' + extras.join(', ') + '. ' : '') + document.getElementById('plMsg').value.trim(),
+    price: 'CHF ' + price, lang
+  });
+  document.getElementById('plannerForm').classList.add('hidden');
+  document.querySelector('.p-steps').classList.add('hidden');
+  document.getElementById('plRef').textContent = t('ref.lbl') + b.id;
+  document.getElementById('plSuccess').classList.remove('hidden');
+});
+
+/* ═══════ Gutscheine ═══════ */
+const vAmount = document.getElementById('vAmount');
+document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed','false'));
+  chip.setAttribute('aria-pressed','true');
+  vAmount.value = chip.dataset.amount;
+}));
+vAmount.addEventListener('input', () => {
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.amount === vAmount.value)));
+});
+document.getElementById('vForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = document.getElementById('vErr');
+  const amount = Number(vAmount.value);
+  const buyer = document.getElementById('vBuyer').value.trim();
+  const email = document.getElementById('vEmail').value.trim();
+  if (!buyer || !validEmail(email)) { err.textContent = t('err.required'); return; }
+  if (!amount || amount < 25 || amount > 500) { err.textContent = t('err.amount'); return; }
+  err.textContent = '';
+  const v = LoveData.addVoucher({ amount, buyer, email, recipient: document.getElementById('vFor').value.trim() });
+  LoveData.addBooking({ type: 'gutschein', name: buyer, email, price: 'CHF ' + amount, message: 'Gutschein ' + v.code + (v.recipient ? ' für ' + v.recipient : ''), lang });
+  document.getElementById('vForm').classList.add('hidden');
+  document.getElementById('vCode').textContent = v.code;
+  document.getElementById('vSuccess').classList.remove('hidden');
+});
+
+/* ═══════ Warteliste ═══════ */
+document.getElementById('wlForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const err = document.getElementById('wlErr');
+  const email = document.getElementById('wlEmail').value.trim();
+  if (!validEmail(email)) { err.textContent = t('err.email'); return; }
+  if (!document.getElementById('wlOptin').checked) { err.textContent = t('err.optin'); return; }
+  err.textContent = '';
+  LoveData.upsertContact(email, { optin: true, tag: 'newsletter' });
+  LoveData.addBooking({ type: 'warteliste', email, lang });
+  document.getElementById('wlForm').classList.add('hidden');
+  document.getElementById('wlSuccess').classList.remove('hidden');
+});
+})();
+</script>
+</body>
+</html>
