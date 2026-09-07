@@ -11,7 +11,7 @@
  */
 const LoveData = (() => {
   const KEYS = {
-    bookings: 'love.bookings.v1',   // Buchungsliste + Sales-Pipeline
+    bookings: 'love.bookings.v1',   // Buchungsliste + Sales-Pipeline (inkl. Tischreservationen)
     contacts: 'love.contacts.v1',   // CRM-Kontakte (eine Zeile je E-Mail)
     kiln:     'love.kiln.v1',       // Ofen-Status (Brennliste)
     vouchers: 'love.vouchers.v1'    // Gutschein-Ledger (MWST-relevant!)
@@ -28,8 +28,10 @@ const LoveData = (() => {
   const _now = () => new Date().toISOString();
 
   /* ---------- Buchungen / Anfragen ----------
-     type: 'tisch' | 'event' | 'kino' | 'gutschein' | 'warteliste' | 'sonstiges'
-     status-Pipeline (love-sales-events): neu → bestätigt | offeriert → follow-up-1 → follow-up-2 → gewonnen | verloren | storniert */
+     type: 'tisch' | 'kino' | 'event' | 'gutschein' | 'geschenk' | 'membership' | 'warteliste' | 'sonstiges'
+     status-Pipeline (love-sales-events): neu → bestätigt | offeriert → follow-up-1 → follow-up-2 → gewonnen | verloren | storniert
+     Tisch-Felder: date (ISO), time (Slot '09:00–12:00'), persons, area ('EG'|'OG'|'egal'),
+                   table_type ('rund'|'gross'|'event'), table (zugewiesen im CRM, z. B. 'EG-G1') */
   function addBooking(data) {
     const b = {
       id: _id('B'), ts: _now(), status: 'neu',
@@ -37,6 +39,8 @@ const LoveData = (() => {
       name: data.name || '', email: (data.email || '').trim().toLowerCase(),
       phone: data.phone || '', date: data.date || '', time: data.time || '',
       persons: data.persons || '', world: data.world || '',
+      area: data.area || '', table_type: data.table_type || '', table: data.table || '',
+      plan: data.plan || '',
       message: data.message || '', price: data.price || '', lang: data.lang || 'de',
       history: [{ ts: _now(), event: 'erstellt' }]
     };
@@ -75,7 +79,7 @@ const LoveData = (() => {
       if (data.phone && !c.phone) c.phone = data.phone;
       if (data.tag && !c.tags.includes(data.tag)) c.tags.push(data.tag);
       if (typeof data.optin === 'boolean') c.optin = data.optin;
-      if (data.notes) c.notes = data.notes;
+      if (data.notes !== undefined) c.notes = data.notes;
     }
     c.lastSeen = _now();
     _write(KEYS.contacts, all);
@@ -109,16 +113,30 @@ const LoveData = (() => {
 
   /* ---------- Gutschein-Ledger ----------
      MWST: Verkauf steuerfrei, Steuer entsteht erst bei Einlösung (love-buchhaltung).
-     Deshalb zwingend: jeder Verkauf + jede Einlösung als Ledger-Eintrag. */
+     Deshalb zwingend: jeder Verkauf + jede Einlösung als Ledger-Eintrag.
+     kind: 'betrag' | 'keramik-date' | 'kino-duo' | 'cafe-keramik' …  (Erlebnis-Gutscheine)
+     paid: erst nach Zahlungseingang true → Gutschein ist «aktiv» */
   function addVoucher(data) {
     const code = 'LOVE-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
     const v = {
       code, ts: _now(), amount: Number(data.amount) || 0, balance: Number(data.amount) || 0,
       buyer: data.buyer || '', email: (data.email || '').trim().toLowerCase(),
-      recipient: data.recipient || '', status: 'offen', redemptions: []
+      recipient: data.recipient || '', from: data.from || '', message: data.message || '',
+      kind: data.kind || 'betrag', design: data.design || 'mimi',
+      payment: data.payment || '', paid: !!data.paid, paid_at: data.paid ? _now() : null,
+      status: 'offen', redemptions: []
     };
     const all = _read(KEYS.vouchers); all.push(v); _write(KEYS.vouchers, all);
     if (v.email) upsertContact(v.email, { name: v.buyer, tag: 'format:gutschein' });
+    return v;
+  }
+  function updateVoucher(code, patch) {
+    const all = _read(KEYS.vouchers);
+    const v = all.find(x => x.code === String(code).trim().toUpperCase());
+    if (!v) return null;
+    Object.assign(v, patch);
+    if (patch.paid && !v.paid_at) v.paid_at = _now();
+    _write(KEYS.vouchers, all);
     return v;
   }
   function redeemVoucher(code, amount) {
@@ -141,14 +159,17 @@ const LoveData = (() => {
     const weekAgo = Date.now() - 7 * 864e5;
     const isWeek = b => new Date(b.ts).getTime() > weekAgo;
     const vouchers = _read(KEYS.vouchers);
+    const today = new Date().toISOString().slice(0, 10);
     return {
       bookingsNew: bookings.filter(b => b.status === 'neu').length,
       bookingsWeek: bookings.filter(isWeek).length,
+      tablesToday: bookings.filter(b => (b.type === 'tisch' || b.type === 'kino') && b.date === today && !['storniert','verloren'].includes(b.status)).length,
       pipelineOpen: bookings.filter(b => ['offeriert', 'follow-up-1', 'follow-up-2'].includes(b.status)).length,
       contacts: _read(KEYS.contacts).length,
       kilnOpen: _read(KEYS.kiln).filter(k => ['angemeldet', 'im-brand', 'fertig'].includes(k.status)).length,
       kilnReadyUnnotified: _read(KEYS.kiln).filter(k => k.status === 'fertig' && !k.notified_at).length,
-      voucherLiability: Math.round(vouchers.reduce((s, v) => s + (v.balance || 0), 0))
+      voucherLiability: Math.round(vouchers.filter(v => v.paid).reduce((s, v) => s + (v.balance || 0), 0)),
+      vouchersUnpaid: vouchers.filter(v => !v.paid && v.status === 'offen').length
     };
   }
 
@@ -178,7 +199,7 @@ const LoveData = (() => {
     addBooking, updateBooking, listBookings,
     upsertContact, listContacts,
     addKiln, updateKiln, listKiln,
-    addVoucher, redeemVoucher, listVouchers,
+    addVoucher, updateVoucher, redeemVoucher, listVouchers,
     stats, exportJSON, importJSON, toCSV, KEYS
   };
 })();

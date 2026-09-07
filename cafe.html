@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Café &amp; Bar — LOVE Creative Café, Au ZH</title>
+<meta name="description" content="Caffè Borbone aus Neapel, Uji-Matcha, Bowls, Smoothies und abends Apéro am Zürichsee — die Karte des LOVE Creative Café in Au ZH.">
+<link rel="canonical" href="https://lovecreative.ch/cafe.html">
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-dark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/love.css">
+<script>
+window.LOVE_TITLES = { de: 'Café & Bar — LOVE Creative Café, Au ZH', en: 'Café & Bar — LOVE Creative Café, Au ZH' };
+window.LOVE_EN = {
+  'cf.eyebrow':'Café &amp; Bar','cf.title':'Like a living room by the lake — with better coffee.',
+  'cf.lead':'Caffè Borbone from Naples, ceremonial matcha from Uji, fresh bowls and smoothies — and in the evening, an apéro with a view of the lake. Whether you paint or not: you\'re always welcome to just have a coffee.',
+  'cf.cta1':'See the menu','cf.cta2':'Reserve a table',
+  'tr.eyebrow':'Three things we do well','tr.title':'Coffee. Bowls. Apéro.',
+  'tr.1':'Coffee &amp; matcha','tr.1t':'Borbone from Naples — an institution since 1997 — plus ceremonial-grade matcha from Uji, Kyoto. Oat and soy milk at no extra charge.','tr.1p':'from CHF 4.50',
+  'tr.2':'Bowls &amp; smoothies','tr.2t':'Açaí, Pink Dragon, Blue Lagoon and a Poké bowl — fresh, colourful, vegetarian, mostly vegan.','tr.2p':'from CHF 10.50',
+  'tr.3':'Apéro &amp; mocktails','tr.3t':'Prosecco, spritz, wine by the glass and alcohol-free signature drinks — from 5 pm and on Cinema Night.','tr.3p':'from CHF 9.50',
+  'st.eyebrow':'Our partners','st.title':'Italianità on Lake Zurich',
+  'st.lead':'We don\'t roast ourselves — we work with people who do it best.',
+  'st.p1':'Caffè Borbone, Naples','st.p1t':'Since 1997. Blends Miscela Nera, Oro, Decisa and Dek — the coffee Neapolitans drink at home.',
+  'st.p2':'Uji matcha, Kyoto','st.p2t':'Ceremonial grade, stone-ground, whisked fresh for every cup.',
+  'st.p3':'Sirocco tea, Lausanne','st.p3t':'Eleven organic blends from English Breakfast to Verbena.',
+  'st.p4':'Bakery from the region','st.p4t':'Cake and muffins from our neighbourhood bakery — baked in the morning, gone by evening.',
+  'mn.eyebrow':'The menu','mn.title':'What\'s on the counter',
+  'mn.lead':'All prices in CHF incl. VAT. Dishes are vegetarian, most of them vegan. Allergens (gluten, peanuts, sesame, nuts) — just ask us.',
+  'mn.j1':'Coffee &amp; hot drinks','mn.j2':'Soft drinks','mn.j3':'Smoothies','mn.j4':'Bowls','mn.j5':'To share','mn.j6':'Sweets','mn.j7':'Apéro &amp; wine','mn.j8':'Mocktails',
+  'mn.c1':'Coffee &amp; hot drinks','mn.c1s':'Caffè Borbone · oat/soy milk +0.00',
+  'mn.c2':'Soft drinks','mn.c3':'Smoothies','mn.c3s':'with oat milk',
+  'mn.c4':'Bowls','mn.c4s':'250 g / 350 g','mn.c5':'To share','mn.c5s':'1 person / 2 people',
+  'mn.c6':'Sweets','mn.c7':'Apéro &amp; wine','mn.c7s':'from 5 pm · 18+','mn.c8':'Mocktails','mn.c8s':'alcohol-free signatures',
+  'i.crema':'Kafi Crème','i.doppio':'Doppio / Americano','i.lm':'Latte Macchiato (hot / iced)',
+  'i.rose':'Rose Latte','i.roseD':'LOVE signature — rose, oat milk, a hint of vanilla',
+  'i.chaiD':'spiced black tea, milk, honey','i.matcha':'Matcha Latte Uji (hot / iced)','i.matchaD':'ceremonial matcha, oat milk, agave',
+  'i.beetD':'beetroot, raspberry, cinnamon, cardamom, ginger','i.kurk':'Turmeric Latte','i.kurkD':'turmeric, ginger, cinnamon, oat milk',
+  'i.ubeD':'purple yam, coconut cream, vanilla','i.tea':'Tea Sirocco','i.teaD':'11 organic blends','i.choc':'Hot chocolate',
+  'i.x1':'Extra espresso shot','i.x2':'Strawberry purée',
+  'i.ice':'Homemade iced tea','i.lemo':'Homemade lemonade','i.lemoD':'Pink / Lavender','i.komb':'Kombucha','i.kombD':'mountain herbs / ginger',
+  'i.coco':'Coconut water','i.fritz':'Fritz-Kola / Zero (organic)','i.fritzL':'Fritz sodas (organic)','i.fritzLD':'lemon / orange / rhubarb',
+  'i.tony':'El Tony Mate','i.ginger':'Ginger beer / tonic','i.juice':'Fruit juice','i.juiceD':'pineapple / orange / tomato',
+  'i.apple':'Apple juice (organic) / spritzer','i.water':'Mineral water 3.3 dl / 1 L','i.syrup':'Syrup 3.3 dl','i.syrupD':'elderflower / grenadine / lavender',
+  'i.acaiD':'açaí, banana, raspberries','i.berryD':'dragon fruit, banana, berries, vanilla, sesame','i.green':'Green Alligator','i.greenD':'avocado, spinach, apple, mango, pineapple, lime',
+  'i.peanutD':'banana, blueberries, peanut butter, cacao nibs','i.lagoonD':'pineapple, mango, banana, blue spirulina, chia',
+  'i.sx1':'Plant protein','i.sx2':'Espresso shot','i.sx3':'Nut butter (almond / peanut / sesame)',
+  'i.acaiB':'Açaí Bowl','i.acaiBD':'organic açaí, banana · granola, pumpkin seeds, coconut, blueberries, cacao nibs',
+  'i.dragonB':'Pink Dragon Bowl','i.dragonBD':'dragon fruit, banana, red berries · same toppings',
+  'i.lagoonB':'Blue Lagoon Bowl','i.lagoonBD':'banana, pineapple, mango, blue spirulina, coconut milk · same toppings',
+  'i.poke':'Poké Bowl','i.pokeD':'whole-grain basmati, teriyaki tofu, edamame, mango, avocado, kimchi, cashews, peanut-lime sauce',
+  'i.bx1':'Extra porridge with maple syrup','i.bx2':'Nut butter',
+  'i.apero':'Apéro platter','i.aperoD':'cheese selection, olives, pickles, dried tomatoes, nuts, fruit, rosemary breadsticks',
+  'i.nachos':'Nachos','i.nachosD':'tortilla chips, mozzarella / vegan cheese, guacamole, crème fraîche, cherry tomatoes',
+  'i.popcorn':'Popcorn','i.popcornD':'the Cinema Night classic',
+  'i.cake':'Chocolate cake','i.cakeD':'served warm with vanilla ice cream &amp; strawberry drizzle','i.muffin':'Banana-blueberry muffin','i.muffinD':'soft, moist &amp; fruity',
+  'i.prosecco':'Prosecco 1 dl','i.pinot':'Pinot Grigio, white 1 dl','i.primi':'Primitivo, red 1 dl',
+  'i.spritz':'Aperol / Limoncello Spritz','i.hugo':'Hugo','i.hugoD':'elderflower / lavender','i.wws':'White wine spritzer','i.wwsD':'sweet / sour',
+  'i.beer':'Birra Moretti lager 3.3 dl','i.ipa':'BrewDog IPA 3.3 dl','i.af':'Moretti alcohol-free 3.3 dl',
+  'i.vrs':'Virgin Raspberry Spritz','i.vrsD':'kombucha, raspberry vinegar, agave, soda','i.nojito':'Pink NOjito','i.nojitoD':'ginger lemonade, lime, mint, red berries',
+  'i.vt':'Virgin &amp; Tonic','i.vtD':'alcohol-free gin &amp; tonic','i.nolada':'Purple Piña NOlada','i.noladaD':'pineapple, coconut cream, ube, lime','i.kiss':'Passion Kiss','i.kissD':'passion fruit, pineapple, lime, vanilla',
+  'mn.note':'<b>Good to know:</b> Everything on the menu can be enjoyed at the painting table — just no greasy fingers on the ceramics, please. Wine and beer from 5 pm and on Cinema Night (18+). Alcohol-free options always.',
+  'hr.eyebrow':'Opening hours','hr.title':'Open every day','hr.d1':'Monday – Sunday','hr.d2':'Cinema Night','hr.d2v':'Friday 6 – 9 pm','hr.d3':'Apéro','hr.d3v':'daily from 5 pm',
+  'hr.cta':'Reserve a table','hr.p':'Coffee to go is always possible — no reservation needed.'
+};
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
+
+<header class="site" id="top">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="LOVE Creative Café — Start">
+      <img src="assets/logo/logo-dark.svg" alt="" width="46" height="46">
+      <span class="brand-name">LOVE<small data-i18n="brand.sub">Creative Café</small></span>
+    </a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mainnav" data-i18n-aria="nav.menu" aria-label="Menü">☰</button>
+    <nav class="main" id="mainnav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="index.html#preise" data-i18n="nav.keramik">Keramik &amp; Preise</a></li>
+        <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
+        <li><a href="index.html#kino" data-i18n="nav.kino">Kino-Night</a></li>
+        <li><a href="index.html#events" data-i18n="nav.events">Events</a></li>
+        <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
+        <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
+        <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Sprache / Language">
+      <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn btn-rose nav-cta" href="reservieren.html" data-i18n="cta.reserve">Tisch reservieren</a>
+  </div>
+</header>
+<div class="sticky-cta"><a class="btn btn-rose" href="reservieren.html" data-i18n="cta.reserve3">Tisch reservieren</a></div>
+
+<main id="main">
+
+<section class="page-hero pink">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow" data-i18n="cf.eyebrow">Café &amp; Bar</p>
+      <h1 data-i18n="cf.title">Wie ein Wohnzimmer am See — nur mit besserem Kaffee.</h1>
+      <p class="lead" data-i18n="cf.lead">Caffè Borbone aus Neapel, Ceremonial-Matcha aus Uji, frische Bowls und Smoothies — und am Abend ein Apéro mit Blick auf den See. Ob du malst oder nicht: Nur auf einen Kaffee vorbeikommen geht immer.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-rose" href="#karte" data-i18n="cf.cta1">Zur Karte</a>
+        <a class="btn btn-ghost" href="reservieren.html" data-i18n="cf.cta2">Tisch reservieren</a>
+      </div>
+    </div>
+    <div class="arch reveal"><img src="assets/img/interior-cafe-counter.jpeg" alt="Kaffeetheke mit geriffelter Front im LOVE Creative Café" width="800" height="640" fetchpriority="high"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="tr.eyebrow">Drei Dinge, die wir gut können</p>
+    <h2 class="sect-title" data-i18n="tr.title">Kaffee. Bowls. Apéro.</h2>
+    <div class="grid-3">
+      <div class="feature reveal"><img src="assets/img/app-cups-trio.jpeg" alt="Drei LOVE-Tassen mit Kaffee" loading="lazy" width="600" height="450"><div class="body"><h3 data-i18n="tr.1">Kaffee &amp; Matcha</h3><p data-i18n="tr.1t">Borbone aus Neapel — seit 1997 eine Institution — dazu Ceremonial-Matcha aus Uji, Kyoto. Hafer- und Sojamilch ohne Aufpreis.</p><p class="from" data-i18n="tr.1p">ab CHF 4.50</p></div></div>
+      <div class="feature reveal"><img src="assets/img/app-cups-togo.jpeg" alt="Bowls und Getränke zum Mitnehmen" loading="lazy" width="600" height="450"><div class="body"><h3 data-i18n="tr.2">Bowls &amp; Smoothies</h3><p data-i18n="tr.2t">Açaí, Pink Dragon, Blue Lagoon und eine Poké Bowl — frisch, farbig, vegetarisch, meist vegan.</p><p class="from" data-i18n="tr.2p">ab CHF 10.50</p></div></div>
+      <div class="feature reveal"><img src="assets/img/interior-cafe.jpeg" alt="Café-Interieur am Abend mit Bogen-Nische" loading="lazy" width="600" height="450"><div class="body"><h3 data-i18n="tr.3">Apéro &amp; Mocktails</h3><p data-i18n="tr.3t">Prosecco, Spritz, Wein im Glas und alkoholfreie Signature-Drinks — ab 17 Uhr und an der Kino-Night.</p><p class="from" data-i18n="tr.3p">ab CHF 9.50</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="st.eyebrow">Unsere Partner</p>
+    <h2 class="sect-title" data-i18n="st.title">Italianità am Zürichsee</h2>
+    <p class="script-line">amore &amp; caffè</p>
+    <p class="sect-lead" data-i18n="st.lead">Wir rösten nicht selbst — wir arbeiten mit denen, die es am besten können.</p>
+    <div class="grid-4">
+      <div class="card reveal"><h3 data-i18n="st.p1">Caffè Borbone, Neapel</h3><p data-i18n="st.p1t">Seit 1997. Blends Miscela Nera, Oro, Decisa und Dek — der Kaffee, den Neapolitaner zuhause trinken.</p></div>
+      <div class="card reveal"><h3 data-i18n="st.p2">Uji-Matcha, Kyoto</h3><p data-i18n="st.p2t">Ceremonial Grade, steingemahlen, für jede Tasse frisch aufgeschlagen.</p></div>
+      <div class="card reveal"><h3 data-i18n="st.p3">Sirocco-Tee, Lausanne</h3><p data-i18n="st.p3t">Elf Bio-Mischungen von English Breakfast bis Verbena.</p></div>
+      <div class="card reveal"><h3 data-i18n="st.p4">Bäckerei aus der Region</h3><p data-i18n="st.p4t">Kuchen und Muffins von unserer Quartier-Bäckerei — am Morgen gebacken, am Abend weg.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="karte">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="mn.eyebrow">Die Karte</p>
+    <h2 class="sect-title" data-i18n="mn.title">Was auf der Theke steht</h2>
+    <p class="sect-lead" data-i18n="mn.lead">Alle Preise in CHF inkl. MWST. Speisen vegetarisch, vieles vegan. Allergene (Gluten, Erdnüsse, Sesam, Nüsse) — frag uns einfach.</p>
+    <div class="menu-jump">
+      <a href="#m-kaffee" data-i18n="mn.j1">Kaffee &amp; Heissgetränke</a><a href="#m-soft" data-i18n="mn.j2">Softdrinks</a><a href="#m-smoothie" data-i18n="mn.j3">Smoothies</a><a href="#m-bowls" data-i18n="mn.j4">Bowls</a><a href="#m-share" data-i18n="mn.j5">Zum Teilen</a><a href="#m-sweet" data-i18n="mn.j6">Süsses</a><a href="#m-apero" data-i18n="mn.j7">Apéro &amp; Wein</a><a href="#m-mock" data-i18n="mn.j8">Mocktails</a>
+    </div>
+    <div class="menu-grid">
+
+      <div class="menu-cat reveal" id="m-kaffee">
+        <h3><span data-i18n="mn.c1" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Kaffee &amp; Heissgetränke</span><span data-i18n="mn.c1s">Caffè Borbone · Hafer/Soja +0.00</span></h3>
+        <ul>
+          <li><span class="n">Espresso</span><span class="p">4.50</span></li>
+          <li><span class="n" data-i18n="i.crema">Kafi Crème</span><span class="p">5.00</span></li>
+          <li><span class="n" data-i18n="i.doppio">Doppio / Americano</span><span class="p">5.50</span></li>
+          <li><span class="n">Cappuccino</span><span class="p">5.50</span></li>
+          <li><span class="n" data-i18n="i.lm">Latte Macchiato (hot / iced)</span><span class="p">6.00</span></li>
+          <li><span class="n">Flat White</span><span class="p">6.50</span></li>
+          <li><span class="n" data-i18n="i.rose">Rose Latte</span><span class="p">7.50</span><span class="d" data-i18n="i.roseD">LOVE-Signature — Rose, Hafermilch, ein Hauch Vanille</span></li>
+          <li><span class="n">Chai Latte</span><span class="p">7.50</span><span class="d" data-i18n="i.chaiD">Gewürz-Schwarztee, Milch, Honig</span></li>
+          <li><span class="n" data-i18n="i.matcha">Matcha Latte Uji (hot / iced)</span><span class="p">7.50</span><span class="d" data-i18n="i.matchaD">Ceremonial-Matcha, Hafermilch, Agave</span></li>
+          <li><span class="n">Beetroot Latte</span><span class="p">7.50</span><span class="d" data-i18n="i.beetD">Randen, Himbeere, Zimt, Kardamom, Ingwer</span></li>
+          <li><span class="n" data-i18n="i.kurk">Kurkuma Latte</span><span class="p">7.50</span><span class="d" data-i18n="i.kurkD">Kurkuma, Ingwer, Zimt, Hafermilch</span></li>
+          <li><span class="n">Ube Latte</span><span class="p">7.50</span><span class="d" data-i18n="i.ubeD">Lila Yams, Kokoscreme, Vanille</span></li>
+          <li><span class="n" data-i18n="i.tea">Tee Sirocco</span><span class="p">5.50</span><span class="d" data-i18n="i.teaD">11 Bio-Mischungen</span></li>
+          <li><span class="n" data-i18n="i.choc">Heisse Schoggi</span><span class="p">6.00</span></li>
+          <li><span class="n" data-i18n="i.x1">Extra Espresso-Shot</span><span class="p">+1.00</span></li>
+          <li><span class="n" data-i18n="i.x2">Erdbeer-Purée</span><span class="p">+1.00</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-soft">
+        <h3><span data-i18n="mn.c2" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Softdrinks</span><span>3.3 dl</span></h3>
+        <ul>
+          <li><span class="n" data-i18n="i.ice">Hausgemachter Eistee</span><span class="p">6.00</span></li>
+          <li><span class="n" data-i18n="i.lemo">Hausgemachte Limonade</span><span class="p">6.00</span><span class="d" data-i18n="i.lemoD">Pink / Lavender</span></li>
+          <li><span class="n" data-i18n="i.komb">Kombucha</span><span class="p">6.50</span><span class="d" data-i18n="i.kombD">Bergkräuter / Ingwer</span></li>
+          <li><span class="n" data-i18n="i.coco">Kokoswasser</span><span class="p">6.50</span></li>
+          <li><span class="n" data-i18n="i.fritz">Fritz-Kola / Zero (Bio)</span><span class="p">6.00</span></li>
+          <li><span class="n" data-i18n="i.fritzL">Fritz-Limo (Bio)</span><span class="p">6.00</span><span class="d" data-i18n="i.fritzLD">Zitrone / Orange / Rhabarber</span></li>
+          <li><span class="n" data-i18n="i.tony">El Tony Mate</span><span class="p">6.50</span></li>
+          <li><span class="n" data-i18n="i.ginger">Ginger Beer / Tonic 2 dl</span><span class="p">5.50</span></li>
+          <li><span class="n" data-i18n="i.juice">Fruchtsaft 2 dl</span><span class="p">5.50</span><span class="d" data-i18n="i.juiceD">Ananas / Orange / Tomate</span></li>
+          <li><span class="n" data-i18n="i.apple">Apfelsaft (Bio) / Schorle 3 dl</span><span class="p">6.00</span></li>
+          <li><span class="n" data-i18n="i.water">Mineral 3.3 dl / 1 L</span><span class="p">3.00 / 7.00</span></li>
+          <li><span class="n" data-i18n="i.syrup">Sirup 3.3 dl</span><span class="p">3.00</span><span class="d" data-i18n="i.syrupD">Holunder / Grenadine / Lavendel</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-smoothie">
+        <h3><span data-i18n="mn.c3" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Smoothies</span><span data-i18n="mn.c3s">mit Hafermilch</span></h3>
+        <ul>
+          <li><span class="n">Açaí Smoothie</span><span class="p">10.50</span><span class="d" data-i18n="i.acaiD">Açaí, Banane, Himbeeren</span></li>
+          <li><span class="n">Very Berry</span><span class="p">10.50</span><span class="d" data-i18n="i.berryD">Drachenfrucht, Banane, Beeren, Vanille, Sesam</span></li>
+          <li><span class="n" data-i18n="i.green">Green Alligator</span><span class="p">11.00</span><span class="d" data-i18n="i.greenD">Avocado, Spinat, Apfel, Mango, Ananas, Limette</span></li>
+          <li><span class="n">Salty Peanut</span><span class="p">11.00</span><span class="d" data-i18n="i.peanutD">Banane, Blaubeeren, Erdnussbutter, Kakao-Nibs</span></li>
+          <li><span class="n">Blue Lagoon</span><span class="p">11.50</span><span class="d" data-i18n="i.lagoonD">Ananas, Mango, Banane, blaue Spirulina, Chia</span></li>
+          <li><span class="n" data-i18n="i.sx1">Pflanzliches Protein</span><span class="p">+1.50</span></li>
+          <li><span class="n" data-i18n="i.sx2">Espresso-Shot</span><span class="p">+1.00</span></li>
+          <li><span class="n" data-i18n="i.sx3">Nussmus (Mandel / Erdnuss / Sesam)</span><span class="p">+2.00</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-bowls">
+        <h3><span data-i18n="mn.c4" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Bowls</span><span data-i18n="mn.c4s">250 g / 350 g</span></h3>
+        <ul>
+          <li><span class="n" data-i18n="i.acaiB">Açaí Bowl</span><span class="p">15.00 / 18.00</span><span class="d" data-i18n="i.acaiBD">Bio-Açaí, Banane · Granola, Kürbiskerne, Kokos, Blaubeeren, Kakao-Nibs</span></li>
+          <li><span class="n" data-i18n="i.dragonB">Pink Dragon Bowl</span><span class="p">15.50 / 18.50</span><span class="d" data-i18n="i.dragonBD">Drachenfrucht, Banane, rote Beeren · gleiche Toppings</span></li>
+          <li><span class="n" data-i18n="i.lagoonB">Blue Lagoon Bowl</span><span class="p">16.00 / 19.00</span><span class="d" data-i18n="i.lagoonBD">Banane, Ananas, Mango, blaue Spirulina, Kokosmilch · gleiche Toppings</span></li>
+          <li><span class="n" data-i18n="i.poke">Poké Bowl</span><span class="p">22.50</span><span class="d" data-i18n="i.pokeD">Vollkorn-Basmati, Teriyaki-Tofu, Edamame, Mango, Avocado, Kimchi, Cashews, Erdnuss-Limetten-Sauce</span></li>
+          <li><span class="n" data-i18n="i.bx1">Extra Porridge mit Ahornsirup</span><span class="p">+2.50</span></li>
+          <li><span class="n" data-i18n="i.bx2">Nussmus</span><span class="p">+2.00</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-share">
+        <h3><span data-i18n="mn.c5" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Zum Teilen</span><span data-i18n="mn.c5s">1 Person / 2 Personen</span></h3>
+        <ul>
+          <li><span class="n" data-i18n="i.apero">Apéro-Plättli</span><span class="p">14.00 / 26.00</span><span class="d" data-i18n="i.aperoD">Käseauswahl, Oliven, Pickles, getrocknete Tomaten, Nüsse, Früchte, Rosmarin-Grissini</span></li>
+          <li><span class="n" data-i18n="i.nachos">Nachos</span><span class="p">10.00 / 18.00</span><span class="d" data-i18n="i.nachosD">Tortilla-Chips, Mozzarella / veganer Käse, Guacamole, Crème fraîche, Cherry-Tomaten</span></li>
+          <li><span class="n" data-i18n="i.popcorn">Popcorn</span><span class="p">3.00</span><span class="d" data-i18n="i.popcornD">der Kino-Night-Klassiker</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-sweet">
+        <h3><span data-i18n="mn.c6" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Süsses</span><span></span></h3>
+        <ul>
+          <li><span class="n" data-i18n="i.cake">Schoggikuchen</span><span class="p">8.50</span><span class="d" data-i18n="i.cakeD">warm serviert mit Vanilleglace &amp; Erdbeer-Drizzle</span></li>
+          <li><span class="n" data-i18n="i.muffin">Banana-Blueberry-Muffin</span><span class="p">7.50</span><span class="d" data-i18n="i.muffinD">weich, saftig &amp; fruchtig</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-apero">
+        <h3><span data-i18n="mn.c7" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Apéro &amp; Wein</span><span data-i18n="mn.c7s">ab 17 Uhr · 18+</span></h3>
+        <ul>
+          <li><span class="n" data-i18n="i.prosecco">Prosecco 1 dl</span><span class="p">8.00</span></li>
+          <li><span class="n" data-i18n="i.pinot">Pinot Grigio, weiss 1 dl</span><span class="p">7.00</span></li>
+          <li><span class="n" data-i18n="i.primi">Primitivo, rot 1 dl</span><span class="p">8.00</span></li>
+          <li><span class="n" data-i18n="i.spritz">Aperol / Limoncello Spritz</span><span class="p">14.50</span></li>
+          <li><span class="n" data-i18n="i.hugo">Hugo</span><span class="p">13.50</span><span class="d" data-i18n="i.hugoD">Holunder / Lavendel</span></li>
+          <li><span class="n" data-i18n="i.wws">Weisswein-Spritzer</span><span class="p">9.50</span><span class="d" data-i18n="i.wwsD">süss / sauer</span></li>
+          <li><span class="n" data-i18n="i.beer">Birra Moretti Lager 3.3 dl</span><span class="p">6.50</span></li>
+          <li><span class="n" data-i18n="i.ipa">BrewDog IPA 3.3 dl</span><span class="p">7.50</span></li>
+          <li><span class="n" data-i18n="i.af">Moretti alkoholfrei 3.3 dl</span><span class="p">7.00</span></li>
+        </ul>
+      </div>
+
+      <div class="menu-cat reveal" id="m-mock">
+        <h3><span data-i18n="mn.c8" style="color:var(--rose);font-weight:700;letter-spacing:.14em;text-transform:uppercase">Mocktails</span><span data-i18n="mn.c8s">alkoholfreie Signatures</span></h3>
+        <ul>
+          <li><span class="n" data-i18n="i.vrs">Virgin Raspberry Spritz</span><span class="p">12.00</span><span class="d" data-i18n="i.vrsD">Kombucha, Himbeer-Essig, Agave, Soda</span></li>
+          <li><span class="n" data-i18n="i.nojito">Pink NOjito</span><span class="p">13.00</span><span class="d" data-i18n="i.nojitoD">Ingwer-Limonade, Limette, Minze, rote Beeren</span></li>
+          <li><span class="n" data-i18n="i.vt">Virgin &amp; Tonic</span><span class="p">13.00</span><span class="d" data-i18n="i.vtD">alkoholfreier Gin &amp; Tonic</span></li>
+          <li><span class="n" data-i18n="i.nolada">Purple Piña NOlada</span><span class="p">13.00</span><span class="d" data-i18n="i.noladaD">Ananas, Kokoscreme, Ube, Limette</span></li>
+          <li><span class="n" data-i18n="i.kiss">Passion Kiss</span><span class="p">13.50</span><span class="d" data-i18n="i.kissD">Passionsfrucht, Ananas, Limette, Vanille</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="menu-note" data-i18n="mn.note"><b>Gut zu wissen:</b> Alles auf der Karte darf mit an den Maltisch — nur bitte keine fettigen Finger an die Keramik. Wein und Bier ab 17 Uhr und an der Kino-Night (ab 18 J.). Alkoholfrei geht immer.</p>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow" data-i18n="hr.eyebrow">Öffnungszeiten</p>
+      <h2 class="sect-title" data-i18n="hr.title">Jeden Tag offen</h2>
+      <ul class="hours" style="max-width:26rem">
+        <li><span data-i18n="hr.d1">Montag – Sonntag</span><b style="color:var(--mimi)">09:00 – 21:00</b></li>
+        <li><span data-i18n="hr.d2">Kino-Night</span><b style="color:var(--mimi)" data-i18n="hr.d2v">Freitag 18 – 21 Uhr</b></li>
+        <li><span data-i18n="hr.d3">Apéro</span><b style="color:var(--mimi)" data-i18n="hr.d3v">täglich ab 17 Uhr</b></li>
+      </ul>
+      <p style="margin:1.2rem 0 1.4rem" data-i18n="hr.p">Kaffee zum Mitnehmen geht immer — ohne Reservation.</p>
+      <a class="btn btn-rose" href="reservieren.html" data-i18n="hr.cta">Tisch reservieren</a>
+    </div>
+    <div class="addr-card reveal" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)">
+      <p class="lbl">LOVE Creative Café</p>
+      <p class="big" style="color:#fff">Seestrasse 287B</p>
+      <p class="big" style="color:#fff">8804 Au ZH</p>
+      <img src="assets/logo/logo-pink.png" alt="" width="72" height="72" style="margin:1rem auto 0">
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo/logo-pink.png" alt="LOVE Creative Café Logo" width="74" height="74" loading="lazy">
+        <p>Made for moments that matter.</p>
+        <p style="margin-top:.7rem;font-size:.85rem" data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen</p>
+      </div>
+      <div>
+        <h4 data-i18n="ft.worlds">Entdecken</h4>
+        <ul>
+          <li><a href="index.html#preise" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
+          <li><a href="cafe.html" data-i18n="ft.cafe">Café &amp; Menü</a></li>
+          <li><a href="index.html#kino" data-i18n="ft.kinoL">Kino-Night</a></li>
+          <li><a href="index.html#events" data-i18n="ft.events">Events</a></li>
+          <li><a href="membership.html" data-i18n="ft.member">Membership</a></li>
+          <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.visit">Besuch uns</h4>
+        <ul>
+          <li>Seestrasse 287B, 8804 Au ZH</li>
+          <li><a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a></li>
+          <li data-i18n="ft.hours">Täglich 09:00–21:00</li>
+          <li data-i18n="ft.kino">Kino-Night: jeden Freitag</li>
+          <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.legal">Rechtliches</h4>
+        <ul>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="datenschutz.html" data-i18n="ft.privacy">Datenschutz</a></li>
+          <li><a href="impressum.html" data-i18n="ft.imprint">Impressum</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="year">2026</span> LOVE Creative GmbH, Wädenswil ZH</p>
+      <div class="lang-switch" role="group" aria-label="Sprache / Language">
+        <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/love-data.js"></script>
+<script src="assets/js/love-site.js"></script>
+</body>
+</html>
