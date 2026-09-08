@@ -1,81 +1,68 @@
-/* LOVE Creative — Online-Zahlung über Payrexx
+/* LOVE Creative — Online-Zahlung über Payrexx (dynamischer Betrag)
  *
  * ⚠️ WICHTIG — API-Key: Der geheime Payrexx-API-Key gehört NIEMALS in den
- * Website-Code! Alles, was hier steht, kann jeder Besucher im Quelltext
- * lesen. Der API-Key wird erst gebraucht, wenn ein Server-Backend dazukommt
- * (z. B. PHP auf dem Infomaniak-Hosting) — dort liegt er dann in einer
- * Datei ausserhalb des Web-Verzeichnisses.
+ * Website-Code! Alles hier ist im Quelltext öffentlich sichtbar.
  *
- * Für die statische Website nutzen wir stattdessen PAYLINKS:
- *   Payrexx-Backoffice → «Paylink» → Neuer Paylink → Betrag/Zweck festlegen
- *   → den Link (https://DEIN-NAME.payrexx.com/pay?tid=…) unten eintragen.
- * Für Gutscheine einen Paylink mit «offenem Betrag» anlegen.
+ * Der Zahlungsbetrag wird automatisch an Payrexx übergeben — wie im
+ * Online-Shop. Zwei Wege (einer reicht):
  *
- * Sobald ein Link eingetragen ist, erscheinen die Zahlen-Knöpfe automatisch
- * (Membership-Anmeldung, Gutschein-Kauf, Kino-Night-Buchung).
+ *  1) EIN Paylink mit OFFENEM Betrag (Backoffice → Paylink → Betrag offen):
+ *     URL unten bei links.gutschein eintragen. Der Betrag wird per
+ *     ?invoice_amount=… vorbefüllt.
+ *  2) Oder nur den Instanznamen eintragen (z. B. 'lovecreative' für
+ *     lovecreative.payrexx.com): dann läuft die Zahlung über das
+ *     Payrexx-Terminal (…/vpos?amount=…&purpose=…) — ganz ohne Paylink.
+ *
+ * Quelle: docs.payrexx.com → Tools → Paylink/Terminal (URL-Parameter).
  */
 const LovePay = (() => {
   'use strict';
 
-  /* Geschenkkarten-Beträge, die online per Karte zahlbar sind.
-     Für jeden Betrag gibt es einen eigenen Payrexx-Paylink. */
+  /* Wählbare Geschenkkarten-Beträge (CHF) */
   const GIFT_AMOUNTS = [20, 30, 40, 50, 60, 70, 80, 100, 150, 200, 300, 400, 500];
 
   const CONFIG = {
-    /* Dein Payrexx-Instanzname, z. B. 'lovecreative' für
-       https://lovecreative.payrexx.com — nur für den Fallback-Link. */
+    /* Payrexx-Instanzname, z. B. 'lovecreative' → lovecreative.payrexx.com */
     instance: '',
-
-    /* Paylinks: Schlüssel → Payrexx-Paylink-URL */
     links: {
-      /* Geschenkkarten (online per Karte zahlbar) */
-      'gutschein:20':  '',
-      'gutschein:30':  '',
-      'gutschein:40':  '',
-      'gutschein:50':  '',
-      'gutschein:60':  '',
-      'gutschein:70':  '',
-      'gutschein:80':  '',
-      'gutschein:100': '',
-      'gutschein:150': '',
-      'gutschein:200': '',
-      'gutschein:300': '',
-      'gutschein:400': '',
-      'gutschein:500': '',
-      /* Vorbereitet, aktuell bewusst ohne Online-Zahlung: */
-      'membership:member-halbjahr': '',   // CHF 25
-      'membership:member-jahr':     '',   // CHF 40
-      'membership:pro-halbjahr':    '',   // CHF 80
-      'membership:pro-jahr':        '',   // CHF 140
-      'kino':                       ''    // Kino-Night
+      /* Ein Paylink mit offenem Betrag für Geschenkkarten (optional,
+         hat Vorrang vor dem Terminal-Weg über instance) */
+      'gutschein': ''
     }
   };
 
-  function url(key) {
-    const u = CONFIG.links[key] || '';
-    if (u) return u;
-    /* Fallback: membership:* → generischer Instanz-Link, falls gesetzt */
-    if (key.includes(':') && CONFIG.links[key.split(':')[0]]) return CONFIG.links[key.split(':')[0]];
-    return '';
-  }
-  const available = key => !!url(key);
+  const round2 = n => (Math.round(Number(n) * 100) / 100).toFixed(2);
 
-  /* Zahlungsseite öffnen; E-Mail/Name werden als Prefill-Parameter angehängt
-     (Payrexx übernimmt sie, wenn die Felder im Paylink aktiviert sind). */
+  function available(key) {
+    /* Online-Zahlung ist bewusst nur für Geschenkkarten frei —
+       andere Bereiche erst, wenn dafür ein eigener Link hinterlegt wird. */
+    return !!CONFIG.links[key] || (key === 'gutschein' && !!CONFIG.instance);
+  }
+
+  /* Zahlungsseite mit automatisch übergebenem Betrag öffnen. */
   function checkout(key, opts) {
-    let u = url(key);
-    if (!u) return false;
+    opts = opts || {};
+    let u = '';
     const p = new URLSearchParams();
-    if (opts && opts.email) p.set('contact_email', opts.email);
-    if (opts && opts.name) p.set('contact_forename', opts.name);
+    if (CONFIG.links[key]) {
+      u = CONFIG.links[key];
+      if (opts.amount) p.set('invoice_amount', round2(opts.amount));
+    } else if (CONFIG.instance) {
+      u = 'https://' + CONFIG.instance + '.payrexx.com/de-CH/vpos';
+      if (opts.amount) p.set('amount', round2(opts.amount));
+    } else {
+      return false;
+    }
+    if (opts.purpose) p.set('purpose', opts.purpose);
+    if (opts.email) p.set('contact_email', opts.email);
+    if (opts.name) p.set('contact_forename', opts.name);
     const q = p.toString();
     if (q) u += (u.includes('?') ? '&' : '?') + q;
     window.open(u, '_blank', 'noopener');
     return true;
   }
 
-  /* Hängt einen «Jetzt online bezahlen»-Knopf in einen Container,
-     wenn für `key` ein Paylink konfiguriert ist. */
+  /* «Jetzt online bezahlen»-Knopf in einen Container hängen (falls konfiguriert). */
   function mountButton(container, key, opts) {
     if (!container || !available(key)) return null;
     const en = window.LoveSite && LoveSite.lang() === 'en';
@@ -89,5 +76,5 @@ const LovePay = (() => {
     return btn;
   }
 
-  return { available, url, checkout, mountButton, CONFIG, GIFT_AMOUNTS };
+  return { available, checkout, mountButton, CONFIG, GIFT_AMOUNTS };
 })();

@@ -72,8 +72,10 @@ nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color
 /* Untermenü (z. B. Keramik bemalen → Workshop / Walk-in) */
 nav.main li{position:relative}
 nav.main li.has-sub > a::after{content:" ▾";font-size:.7em;color:var(--rose)}
-nav.main .sub{list-style:none;position:absolute;top:100%;left:-0.6rem;min-width:11rem;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.45rem;display:none;z-index:120}
-nav.main li.has-sub:hover .sub,nav.main li.has-sub:focus-within .sub{display:block}
+nav.main .sub{list-style:none;position:absolute;top:100%;left:-0.6rem;min-width:11rem;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.45rem;z-index:120;
+  opacity:0;visibility:hidden;transform:translateY(10px);pointer-events:none;
+  transition:opacity .28s ease,transform .28s cubic-bezier(.32,.72,.28,1),visibility .28s}
+nav.main li.has-sub:hover .sub,nav.main li.has-sub:focus-within .sub{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
 nav.main .sub a{display:block;padding:.5rem .85rem;border-bottom:0;border-radius:9px;font-size:.98rem}
 nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 /* «Tisch reservieren» im Header bewusst dezenter als die Navigation */
@@ -82,14 +84,31 @@ nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 .lang-btn{border:0;background:transparent;font-family:var(--ff-body);font-weight:600;font-size:.78rem;letter-spacing:.04em;padding:.3rem .5rem;border-radius:999px;cursor:pointer;color:var(--ink-soft)}
 .lang-btn[aria-pressed="true"]{background:var(--green);color:#fff}
 .nav-cta{margin-left:.35rem}
-.burger{display:none;margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:var(--r-s);padding:.45rem .6rem;cursor:pointer;color:var(--green);font-size:1.1rem;line-height:1}
+.burger{display:none;margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:var(--r-s);padding:.45rem .6rem;cursor:pointer;color:var(--green);font-size:1.1rem;line-height:1;transition:transform .25s ease,background .2s ease}
+.burger[aria-expanded="true"]{transform:rotate(90deg);background:var(--mimi)}
 @media (max-width:1310px){
   .burger{display:block}
-  nav.main{position:fixed;inset:80px 0 auto 0;background:var(--cream);border-bottom:1px solid var(--line);display:none;padding:1rem 1.5rem 1.5rem;max-height:calc(100vh - 80px);overflow:auto}
-  nav.main.open{display:block}
+  /* Menü gleitet animiert von oben herein */
+  nav.main{position:fixed;inset:80px 0 auto 0;background:var(--cream);border-bottom:1px solid var(--line);padding:1rem 1.5rem 1.5rem;max-height:calc(100vh - 80px);overflow:auto;
+    display:block;opacity:0;visibility:hidden;transform:translateY(-14px);pointer-events:none;
+    transition:opacity .3s ease,transform .35s cubic-bezier(.32,.72,.28,1),visibility .35s}
+  nav.main.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
   nav.main ul{flex-direction:column;align-items:flex-start;gap:1rem}
-  nav.main .sub{position:static;display:block;border:0;box-shadow:none;background:transparent;padding:.2rem 0 0 1rem;min-width:0}
+  nav.main.open li{animation:navItem .4s ease backwards}
+  nav.main.open li:nth-child(2){animation-delay:.05s}
+  nav.main.open li:nth-child(3){animation-delay:.1s}
+  nav.main.open li:nth-child(4){animation-delay:.14s}
+  nav.main.open li:nth-child(5){animation-delay:.18s}
+  nav.main.open li:nth-child(6){animation-delay:.22s}
+  nav.main.open li:nth-child(7){animation-delay:.26s}
+  nav.main.open li:nth-child(8){animation-delay:.3s}
+  nav.main .sub{position:static;border:0;box-shadow:none;background:transparent;padding:.2rem 0 0 1rem;min-width:0;opacity:1;visibility:visible;transform:none;pointer-events:auto}
   .nav-cta{display:none}
+}
+@keyframes navItem{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  nav.main,nav.main .sub,.burger{transition:none}
+  nav.main.open li{animation:none}
 }
 /* Mobile: Reservieren immer griffbereit (nebu-Prinzip) */
 .sticky-cta{display:none}

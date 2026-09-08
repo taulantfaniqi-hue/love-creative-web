@@ -54,6 +54,7 @@
     <div class="panel-head"><h3>Host-Zugang</h3></div>
     <div class="panel-body">
       <form id="hostForm" novalidate>
+        <div class="field"><label for="hostUser">Benutzername</label><input type="text" id="hostUser" autocomplete="username"></div>
         <div class="field"><label for="hostPass">Passwort</label><input type="password" id="hostPass" autocomplete="current-password"></div>
         <button type="submit" class="btn btn-rose btn-block">Anmelden</button>
         <p class="form-err" id="hostErr" aria-live="polite"></p>
@@ -92,8 +93,12 @@
 <script>
 (() => {
 'use strict';
-/* Zugangsschutz: SHA-256 von "host:PASSWORT:LOVE-2026" — Klartext steht nicht im Code. */
-const HOST_HASH = '843aa433e5fcabcbee596da796e19f629a8514f5373663be673437b83754f74b';
+/* Zugangsschutz: SHA-256 von "benutzer:passwort:LOVE-2026" — Klartext steht nicht im Code.
+   Gültige Logins: Benutzer «host» mit dem neuen kurzen oder dem alten langen Passwort. */
+const HOST_HASHES = [
+  '0e8df6f4667d3b4669a7e9ae47e9f66c747e3558949fb56229a4111ca7b14982',
+  '843aa433e5fcabcbee596da796e19f629a8514f5373663be673437b83754f74b'
+];
 const SESSION_KEY = 'love.host.session.v1';
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -115,8 +120,9 @@ function show(loggedIn) {
 }
 $('#hostForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const hash = await sha256hex('host:' + $('#hostPass').value + ':LOVE-2026');
-  if (hash !== HOST_HASH) { $('#hostErr').textContent = 'Falsches Passwort.'; return; }
+  const user = $('#hostUser').value.trim().toLowerCase();
+  const hash = await sha256hex(user + ':' + $('#hostPass').value + ':LOVE-2026');
+  if (!HOST_HASHES.includes(hash)) { $('#hostErr').textContent = 'Benutzername oder Passwort falsch.'; return; }
   localStorage.setItem(SESSION_KEY, JSON.stringify({ exp: Date.now() + 12 * 3600 * 1000 }));
   $('#hostPass').value = '';
   show(true);

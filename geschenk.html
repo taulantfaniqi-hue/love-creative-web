@@ -16,14 +16,17 @@
 <link rel="stylesheet" href="assets/css/love-account.css">
 <script>
 window.LOVE_TITLES = { de: 'Verschenke ein kreatives Erlebnis — LOVE Creative Café', en: 'Gift a creative experience — LOVE Creative Café' };
-window.LOVE_DE = { 'py.cardSoon':'Online-Zahlung gibt es bei der Geschenkkarte (CHF 20–500)' };
+window.LOVE_DE = { 'py.cardSoon':'Online-Zahlung gibt es bei der Geschenkkarte (CHF 20–500)',
+  'dn.acctYes':'Dein Kauf ist in deinem Kundenkonto abgelegt.',
+  'dn.acctNo':'Tipp: Erstell ein Kundenkonto mit derselben E-Mail — dann findest du Käufe und Reservationen jederzeit dort.',
+  'dn.acctBtn':'Im Kundenkonto ablegen' };
 window.LOVE_EN = {
   'gs.eyebrow':'Gift a creative experience','gs.title':'Not a thing. A moment.',
   'gs.lead':'An afternoon of painting, a cinema night for two, or credit for whatever they fancy. Design the gift card here, pay the way you like, print it right away or pick it up at the studio. Valid for 5 years.',
   'gs.cta1':'Design a gift card','gs.cta2':'How it works',
   'hw.eyebrow':'It\'s this easy','hw.title':'Three steps to the gift',
   'hw.s1':'Choose','hw.s1t':'An experience or an amount — plus a personal message and card design.',
-  'hw.s2':'Pay','hw.s2t':'TWINT, card, invoice or at the studio. We e-mail you the details right away.',
+  'hw.s2':'Pay','hw.s2t':'TWINT, card online or at the studio. We e-mail you the details right away.',
   'hw.s3':'Give','hw.s3t':'Print at home in a minute, pick up at the counter, or have it mailed in a gift sleeve.',
   'cf.title':'Your gift card','cf.sub':'Everything you choose shows up live on the card.',
   'cf.s1':'1 · Experience','cf.s2':'2 · Payment','cf.s3':'3 · Done',
@@ -40,7 +43,8 @@ window.LOVE_EN = {
   'py.how':'How would you like to pay?',
   'py.twint':'TWINT','py.twintD':'We e-mail you the TWINT details — done in a minute',
   'py.card':'Card online','py.cardD':'Secure payment via Payrexx (TWINT &amp; card)','py.cardSoon':'Online payment is available for gift cards (CHF 20–500)',
-  'py.invoice':'Invoice','py.invoiceD':'Payable within 10 days',
+  'py.tip':'Tip for the team (optional)','py.tip0':'No tip','py.tipHint':'100% goes to the team ♥','py.tipLbl':'Tip','py.total':'Total',
+  'dn.acctYes':'Your purchase is saved in your customer account.','dn.acctNo':'Tip: create a customer account with the same e-mail to find purchases and reservations there anytime.','dn.acctBtn':'Save to my account',
   'py.studio':'Pay at the studio','py.studioD':'Pay and pick up at the counter',
   'py.delivery':'How should the gift card arrive?',
   'py.print':'Print at home','py.printD':'Immediately as a PDF — free',
@@ -117,7 +121,7 @@ window.LOVE_EN = {
         <a class="btn btn-ghost" href="#ablauf" data-i18n="gs.cta2">So funktioniert's</a>
       </div>
     </div>
-    <div class="arch reveal"><img src="assets/img/studio-regal-tassen-54.jpeg" alt="Regal mit bunten Tassen, Notizbüchern und Papeterie im LOVE Shop" width="1200" height="960" fetchpriority="high"></div>
+    <div class="arch reveal"><img src="assets/img/platzhalter.svg" alt="Regal mit bunten Tassen, Notizbüchern und Papeterie im LOVE Shop" width="1200" height="960" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -127,7 +131,7 @@ window.LOVE_EN = {
     <h2 class="sect-title" data-i18n="hw.title">In drei Schritten zum Geschenk</h2>
     <div class="steps">
       <div class="step reveal"><h3 data-i18n="hw.s1">Wählen</h3><p data-i18n="hw.s1t">Ein Erlebnis oder ein Betrag — dazu persönliche Botschaft und Kartendesign.</p></div>
-      <div class="step reveal"><h3 data-i18n="hw.s2">Bezahlen</h3><p data-i18n="hw.s2t">TWINT, Karte, Rechnung oder im Studio. Die Details schicken wir dir sofort per E-Mail.</p></div>
+      <div class="step reveal"><h3 data-i18n="hw.s2">Bezahlen</h3><p data-i18n="hw.s2t">TWINT, Karte online oder im Studio. Die Details schicken wir dir sofort per E-Mail.</p></div>
       <div class="step reveal"><h3 data-i18n="hw.s3">Verschenken</h3><p data-i18n="hw.s3t">In einer Minute zuhause ausdrucken, an der Theke abholen oder in der Geschenkhülle per Post.</p></div>
     </div>
   </div>
@@ -183,14 +187,13 @@ window.LOVE_EN = {
             <div id="step2" class="hidden">
               <div class="summary" style="margin-bottom:1.1rem">
                 <p style="font-weight:600;color:var(--green);margin-bottom:.5rem" data-i18n="py.summary">Zusammenfassung</p>
-                <dl><dt data-i18n="py.item">Geschenk</dt><dd id="sItem"></dd><dt data-i18n="py.value">Wert</dt><dd id="sValue"></dd><dt data-i18n="py.for">Für</dt><dd id="sFor"></dd><dt data-i18n="py.ship">Zustellung</dt><dd id="sShip"></dd></dl>
+                <dl><dt data-i18n="py.item">Geschenk</dt><dd id="sItem"></dd><dt data-i18n="py.value">Wert</dt><dd id="sValue"></dd><dt data-i18n="py.for">Für</dt><dd id="sFor"></dd><dt data-i18n="py.ship">Zustellung</dt><dd id="sShip"></dd><dt data-i18n="py.tipLbl">Trinkgeld</dt><dd id="sTip">—</dd><dt data-i18n="py.total">Total</dt><dd id="sTotal"></dd></dl>
               </div>
               <div class="field">
                 <label data-i18n="py.how">Wie möchtest du bezahlen?</label>
                 <div class="pay-opts" id="payGrid" role="group" aria-label="Zahlungsart">
                   <button type="button" class="choice" data-pay="twint" aria-pressed="true"><span class="t" data-i18n="py.twint">TWINT</span><span class="d" data-i18n="py.twintD">Wir mailen dir die TWINT-Details — in einer Minute erledigt</span></button>
                   <button type="button" class="choice" data-pay="karte" aria-pressed="false" id="payCard"><span class="t" data-i18n="py.card">Karte online</span><span class="d" id="payCardD" data-i18n="py.cardD">Sichere Zahlung über Payrexx (TWINT &amp; Karte)</span></button>
-                  <button type="button" class="choice" data-pay="rechnung" aria-pressed="false"><span class="t" data-i18n="py.invoice">Rechnung</span><span class="d" data-i18n="py.invoiceD">Zahlbar innert 10 Tagen</span></button>
                   <button type="button" class="choice" data-pay="studio" aria-pressed="false"><span class="t" data-i18n="py.studio">Im Studio bezahlen</span><span class="d" data-i18n="py.studioD">An der Theke bezahlen und abholen</span></button>
                 </div>
               </div>
@@ -201,6 +204,16 @@ window.LOVE_EN = {
                   <button type="button" class="choice" data-ship="pickup" data-fee="0" aria-pressed="false"><span class="t" data-i18n="py.pickup">Abholung im Studio</span><span class="d" data-i18n="py.pickupD">In der Geschenkhülle — gratis</span></button>
                   <button type="button" class="choice" data-ship="post" data-fee="5" aria-pressed="false"><span class="t" data-i18n="py.post">Per Post</span><span class="d" data-i18n="py.postD">Geschenkhülle, 2–3 Werktage — CHF 5</span></button>
                 </div>
+              </div>
+              <div class="field">
+                <label data-i18n="py.tip">Trinkgeld fürs Team (optional)</label>
+                <div class="chips" id="tipChips" role="group" aria-label="Trinkgeld">
+                  <button type="button" class="chip" data-tip="0" aria-pressed="true" data-i18n="py.tip0">Kein Trinkgeld</button>
+                  <button type="button" class="chip" data-tip="2" aria-pressed="false">CHF 2</button>
+                  <button type="button" class="chip" data-tip="5" aria-pressed="false">CHF 5</button>
+                  <button type="button" class="chip" data-tip="10" aria-pressed="false">CHF 10</button>
+                </div>
+                <p class="hint" data-i18n="py.tipHint">Geht zu 100 % ans Team ♥</p>
               </div>
               <div class="two-col">
                 <div class="field"><label for="gBuyer" data-i18n="py.name">Dein Name</label><input type="text" id="gBuyer" autocomplete="name"></div>
@@ -222,6 +235,7 @@ window.LOVE_EN = {
                 <p class="hint" data-i18n="dn.code">Gutschein-Code</p>
                 <p class="code" id="gCode"></p>
                 <p class="hint" data-i18n="dn.status">Status: reserviert — aktiv nach Zahlungseingang</p>
+                <p id="dnAccount" style="margin-top:.9rem;font-size:.92rem"></p>
                 <div class="hero-ctas" style="justify-content:center;margin-top:1rem">
                   <button type="button" class="btn btn-green" id="btnPrint" data-i18n="dn.print">Gutschein drucken</button>
                   <button type="button" class="btn btn-ghost" id="btnAgain" data-i18n="dn.again">Noch einen gestalten</button>
@@ -256,7 +270,7 @@ window.LOVE_EN = {
     </div>
     <div class="band celadon" style="margin-top:1.6rem">
       <div><h2 data-i18n="rd.balance">Restguthaben abfragen</h2><p data-i18n="rd.balanceT">Schick uns deinen Code per E-Mail — wir antworten mit dem Restguthaben. Oder frag an der Theke.</p></div>
-      <div><a class="btn btn-green" href="mailto:hallo@lovecreative.ch?subject=Gutschein-Guthaben%20abfragen&body=Mein%20Gutschein-Code%3A%20LOVE-" data-i18n="rd.balanceBtn">Per E-Mail fragen</a></div>
+      <div><a class="btn btn-green" href="mailto:hello@lovecreative.ch?subject=Gutschein-Guthaben%20abfragen&body=Mein%20Gutschein-Code%3A%20LOVE-" data-i18n="rd.balanceBtn">Per E-Mail fragen</a></div>
     </div>
   </div>
 </section>
@@ -307,7 +321,7 @@ window.LOVE_EN = {
         <h4 data-i18n="ft.visit">Besuch uns</h4>
         <ul>
           <li>Seestrasse 287B, 8804 Au ZH</li>
-          <li><a href="mailto:hallo@lovecreative.ch">hallo@lovecreative.ch</a></li>
+          <li><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></li>
           <li data-i18n="ft.hours">Täglich 09:00–21:00</li>
           <li data-i18n="ft.kino">Kino-Night: jeden Freitag</li>
           <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
@@ -356,10 +370,11 @@ const EX_LABEL = {
   'betrag':       { de: 'Wunschbetrag', en: 'Your own amount' }
 };
 const SHIP_LABEL = { print: { de: 'Print@Home', en: 'Print at home' }, pickup: { de: 'Abholung im Studio', en: 'Pick up at the studio' }, post: { de: 'Per Post (+CHF 5)', en: 'By post (+CHF 5)' } };
-const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'print', fee: 0 };
+const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'print', fee: 0, tip: 0 };
 
 function amount() { return state.kind === 'betrag' ? (Number($('#gAmount').value) || 0) : state.price; }
 function total() { return amount() + state.fee; }
+function grand() { return total() + state.tip; } // inkl. Trinkgeld — dieser Betrag geht an Payrexx
 function updatePreview() {
   const L = LoveSite.lang();
   $('#pvTitle').textContent = EX_LABEL[state.kind][L];
@@ -369,7 +384,7 @@ function updatePreview() {
   $('#pvFor').textContent = (f ? (L === 'en' ? 'For ' : 'Für ') + f : '') + (fr ? (f ? ' · ' : '') + (L === 'en' ? 'from ' : 'von ') + fr : '');
   $('#preview').className = 'gift-preview ' + state.design;
   $('#pvLogo').src = state.design === 'green' ? 'assets/logo/logo-love.svg' : 'assets/logo/logo-love.svg';
-  $('#gTotal').textContent = chf(total());
+  $('#gTotal').textContent = chf(grand());
 }
 document.querySelectorAll('#exGrid .choice').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('#exGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
@@ -402,12 +417,19 @@ function fillSummary() {
   $('#sValue').textContent = chf(amount()) + (state.fee ? ' + ' + chf(state.fee) : '');
   $('#sFor').textContent = $('#gFor').value.trim() || '—';
   $('#sShip').textContent = SHIP_LABEL[state.ship][L];
+  $('#sTip').textContent = state.tip ? chf(state.tip) + ' ♥' : '—';
+  $('#sTotal').textContent = chf(grand());
 }
+
+/* Trinkgeld */
+document.querySelectorAll('#tipChips .chip').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('#tipChips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+  state.tip = Number(c.dataset.tip);
+  fillSummary(); updatePreview();
+}));
 function pickPay(p) {
   state.pay = p;
   document.querySelectorAll('#payGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.pay === p)));
-  /* Kartenzahlung deckt genau den Kartenwert — Postversand (+CHF 5) geht dann nicht */
-  if (p === 'karte' && state.ship === 'post') pickShip('print');
 }
 function pickShip(s) {
   state.ship = s;
@@ -416,13 +438,12 @@ function pickShip(s) {
     x.setAttribute('aria-pressed', String(on));
     if (on) state.fee = Number(x.dataset.fee);
   });
-  if (s === 'post' && state.pay === 'karte') pickPay('twint');
   fillSummary(); updatePreview();
 }
 $('#toStep2').addEventListener('click', () => {
   if (state.kind === 'betrag') { const a = amount(); if (!LovePay.GIFT_AMOUNTS.includes(a)) { alert(t('err.amount')); return; } }
-  // «Karte online» nur für Geschenkkarten mit hinterlegtem Payrexx-Paylink
-  const hasLink = state.kind === 'betrag' && LovePay.available('gutschein:' + amount());
+  // «Karte online» nur für Geschenkkarten — Betrag (inkl. Trinkgeld/Porto) geht automatisch an Payrexx
+  const hasLink = state.kind === 'betrag' && LovePay.available('gutschein');
   $('#payCard').disabled = !hasLink;
   $('#payCardD').textContent = hasLink ? t('py.cardD') : t('py.cardSoon');
   if (!hasLink && state.pay === 'karte') pickPay('twint');
@@ -448,12 +469,27 @@ $('#submitGift').addEventListener('click', () => {
   });
   lastVoucher = v;
   LoveData.addBooking({
-    type: 'geschenk', name: buyer, email, phone: $('#gPhone').value.trim(), price: 'CHF ' + total(),
-    message: `Gutschein ${v.code} · ${EX_LABEL[state.kind].de} · Zahlung: ${state.pay} · Zustellung: ${SHIP_LABEL[state.ship].de}` + (v.recipient ? ' · für ' + v.recipient : ''),
+    type: 'geschenk', name: buyer, email, phone: $('#gPhone').value.trim(), price: 'CHF ' + grand(),
+    message: `Gutschein ${v.code} · ${EX_LABEL[state.kind].de} · Zahlung: ${state.pay} · Zustellung: ${SHIP_LABEL[state.ship].de}` + (state.tip ? ` · Trinkgeld: CHF ${state.tip}` : '') + (v.recipient ? ' · für ' + v.recipient : ''),
     lang: LoveSite.lang()
   });
   $('#gCode').textContent = v.code; $('#pvCode').textContent = v.code;
-  if (state.pay === 'karte') LovePay.checkout('gutschein:' + amount(), { email, name: buyer });
+  /* Betrag (inkl. Porto und Trinkgeld) wird automatisch an Payrexx übergeben */
+  if (state.pay === 'karte') LovePay.checkout('gutschein', {
+    amount: grand(),
+    purpose: 'LOVE Geschenkkarte ' + v.code + (state.tip ? ' inkl. Trinkgeld CHF ' + state.tip : ''),
+    email, name: buyer
+  });
+  /* Kauf im Kundenkonto ablegen (läuft über die E-Mail-Zuordnung) */
+  const acc = (typeof LoveAccount !== 'undefined' && LoveAccount.current()) || null;
+  const dn = $('#dnAccount');
+  if (acc && acc.email === email.toLowerCase()) {
+    dn.innerHTML = '✓ ' + t('dn.acctYes');
+  } else {
+    dn.innerHTML = t('dn.acctNo') + ' <button type="button" class="btn btn-ghost btn-sm" id="dnAccBtn" style="margin-left:.4rem">' + t('dn.acctBtn') + '</button>';
+    const b = document.getElementById('dnAccBtn');
+    if (b) b.addEventListener('click', () => { const ab = document.getElementById('accBtn'); if (ab) ab.click(); });
+  }
   showStep(3);
 });
 $('#btnPrint').addEventListener('click', () => {
