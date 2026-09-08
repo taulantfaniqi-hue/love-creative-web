@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LOVE Creative Café — Eröffnung 12. September 2026</title>
+<meta name="description" content="LOVE Creative Café in Au ZH: Keramik bemalen, Kaffee geniessen, Momente feiern. Wir eröffnen am 12. September 2026.">
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-dark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#155437; --asparagus:#87A275; --celadon:#E2E8DC;
+  --mimi:#FDD8E0; --amaranth:#E997AD; --rose:#DB778F;
+  --cream:#FBF7F1; --ink:#2C3A31; --ink-soft:#56685D;
+  --ff-display:"Playfair Display",Georgia,serif;
+  --ff-body:"Jost","Segoe UI",sans-serif;
+  --ff-script:"Sacramento",cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;font-family:var(--ff-body);color:var(--ink);
+  background:
+    radial-gradient(1100px 600px at 85% -10%, var(--mimi) 0%, transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, var(--celadon) 0%, transparent 55%),
+    var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(1rem,4vw,2.5rem);overflow-x:hidden;
+}
+.card{
+  position:relative;width:min(560px,100%);text-align:center;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);
+  border:1.5px solid rgba(219,119,143,.3);border-radius:32px;
+  box-shadow:0 24px 70px rgba(21,84,55,.16);
+  padding:clamp(2.2rem,6vw,3.4rem) clamp(1.4rem,5vw,3rem) clamp(2rem,5vw,2.8rem);
+}
+.logo{width:86px;height:86px;margin:0 auto 1.1rem;display:block}
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;background:var(--mimi);color:var(--green);
+  border-radius:999px;padding:.45rem 1.2rem;font-weight:600;font-size:.88rem;letter-spacing:.05em;
+  margin-bottom:1.3rem;
+}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+h1{font-family:var(--ff-display);color:var(--green);font-weight:700;line-height:1.12;
+  font-size:clamp(1.9rem,1.3rem + 3vw,2.9rem);margin-bottom:.7rem;text-wrap:balance}
+.slogan{font-family:var(--ff-script);color:var(--rose);font-size:clamp(1.7rem,1.3rem + 2vw,2.4rem);line-height:1.25;margin:.4rem 0 1rem}
+.lead{color:var(--ink-soft);font-size:1.02rem;line-height:1.65;max-width:26rem;margin:0 auto 1.6rem}
+.count{display:flex;justify-content:center;gap:.7rem;margin-bottom:1.8rem}
+.count div{background:#fff;border:1.5px solid rgba(219,119,143,.35);border-radius:16px;min-width:4.6rem;padding:.6rem .5rem}
+.count b{display:block;font-family:var(--ff-display);font-size:1.6rem;color:var(--green)}
+.count span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+form{display:flex;gap:.6rem;max-width:22rem;margin:0 auto}
+input{
+  flex:1;min-width:0;font-family:var(--ff-body);font-size:1.15rem;text-align:center;letter-spacing:.35em;
+  padding:.8rem 1rem;border:1.5px solid rgba(21,84,55,.25);border-radius:999px;background:#fff;color:var(--ink);
+}
+input::placeholder{letter-spacing:.05em;font-size:.95rem;color:#9aa79f}
+input:focus{outline:3px solid var(--rose);outline-offset:1px;border-color:var(--rose)}
+button{
+  border:0;background:var(--rose);color:#fff;font-family:var(--ff-body);font-weight:600;font-size:1rem;
+  border-radius:999px;padding:.8rem 1.5rem;cursor:pointer;letter-spacing:.04em;
+  transition:transform .15s ease,background .15s ease;white-space:nowrap;
+}
+button:hover{transform:translateY(-1px);background:#c9647d}
+button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.err{color:#a4243b;font-weight:500;font-size:.9rem;min-height:1.3em;margin-top:.7rem}
+.hintline{font-size:.85rem;color:var(--ink-soft);margin-top:.4rem}
+.divider{display:flex;align-items:center;gap:.9rem;margin:1.7rem auto 1.1rem;max-width:24rem;color:var(--rose)}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(219,119,143,.4)}
+.jobs{font-size:.95rem;color:var(--ink-soft);line-height:1.6;max-width:26rem;margin:0 auto}
+.jobs b{color:var(--green)}
+.jobs a{color:var(--rose);font-weight:600;text-decoration:none}
+.jobs a:hover{text-decoration:underline}
+.foot{margin-top:1.6rem;font-size:.82rem;color:var(--ink-soft)}
+.confetti{position:absolute;border-radius:50%;pointer-events:none}
+.c1{width:14px;height:14px;background:var(--amaranth);top:-7px;left:14%}
+.c2{width:9px;height:9px;background:var(--rose);top:16%;right:-5px}
+.c3{width:11px;height:11px;background:var(--asparagus);bottom:9%;left:-6px}
+.c4{width:8px;height:8px;background:var(--rose);bottom:-4px;right:22%}
+@media (prefers-reduced-motion:no-preference){
+  .card{animation:rise .7s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<main class="card">
+  <span class="confetti c1"></span><span class="confetti c2"></span>
+  <span class="confetti c3"></span><span class="confetti c4"></span>
+
+  <img class="logo" src="assets/logo/logo-dark.svg" alt="LOVE Creative Café Logo">
+  <p class="badge"><span class="dot"></span>Eröffnung am 12. September 2026 · Au ZH</p>
+
+  <h1>Hier entsteht etwas Schönes.</h1>
+  <p class="slogan">Farbe, Kaffee &amp; ein bisschen Liebe.</p>
+  <p class="lead">Keramik bemalen, Kaffee geniessen, Momente feiern — direkt am Zürichsee.
+  Bald öffnen wir die Türen. Bis dahin ist die Website nur mit Passwort zugänglich.</p>
+
+  <div class="count" id="count" aria-hidden="true"></div>
+
+  <form id="gateForm" novalidate>
+    <input type="password" id="gatePass" inputmode="numeric" autocomplete="off" placeholder="Passwort" aria-label="Passwort">
+    <button type="submit">Eintreten ♥</button>
+  </form>
+  <p class="err" id="gateErr" aria-live="polite"></p>
+  <p class="hintline">Du hast eine Einladung von uns? Dann kennst du den Code.</p>
+
+  <div class="divider">♥</div>
+  <p class="jobs"><b>Lust, Teil des Teams zu werden?</b><br>
+  Wir freuen uns auf deine Bewerbung an
+  <a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></p>
+
+  <p class="foot">LOVE Creative Café · Seestrasse 287B, 8804 Au ZH<br>
+  Made for moments that matter.</p>
+</main>
+
+<script>
+(() => {
+'use strict';
+/* Freischaltung: SHA-256 von "gate:PASSWORT:LOVE-2026" — Klartext steht nicht im Code. */
+const HASH = '97d5e196c8387b7bb2a3f7fcf16b5f6d4fafa09a997f910a61e4f8c69e8cf364';
+const KEY = 'love.gate.v1';
+const DAYS = 30;
+
+/* Schon freigeschaltet? Direkt weiter. */
+try {
+  const v = JSON.parse(localStorage.getItem(KEY));
+  if (v && v.h === HASH && v.exp > Date.now()) location.replace('index.html');
+} catch (e) { /* Formular zeigen */ }
+
+/* Countdown bis zur Eröffnung */
+const OPENING = new Date('2026-09-12T09:00:00');
+function countdown() {
+  const el = document.getElementById('count');
+  const diff = OPENING - new Date();
+  if (diff <= 0) { el.innerHTML = '<div><b>♥</b><span>Wir sind offen!</span></div>'; return; }
+  const d = Math.floor(diff / 864e5), h = Math.floor(diff % 864e5 / 36e5), m = Math.floor(diff % 36e5 / 6e4);
+  el.innerHTML = `<div><b>${d}</b><span>Tage</span></div><div><b>${h}</b><span>Std.</span></div><div><b>${m}</b><span>Min.</span></div>`;
+}
+countdown();
+setInterval(countdown, 30000);
+
+/* Passwort prüfen */
+async function sha256hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+document.getElementById('gateForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('gateErr');
+  const pass = document.getElementById('gatePass').value.trim();
+  const hash = await sha256hex('gate:' + pass + ':LOVE-2026');
+  if (hash !== HASH) {
+    err.textContent = 'Das war leider nicht der richtige Code — probier es nochmal.';
+    document.getElementById('gatePass').select();
+    return;
+  }
+  localStorage.setItem(KEY, JSON.stringify({ h: HASH, exp: Date.now() + DAYS * 864e5 }));
+  location.replace('index.html');
+});
+})();
+</script>
+</body>
+</html>

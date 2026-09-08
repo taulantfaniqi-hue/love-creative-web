@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /host.html
 Allow: /
 Sitemap: https://lovecreative.ch/sitemap.xml

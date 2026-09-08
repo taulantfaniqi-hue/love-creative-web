@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="assets/js/love-gate.js"></script>
 <title>Membership — LOVE Creative Café, Au ZH</title>
 <meta name="description" content="LOVE Member: 10–20 % auf Keramik und Café, Guthaben mit Bonus, Vorverkauf für die Kino-Night. Ab CHF 25 pro Halbjahr.">
 <link rel="canonical" href="https://lovecreative.ch/membership.html">
@@ -11,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css">
+<link rel="stylesheet" href="assets/css/love-widget.css">
+<link rel="stylesheet" href="assets/css/love-account.css">
 <script>
 window.LOVE_TITLES = { de: 'Membership — LOVE Creative Café, Au ZH', en: 'Membership — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
@@ -90,7 +93,7 @@ window.LOVE_EN = {
         <a class="btn btn-ghost" href="#tarife" data-i18n="mb.cta2">Vorteile ansehen</a>
       </div>
     </div>
-    <div class="arch reveal"><img src="assets/img/studio-og-54.jpeg" alt="Galerie im 1. Obergeschoss mit Rundtischen und rosa Tischlampen" width="1200" height="960" fetchpriority="high"></div>
+    <div class="arch reveal"><img src="assets/img/platzhalter.svg" alt="Galerie im 1. Obergeschoss mit Rundtischen und rosa Tischlampen" width="1200" height="960" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -250,6 +253,7 @@ window.LOVE_EN = {
           <li><a href="agb.html">AGB</a></li>
           <li><a href="datenschutz.html" data-i18n="ft.privacy">Datenschutz</a></li>
           <li><a href="impressum.html" data-i18n="ft.imprint">Impressum</a></li>
+          <li style="margin-top:.5rem"><a href="host.html">Host</a></li>
         </ul>
       </div>
     </div>
@@ -265,6 +269,9 @@ window.LOVE_EN = {
 
 <script src="assets/js/love-data.js"></script>
 <script src="assets/js/love-site.js"></script>
+<script src="assets/js/love-account.js"></script>
+<script src="assets/js/love-pay.js"></script>
+<script src="assets/js/love-widget.js"></script>
 <script>
 (() => {
 'use strict';
@@ -303,6 +310,8 @@ $('#mForm').addEventListener('submit', e => {
   $('#mForm').classList.add('hidden');
   $('#mRef').textContent = t('ref.lbl') + b.id;
   $('#mSuccess').classList.remove('hidden');
+  /* Online-Zahlung (Payrexx), sobald der Paylink in love-pay.js hinterlegt ist */
+  LovePay.mountButton($('#mSuccess'), 'membership:' + plan, { email, name });
 });
 })();
 </script>

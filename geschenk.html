@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="assets/js/love-gate.js"></script>
 <title>Verschenke ein kreatives Erlebnis — LOVE Creative Café</title>
 <meta name="description" content="Gutscheine für Keramik-Dates, Kino-Nights und Café — gestalten, bezahlen, sofort ausdrucken oder im Studio abholen. 5 Jahre gültig.">
 <link rel="canonical" href="https://lovecreative.ch/geschenk.html">
@@ -11,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css">
+<link rel="stylesheet" href="assets/css/love-widget.css">
+<link rel="stylesheet" href="assets/css/love-account.css">
 <script>
 window.LOVE_TITLES = { de: 'Verschenke ein kreatives Erlebnis — LOVE Creative Café', en: 'Gift a creative experience — LOVE Creative Café' };
 window.LOVE_DE = { 'py.cardSoon':'Online-Kartenzahlung folgt in Kürze' };
@@ -36,7 +39,7 @@ window.LOVE_EN = {
   'py.summary':'Summary','py.item':'Gift','py.value':'Value','py.for':'For','py.ship':'Delivery',
   'py.how':'How would you like to pay?',
   'py.twint':'TWINT','py.twintD':'We e-mail you the TWINT details — done in a minute',
-  'py.card':'Card online','py.cardD':'Secure payment via Stripe','py.cardSoon':'Online card payment follows shortly',
+  'py.card':'Card online','py.cardD':'Secure payment via Payrexx (TWINT &amp; card)','py.cardSoon':'Online card payment follows shortly',
   'py.invoice':'Invoice','py.invoiceD':'Payable within 10 days',
   'py.studio':'Pay at the studio','py.studioD':'Pay and pick up at the counter',
   'py.delivery':'How should the gift card arrive?',
@@ -107,7 +110,7 @@ window.LOVE_EN = {
         <a class="btn btn-ghost" href="#ablauf" data-i18n="gs.cta2">So funktioniert's</a>
       </div>
     </div>
-    <div class="arch reveal"><img src="assets/img/studio-regal-tassen-54.jpeg" alt="Regal mit bunten Tassen, Notizbüchern und Papeterie im LOVE Shop" width="1200" height="960" fetchpriority="high"></div>
+    <div class="arch reveal"><img src="assets/img/platzhalter.svg" alt="Regal mit bunten Tassen, Notizbüchern und Papeterie im LOVE Shop" width="1200" height="960" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -180,7 +183,7 @@ window.LOVE_EN = {
                 <label data-i18n="py.how">Wie möchtest du bezahlen?</label>
                 <div class="pay-opts" id="payGrid" role="group" aria-label="Zahlungsart">
                   <button type="button" class="choice" data-pay="twint" aria-pressed="true"><span class="t" data-i18n="py.twint">TWINT</span><span class="d" data-i18n="py.twintD">Wir mailen dir die TWINT-Details — in einer Minute erledigt</span></button>
-                  <button type="button" class="choice" data-pay="karte" aria-pressed="false" id="payCard"><span class="t" data-i18n="py.card">Karte online</span><span class="d" id="payCardD" data-i18n="py.cardD">Sichere Zahlung über Stripe</span></button>
+                  <button type="button" class="choice" data-pay="karte" aria-pressed="false" id="payCard"><span class="t" data-i18n="py.card">Karte online</span><span class="d" id="payCardD" data-i18n="py.cardD">Sichere Zahlung über Payrexx (TWINT &amp; Karte)</span></button>
                   <button type="button" class="choice" data-pay="rechnung" aria-pressed="false"><span class="t" data-i18n="py.invoice">Rechnung</span><span class="d" data-i18n="py.invoiceD">Zahlbar innert 10 Tagen</span></button>
                   <button type="button" class="choice" data-pay="studio" aria-pressed="false"><span class="t" data-i18n="py.studio">Im Studio bezahlen</span><span class="d" data-i18n="py.studioD">An der Theke bezahlen und abholen</span></button>
                 </div>
@@ -310,6 +313,7 @@ window.LOVE_EN = {
           <li><a href="agb.html">AGB</a></li>
           <li><a href="datenschutz.html" data-i18n="ft.privacy">Datenschutz</a></li>
           <li><a href="impressum.html" data-i18n="ft.imprint">Impressum</a></li>
+          <li style="margin-top:.5rem"><a href="host.html">Host</a></li>
         </ul>
       </div>
     </div>
@@ -325,16 +329,18 @@ window.LOVE_EN = {
 
 <script src="assets/js/love-data.js"></script>
 <script src="assets/js/love-site.js"></script>
+<script src="assets/js/love-account.js"></script>
+<script src="assets/js/love-pay.js"></script>
+<script src="assets/js/love-widget.js"></script>
 <script>
 (() => {
 'use strict';
 const { t, validEmail, chf } = LoveSite;
 const $ = s => document.querySelector(s);
 
-/* Zahlungs-Konfiguration: Stripe Payment Links hier eintragen, sobald das
-   Stripe-Konto steht (Go-Live-Checkliste Punkt 5). Ohne Link bleibt
-   «Karte online» sichtbar, aber deaktiviert. */
-const PAYMENT = { stripeLinks: { /* 'keramik-date': 'https://buy.stripe.com/…' */ } };
+/* Online-Zahlung läuft über Payrexx — Paylinks in assets/js/love-pay.js
+   eintragen ('gutschein' = Paylink mit offenem Betrag). Ohne Link bleibt
+   «Online zahlen» sichtbar, aber deaktiviert. */
 
 const EX_LABEL = {
   'keramik-date': { de: 'Keramik-Date für zwei', en: 'Ceramic date for two' },
@@ -391,8 +397,8 @@ function fillSummary() {
 }
 $('#toStep2').addEventListener('click', () => {
   if (state.kind === 'betrag') { const a = amount(); if (a < 25 || a > 500) { alert(t('err.amount')); return; } }
-  // Stripe-Link vorhanden?
-  const hasLink = !!PAYMENT.stripeLinks[state.kind];
+  // Payrexx-Paylink vorhanden?
+  const hasLink = LovePay.available('gutschein:' + state.kind) || LovePay.available('gutschein');
   $('#payCard').disabled = !hasLink;
   $('#payCardD').textContent = hasLink ? t('py.cardD') : t('py.cardSoon');
   fillSummary(); showStep(2); $('#gestalten').scrollIntoView({ behavior: 'smooth' });
@@ -426,7 +432,7 @@ $('#submitGift').addEventListener('click', () => {
     lang: LoveSite.lang()
   });
   $('#gCode').textContent = v.code; $('#pvCode').textContent = v.code;
-  if (state.pay === 'karte' && PAYMENT.stripeLinks[state.kind]) window.open(PAYMENT.stripeLinks[state.kind], '_blank', 'noopener');
+  if (state.pay === 'karte') LovePay.checkout('gutschein:' + state.kind, { email, name: buyer });
   showStep(3);
 });
 $('#btnPrint').addEventListener('click', () => {

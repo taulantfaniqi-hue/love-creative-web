@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Host — LOVE Creative Café</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-dark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/love.css">
+<style>
+/* Host-Bereich: kompakte Verwaltungsansicht */
+.host-wrap{max-width:1080px;margin:0 auto;padding:2.5rem clamp(1rem,4vw,2.5rem) 4rem}
+.host-login{max-width:400px;margin:8vh auto 0}
+.host-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.4rem 0}
+.host-tab{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.5rem 1.15rem;font-family:var(--ff-body);font-weight:600;font-size:.9rem;cursor:pointer;color:var(--ink)}
+.host-tab[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.host-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;font-size:.9rem}
+.host-table-wrap{overflow-x:auto;border-radius:var(--r-m)}
+.host-table th{background:var(--celadon);color:var(--green);text-align:left;font-weight:600;padding:.6rem .8rem;white-space:nowrap}
+.host-table td{padding:.55rem .8rem;border-top:1px dashed var(--line-soft);vertical-align:top}
+.host-table tr:hover td{background:var(--warmwhite)}
+.host-pill{display:inline-block;background:var(--mimi);color:var(--green);border-radius:999px;font-size:.75rem;font-weight:600;padding:.15rem .6rem;white-space:nowrap}
+.host-pill.neu{background:var(--rose);color:#fff}
+.host-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1.2rem}
+.host-stat{background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-m);padding:.9rem 1rem}
+.host-stat b{font-family:var(--ff-display);font-size:1.5rem;color:var(--rose);display:block}
+.host-stat span{font-size:.8rem;color:var(--ink-soft)}
+.host-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+.host-empty{color:var(--ink-soft);font-size:.92rem;padding:1.2rem;background:#fff;border:1px dashed var(--line);border-radius:var(--r-m)}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="LOVE Creative Café — Start">
+      <img src="assets/logo/logo-dark.svg" alt="" width="46" height="46">
+      <span class="brand-name">LOVE<small>Host-Bereich</small></span>
+    </a>
+    <div style="margin-left:auto;display:flex;gap:.6rem;align-items:center">
+      <a class="btn btn-ghost btn-sm" href="index.html">Zur Website</a>
+      <button class="btn btn-rose btn-sm hidden" id="hostLogout" type="button">Abmelden</button>
+    </div>
+  </div>
+</header>
+
+<main class="host-wrap">
+
+<!-- ═══════ Login ═══════ -->
+<div id="hostGate">
+  <div class="panel host-login">
+    <div class="panel-head"><h3>Host-Zugang</h3></div>
+    <div class="panel-body">
+      <form id="hostForm" novalidate>
+        <div class="field"><label for="hostPass">Passwort</label><input type="password" id="hostPass" autocomplete="current-password"></div>
+        <button type="submit" class="btn btn-rose btn-block">Anmelden</button>
+        <p class="form-err" id="hostErr" aria-live="polite"></p>
+      </form>
+      <p class="hint" style="margin-top:1rem">Interner Bereich für das Gastgeber-Team: Kundenkonten, Kontakte und Buchungen. Kein öffentlicher Zugang.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ Dashboard ═══════ -->
+<div id="hostApp" class="hidden">
+  <p class="eyebrow">Host</p>
+  <h1 style="font-size:clamp(1.7rem,1.2rem+2vw,2.4rem)">Kunden &amp; Buchungen</h1>
+
+  <div class="host-stats" id="hostStats"></div>
+
+  <div class="host-tabs" role="tablist">
+    <button type="button" class="host-tab" data-tab="kunden" aria-pressed="true">Kundenkonten</button>
+    <button type="button" class="host-tab" data-tab="kontakte" aria-pressed="false">CRM-Kontakte</button>
+    <button type="button" class="host-tab" data-tab="buchungen" aria-pressed="false">Buchungen</button>
+  </div>
+
+  <div class="host-table-wrap"><div id="hostContent"></div></div>
+
+  <div class="host-actions">
+    <button type="button" class="btn btn-ghost btn-sm" id="expKunden">Kunden als CSV</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="expBackup">Komplett-Backup (JSON)</button>
+  </div>
+  <p class="hint" style="margin-top:1.2rem">Hinweis: Daten liegen im Browser-Speicher dieser Domain (pro Gerät). Für den Mehrgeräte-Betrieb kommt das Server-Backend (Infomaniak, Ausbaustufe 1). Dieser Passwortschutz hält Besucher fern, ist aber kein Server-Login — die Seite gehört vor dem Go-Live zusätzlich hinter Cloudflare Access o. ä.</p>
+</div>
+
+</main>
+
+<script src="assets/js/love-data.js"></script>
+<script src="assets/js/love-account.js"></script>
+<script>
+(() => {
+'use strict';
+/* Zugangsschutz: SHA-256 von "host:PASSWORT:LOVE-2026" — Klartext steht nicht im Code. */
+const HOST_HASH = '843aa433e5fcabcbee596da796e19f629a8514f5373663be673437b83754f74b';
+const SESSION_KEY = 'love.host.session.v1';
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+
+async function sha256hex(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+const hasSession = () => {
+  try { const s = JSON.parse(localStorage.getItem(SESSION_KEY)); return s && s.exp > Date.now(); }
+  catch (e) { return false; }
+};
+
+function show(loggedIn) {
+  $('#hostGate').classList.toggle('hidden', loggedIn);
+  $('#hostApp').classList.toggle('hidden', !loggedIn);
+  $('#hostLogout').classList.toggle('hidden', !loggedIn);
+  if (loggedIn) render();
+}
+$('#hostForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const hash = await sha256hex('host:' + $('#hostPass').value + ':LOVE-2026');
+  if (hash !== HOST_HASH) { $('#hostErr').textContent = 'Falsches Passwort.'; return; }
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ exp: Date.now() + 12 * 3600 * 1000 }));
+  $('#hostPass').value = '';
+  show(true);
+});
+$('#hostLogout').addEventListener('click', () => { localStorage.removeItem(SESSION_KEY); show(false); });
+
+/* ---------- Ansichten ---------- */
+let tab = 'kunden';
+document.querySelectorAll('.host-tab').forEach(b => b.addEventListener('click', () => {
+  tab = b.dataset.tab;
+  document.querySelectorAll('.host-tab').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+}));
+
+const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
+
+function render() {
+  const kunden = LoveAccount.listCustomers();
+  const kontakte = LoveData.listContacts();
+  const buchungen = LoveData.listBookings();
+  $('#hostStats').innerHTML = `
+    <div class="host-stat"><b>${kunden.length}</b><span>Kundenkonten</span></div>
+    <div class="host-stat"><b>${kontakte.length}</b><span>CRM-Kontakte</span></div>
+    <div class="host-stat"><b>${buchungen.filter(b => b.status === 'neu').length}</b><span>Neue Anfragen</span></div>
+    <div class="host-stat"><b>${buchungen.length}</b><span>Buchungen total</span></div>`;
+
+  const box = $('#hostContent');
+  if (tab === 'kunden') {
+    box.innerHTML = kunden.length ? `<table class="host-table">
+      <thead><tr><th>Name</th><th>E-Mail</th><th>Benutzername</th><th>Telefon</th><th>Konto seit</th><th>Letzter Login</th></tr></thead>
+      <tbody>${kunden.map(k => `<tr><td><b>${esc(k.name)}</b></td><td>${esc(k.email)}</td><td>${esc(k.username || '—')}</td><td>${esc(k.phone || '—')}</td><td>${fmtTs(k.created)}</td><td>${fmtTs(k.lastLogin)}</td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Kundenkonten. Sobald sich Gäste über den «Konto»-Knopf auf der Website registrieren, erscheinen sie hier.</p>`;
+  } else if (tab === 'kontakte') {
+    box.innerHTML = kontakte.length ? `<table class="host-table">
+      <thead><tr><th>E-Mail</th><th>Name</th><th>Telefon</th><th>Tags</th><th>Zuletzt gesehen</th></tr></thead>
+      <tbody>${kontakte.map(c => `<tr><td>${esc(c.email)}</td><td>${esc(c.name || '—')}</td><td>${esc(c.phone || '—')}</td><td>${(c.tags || []).map(t => `<span class="host-pill">${esc(t)}</span>`).join(' ')}</td><td>${fmtTs(c.lastSeen)}</td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Kontakte — sie entstehen automatisch aus Reservationen, Gutschein-Käufen und Kundenkonten.</p>`;
+  } else {
+    box.innerHTML = buchungen.length ? `<table class="host-table">
+      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Ref.</th></tr></thead>
+      <tbody>${buchungen.map(b => `<tr>
+        <td><span class="host-pill ${b.status === 'neu' ? 'neu' : ''}">${esc(b.status)}</span></td>
+        <td>${esc(b.type)}</td><td><b>${esc(b.name)}</b></td><td>${esc(b.email)}</td>
+        <td>${b.date ? esc(b.date.split('-').reverse().join('.')) : '—'}</td><td>${esc(b.time || '—')}</td>
+        <td>${esc(b.persons || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Buchungen.</p>`;
+  }
+}
+
+/* ---------- Export ---------- */
+function download(name, content, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+$('#expKunden').addEventListener('click', () => {
+  download('love-kunden.csv', '﻿' + LoveData.toCSV(LoveAccount.listCustomers()), 'text/csv;charset=utf-8');
+});
+$('#expBackup').addEventListener('click', () => {
+  const dump = JSON.parse(LoveData.exportJSON());
+  dump.customers = LoveAccount.listCustomers();
+  download('love-backup-' + new Date().toISOString().slice(0, 10) + '.json', JSON.stringify(dump, null, 2), 'application/json');
+});
+
+show(hasSession());
+})();
+</script>
+</body>
+</html>

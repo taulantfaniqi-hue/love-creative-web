@@ -1,0 +1,175 @@
+/* ═══════════════════════════════════════════════════════════════
+   LOVE Creative Café — Reservations-Widget (Bottom-Sheet)
+   Rollt sich von unten auf, Stil wie Guestplan-Widget, LOVE-Brand.
+   Benötigt die Tokens aus love.css (:root).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Schwebender Start-Button ── */
+.lw-launcher{
+  position:fixed;right:1.25rem;bottom:1.25rem;z-index:110;
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:var(--rose);color:#fff;border:0;cursor:pointer;
+  font-family:var(--ff-body);font-weight:600;font-size:.95rem;letter-spacing:.04em;
+  padding:.85rem 1.4rem;border-radius:999px;
+  box-shadow:0 10px 26px rgba(219,119,143,.45);
+  transition:transform .18s ease,box-shadow .18s ease,opacity .25s ease;
+}
+.lw-launcher:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(219,119,143,.55)}
+.lw-launcher:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.lw-launcher .lw-heart{font-size:1.05rem;line-height:1}
+.lw-launcher.lw-hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
+@media (max-width:1080px){
+  /* über der Sticky-CTA-Leiste parken */
+  .lw-launcher{bottom:calc(4.9rem + env(safe-area-inset-bottom))}
+}
+
+/* ── Abdunkelung ── */
+.lw-backdrop{
+  position:fixed;inset:0;z-index:125;background:rgba(21,84,55,.28);
+  opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.lw-backdrop.open{opacity:1;pointer-events:auto}
+
+/* ── Sheet: rollt sich von unten auf ── */
+.lw-sheet{
+  position:fixed;right:1rem;bottom:0;z-index:130;
+  width:min(420px,calc(100vw - 2rem));
+  max-height:min(88vh,760px);
+  display:flex;flex-direction:column;
+  background:var(--mimi);
+  border-radius:22px 22px 0 0;
+  box-shadow:0 -14px 44px rgba(21,84,55,.22);
+  font-family:var(--ff-body);color:var(--ink);
+  transform:translateY(105%);
+  transition:transform .5s cubic-bezier(.32,.72,.28,1);
+  visibility:hidden;
+}
+.lw-sheet.open{transform:translateY(0);visibility:visible}
+@media (prefers-reduced-motion:reduce){
+  .lw-sheet{transition:none}
+  .lw-backdrop{transition:none}
+}
+@media (max-width:640px){
+  .lw-sheet{right:0;width:100vw;max-height:92vh;border-radius:22px 22px 0 0}
+}
+
+/* ── Kopf ── */
+.lw-head{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1rem 1.15rem .55rem;
+}
+.lw-head .lw-script{font-family:var(--ff-script);font-size:1.7rem;color:var(--rose);line-height:1}
+.lw-close{
+  border:0;background:rgba(255,255,255,.75);color:var(--green);cursor:pointer;
+  width:2.1rem;height:2.1rem;border-radius:50%;font-size:1.15rem;line-height:1;
+  display:grid;place-items:center;flex:none;
+}
+.lw-close:hover{background:#fff}
+.lw-close:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+
+/* ── Auswahl-Zeilen (Gäste / Datum / Zeit) ── */
+.lw-rows{padding:0 .8rem;display:grid;gap:.45rem}
+.lw-row{
+  position:relative;display:flex;align-items:center;gap:.7rem;
+  background:rgba(255,255,255,.62);border:1px solid rgba(219,119,143,.28);
+  border-radius:14px;padding:.72rem .95rem;
+}
+.lw-row .lw-ic{flex:none;width:1.25rem;text-align:center;color:var(--green);font-size:1rem}
+.lw-row select{
+  appearance:none;-webkit-appearance:none;border:0;background:transparent;
+  font-family:var(--ff-body);font-weight:600;font-size:.98rem;color:var(--ink);
+  flex:1;min-width:0;cursor:pointer;padding:0;
+}
+.lw-row select:focus-visible{outline:3px solid var(--rose);outline-offset:3px;border-radius:6px}
+.lw-row .lw-chev{flex:none;color:var(--green);font-size:.7rem;pointer-events:none}
+.lw-row .lw-until{
+  flex:none;font-size:.8rem;font-weight:600;color:var(--ink-soft);
+  border:1px solid var(--line);border-radius:999px;padding:.22rem .65rem;
+  background:rgba(255,255,255,.8);white-space:nowrap;
+}
+
+/* ── Trennlinie mit Text ── */
+.lw-divider{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.95rem 1.3rem .2rem;color:var(--ink-soft);font-size:.85rem;font-weight:500;
+}
+.lw-divider::before,.lw-divider::after{
+  content:"";flex:1;height:1px;background:rgba(219,119,143,.4);
+}
+
+/* ── Scrollbereich mit Karten ── */
+.lw-scroll{overflow-y:auto;padding:.7rem .9rem 1rem;flex:1;overscroll-behavior:contain}
+.lw-cards{display:grid;gap:.9rem}
+.lw-card{
+  background:#fff;border:2px solid transparent;border-radius:18px;overflow:hidden;
+  cursor:pointer;text-align:center;padding:0;font-family:var(--ff-body);color:var(--ink);
+  box-shadow:0 6px 18px rgba(21,84,55,.08);
+  transition:border-color .15s ease,transform .15s ease;
+}
+.lw-card:hover{transform:translateY(-2px)}
+.lw-card[aria-pressed="true"]{border-color:var(--rose)}
+.lw-card:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.lw-card .lw-imgwrap{position:relative}
+.lw-card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.lw-card .lw-price{
+  position:absolute;right:.7rem;bottom:.7rem;
+  background:rgba(44,58,49,.82);color:#fff;font-weight:600;font-size:.85rem;
+  border-radius:8px;padding:.28rem .6rem;
+}
+.lw-card .lw-kino-flag{
+  position:absolute;left:.7rem;top:.7rem;background:var(--rose);color:#fff;
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  border-radius:999px;padding:.25rem .7rem;
+}
+.lw-card h4{
+  font-family:var(--ff-display);font-weight:700;color:var(--green);
+  font-size:1.08rem;margin:.75rem .9rem .25rem;
+}
+.lw-card p{font-size:.86rem;color:var(--ink-soft);margin:0 1rem .9rem;line-height:1.45}
+
+/* Event-Hinweis (ab 11 Personen) */
+.lw-event-note{
+  background:#fff;border-radius:18px;padding:1.2rem 1.1rem;text-align:center;
+  font-size:.92rem;color:var(--ink-soft);box-shadow:0 6px 18px rgba(21,84,55,.08);
+}
+.lw-event-note a{color:var(--rose);font-weight:600}
+
+/* ── Mini-Formular ── */
+.lw-form{
+  background:#fff;border-radius:18px;padding:1.1rem 1rem 1.2rem;margin-top:.9rem;
+  box-shadow:0 6px 18px rgba(21,84,55,.08);
+}
+.lw-form h5{
+  font-family:var(--ff-display);color:var(--green);font-size:1rem;
+  margin:0 0 .7rem;font-weight:700;
+}
+.lw-form input{
+  width:100%;font-family:var(--ff-body);font-size:.95rem;
+  padding:.62rem .8rem;border:1.5px solid var(--line);border-radius:10px;
+  background:#fff;color:var(--ink);margin-bottom:.6rem;
+}
+.lw-form input:focus{outline:2.5px solid var(--rose);outline-offset:1px;border-color:var(--rose)}
+.lw-form .lw-err{color:#a4243b;font-size:.85rem;font-weight:500;min-height:1.1em;margin:.15rem 0 .4rem}
+.lw-form .btn-block{margin-top:.2rem}
+
+/* ── Erfolg ── */
+.lw-success{
+  background:#fff;border:1.5px solid var(--asparagus);border-radius:18px;
+  padding:1.4rem 1.1rem;text-align:center;margin-top:.2rem;
+}
+.lw-success h4{font-family:var(--ff-display);color:var(--green);font-size:1.15rem;margin:0 0 .4rem}
+.lw-success p{font-size:.9rem;color:var(--ink-soft);margin:0 0 .4rem}
+.lw-success .lw-ref{
+  font-family:var(--ff-display);font-weight:700;color:var(--rose);
+  font-size:1.35rem;letter-spacing:.05em;margin:.6rem 0;
+}
+
+/* ── Fusszeile ── */
+.lw-foot{
+  padding:.65rem 1.15rem calc(.75rem + env(safe-area-inset-bottom));
+  text-align:center;font-size:.8rem;color:var(--ink-soft);
+  border-top:1px solid rgba(219,119,143,.28);background:rgba(255,255,255,.5);
+  border-radius:0;
+}
+.lw-foot a{color:var(--green);font-weight:600;text-decoration:none}
+.lw-foot a:hover{text-decoration:underline}

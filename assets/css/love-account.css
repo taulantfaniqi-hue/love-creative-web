@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════════
+   LOVE Creative Café — Kundenkonto (Header-Button + Modal)
+   Benötigt die Tokens aus love.css (:root).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Konto-Button im Header */
+.acc-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  border:1.5px solid var(--line);background:transparent;color:var(--green);
+  font-family:var(--ff-body);font-weight:600;font-size:.88rem;letter-spacing:.03em;
+  border-radius:999px;padding:.45rem 1rem;cursor:pointer;white-space:nowrap;
+  transition:background .15s ease;
+}
+.acc-btn:hover{background:var(--mimi)}
+.acc-btn:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.acc-btn span{color:var(--rose)}
+@media (max-width:1080px){
+  .acc-btn{margin-left:auto;margin-right:.2rem}
+  .burger{margin-left:0}
+}
+
+/* Abdunkelung + Modal */
+.acc-backdrop{
+  position:fixed;inset:0;z-index:135;background:rgba(21,84,55,.28);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.acc-backdrop.open{opacity:1;pointer-events:auto}
+.acc-modal{
+  position:fixed;z-index:140;left:50%;top:50%;
+  width:min(420px,calc(100vw - 2rem));max-height:min(86vh,680px);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--mimi);border-radius:22px;
+  box-shadow:0 18px 50px rgba(21,84,55,.28);
+  font-family:var(--ff-body);color:var(--ink);
+  transform:translate(-50%,-46%) scale(.96);opacity:0;pointer-events:none;
+  transition:transform .3s ease,opacity .3s ease;
+}
+.acc-modal.open{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.acc-modal,.acc-backdrop{transition:none}}
+
+.acc-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.15rem .4rem}
+.acc-script{font-family:var(--ff-script);font-size:1.65rem;color:var(--rose);line-height:1}
+.acc-close{
+  border:0;background:rgba(255,255,255,.75);color:var(--green);cursor:pointer;
+  width:2.1rem;height:2.1rem;border-radius:50%;font-size:1.1rem;line-height:1;
+  display:grid;place-items:center;flex:none;
+}
+.acc-close:hover{background:#fff}
+.acc-body{padding:.6rem 1.1rem calc(1.2rem + env(safe-area-inset-bottom));overflow-y:auto}
+
+/* Tabs Anmelden / Registrieren */
+.acc-tabs{display:flex;gap:.5rem;margin-bottom:.9rem}
+.acc-tab{
+  flex:1;border:1.5px solid var(--line);background:rgba(255,255,255,.6);
+  font-family:var(--ff-body);font-weight:600;font-size:.9rem;color:var(--ink-soft);
+  border-radius:999px;padding:.5rem .5rem;cursor:pointer;
+}
+.acc-tab[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+
+/* Formular */
+.acc-body input{
+  width:100%;font-family:var(--ff-body);font-size:.95rem;
+  padding:.65rem .85rem;border:1.5px solid var(--line);border-radius:10px;
+  background:#fff;color:var(--ink);margin-bottom:.6rem;
+}
+.acc-body input:focus{outline:2.5px solid var(--rose);outline-offset:1px;border-color:var(--rose)}
+.acc-err{color:#a4243b;font-size:.85rem;font-weight:500;min-height:1.1em;margin:.1rem 0 .5rem}
+
+/* Profil + Buchungen */
+.acc-sub{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;color:var(--rose);margin:.9rem 0 .45rem}
+.acc-sub:first-child{margin-top:.2rem}
+.acc-card{background:#fff;border-radius:14px;padding:.8rem .95rem;font-size:.92rem;margin-bottom:.5rem}
+.acc-card p{margin:.1rem 0}
+.acc-dim{color:var(--ink-soft);font-size:.85rem}
+.acc-booking{display:flex;justify-content:space-between;gap:.8rem;align-items:center}
+.acc-status{
+  flex:none;background:var(--celadon);color:var(--green);font-size:.75rem;font-weight:600;
+  border-radius:999px;padding:.2rem .6rem;
+}
