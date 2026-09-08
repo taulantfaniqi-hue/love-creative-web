@@ -66,8 +66,8 @@ header.site.scrolled{box-shadow:var(--shadow)}
 .brand-name{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-size:1.3rem;line-height:1.2}
 .brand-name small{display:block;font-weight:500;letter-spacing:.3em;font-size:.66rem;color:var(--rose)}
 nav.main{margin-left:auto}
-nav.main ul{display:flex;gap:1rem;list-style:none;align-items:center}
-nav.main a{text-decoration:none;font-weight:500;font-size:1rem;color:var(--ink);border-bottom:2px solid transparent;padding:.2rem 0;white-space:nowrap}
+nav.main ul{display:flex;gap:.85rem;list-style:none;align-items:center}
+nav.main a{text-decoration:none;font-weight:500;font-size:.96rem;color:var(--ink);border-bottom:2px solid transparent;padding:.2rem 0;white-space:nowrap}
 nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color:var(--amaranth)}
 /* Untermenü (z. B. Keramik bemalen → Workshop / Walk-in) */
 nav.main li{position:relative}
@@ -83,7 +83,7 @@ nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 .lang-btn[aria-pressed="true"]{background:var(--green);color:#fff}
 .nav-cta{margin-left:.35rem}
 .burger{display:none;margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:var(--r-s);padding:.45rem .6rem;cursor:pointer;color:var(--green);font-size:1.1rem;line-height:1}
-@media (max-width:1230px){
+@media (max-width:1310px){
   .burger{display:block}
   nav.main{position:fixed;inset:80px 0 auto 0;background:var(--cream);border-bottom:1px solid var(--line);display:none;padding:1rem 1.5rem 1.5rem;max-height:calc(100vh - 80px);overflow:auto}
   nav.main.open{display:block}
@@ -93,7 +93,7 @@ nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 }
 /* Mobile: Reservieren immer griffbereit (nebu-Prinzip) */
 .sticky-cta{display:none}
-@media (max-width:1230px){
+@media (max-width:1310px){
   .sticky-cta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:rgba(251,247,241,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line-soft)}
   .sticky-cta .btn{width:100%}
   body{padding-bottom:4.4rem}

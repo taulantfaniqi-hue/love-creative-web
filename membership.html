@@ -2,8 +2,8 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="assets/js/love-gate.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Membership — LOVE Creative Café, Au ZH</title>
 <meta name="description" content="LOVE Member: 10–20 % auf Keramik und Café, Guthaben mit Bonus, Vorverkauf für die Kino-Night. Ab CHF 25 pro Halbjahr.">
 <link rel="canonical" href="https://lovecreative.ch/membership.html">
@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="assets/css/love-account.css">
 <script>
 window.LOVE_TITLES = { de: 'Membership — LOVE Creative Café, Au ZH', en: 'Membership — LOVE Creative Café, Au ZH' };
+window.LOVE_DE = { 'f.memberNo': 'Deine Member-Nummer: ' };
 window.LOVE_EN = {
   'mb.eyebrow':'Membership','mb.title':'Here often? Then LOVE Member pays off.',
   'mb.lead':'10–20% off ceramics and café, top-up credit with bonus, presale for Cinema Night — and a place that feels like yours. From CHF 25 per half-year.',
@@ -40,7 +41,7 @@ window.LOVE_EN = {
   'f.plan':'Your membership',
   'f.pl1':'Member · half-year','f.pl2':'Member · year','f.pl3':'Pro · half-year','f.pl4':'Pro · year',
   'f.name':'Name','f.email':'E-mail','f.phone':'Phone (optional)','f.bday':'Birthday (optional — for your free coffee)','f.msg':'Message (optional)',
-  'f.submit':'Sign up','f.okTitle':'Welcome to the club!','f.okText':'Your registration is in. We\'ll e-mail you the payment details within 24 hours — your card is ready at the counter once payment is received.',
+  'f.submit':'Sign up','f.okTitle':'Welcome to the club!','f.okText':'Your registration is in. We\'ll e-mail you the payment details within 24 hours — your card is ready at the counter once payment is received. Please mention your member number when paying.','f.memberNo':'Your member number: ',
   'cr.title':'Top up &amp; check credit','cr.text':'Both happen at the counter — bring your card and we\'ll add the bonus right away. Want to know your balance? E-mail us your member number or ask next time you\'re here. Online credit management follows soon.',
   'faq.eyebrow':'Good to know','faq.title':'Membership questions',
   'faq.q1':'When does the discount start?','faq.a1':'As soon as you pick up your card at the counter. Until then, standard prices apply.',
@@ -71,7 +72,8 @@ window.LOVE_EN = {
         </li>
         <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
         <li><a href="index.html#kino" data-i18n="nav.kino">Kinoabend</a></li>
-        <li><a href="index.html#events" data-i18n="nav.events">Events</a></li>
+        <li><a href="index.html#events" data-i18n="nav.kidscamp">Kidscamp</a></li>
+        <li><a href="index.html#events" data-i18n="nav.geburtstage">Geburtstage</a></li>
         <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
@@ -99,7 +101,7 @@ window.LOVE_EN = {
         <a class="btn btn-ghost" href="#tarife" data-i18n="mb.cta2">Vorteile ansehen</a>
       </div>
     </div>
-    <div class="arch reveal"><img src="assets/img/platzhalter.svg" alt="Galerie im 1. Obergeschoss mit Rundtischen und rosa Tischlampen" width="1200" height="960" fetchpriority="high"></div>
+    <div class="arch reveal"><img src="assets/img/studio-og-54.jpeg" alt="Galerie im 1. Obergeschoss mit Rundtischen und rosa Tischlampen" width="1200" height="960" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -200,7 +202,7 @@ window.LOVE_EN = {
         </form>
         <div class="success hidden" id="mSuccess" aria-live="polite">
           <h3 data-i18n="f.okTitle">Willkommen im Club!</h3>
-          <p data-i18n="f.okText">Deine Anmeldung ist da. Wir schicken dir innert 24 Stunden die Zahlungsdetails per E-Mail — deine Karte liegt nach Zahlungseingang an der Theke bereit.</p>
+          <p data-i18n="f.okText">Deine Anmeldung ist da. Wir schicken dir innert 24 Stunden die Zahlungsdetails per E-Mail — deine Karte liegt nach Zahlungseingang an der Theke bereit. Nenn bei der Zahlung bitte deine Member-Nummer.</p>
           <p class="code" id="mRef"></p>
         </div>
       </div>
@@ -308,13 +310,14 @@ $('#mForm').addEventListener('submit', e => {
   if (!name || !validEmail(email)) { err.textContent = t('err.required'); return; }
   err.textContent = '';
   const bday = $('#mBday').value;
-  const b = LoveData.addBooking({
+  const [tier, period] = plan.split('-'); // z. B. 'pro-jahr'
+  const m = LoveData.addMember({ name, email, phone: $('#mPhone').value.trim(), birthday: bday, plan: tier, period, source: 'website' });
+  LoveData.addBooking({
     type: 'membership', name, email, phone: $('#mPhone').value.trim(),
-    plan, price: 'CHF ' + price, message: (bday ? 'Geburtstag: ' + bday + '. ' : '') + $('#mMsg').value.trim(), lang: LoveSite.lang()
+    plan, price: 'CHF ' + price, message: 'Member-Nr. ' + m.id + '. ' + (bday ? 'Geburtstag: ' + bday + '. ' : '') + $('#mMsg').value.trim(), lang: LoveSite.lang()
   });
-  LoveData.upsertContact(email, { tag: 'member:' + plan });
   $('#mForm').classList.add('hidden');
-  $('#mRef').textContent = t('ref.lbl') + b.id;
+  $('#mRef').textContent = t('f.memberNo') + m.id;
   $('#mSuccess').classList.remove('hidden');
   /* Online-Zahlung (Payrexx), sobald der Paylink in love-pay.js hinterlegt ist */
   LovePay.mountButton($('#mSuccess'), 'membership:' + plan, { email, name });

@@ -81,11 +81,11 @@ const TX = {
    Originale: studio_bemalen.png · interior-cafe-counter.jpeg ·
    widget-candle.jpeg · illus-flower-workshop.jpeg · studio-og.jpeg */
 const ACT_IMG = {
-  keramik: 'assets/img/platzhalter.svg',
-  cafe: 'assets/img/platzhalter.svg',
-  candle: 'assets/img/platzhalter.svg',
-  floral: 'assets/img/platzhalter.svg',
-  kino: 'assets/img/platzhalter.svg'
+  keramik: 'assets/img/studio_bemalen.png',
+  cafe: 'assets/img/interior-cafe-counter.jpeg',
+  candle: 'assets/img/widget-candle.jpeg',
+  floral: 'assets/img/illus-flower-workshop.jpeg',
+  kino: 'assets/img/studio-og.jpeg'
 };
 const tw = () => TX[LoveSite.lang()] || TX.de;
 

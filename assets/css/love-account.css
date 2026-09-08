@@ -14,7 +14,7 @@
 .acc-btn:hover{background:var(--mimi)}
 .acc-btn:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
 .acc-btn span{color:var(--rose)}
-@media (max-width:1230px){
+@media (max-width:1310px){
   .acc-btn{margin-left:auto;margin-right:.2rem}
   .burger{margin-left:0}
 }

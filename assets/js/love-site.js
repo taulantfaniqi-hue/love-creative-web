@@ -74,7 +74,7 @@ const COMMON_EN = {
   'skip': 'Skip to content',
   'brand.sub': 'Creative Café',
   'nav.menu': 'Menu',
-  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
+  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
   'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact',
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
