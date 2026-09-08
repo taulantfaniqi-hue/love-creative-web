@@ -7,14 +7,14 @@
 .acc-btn{
   display:inline-flex;align-items:center;gap:.4rem;
   border:1.5px solid var(--line);background:transparent;color:var(--green);
-  font-family:var(--ff-body);font-weight:600;font-size:.88rem;letter-spacing:.03em;
+  font-family:var(--ff-body);font-weight:600;font-size:.84rem;letter-spacing:.02em;
   border-radius:999px;padding:.45rem 1rem;cursor:pointer;white-space:nowrap;
   transition:background .15s ease;
 }
 .acc-btn:hover{background:var(--mimi)}
 .acc-btn:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
 .acc-btn span{color:var(--rose)}
-@media (max-width:1080px){
+@media (max-width:1230px){
   .acc-btn{margin-left:auto;margin-right:.2rem}
   .burger{margin-left:0}
 }

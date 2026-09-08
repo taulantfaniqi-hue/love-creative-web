@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- LOVE Creative Café — offizielles Logo (rosa Kreis, Grün #337357) -->
+  <circle cx="100" cy="100" r="96.5" fill="#FFDBE5" stroke="#E27396" stroke-width="3"/>
+  <g fill="#337357" font-family="Jost, Futura, 'Arial Black', Arial, sans-serif" font-weight="700">
+    <text x="100" y="88" text-anchor="middle" font-size="58" letter-spacing="4">LO</text>
+    <text x="100" y="140" text-anchor="middle" font-size="58" letter-spacing="4">VE</text>
+  </g>
+  <circle cx="29" cy="100" r="6.5" fill="#E27396"/>
+  <circle cx="171" cy="100" r="6.5" fill="#E27396"/>
+  <defs><path id="cc-arc" d="M 34 128 A 72 72 0 0 0 166 128" fill="none"/></defs>
+  <text fill="#337357" font-family="Jost, Futura, Arial, sans-serif" font-weight="600" font-size="14.5" letter-spacing="3.2">
+    <textPath href="#cc-arc" startOffset="50%" text-anchor="middle">CREATIVE CAFÉ</textPath>
+  </text>
+</svg>

@@ -3,11 +3,12 @@
    Gemeinsame Basis für index · cafe · reservieren · membership · geschenk
    ═══════════════════════════════════════════════════════════════ */
 :root{
-  --green:#155437; --asparagus:#87A275; --celadon:#E2E8DC;
-  --mimi:#FDD8E0; --amaranth:#E997AD; --rose:#DB778F;
+  /* Offizielle LOVE-Farben: #337357 · #6D9F71 · #FFDBE5 (Hauptfarbe) · #EA9AB2 · #E27396 */
+  --green:#337357; --asparagus:#6D9F71; --celadon:#FFF0F4;
+  --mimi:#FFDBE5; --amaranth:#EA9AB2; --rose:#E27396;
   --cream:#FBF7F1; --warmwhite:#F7F2EC;
   --ink:#2C3A31; --ink-soft:#56685D;
-  --line:rgba(21,84,55,.18); --line-soft:rgba(21,84,55,.10);
+  --line:rgba(51,115,87,.20); --line-soft:rgba(51,115,87,.10);
   --r-s:10px; --r-m:18px; --r-arch:999px 999px 14px 14px;
   --ff-display:"Playfair Display",Georgia,"Times New Roman",serif;
   --ff-body:"Jost","Futura","Century Gothic","Segoe UI",sans-serif;
@@ -46,11 +47,11 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 .btn:hover{transform:translateY(-1px)}
 .btn:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
 .btn-rose{background:var(--rose);color:#fff}
-.btn-rose:hover{background:#c9647d}
+.btn-rose:hover{background:#c95f80}
 .btn-ghost{background:transparent;color:var(--green);border-color:var(--green)}
 .btn-ghost:hover{background:var(--celadon)}
 .btn-green{background:var(--green);color:#fff}
-.btn-green:hover{background:#0f4029}
+.btn-green:hover{background:#28563f}
 .btn-light{background:#fff;color:var(--green);border-color:var(--line)}
 .btn-light:hover{background:var(--celadon)}
 .btn-sm{padding:.55rem 1.1rem;font-size:.88rem}
@@ -59,30 +60,40 @@ section.tight{padding:clamp(2rem,4vw,3rem) 0}
 /* ═══════ Header ═══════ */
 header.site{position:sticky;top:0;z-index:100;background:rgba(251,247,241,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft);transition:box-shadow .2s ease}
 header.site.scrolled{box-shadow:var(--shadow)}
-.nav-in{display:flex;align-items:center;gap:1rem;padding:.65rem clamp(1rem,4vw,2.5rem);max-width:1280px;margin:0 auto}
-.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none}
-.brand img{width:46px;height:46px}
-.brand-name{font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--green);font-size:.92rem;line-height:1.25}
-.brand-name small{display:block;font-weight:400;letter-spacing:.26em;font-size:.6rem;color:var(--ink-soft)}
+.nav-in{display:flex;align-items:center;gap:.8rem;padding:.9rem clamp(1rem,3vw,2rem);max-width:1460px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;margin-right:1rem;flex:none}
+.brand img{width:60px;height:60px}
+.brand-name{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-size:1.3rem;line-height:1.2}
+.brand-name small{display:block;font-weight:500;letter-spacing:.3em;font-size:.66rem;color:var(--rose)}
 nav.main{margin-left:auto}
-nav.main ul{display:flex;gap:1.25rem;list-style:none;align-items:center}
-nav.main a{text-decoration:none;font-weight:500;font-size:.93rem;color:var(--ink);border-bottom:2px solid transparent;padding:.2rem 0;white-space:nowrap}
+nav.main ul{display:flex;gap:1rem;list-style:none;align-items:center}
+nav.main a{text-decoration:none;font-weight:500;font-size:1rem;color:var(--ink);border-bottom:2px solid transparent;padding:.2rem 0;white-space:nowrap}
 nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color:var(--amaranth)}
+/* Untermenü (z. B. Keramik bemalen → Workshop / Walk-in) */
+nav.main li{position:relative}
+nav.main li.has-sub > a::after{content:" ▾";font-size:.7em;color:var(--rose)}
+nav.main .sub{list-style:none;position:absolute;top:100%;left:-0.6rem;min-width:11rem;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.45rem;display:none;z-index:120}
+nav.main li.has-sub:hover .sub,nav.main li.has-sub:focus-within .sub{display:block}
+nav.main .sub a{display:block;padding:.5rem .85rem;border-bottom:0;border-radius:9px;font-size:.98rem}
+nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
+/* «Tisch reservieren» im Header bewusst dezenter als die Navigation */
+.nav-cta{padding:.5rem 1rem;font-size:.82rem;white-space:nowrap}
 .lang-switch{display:flex;gap:.15rem;border:1px solid var(--line);border-radius:999px;padding:.15rem;margin-left:.5rem}
-.lang-btn{border:0;background:transparent;font-family:var(--ff-body);font-weight:600;font-size:.8rem;letter-spacing:.06em;padding:.3rem .6rem;border-radius:999px;cursor:pointer;color:var(--ink-soft)}
+.lang-btn{border:0;background:transparent;font-family:var(--ff-body);font-weight:600;font-size:.78rem;letter-spacing:.04em;padding:.3rem .5rem;border-radius:999px;cursor:pointer;color:var(--ink-soft)}
 .lang-btn[aria-pressed="true"]{background:var(--green);color:#fff}
 .nav-cta{margin-left:.35rem}
 .burger{display:none;margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:var(--r-s);padding:.45rem .6rem;cursor:pointer;color:var(--green);font-size:1.1rem;line-height:1}
-@media (max-width:1080px){
+@media (max-width:1230px){
   .burger{display:block}
-  nav.main{position:fixed;inset:64px 0 auto 0;background:var(--cream);border-bottom:1px solid var(--line);display:none;padding:1rem 1.5rem 1.5rem;max-height:calc(100vh - 64px);overflow:auto}
+  nav.main{position:fixed;inset:80px 0 auto 0;background:var(--cream);border-bottom:1px solid var(--line);display:none;padding:1rem 1.5rem 1.5rem;max-height:calc(100vh - 80px);overflow:auto}
   nav.main.open{display:block}
   nav.main ul{flex-direction:column;align-items:flex-start;gap:1rem}
+  nav.main .sub{position:static;display:block;border:0;box-shadow:none;background:transparent;padding:.2rem 0 0 1rem;min-width:0}
   .nav-cta{display:none}
 }
 /* Mobile: Reservieren immer griffbereit (nebu-Prinzip) */
 .sticky-cta{display:none}
-@media (max-width:1080px){
+@media (max-width:1230px){
   .sticky-cta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:rgba(251,247,241,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line-soft)}
   .sticky-cta .btn{width:100%}
   body{padding-bottom:4.4rem}
@@ -128,13 +139,14 @@ nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color
 .tint{background:var(--celadon)}
 .tint .card{background:var(--cream)}
 .tint-pink{background:var(--mimi)}
-.dark{background:var(--green);color:var(--celadon)}
-.dark .eyebrow{color:var(--amaranth)}
+/* «Dunkle» Akzent-Sektionen: Rosé statt Grün (kein grüner Hintergrund) */
+.dark{background:var(--rose);color:#fff}
+.dark .eyebrow{color:var(--mimi)}
 .dark .sect-title,.dark h3{color:#fff}
-.dark .sect-lead,.dark p{color:var(--celadon)}
-.dark .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)}
-.dark .card .price{font-family:var(--ff-display);font-size:1.6rem;font-weight:700;color:var(--mimi);margin:.6rem 0 .3rem}
-.dark a{color:var(--mimi)}
+.dark .sect-lead,.dark p{color:#FFEFF4}
+.dark .card{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
+.dark .card .price{font-family:var(--ff-display);font-size:1.6rem;font-weight:700;color:#fff;margin:.6rem 0 .3rem}
+.dark a{color:#fff;text-decoration:underline}
 
 /* Feature-Trio mit Bild (nebu-Prinzip: drei Kernprodukte) */
 .feature{background:var(--warmwhite);border:1px solid var(--line-soft);border-radius:var(--r-m);overflow:hidden;display:flex;flex-direction:column}
@@ -180,7 +192,7 @@ nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color
 
 /* ═══════ Formulare ═══════ */
 .panel{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--r-m);box-shadow:var(--shadow);overflow:hidden}
-.panel-head{background:var(--green);color:#fff;padding:1.2rem 1.6rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.panel-head{background:var(--rose);color:#fff;padding:1.2rem 1.6rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .panel-head h3{color:#fff;font-size:1.15rem}
 .panel-body{padding:1.6rem}
 .live-price{background:var(--mimi);color:var(--green);border-radius:var(--r-s);padding:.5rem 1rem;font-weight:600;font-size:.95rem}
@@ -307,14 +319,14 @@ nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color
 .hours li{display:flex;justify-content:space-between;gap:1rem;padding:.35rem 0;border-bottom:1px dashed var(--line-soft)}
 .hours li b{color:var(--green);font-weight:600}
 
-/* Warteliste */
-.waitlist{background:var(--green);color:var(--celadon)}
+/* Warteliste — Rosé statt Grün */
+.waitlist{background:var(--rose);color:#fff}
 .waitlist .sect-title{color:#fff}
 .waitlist form{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem}
-.waitlist input[type=email]{flex:1;min-width:240px;padding:.8rem 1rem;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-family:var(--ff-body);font-size:1rem}
-.waitlist input[type=email]::placeholder{color:rgba(255,255,255,.65)}
-.waitlist .check{color:var(--celadon)}
-.waitlist a{color:var(--mimi)}
+.waitlist input[type=email]{flex:1;min-width:240px;padding:.8rem 1rem;border-radius:999px;border:1.5px solid rgba(255,255,255,.45);background:rgba(255,255,255,.16);color:#fff;font-family:var(--ff-body);font-size:1rem}
+.waitlist input[type=email]::placeholder{color:rgba(255,255,255,.75)}
+.waitlist .check{color:#FFEFF4}
+.waitlist a{color:#fff;text-decoration:underline}
 
 /* Teaser-Band (Geschenk / Membership) */
 .band{border-radius:var(--r-m);padding:clamp(1.6rem,4vw,2.6rem);display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:center}
@@ -325,17 +337,18 @@ nav.main a:hover,nav.main a[aria-current="page"]{color:var(--green);border-color
 .band p{color:var(--ink-soft);margin-bottom:1.1rem}
 
 /* ═══════ Footer ═══════ */
-footer.site{background:var(--green);color:var(--celadon);padding:3.5rem 0 2rem;font-size:.93rem}
+/* Footer in der Hauptfarbe (kein grüner Hintergrund) */
+footer.site{background:var(--mimi);color:var(--ink);padding:3.5rem 0 2rem;font-size:.93rem}
 .foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
 @media (max-width:880px){.foot-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
-footer.site h4{font-family:var(--ff-body);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--amaranth);margin-bottom:.8rem}
+footer.site h4{font-family:var(--ff-body);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--rose);margin-bottom:.8rem}
 footer.site ul{list-style:none}
 footer.site li{padding:.22rem 0}
-footer.site a{color:var(--celadon);text-decoration:none}
-footer.site a:hover{color:#fff;text-decoration:underline}
+footer.site a{color:var(--green);text-decoration:none}
+footer.site a:hover{color:var(--rose);text-decoration:underline}
 .foot-brand img{width:74px;margin-bottom:.9rem}
-.foot-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:1.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
-.foot-bottom .lang-switch{border-color:rgba(255,255,255,.3)}
-.foot-bottom .lang-btn{color:var(--celadon)}
-.foot-bottom .lang-btn[aria-pressed="true"]{background:var(--mimi);color:var(--green)}
+.foot-bottom{border-top:1px solid rgba(226,115,150,.35);padding-top:1.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+.foot-bottom .lang-switch{border-color:rgba(51,115,87,.3)}
+.foot-bottom .lang-btn{color:var(--ink-soft)}
+.foot-bottom .lang-btn[aria-pressed="true"]{background:var(--green);color:#fff}

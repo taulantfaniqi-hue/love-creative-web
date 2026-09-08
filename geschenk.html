@@ -7,7 +7,7 @@
 <title>Verschenke ein kreatives Erlebnis — LOVE Creative Café</title>
 <meta name="description" content="Gutscheine für Keramik-Dates, Kino-Nights und Café — gestalten, bezahlen, sofort ausdrucken oder im Studio abholen. 5 Jahre gültig.">
 <link rel="canonical" href="https://lovecreative.ch/geschenk.html">
-<link rel="icon" type="image/svg+xml" href="assets/logo/logo-dark.svg">
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="assets/css/love-account.css">
 <script>
 window.LOVE_TITLES = { de: 'Verschenke ein kreatives Erlebnis — LOVE Creative Café', en: 'Gift a creative experience — LOVE Creative Café' };
-window.LOVE_DE = { 'py.cardSoon':'Online-Kartenzahlung folgt in Kürze' };
+window.LOVE_DE = { 'py.cardSoon':'Online-Zahlung gibt es bei der Geschenkkarte (CHF 20–500)' };
 window.LOVE_EN = {
   'gs.eyebrow':'Gift a creative experience','gs.title':'Not a thing. A moment.',
   'gs.lead':'An afternoon of painting, a cinema night for two, or credit for whatever they fancy. Design the gift card here, pay the way you like, print it right away or pick it up at the studio. Valid for 5 years.',
@@ -32,14 +32,14 @@ window.LOVE_EN = {
   'ex.kino':'Cinema Night for two','ex.kinoD':'Adults Edition: film, ceramics, a drink and crêpes',
   'ex.family':'Family Cinema Night','ex.familyD':'Two kids: film, ceramics, popcorn, hot chocolate',
   'ex.cafe':'Café &amp; ceramics','ex.cafeD':'Credit for a small piece and something from the counter',
-  'ex.amount':'Your own amount','ex.amountD':'CHF 25–500, redeemable for everything at LOVE',
-  'cf.amount':'Amount (CHF 25–500)',
+  'ex.amount':'Gift card','ex.amountD':'CHF 20–500, redeemable for everything at LOVE — payable online by card',
+  'cf.amount':'Choose amount (CHF)',
   'cf.for':'For (name)','cf.from':'From (name)','cf.msg':'Your message (optional)','cf.msgPh':'e.g. Happy birthday — let\'s go painting!',
   'cf.design':'Card design','cf.next':'Continue to payment →',
   'py.summary':'Summary','py.item':'Gift','py.value':'Value','py.for':'For','py.ship':'Delivery',
   'py.how':'How would you like to pay?',
   'py.twint':'TWINT','py.twintD':'We e-mail you the TWINT details — done in a minute',
-  'py.card':'Card online','py.cardD':'Secure payment via Payrexx (TWINT &amp; card)','py.cardSoon':'Online card payment follows shortly',
+  'py.card':'Card online','py.cardD':'Secure payment via Payrexx (TWINT &amp; card)','py.cardSoon':'Online payment is available for gift cards (CHF 20–500)',
   'py.invoice':'Invoice','py.invoiceD':'Payable within 10 days',
   'py.studio':'Pay at the studio','py.studioD':'Pay and pick up at the counter',
   'py.delivery':'How should the gift card arrive?',
@@ -73,15 +73,21 @@ window.LOVE_EN = {
 <header class="site" id="top">
   <div class="nav-in">
     <a class="brand" href="index.html" aria-label="LOVE Creative Café — Start">
-      <img src="assets/logo/logo-dark.svg" alt="" width="46" height="46">
+      <img src="assets/logo/logo-love.svg" alt="" width="46" height="46">
       <span class="brand-name">LOVE<small data-i18n="brand.sub">Creative Café</small></span>
     </a>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="mainnav" data-i18n-aria="nav.menu" aria-label="Menü">☰</button>
     <nav class="main" id="mainnav" aria-label="Hauptnavigation">
       <ul>
-        <li><a href="index.html#preise" data-i18n="nav.keramik">Keramik &amp; Preise</a></li>
+        <li class="has-sub">
+          <a href="index.html#preise" data-i18n="nav.keramik">Keramik bemalen</a>
+          <ul class="sub">
+            <li><a href="index.html#events" data-i18n="nav.workshop">Workshop</a></li>
+            <li><a href="reservieren.html" data-i18n="nav.walkin">Walk-in</a></li>
+          </ul>
+        </li>
         <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
-        <li><a href="index.html#kino" data-i18n="nav.kino">Kino-Night</a></li>
+        <li><a href="index.html#kino" data-i18n="nav.kino">Kinoabend</a></li>
         <li><a href="index.html#events" data-i18n="nav.events">Events</a></li>
         <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
@@ -147,15 +153,14 @@ window.LOVE_EN = {
                   <button type="button" class="choice" data-kind="kino-duo" data-price="165" aria-pressed="false"><span class="t" data-i18n="ex.kino">Kino-Night für zwei</span><span class="d" data-i18n="ex.kinoD">Adults Edition: Film, Keramik, ein Getränk und Crêpes</span><span class="p">CHF 165</span></button>
                   <button type="button" class="choice" data-kind="kino-family" data-price="76" aria-pressed="false"><span class="t" data-i18n="ex.family">Family Kino-Night</span><span class="d" data-i18n="ex.familyD">Zwei Kinder: Film, Keramik, Popcorn, heisse Schoggi</span><span class="p">CHF 76</span></button>
                   <button type="button" class="choice" data-kind="cafe-keramik" data-price="50" aria-pressed="false"><span class="t" data-i18n="ex.cafe">Café &amp; Keramik</span><span class="d" data-i18n="ex.cafeD">Guthaben für ein kleines Stück und etwas von der Theke</span><span class="p">CHF 50</span></button>
-                  <button type="button" class="choice" data-kind="betrag" data-price="100" aria-pressed="false"><span class="t" data-i18n="ex.amount">Wunschbetrag</span><span class="d" data-i18n="ex.amountD">CHF 25–500, einlösbar für alles bei LOVE</span><span class="p">CHF …</span></button>
+                  <button type="button" class="choice" data-kind="betrag" data-price="100" aria-pressed="false"><span class="t" data-i18n="ex.amount">Geschenkkarte</span><span class="d" data-i18n="ex.amountD">CHF 20–500, einlösbar für alles bei LOVE — online per Karte zahlbar</span><span class="p">CHF …</span></button>
                 </div>
               </div>
               <div class="field hidden" id="amountWrap">
-                <label for="gAmount" data-i18n="cf.amount">Betrag (CHF 25–500)</label>
-                <div class="amount-chips">
-                  <button type="button" class="chip" data-amount="25">25</button><button type="button" class="chip" data-amount="50">50</button><button type="button" class="chip" data-amount="100" aria-pressed="true">100</button><button type="button" class="chip" data-amount="200">200</button><button type="button" class="chip" data-amount="500">500</button>
-                </div>
-                <input type="number" id="gAmount" min="25" max="500" value="100">
+                <label data-i18n="cf.amount">Betrag wählen (CHF)</label>
+                <!-- Chips werden aus LovePay.GIFT_AMOUNTS erzeugt — nur diese Werte sind online zahlbar -->
+                <div class="amount-chips" id="amountChips"></div>
+                <input type="number" id="gAmount" value="100" class="hidden" readonly>
               </div>
               <div class="two-col">
                 <div class="field"><label for="gFor" data-i18n="cf.for">Für (Name)</label><input type="text" id="gFor" maxlength="40"></div>
@@ -228,7 +233,7 @@ window.LOVE_EN = {
           <div style="position:sticky;top:90px">
             <div class="gift-preview mimi" id="preview">
               <span class="gp-dots" style="top:12px;right:18px"></span><span class="gp-dots" style="bottom:22px;left:14px;width:6px;height:6px"></span>
-              <div class="gp-top"><div><div class="gp-kicker" data-i18n="pc.kicker">Gutschein</div><div class="gp-title" id="pvTitle">Keramik-Date für zwei</div></div><img class="gp-logo" src="assets/logo/logo-dark.svg" alt="" id="pvLogo"></div>
+              <div class="gp-top"><div><div class="gp-kicker" data-i18n="pc.kicker">Gutschein</div><div class="gp-title" id="pvTitle">Keramik-Date für zwei</div></div><img class="gp-logo" src="assets/logo/logo-love.svg" alt="" id="pvLogo"></div>
               <div><div class="gp-value" id="pvValue">CHF 96</div><div class="gp-msg" id="pvMsg">Made for moments that matter.</div></div>
               <div class="gp-meta"><span id="pvFor"></span><span class="gp-code" id="pvCode">LOVE-····-····</span></div>
             </div>
@@ -270,7 +275,7 @@ window.LOVE_EN = {
 <!-- Druckversion -->
 <div id="printCard" class="hidden">
   <div class="gift-preview mimi" id="printPreview" style="max-width:16cm;min-height:9cm;margin:0 auto 1cm">
-    <div class="gp-top"><div><div class="gp-kicker" data-i18n="pc.kicker">Gutschein</div><div class="gp-title" id="ppTitle"></div></div><img class="gp-logo" src="assets/logo/logo-dark.svg" alt=""></div>
+    <div class="gp-top"><div><div class="gp-kicker" data-i18n="pc.kicker">Gutschein</div><div class="gp-title" id="ppTitle"></div></div><img class="gp-logo" src="assets/logo/logo-love.svg" alt=""></div>
     <div><div class="gp-value" id="ppValue"></div><div class="gp-msg" id="ppMsg"></div></div>
     <div class="gp-meta"><span id="ppFor"></span><span class="gp-code" id="ppCode"></span></div>
   </div>
@@ -282,7 +287,7 @@ window.LOVE_EN = {
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <img src="assets/logo/logo-pink.png" alt="LOVE Creative Café Logo" width="74" height="74" loading="lazy">
+        <img src="assets/logo/logo-love.svg" alt="LOVE Creative Café Logo" width="74" height="74" loading="lazy">
         <p>Made for moments that matter.</p>
         <p style="margin-top:.7rem;font-size:.85rem" data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen</p>
       </div>
@@ -362,7 +367,7 @@ function updatePreview() {
   const f = $('#gFor').value.trim(), fr = $('#gFrom').value.trim();
   $('#pvFor').textContent = (f ? (L === 'en' ? 'For ' : 'Für ') + f : '') + (fr ? (f ? ' · ' : '') + (L === 'en' ? 'from ' : 'von ') + fr : '');
   $('#preview').className = 'gift-preview ' + state.design;
-  $('#pvLogo').src = state.design === 'green' ? 'assets/logo/logo-pink.png' : 'assets/logo/logo-dark.svg';
+  $('#pvLogo').src = state.design === 'green' ? 'assets/logo/logo-love.svg' : 'assets/logo/logo-love.svg';
   $('#gTotal').textContent = chf(total());
 }
 document.querySelectorAll('#exGrid .choice').forEach(b => b.addEventListener('click', () => {
@@ -371,11 +376,13 @@ document.querySelectorAll('#exGrid .choice').forEach(b => b.addEventListener('cl
   $('#amountWrap').classList.toggle('hidden', state.kind !== 'betrag');
   updatePreview();
 }));
-document.querySelectorAll('.amount-chips .chip').forEach(c => c.addEventListener('click', () => {
-  document.querySelectorAll('.amount-chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+/* Geschenkkarten-Beträge: nur die Werte aus LovePay.GIFT_AMOUNTS (je ein Paylink) */
+const chipsBox = $('#amountChips');
+chipsBox.innerHTML = LovePay.GIFT_AMOUNTS.map(a => `<button type="button" class="chip" data-amount="${a}" aria-pressed="${a === 100}">${a}</button>`).join('');
+chipsBox.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+  chipsBox.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
   $('#gAmount').value = c.dataset.amount; updatePreview();
 }));
-$('#gAmount').addEventListener('input', () => { document.querySelectorAll('.amount-chips .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.amount === $('#gAmount').value))); updatePreview(); });
 ['gFor', 'gFrom', 'gMsg'].forEach(id => $('#' + id).addEventListener('input', updatePreview));
 document.querySelectorAll('.design-picks button').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.design-picks button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
@@ -395,24 +402,37 @@ function fillSummary() {
   $('#sFor').textContent = $('#gFor').value.trim() || '—';
   $('#sShip').textContent = SHIP_LABEL[state.ship][L];
 }
+function pickPay(p) {
+  state.pay = p;
+  document.querySelectorAll('#payGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.pay === p)));
+  /* Kartenzahlung deckt genau den Kartenwert — Postversand (+CHF 5) geht dann nicht */
+  if (p === 'karte' && state.ship === 'post') pickShip('print');
+}
+function pickShip(s) {
+  state.ship = s;
+  document.querySelectorAll('#shipGrid .choice').forEach(x => {
+    const on = x.dataset.ship === s;
+    x.setAttribute('aria-pressed', String(on));
+    if (on) state.fee = Number(x.dataset.fee);
+  });
+  if (s === 'post' && state.pay === 'karte') pickPay('twint');
+  fillSummary(); updatePreview();
+}
 $('#toStep2').addEventListener('click', () => {
-  if (state.kind === 'betrag') { const a = amount(); if (a < 25 || a > 500) { alert(t('err.amount')); return; } }
-  // Payrexx-Paylink vorhanden?
-  const hasLink = LovePay.available('gutschein:' + state.kind) || LovePay.available('gutschein');
+  if (state.kind === 'betrag') { const a = amount(); if (!LovePay.GIFT_AMOUNTS.includes(a)) { alert(t('err.amount')); return; } }
+  // «Karte online» nur für Geschenkkarten mit hinterlegtem Payrexx-Paylink
+  const hasLink = state.kind === 'betrag' && LovePay.available('gutschein:' + amount());
   $('#payCard').disabled = !hasLink;
   $('#payCardD').textContent = hasLink ? t('py.cardD') : t('py.cardSoon');
+  if (!hasLink && state.pay === 'karte') pickPay('twint');
   fillSummary(); showStep(2); $('#gestalten').scrollIntoView({ behavior: 'smooth' });
 });
 $('#backTo1').addEventListener('click', () => showStep(1));
 document.querySelectorAll('#payGrid .choice').forEach(b => b.addEventListener('click', () => {
   if (b.disabled) return;
-  document.querySelectorAll('#payGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-  state.pay = b.dataset.pay;
+  pickPay(b.dataset.pay);
 }));
-document.querySelectorAll('#shipGrid .choice').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('#shipGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-  state.ship = b.dataset.ship; state.fee = Number(b.dataset.fee); fillSummary(); updatePreview();
-}));
+document.querySelectorAll('#shipGrid .choice').forEach(b => b.addEventListener('click', () => pickShip(b.dataset.ship)));
 
 /* Bestellen */
 let lastVoucher = null;
@@ -432,7 +452,7 @@ $('#submitGift').addEventListener('click', () => {
     lang: LoveSite.lang()
   });
   $('#gCode').textContent = v.code; $('#pvCode').textContent = v.code;
-  if (state.pay === 'karte') LovePay.checkout('gutschein:' + state.kind, { email, name: buyer });
+  if (state.pay === 'karte') LovePay.checkout('gutschein:' + amount(), { email, name: buyer });
   showStep(3);
 });
 $('#btnPrint').addEventListener('click', () => {

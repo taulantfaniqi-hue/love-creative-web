@@ -17,6 +17,10 @@
 const LovePay = (() => {
   'use strict';
 
+  /* Geschenkkarten-Beträge, die online per Karte zahlbar sind.
+     Für jeden Betrag gibt es einen eigenen Payrexx-Paylink. */
+  const GIFT_AMOUNTS = [20, 30, 40, 50, 60, 70, 80, 100, 150, 200, 300, 400, 500];
+
   const CONFIG = {
     /* Dein Payrexx-Instanzname, z. B. 'lovecreative' für
        https://lovecreative.payrexx.com — nur für den Fallback-Link. */
@@ -24,12 +28,26 @@ const LovePay = (() => {
 
     /* Paylinks: Schlüssel → Payrexx-Paylink-URL */
     links: {
+      /* Geschenkkarten (online per Karte zahlbar) */
+      'gutschein:20':  '',
+      'gutschein:30':  '',
+      'gutschein:40':  '',
+      'gutschein:50':  '',
+      'gutschein:60':  '',
+      'gutschein:70':  '',
+      'gutschein:80':  '',
+      'gutschein:100': '',
+      'gutschein:150': '',
+      'gutschein:200': '',
+      'gutschein:300': '',
+      'gutschein:400': '',
+      'gutschein:500': '',
+      /* Vorbereitet, aktuell bewusst ohne Online-Zahlung: */
       'membership:member-halbjahr': '',   // CHF 25
       'membership:member-jahr':     '',   // CHF 40
       'membership:pro-halbjahr':    '',   // CHF 80
       'membership:pro-jahr':        '',   // CHF 140
-      'kino':                       '',   // Kino-Night (z. B. offener Betrag oder Varianten im Paylink)
-      'gutschein':                  ''    // Gutschein, Paylink mit offenem Betrag
+      'kino':                       ''    // Kino-Night
     }
   };
 
@@ -71,5 +89,5 @@ const LovePay = (() => {
     return btn;
   }
 
-  return { available, url, checkout, mountButton, CONFIG };
+  return { available, url, checkout, mountButton, CONFIG, GIFT_AMOUNTS };
 })();
