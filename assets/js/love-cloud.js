@@ -9,7 +9,12 @@
  */
 const LoveCloud = (() => {
   'use strict';
-  const API = 'api/index.php';
+  /* Website läuft auf GitHub Pages, die Cloud-API auf Infomaniak —
+     deshalb spricht die Website die API über die Subdomain an.
+     Lokal (Vorschau) wird derselbe Ordner relativ verwendet. */
+  const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'api/index.php'
+    : 'https://api.lovecreative.ch/api/index.php';
   let online = null; // null = noch unbekannt
 
   async function call(action, data, token) {
