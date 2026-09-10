@@ -132,6 +132,8 @@ const LoveAccount = (() => {
       errReg: 'Bitte Name, gültige E-Mail und ein Passwort mit mind. 6 Zeichen angeben.',
       errLogin: 'Bitte beide Felder ausfüllen.',
       myData: 'Deine Angaben', myBookings: 'Deine Buchungen', noBookings: 'Noch keine Buchungen — Zeit für einen Besuch ♥',
+      myVouchers: 'Deine Geschenkkarten', noVouchers: 'Noch keine Geschenkkarten.',
+      vActive: 'aktiv', vOpen: 'Zahlung offen',
       user: 'Benutzername', since: 'Konto seit', logoutBtn: 'Abmelden', close: 'Schliessen',
       stat: { neu: 'eingegangen', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', offeriert: 'Offerte', storniert: 'storniert', verloren: 'storniert' }
     },
@@ -150,6 +152,8 @@ const LoveAccount = (() => {
       errReg: 'Please enter your name, a valid e-mail and a password with at least 6 characters.',
       errLogin: 'Please fill in both fields.',
       myData: 'Your details', myBookings: 'Your bookings', noBookings: 'No bookings yet — time for a visit ♥',
+      myVouchers: 'Your gift cards', noVouchers: 'No gift cards yet.',
+      vActive: 'active', vOpen: 'payment pending',
       user: 'Username', since: 'Member since', logoutBtn: 'Sign out', close: 'Close',
       stat: { neu: 'received', 'bestätigt': 'confirmed', gewonnen: 'confirmed', offeriert: 'offer sent', storniert: 'cancelled', verloren: 'cancelled' }
     }
@@ -215,14 +219,26 @@ const LoveAccount = (() => {
         </div>
         <p class="acc-sub">${x.myBookings}</p>
         <div id="accBookings">${bookingsHtml(myBookings())}</div>
+        <p class="acc-sub">${x.myVouchers}</p>
+        <div id="accVouchers"><p class="acc-dim">${x.noVouchers}</p></div>
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
-      /* Cloud-Konto: Buchungen zentral vom Server laden (alle Geräte) */
+      /* Cloud-Konto: Buchungen + Geschenkkarten zentral vom Server laden (alle Geräte) */
       const s = _session();
       if (s && s.cloud && s.token && typeof LoveCloud !== 'undefined') {
         LoveCloud.call('my_bookings', undefined, s.token).then(r => {
           const box = document.getElementById('accBookings');
           if (r.ok && box) box.innerHTML = bookingsHtml(r.bookings);
+        }).catch(() => {});
+        LoveCloud.call('my_vouchers', undefined, s.token).then(r => {
+          const box = document.getElementById('accVouchers');
+          if (r.ok && box && r.vouchers.length) {
+            box.innerHTML = r.vouchers.slice(0, 8).map(v => `
+              <div class="acc-card acc-booking">
+                <span><b>${esc(v.code)}</b> · CHF ${Number(v.balance).toFixed(0)} / ${Number(v.amount).toFixed(0)}</span>
+                <span class="acc-status">${(v.paid == 1) ? x.vActive : x.vOpen}</span>
+              </div>`).join('');
+          }
         }).catch(() => {});
       }
     } else {

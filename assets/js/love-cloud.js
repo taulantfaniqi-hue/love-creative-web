@@ -27,7 +27,8 @@ const LoveCloud = (() => {
       opts.body = JSON.stringify(data);
     }
     if (token) opts.headers['Authorization'] = 'Bearer ' + token;
-    const r = await fetch(API + '?action=' + encodeURIComponent(action), opts);
+    /* action darf zusätzliche Query-Teile enthalten (z. B. 'voucher_status&code=…') */
+    const r = await fetch(API + '?action=' + action, opts);
     return r.json();
   }
 

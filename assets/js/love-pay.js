@@ -1,80 +1,54 @@
-/* LOVE Creative — Online-Zahlung über Payrexx (dynamischer Betrag)
+/* LOVE Creative — Online-Zahlung über Payrexx (echter Shop-Checkout)
  *
- * ⚠️ WICHTIG — API-Key: Der geheime Payrexx-API-Key gehört NIEMALS in den
- * Website-Code! Alles hier ist im Quelltext öffentlich sichtbar.
+ * Ablauf wie in jedem Online-Shop:
+ *   1. Website meldet den exakten Warenkorb-Betrag an unsere Cloud-API
+ *   2. Die API erstellt serverseitig (API-Key bleibt auf dem Server!) die
+ *      Payrexx-Zahlungsseite und liefert deren Link
+ *   3. Der Browser wird DIREKT auf die Payrexx-Zahlungsseite weitergeleitet
+ *   4. Nach der Zahlung leitet Payrexx zurück auf die Bestellbestätigung
+ *      (geschenk.html?paid=CODE); der Webhook aktiviert den Gutschein.
  *
- * Der Zahlungsbetrag wird automatisch an Payrexx übergeben — wie im
- * Online-Shop. Zwei Wege (einer reicht):
- *
- *  1) EIN Paylink mit OFFENEM Betrag (Backoffice → Paylink → Betrag offen):
- *     URL unten bei links.gutschein eintragen. Der Betrag wird per
- *     ?invoice_amount=… vorbefüllt.
- *  2) Oder nur den Instanznamen eintragen (z. B. 'lovecreative' für
- *     lovecreative.payrexx.com): dann läuft die Zahlung über das
- *     Payrexx-Terminal (…/vpos?amount=…&purpose=…) — ganz ohne Paylink.
- *
- * Quelle: docs.payrexx.com → Tools → Paylink/Terminal (URL-Parameter).
+ * Konfiguriert wird alles serverseitig in api/config.php
+ * (PAYREXX_INSTANCE + PAYREXX_API_KEY) — im Website-Code liegt kein Geheimnis.
  */
 const LovePay = (() => {
   'use strict';
 
-  /* Wählbare Geschenkkarten-Beträge (CHF) */
+  /* Schnellwahl-Beträge für Geschenkkarten (CHF); daneben ist jeder
+     individuelle Betrag zwischen MIN und MAX erlaubt. */
   const GIFT_AMOUNTS = [20, 30, 40, 50, 60, 70, 80, 100, 150, 200, 300, 400, 500];
+  const GIFT_MIN = 20;
+  const GIFT_MAX = 500;
 
-  const CONFIG = {
-    /* Payrexx-Instanzname, z. B. 'lovecreative' → lovecreative.payrexx.com */
-    instance: '',
-    links: {
-      /* Ein Paylink mit offenem Betrag für Geschenkkarten (optional,
-         hat Vorrang vor dem Terminal-Weg über instance) */
-      'gutschein': ''
+  const cloud = () => (typeof LoveCloud !== 'undefined' && LoveCloud.isOnline());
+
+  /* Online-Zahlung möglich? (Cloud erreichbar → der Server entscheidet den Rest) */
+  function available() { return cloud(); }
+
+  /* Checkout starten: Betrag an die API, dann direkte Weiterleitung zu Payrexx.
+     Gibt ein Promise auf {ok, error} zurück — bei ok folgt sofort der Redirect. */
+  async function checkout(opts) {
+    if (!cloud()) return { ok: false, error: 'offline' };
+    try {
+      const r = await LoveCloud.call('gateway_create', {
+        amount: opts.amount, code: opts.code, purpose: opts.purpose, email: opts.email
+      });
+      if (r.ok && r.link) {
+        window.location.href = r.link; // direkte Weiterleitung auf die Payrexx-Zahlungsseite
+        return { ok: true };
+      }
+      return { ok: false, error: r.error || 'payrexx-error' };
+    } catch (e) {
+      return { ok: false, error: 'network' };
     }
-  };
-
-  const round2 = n => (Math.round(Number(n) * 100) / 100).toFixed(2);
-
-  function available(key) {
-    /* Online-Zahlung ist bewusst nur für Geschenkkarten frei —
-       andere Bereiche erst, wenn dafür ein eigener Link hinterlegt wird. */
-    return !!CONFIG.links[key] || (key === 'gutschein' && !!CONFIG.instance);
   }
 
-  /* Zahlungsseite mit automatisch übergebenem Betrag öffnen. */
-  function checkout(key, opts) {
-    opts = opts || {};
-    let u = '';
-    const p = new URLSearchParams();
-    if (CONFIG.links[key]) {
-      u = CONFIG.links[key];
-      if (opts.amount) p.set('invoice_amount', round2(opts.amount));
-    } else if (CONFIG.instance) {
-      u = 'https://' + CONFIG.instance + '.payrexx.com/de-CH/vpos';
-      if (opts.amount) p.set('amount', round2(opts.amount));
-    } else {
-      return false;
-    }
-    if (opts.purpose) p.set('purpose', opts.purpose);
-    if (opts.email) p.set('contact_email', opts.email);
-    if (opts.name) p.set('contact_forename', opts.name);
-    const q = p.toString();
-    if (q) u += (u.includes('?') ? '&' : '?') + q;
-    window.open(u, '_blank', 'noopener');
-    return true;
+  /* Zahlstatus für die Bestellbestätigung abfragen */
+  async function status(code) {
+    try {
+      return await LoveCloud.call('voucher_status&code=' + encodeURIComponent(code));
+    } catch (e) { return { ok: false }; }
   }
 
-  /* «Jetzt online bezahlen»-Knopf in einen Container hängen (falls konfiguriert). */
-  function mountButton(container, key, opts) {
-    if (!container || !available(key)) return null;
-    const en = window.LoveSite && LoveSite.lang() === 'en';
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'btn btn-green btn-block';
-    btn.style.marginTop = '.8rem';
-    btn.textContent = (en ? 'Pay online now' : 'Jetzt online bezahlen') + ' — TWINT / Karte';
-    btn.addEventListener('click', () => checkout(key, opts));
-    container.appendChild(btn);
-    return btn;
-  }
-
-  return { available, checkout, mountButton, CONFIG, GIFT_AMOUNTS };
+  return { available, checkout, status, GIFT_AMOUNTS, GIFT_MIN, GIFT_MAX };
 })();
