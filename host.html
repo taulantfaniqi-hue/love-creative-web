@@ -68,6 +68,7 @@
 <div id="hostApp" class="hidden">
   <p class="eyebrow">Host</p>
   <h1 style="font-size:clamp(1.7rem,1.2rem+2vw,2.4rem)">Kunden &amp; Buchungen</h1>
+  <p class="hint" id="cloudState" style="margin-top:.3rem"></p>
 
   <div class="host-stats" id="hostStats"></div>
 
@@ -75,6 +76,8 @@
     <button type="button" class="host-tab" data-tab="kunden" aria-pressed="true">Kundenkonten</button>
     <button type="button" class="host-tab" data-tab="kontakte" aria-pressed="false">CRM-Kontakte</button>
     <button type="button" class="host-tab" data-tab="buchungen" aria-pressed="false">Buchungen</button>
+    <button type="button" class="host-tab" data-tab="gutscheine" aria-pressed="false">Gutscheine</button>
+    <button type="button" class="host-tab" data-tab="members" aria-pressed="false">Members</button>
   </div>
 
   <div class="host-table-wrap"><div id="hostContent"></div></div>
@@ -89,6 +92,7 @@
 </main>
 
 <script src="assets/js/love-data.js"></script>
+<script src="assets/js/love-cloud.js"></script>
 <script src="assets/js/love-account.js"></script>
 <script>
 (() => {
@@ -118,15 +122,34 @@ function show(loggedIn) {
   $('#hostLogout').classList.toggle('hidden', !loggedIn);
   if (loggedIn) render();
 }
+let hostCreds = null;  // nur im Arbeitsspeicher, für die Cloud-Abfrage
+let cloudData = null;  // zentrale Live-Daten vom Server (wenn erreichbar)
+
 $('#hostForm').addEventListener('submit', async e => {
   e.preventDefault();
   const user = $('#hostUser').value.trim().toLowerCase();
-  const hash = await sha256hex(user + ':' + $('#hostPass').value + ':LOVE-2026');
+  const pass = $('#hostPass').value;
+  const hash = await sha256hex(user + ':' + pass + ':LOVE-2026');
   if (!HOST_HASHES.includes(hash)) { $('#hostErr').textContent = 'Benutzername oder Passwort falsch.'; return; }
+  hostCreds = { user, pass };
   localStorage.setItem(SESSION_KEY, JSON.stringify({ exp: Date.now() + 12 * 3600 * 1000 }));
   $('#hostPass').value = '';
   show(true);
+  loadCloud();
 });
+
+/* Zentrale Daten aus der Infomaniak-Cloud laden (Fallback: lokaler Speicher) */
+async function loadCloud() {
+  const note = $('#cloudState');
+  if (typeof LoveCloud === 'undefined' || !hostCreds) { note.textContent = '○ Lokale Daten (dieses Gerät)'; return; }
+  if (!LoveCloud.isOnline()) await LoveCloud.check();
+  if (!LoveCloud.isOnline()) { note.textContent = '○ Cloud nicht erreichbar — lokale Daten (dieses Gerät)'; return; }
+  try {
+    const r = await LoveCloud.call('host_data', hostCreds);
+    if (r.ok) { cloudData = r; note.textContent = '● Cloud verbunden — zentrale Live-Daten'; render(); }
+    else note.textContent = '○ Cloud-Anmeldung fehlgeschlagen — lokale Daten';
+  } catch (e) { note.textContent = '○ Cloud-Fehler — lokale Daten'; }
+}
 $('#hostLogout').addEventListener('click', () => { localStorage.removeItem(SESSION_KEY); show(false); });
 
 /* ---------- Ansichten ---------- */
@@ -140,14 +163,23 @@ document.querySelectorAll('.host-tab').forEach(b => b.addEventListener('click', 
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 
 function render() {
-  const kunden = LoveAccount.listCustomers();
-  const kontakte = LoveData.listContacts();
-  const buchungen = LoveData.listBookings();
+  /* Quelle: Cloud (zentral, alle Geräte) — sonst lokaler Browser-Speicher */
+  const kunden = cloudData
+    ? cloudData.customers.map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, created: k.created_at, lastLogin: k.last_login }))
+    : LoveAccount.listCustomers();
+  const kontakte = cloudData
+    ? cloudData.contacts.map(c => ({ email: c.email, name: c.name, phone: c.phone, tags: String(c.tags || '').split(',').filter(Boolean), lastSeen: c.last_seen }))
+    : LoveData.listContacts();
+  const buchungen = cloudData ? cloudData.bookings : LoveData.listBookings();
+  const gutscheine = cloudData ? cloudData.vouchers : LoveData.listVouchers();
+  const members = cloudData ? cloudData.members : (LoveData.listMembers ? LoveData.listMembers() : []);
   $('#hostStats').innerHTML = `
     <div class="host-stat"><b>${kunden.length}</b><span>Kundenkonten</span></div>
     <div class="host-stat"><b>${kontakte.length}</b><span>CRM-Kontakte</span></div>
     <div class="host-stat"><b>${buchungen.filter(b => b.status === 'neu').length}</b><span>Neue Anfragen</span></div>
-    <div class="host-stat"><b>${buchungen.length}</b><span>Buchungen total</span></div>`;
+    <div class="host-stat"><b>${buchungen.length}</b><span>Buchungen</span></div>
+    <div class="host-stat"><b>${gutscheine.length}</b><span>Gutscheine</span></div>
+    <div class="host-stat"><b>${members.length}</b><span>Members</span></div>`;
 
   const box = $('#hostContent');
   if (tab === 'kunden') {
@@ -160,13 +192,30 @@ function render() {
       <thead><tr><th>E-Mail</th><th>Name</th><th>Telefon</th><th>Tags</th><th>Zuletzt gesehen</th></tr></thead>
       <tbody>${kontakte.map(c => `<tr><td>${esc(c.email)}</td><td>${esc(c.name || '—')}</td><td>${esc(c.phone || '—')}</td><td>${(c.tags || []).map(t => `<span class="host-pill">${esc(t)}</span>`).join(' ')}</td><td>${fmtTs(c.lastSeen)}</td></tr>`).join('')}</tbody>
     </table>` : `<p class="host-empty">Noch keine Kontakte — sie entstehen automatisch aus Reservationen, Gutschein-Käufen und Kundenkonten.</p>`;
+  } else if (tab === 'gutscheine') {
+    box.innerHTML = gutscheine.length ? `<table class="host-table">
+      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Bezahlt</th><th>Status</th></tr></thead>
+      <tbody>${gutscheine.map(v => `<tr>
+        <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td>CHF ${Number(v.balance).toFixed(0)}</td>
+        <td>${Number(v.tip || 0) ? 'CHF ' + Number(v.tip).toFixed(0) : '—'}</td>
+        <td>${esc(v.buyer || '—')}</td><td>${esc(v.email || '—')}</td>
+        <td>${(v.paid == 1 || v.paid === true) ? '✓' : '—'}</td>
+        <td><span class="host-pill ${v.status === 'offen' ? 'neu' : ''}">${esc(v.status)}</span></td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`;
+  } else if (tab === 'members') {
+    box.innerHTML = members.length ? `<table class="host-table">
+      <thead><tr><th>Member-Nr.</th><th>Status</th><th>Name</th><th>E-Mail</th><th>Plan</th><th>Laufzeit</th><th>Seit</th></tr></thead>
+      <tbody>${members.map(m => `<tr>
+        <td><b>${esc(m.id)}</b></td><td><span class="host-pill ${m.status === 'angemeldet' ? 'neu' : ''}">${esc(m.status)}</span></td>
+        <td>${esc(m.name)}</td><td>${esc(m.email)}</td><td>${esc(m.plan)}</td><td>${esc(m.period || '—')}</td><td>${fmtTs(m.ts)}</td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Member-Anmeldungen.</p>`;
   } else {
     box.innerHTML = buchungen.length ? `<table class="host-table">
       <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Ref.</th></tr></thead>
       <tbody>${buchungen.map(b => `<tr>
         <td><span class="host-pill ${b.status === 'neu' ? 'neu' : ''}">${esc(b.status)}</span></td>
         <td>${esc(b.type)}</td><td><b>${esc(b.name)}</b></td><td>${esc(b.email)}</td>
-        <td>${b.date ? esc(b.date.split('-').reverse().join('.')) : '—'}</td><td>${esc(b.time || '—')}</td>
+        <td>${b.date ? esc(String(b.date).split('-').reverse().join('.')) : '—'}</td><td>${esc(b.time || '—')}</td>
         <td>${esc(b.persons || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
     </table>` : `<p class="host-empty">Noch keine Buchungen.</p>`;
   }

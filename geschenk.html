@@ -349,6 +349,7 @@ window.LOVE_EN = {
 
 <script src="assets/js/love-data.js"></script>
 <script src="assets/js/love-site.js"></script>
+<script src="assets/js/love-cloud.js"></script>
 <script src="assets/js/love-account.js"></script>
 <script src="assets/js/love-pay.js"></script>
 <script src="assets/js/love-widget.js"></script>
@@ -465,7 +466,8 @@ $('#submitGift').addEventListener('click', () => {
   err.textContent = '';
   const v = LoveData.addVoucher({
     amount: amount(), buyer, email, recipient: $('#gFor').value.trim(), from: $('#gFrom').value.trim(),
-    message: $('#gMsg').value.trim(), kind: state.kind, design: state.design, payment: state.pay + (state.ship === 'post' ? '+post' : '')
+    message: $('#gMsg').value.trim(), kind: state.kind, design: state.design,
+    payment: state.pay + (state.ship === 'post' ? '+post' : ''), tip: state.tip
   });
   lastVoucher = v;
   LoveData.addBooking({

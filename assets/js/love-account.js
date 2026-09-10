@@ -28,10 +28,33 @@ const LoveAccount = (() => {
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
+  /* ---------- Cloud-Sitzung (Infomaniak-API) ---------- */
+  const cloud = () => (typeof LoveCloud !== 'undefined' && LoveCloud.isOnline());
+  function _cloudSession(r) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify({
+      cloud: true, token: r.token, customer: r.customer, exp: Date.now() + SESSION_DAYS * 864e5
+    }));
+    document.dispatchEvent(new CustomEvent('love:account', { detail: r.customer }));
+  }
+  function _session() {
+    try {
+      const s = JSON.parse(localStorage.getItem(SESSION_KEY));
+      return (s && s.exp > Date.now()) ? s : null;
+    } catch (e) { return null; }
+  }
+
   /* ---------- Konten ---------- */
   async function register({ name, email, username, phone, pass }) {
     email = String(email || '').trim().toLowerCase();
     username = String(username || '').trim().toLowerCase();
+    /* Cloud zuerst — zentrales Konto, von jedem Gerät nutzbar */
+    if (cloud()) {
+      try {
+        const r = await LoveCloud.call('register', { name, email, username, phone, pass });
+        if (r.ok) { _cloudSession(r); return { ok: true, customer: r.customer }; }
+        if (r.error === 'email-taken' || r.error === 'user-taken') return { ok: false, error: r.error };
+      } catch (e) { /* lokal weiter */ }
+    }
     const all = _read();
     if (all.some(c => c.email === email)) return { ok: false, error: 'email-taken' };
     if (username && all.some(c => c.username === username)) return { ok: false, error: 'user-taken' };
@@ -50,6 +73,14 @@ const LoveAccount = (() => {
   /* Login: `who` darf E-Mail ODER Benutzername sein */
   async function login(who, pass) {
     who = String(who || '').trim().toLowerCase();
+    if (cloud()) {
+      try {
+        const r = await LoveCloud.call('login', { who, pass });
+        if (r.ok) { _cloudSession(r); return { ok: true, customer: r.customer }; }
+        if (r.error === 'wrong-pass') return { ok: false, error: 'wrong-pass' };
+        /* 'unknown' in der Cloud → evtl. altes lokales Konto, unten weiterprüfen */
+      } catch (e) { /* lokal weiter */ }
+    }
     const all = _read();
     const c = all.find(x => x.email === who || (x.username && x.username === who));
     if (!c) return { ok: false, error: 'unknown' };
@@ -65,15 +96,16 @@ const LoveAccount = (() => {
     document.dispatchEvent(new CustomEvent('love:account', { detail: current() }));
   }
   function logout() {
+    const s = _session();
+    if (s && s.cloud && s.token && typeof LoveCloud !== 'undefined') LoveCloud.call('logout', {}, s.token).catch(() => {});
     localStorage.removeItem(SESSION_KEY);
     document.dispatchEvent(new CustomEvent('love:account', { detail: null }));
   }
   function current() {
-    try {
-      const s = JSON.parse(localStorage.getItem(SESSION_KEY));
-      if (!s || s.exp < Date.now()) return null;
-      return _read().find(c => c.id === s.id) || null;
-    } catch (e) { return null; }
+    const s = _session();
+    if (!s) return null;
+    if (s.cloud) return s.customer || null;
+    return _read().find(c => c.id === s.id) || null;
   }
   const listCustomers = () => _read().map(c => ({ id: c.id, name: c.name, email: c.email, username: c.username, phone: c.phone, created: c.created, lastLogin: c.lastLogin }));
 
@@ -167,7 +199,12 @@ const LoveAccount = (() => {
     const body = document.getElementById('accBody');
     if (c) {
       const fmt = iso => new Date(iso).toLocaleDateString(LoveSite.lang() === 'en' ? 'en-GB' : 'de-CH', { day: 'numeric', month: 'long', year: 'numeric' });
-      const bookings = myBookings();
+      const bookingsHtml = list => list.length ? list.slice(0, 8).map(b => `
+          <div class="acc-card acc-booking">
+            <span><b>${esc(b.type === 'kino' ? 'Kino-Night' : b.type === 'tisch' ? (LoveSite.lang() === 'en' ? 'Table' : 'Tisch') : b.type)}</b>
+            ${b.date ? ' · ' + String(b.date).split('-').reverse().join('.') : ''}${b.time ? ' · ' + b.time : ''}${b.persons ? ' · ' + b.persons + ' P.' : ''}</span>
+            <span class="acc-status">${x.stat[b.status] || esc(b.status)}</span>
+          </div>`).join('') : `<p class="acc-dim">${x.noBookings}</p>`;
       body.innerHTML = `
         <p class="acc-sub">${x.myData}</p>
         <div class="acc-card">
@@ -177,14 +214,17 @@ const LoveAccount = (() => {
           <p class="acc-dim">${x.since} ${fmt(c.created)}</p>
         </div>
         <p class="acc-sub">${x.myBookings}</p>
-        ${bookings.length ? bookings.slice(0, 8).map(b => `
-          <div class="acc-card acc-booking">
-            <span><b>${esc(b.type === 'kino' ? 'Kino-Night' : b.type === 'tisch' ? (LoveSite.lang() === 'en' ? 'Table' : 'Tisch') : b.type)}</b>
-            ${b.date ? ' · ' + b.date.split('-').reverse().join('.') : ''}${b.time ? ' · ' + b.time : ''}${b.persons ? ' · ' + b.persons + ' P.' : ''}</span>
-            <span class="acc-status">${x.stat[b.status] || b.status}</span>
-          </div>`).join('') : `<p class="acc-dim">${x.noBookings}</p>`}
+        <div id="accBookings">${bookingsHtml(myBookings())}</div>
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
+      /* Cloud-Konto: Buchungen zentral vom Server laden (alle Geräte) */
+      const s = _session();
+      if (s && s.cloud && s.token && typeof LoveCloud !== 'undefined') {
+        LoveCloud.call('my_bookings', undefined, s.token).then(r => {
+          const box = document.getElementById('accBookings');
+          if (r.ok && box) box.innerHTML = bookingsHtml(r.bookings);
+        }).catch(() => {});
+      }
     } else {
       body.innerHTML = `
         <div class="acc-tabs" role="tablist">

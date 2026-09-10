@@ -51,6 +51,7 @@ const LoveData = (() => {
     };
     const all = _read(KEYS.bookings); all.push(b); _write(KEYS.bookings, all);
     if (b.email) upsertContact(b.email, { name: b.name, phone: b.phone, tag: 'format:' + b.type });
+    if (typeof LoveCloud !== 'undefined') LoveCloud.push('booking_add', b); // Cloud zieht nach
     return b;
   }
   function updateBooking(id, patch) {
@@ -132,6 +133,10 @@ const LoveData = (() => {
     };
     const all = _read(KEYS.vouchers); all.push(v); _write(KEYS.vouchers, all);
     if (v.email) upsertContact(v.email, { name: v.buyer, tag: 'format:gutschein' });
+    if (typeof LoveCloud !== 'undefined') LoveCloud.push('voucher_add', {
+      code: v.code, amount: v.amount, tip: Number(data.tip) || 0, buyer: v.buyer, email: v.email,
+      recipient: v.recipient, from: v.from, message: v.message, kind: v.kind, design: v.design, payment: v.payment
+    });
     return v;
   }
   function updateVoucher(code, patch) {
@@ -188,6 +193,10 @@ const LoveData = (() => {
     };
     all.push(m); _write(KEYS.members, all);
     if (m.email) upsertContact(m.email, { name: m.name, phone: m.phone, tag: 'member:' + plan });
+    if (typeof LoveCloud !== 'undefined') LoveCloud.push('member_add', {
+      id: m.id, name: m.name, email: m.email, phone: m.phone,
+      birthday: m.birthday || '', plan: m.plan, period: m.period, source: m.source || 'website'
+    });
     return m;
   }
   function updateMember(id, patch, event) {
