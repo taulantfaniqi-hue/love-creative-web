@@ -143,14 +143,37 @@ function fmtDate(iso) {
   if (diff === 1) return `${x.tomorrow}, ${dayMonth}`;
   return `${d.toLocaleDateString(locale, { weekday: 'long' })}, ${dayMonth}`;
 }
+/* Schliesstage aus dem Google-Kalender (via Cloud-API) — z. B. Ferien,
+   die in SumUp/Google gepflegt werden, verschwinden aus der Datumsauswahl. */
+const closedDays = new Set();
+function loadClosures() {
+  if (typeof LoveCloud === 'undefined') return;
+  LoveCloud.call('closures').then(r => {
+    if (!r.ok || !Array.isArray(r.closures)) return;
+    r.closures.forEach(c => {
+      if (!/geschlossen|closed|ferien|feiertag|holiday|betriebsferien/i.test(c.title || '')) return;
+      let d = new Date((c.start || '') + 'T12:00:00');
+      const end = new Date((c.end || c.start || '') + 'T12:00:00');
+      if (isNaN(d) || isNaN(end)) return;
+      for (let i = 0; d < end && i < 60; i++, d = new Date(d.getTime() + 864e5)) {
+        closedDays.add(d.toISOString().slice(0, 10));
+      }
+    });
+    if (closedDays.size) {
+      if (closedDays.has(state.date)) state.date = dateOptions()[0];
+      renderDates(); renderSlots(); renderCards();
+    }
+  }).catch(() => {});
+}
 function dateOptions() {
   const out = [];
   const base = new Date(LoveSite.todayISO() + 'T12:00:00');
   for (let i = 0; i < 21; i++) {
     const d = new Date(base.getTime() + i * 864e5);
-    out.push(d.toISOString().slice(0, 10));
+    const iso = d.toISOString().slice(0, 10);
+    if (!closedDays.has(iso)) out.push(iso);
   }
-  return out;
+  return out.length ? out : [LoveSite.todayISO()];
 }
 
 function renderStatic() {
@@ -297,4 +320,6 @@ $('lwSlot').addEventListener('change', e => { state.slot = e.target.value; rende
 document.addEventListener('love:lang', () => { renderAll(); if (state.done) renderResult(); });
 
 renderAll();
+loadClosures();
+document.addEventListener('love:cloud', e => { if (e.detail && !closedDays.size) loadClosures(); });
 })();
