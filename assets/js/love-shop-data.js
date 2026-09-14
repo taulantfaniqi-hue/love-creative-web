@@ -12,7 +12,7 @@ window.LOVE_PRODUCTS = [
   "name": "Leo Zodiac Keyring",
   "variant": "Keyring Only",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-4c5bb8f8.jpg"
  },
@@ -62,7 +62,7 @@ window.LOVE_PRODUCTS = [
   "name": "Good Karma A5 Casebound Notebook",
   "variant": "",
   "cat": "papeterie",
-  "price": 16,
+  "price": 25,
   "stock": 6,
   "img": "assets/img/shop/love-a6802470.jpg"
  },
@@ -182,7 +182,7 @@ window.LOVE_PRODUCTS = [
   "name": "Angel Numbers A5 Casebound Notebook",
   "variant": "",
   "cat": "papeterie",
-  "price": 16,
+  "price": 25,
   "stock": 6,
   "img": "assets/img/shop/love-ed1d740d.jpg"
  },
@@ -262,7 +262,7 @@ window.LOVE_PRODUCTS = [
   "name": "Best Dad In The World Keyring",
   "variant": "",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-d520d8e1.jpg"
  },
@@ -292,7 +292,7 @@ window.LOVE_PRODUCTS = [
   "name": "Aries Zodiac Keyring",
   "variant": "Keyring Only",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-485bb2ac.jpg"
  },
@@ -512,7 +512,7 @@ window.LOVE_PRODUCTS = [
   "name": "Capricorn Zodiac Keyring",
   "variant": "Keyring Only - #EB 25AWKRZD 01",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-455badf3.jpg"
  },
@@ -602,7 +602,7 @@ window.LOVE_PRODUCTS = [
   "name": "Aquarius Zodiac Keyring",
   "variant": "Keyring Only - #EB 25AWKRZD 02",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-465baf86.jpg"
  },
@@ -722,7 +722,7 @@ window.LOVE_PRODUCTS = [
   "name": "Libra Zodiac Keyring",
   "variant": "Keyring Only",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-4a5df469.jpg"
  },
@@ -812,7 +812,7 @@ window.LOVE_PRODUCTS = [
   "name": "Sagittarius Zodiac Keyring",
   "variant": "Keyring Only - #EB 25AWKRZD 12",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-485df143.jpg"
  },
@@ -842,7 +842,7 @@ window.LOVE_PRODUCTS = [
   "name": "Taurus Zodiac Keyring",
   "variant": "Keyring Only",
   "cat": "anhaenger",
-  "price": 15,
+  "price": 17,
   "stock": 6,
   "img": "assets/img/shop/love-495bb43f.jpg"
  },
