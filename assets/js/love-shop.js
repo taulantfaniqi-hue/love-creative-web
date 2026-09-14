@@ -49,8 +49,8 @@ const TX = {
     errMember: 'Diese Member-Nummer kennen wir nicht — bitte prüfen oder Feld leer lassen.',
     memberOk: (n, p) => `${n} · ${p} % Member-Rabatt aktiv`,
     sku: 'Artikel-Nr.', supplier: 'Marke',
-    payHint: 'Im nächsten Schritt kannst du mit TWINT oder Karte bezahlen — falls das gerade nicht geht, reservieren wir deine Bestellung und du zahlst bei der Abholung.',
-    payOfflineHint: 'Deine Bestellung wird reserviert — bezahlt wird bei der Abholung im Studio.'
+    payHint: 'Zahlung mit TWINT oder Karte im nächsten Schritt.',
+    payOfflineHint: 'Bezahlt wird bei der Abholung im Studio.'
   },
   en: {
     all: 'Everything', search: 'Search…', count: n => `${n} items`,
@@ -75,8 +75,8 @@ const TX = {
     errMember: "We don't know this member number — please check or leave it empty.",
     memberOk: (n, p) => `${n} · ${p}% member discount active`,
     sku: 'Item no.', supplier: 'Brand',
-    payHint: 'In the next step you can pay by TWINT or card — if that is unavailable, we reserve your order and you pay on pick-up.',
-    payOfflineHint: 'Your order will be reserved — you pay on pick-up at the studio.'
+    payHint: 'Pay by TWINT or card in the next step.',
+    payOfflineHint: 'You pay on pick-up at the studio.'
   }
 };
 const t = () => TX[en() ? 'en' : 'de'];
@@ -227,7 +227,8 @@ function renderCart() {
      Formular gehört in den scrollbaren Bereich, der Bezahlknopf bleibt unten stehen. */
   const positionen = checkout
     ? `<ul class="cart-sum-list">${s.lines.map(({ p, qty }) => `<li><span>${qty}× ${esc(p.name)}</span><span>${chf(p.price * qty)}</span></li>`).join('')}
-         <li class="edit"><button type="button" id="cartEdit">${esc(t().edit)}</button></li></ul>`
+         <li class="edit"><button type="button" id="cartEdit">${esc(t().edit)}</button>
+             <button type="button" id="coBack">${esc(t().back)}</button></li></ul>`
     : s.lines.map(({ p, qty }) => `
     <div class="cart-line">
       <img src="${esc(photo(p))}" alt="" onerror="this.onerror=null;this.src='assets/img/shop/_${esc(p.cat)}.svg'">
@@ -286,8 +287,10 @@ function renderCheckout(s, delivery) {
       <div class="field"><label for="coMember">${esc(t().memberNo)}</label><input id="coMember" placeholder="${esc(t().memberPh)}" value="${esc(member ? member.id : '')}"></div>
       <p class="hint" id="coMemberMsg" aria-live="polite">${member ? esc(t().memberOk(member.name, member.discount)) : ''}</p>
       <div class="field"><label for="coNote">${esc(t().note)}</label><input id="coNote"></div>
-      <p class="form-err" id="coErr" aria-live="polite"></p>
     </form>`);
+  /* Der Fuss bleibt bewusst schlank: Summen, Fehlermeldung, ein Knopf. Jede
+     weitere Zeile hier nimmt dem Formular Platz — und dann füllt jemand nur
+     den Namen aus, weil er die E-Mail gar nicht sieht. */
   $('#cartFoot').innerHTML = `
     <div class="cart-sums">
       <div><span>${esc(t().sub)}</span><span>${chf(s.sub)}</span></div>
@@ -295,9 +298,9 @@ function renderCheckout(s, delivery) {
       <div><span>${esc(t().ship)}</span><span>${s.ship ? chf(s.ship) : esc(t().shipNone)}</span></div>
       <div class="tot"><span>${esc(t().total)}</span><span>${chf(s.total)}</span></div>
     </div>
+    <p class="form-err" id="coErr" aria-live="assertive"></p>
     <button type="submit" form="coForm" class="btn btn-rose btn-block" id="coSubmit">${esc(online ? t().pay : t().payOffline)}</button>
-    <p class="hint" style="margin-top:.5rem">${esc(online ? t().payHint : t().payOfflineHint)}</p>
-    <button type="button" class="btn btn-ghost btn-block btn-sm" id="coBack" style="margin-top:.5rem">${esc(t().back)}</button>`;
+    <p class="hint hint-pay">${esc(online ? t().payHint : t().payOfflineHint)}</p>`;
 
   /* Eingeloggte Gäste bekommen ihre Angaben vorausgefüllt … */
   if (typeof LoveAccount !== 'undefined' && LoveAccount.current()) {
