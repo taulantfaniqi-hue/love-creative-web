@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Notizbuch und Stift">
+  <rect width="400" height="400" fill="#FFF0F4"/>
+  <rect x="106" y="84" width="150" height="232" rx="10" fill="#fff" stroke="#337357" stroke-width="7"/>
+  <path d="M106 84h34v232h-34z" fill="#E27396" opacity=".45"/>
+  <g stroke="#6D9F71" stroke-width="6" stroke-linecap="round">
+    <path d="M166 140h62"/><path d="M166 170h62"/><path d="M166 200h40"/>
+  </g>
+  <g transform="rotate(20 296 200)">
+    <rect x="278" y="118" width="34" height="150" rx="8" fill="#EA9AB2" stroke="#337357" stroke-width="7"/>
+    <path d="M278 268h34l-17 36z" fill="#337357"/>
+  </g>
+  <circle cx="84" cy="326" r="7" fill="#6D9F71" opacity=".7"/>
+</svg>

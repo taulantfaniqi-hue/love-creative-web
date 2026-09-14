@@ -18,7 +18,10 @@ const LoveData = (() => {
     vouchers: 'love.vouchers.v1',   // Gutschein-Ledger (MWST-relevant!)
     members:  'love.members.v1',    // LOVE Member / Member Pro
     memberTx: 'love.membertx.v1',   // Member-Ledger: Beiträge, Guthaben, Einlösungen, Käufe
-    sumup:    'love.sumup.v1'       // Importierte SumUp-Transaktionen (Dedup per transaction_code)
+    sumup:    'love.sumup.v1',      // Importierte SumUp-Transaktionen (Dedup per transaction_code)
+    products: 'love.products.v1',   // Shop-Sortiment: Änderungen gegenüber love-shop-data.js
+    stockTx:  'love.stocktx.v1',    // Lager-Bewegungen (Wareneingang, Verkauf, Korrektur, Bruch)
+    orders:   'love.orders.v1'      // Shop-Bestellungen (online)
   };
 
   function _read(key) {
@@ -33,7 +36,7 @@ const LoveData = (() => {
   const _today = () => new Date().toISOString().slice(0, 10);
 
   /* ---------- Buchungen / Anfragen ----------
-     type: 'tisch' | 'kino' | 'event' | 'gutschein' | 'geschenk' | 'membership' | 'warteliste' | 'sonstiges'
+     type: 'tisch' | 'kino' | 'event' | 'gutschein' | 'geschenk' | 'membership' | 'shop' | 'warteliste' | 'sonstiges'
      status-Pipeline (love-sales-events): neu → bestätigt | offeriert → follow-up-1 → follow-up-2 → gewonnen | verloren | storniert
      Tisch-Felder: date (ISO), time (Slot '09:00–12:00'), persons, area ('EG'|'OG'|'egal'),
                    table_type ('rund'|'gross'|'event'), table (zugewiesen im CRM, z. B. 'EG-G1') */
@@ -286,7 +289,7 @@ const LoveData = (() => {
   function importSumUp(rows) {
     const existing = _read(KEYS.sumup);
     const seen = new Set(existing.map(t => t.code));
-    const summary = { total: rows.length, imported: 0, skipped: 0, members: 0, fees: 0, topups: 0, unmatched: 0 };
+    const summary = { total: rows.length, imported: 0, skipped: 0, members: 0, fees: 0, topups: 0, unmatched: 0, stockBooked: 0 };
     rows.forEach(r => {
       const code = String(r.code || r.transaction_code || r.id || '').trim();
       if (!code || seen.has(code)) { summary.skipped++; return; }
@@ -303,6 +306,11 @@ const LoveData = (() => {
           else if (/MEMBER|BEITRAG|MITGLIED/i.test(desc)) { activateMember(m.id, { source: 'sumup', ref: code }); t.kind = 'beitrag'; summary.fees++; }
           else { _addMemberTx({ member: m.id, kind: 'kauf', amount, source: 'sumup', ref: code, note: desc }); t.kind = 'kauf'; summary.members++; }
         } else summary.unmatched++;
+      }
+      /* Shop-Artikel aus der Kasse vom Lager abbuchen (nur erfolgreiche Verkäufe) */
+      if (status === 'SUCCESSFUL' && amount > 0) {
+        const n = _bookSumUpItems(t, r);
+        if (n) { t.stock = n; summary.stockBooked += n; }
       }
       existing.push(t); seen.add(code); summary.imported++;
     });
@@ -332,6 +340,278 @@ const LoveData = (() => {
   function listSumUp() { return _read(KEYS.sumup).sort((a, b) => (a.ts < b.ts ? 1 : -1)); }
 
   /* ---------- Kennzahlen für Dashboards ---------- */
+  /* ═══════════ Shop: Sortiment, Lager, Bestellungen ═══════════
+     Das Sortiment kommt aus love-shop-data.js (Auslieferungszustand). Änderungen
+     an Preis/Bestand/Foto liegen als «Overlay» im localStorage — so bleibt eine
+     Aktualisierung der Stammdaten möglich, ohne den Bestand zu verlieren.
+     Der Bestand wird NIE direkt gesetzt, sondern über Bewegungen geführt
+     (gleiche eiserne Regel wie sonst: nichts verschwindet, alles ist nachvollziehbar). */
+
+  const SHOP_LOW = 2;   // ab diesem Bestand gilt ein Artikel als «fast weg»
+  /* LOVE Creative GmbH ist MWST-pflichtig (UID CHE-444.010.856). Handelsware im Shop
+     (Tassen, Karten, Anhänger, Papeterie) läuft zum Normalsatz. Alle VK-Preise sind
+     BRUTTO — für Marge und Buchhaltung zählt der Nettoerlös. */
+  const SHOP_VAT = 8.1;
+  /* Porto für den Postversand, in CHF. Wird IMMER zusätzlich verrechnet — es steckt
+     nicht in den Artikelpreisen. Ändert die Post ihre Tarife: nur hier anpassen. */
+  const SHOP_SHIPPING = 7;
+  const netPrice = brutto => Math.round((Number(brutto) || 0) / (1 + SHOP_VAT / 100) * 100) / 100;
+
+  const _base = () => (typeof window !== 'undefined' && window.LOVE_PRODUCTS) || [];
+  const _overlay = () => { try { return JSON.parse(localStorage.getItem(KEYS.products)) || {}; } catch (e) { return {}; } };
+  const _writeOverlay = o => localStorage.setItem(KEYS.products, JSON.stringify(o));
+
+  function listProducts(opts) {
+    const ov = _overlay();
+    let rows = _base().map(p => {
+      const o = ov[p.sku] || {};
+      return Object.assign({}, p, o, { sku: p.sku, low: (o.stock != null ? o.stock : p.stock) <= SHOP_LOW });
+    });
+    /* Artikel, die es nur im Overlay gibt (im CRM neu erfasst) */
+    const baseSkus = new Set(_base().map(p => p.sku));
+    Object.entries(ov).forEach(([sku, o]) => { if (!baseSkus.has(sku) && o.name) rows.push(Object.assign({ sku, cat: 'sonstiges', cost: 0, supplier: '' }, o, { low: (o.stock || 0) <= SHOP_LOW })); });
+    if (opts && opts.cat) rows = rows.filter(p => p.cat === opts.cat);
+    if (opts && opts.onlyVisible) rows = rows.filter(p => p.visible !== false && (p.stock || 0) > 0);
+    return rows.sort((a, b) => a.name.localeCompare(b.name, 'de'));
+  }
+  /* Artikel über die interne Nummer ODER die öffentliche ID (love-…) finden.
+     Online-Bestellungen tragen die öffentliche ID — das CRM löst sie hier auf. */
+  function getProduct(sku) {
+    const q = String(sku).trim();
+    if (!q) return null;
+    const alle = listProducts();
+    return alle.find(p => p.sku.toUpperCase() === q.toUpperCase())   // interne Nr. oder öffentliche ID direkt
+        || (/^love-[0-9a-f]{8}$/i.test(q)                            // öffentliche ID → interne Nr. auflösen
+              ? alle.find(p => shopPublicId(p.sku) === q.toLowerCase())
+              : null)
+        || null;
+  }
+
+  /* Artikel per Barcode (GTIN) oder SKU finden — für den Scanner an der Theke */
+  function findProduct(term) {
+    const q = String(term || '').trim().toUpperCase();
+    if (!q) return null;
+    const all = listProducts();
+    return all.find(p => p.gtin === q) || getProduct(q)
+        || all.find(p => p.name.toUpperCase() === q) || null;
+  }
+
+  /* Stammdaten ändern (Preis, Sichtbarkeit, Foto, Name …). Bestand NUR über adjustStock. */
+  function upsertProduct(sku, patch) {
+    const vorhanden = getProduct(sku);
+    sku = vorhanden ? vorhanden.sku : String(sku).trim().toUpperCase();
+    const ov = _overlay();
+    const cur = ov[sku] || {};
+    const next = Object.assign({}, cur, patch);
+    delete next.low;
+    if (patch.stock != null) {          // Bestand kommt über adjustStock — hier als Korrektur verbuchen
+      const before = getProduct(sku);
+      const diff = Number(patch.stock) - (before ? (before.stock || 0) : 0);
+      next.stock = cur.stock;           // bisherigen Overlay-Bestand behalten, adjustStock rechnet weiter
+      if (next.stock === undefined) delete next.stock;
+      delete next._note;
+      ov[sku] = next; _writeOverlay(ov);
+      if (diff) adjustStock(sku, diff, 'korrektur', patch._note || 'Bestand im CRM gesetzt');
+      return getProduct(sku);
+    }
+    delete next._note;
+    ov[sku] = next; _writeOverlay(ov);
+    return getProduct(sku);
+  }
+
+  /* Lagerbewegung: delta negativ = Abgang. kind: 'wareneingang'|'verkauf'|'korrektur'|'bruch'|'storno' */
+  function adjustStock(sku, delta, kind, note, ref) {
+    const p = getProduct(sku); if (!p) return { ok: false, error: 'not-found' };
+    sku = p.sku;   // Schreibweise des Artikels übernehmen — intern gross, öffentlich klein
+    delta = Number(delta) || 0; if (!delta) return { ok: false, error: 'no-change' };
+    const ov = _overlay();
+    const cur = ov[sku] || {};
+    cur.stock = Math.max(0, (p.stock || 0) + delta);
+    ov[sku] = cur; _writeOverlay(ov);
+    const tx = _read(KEYS.stockTx);
+    tx.unshift({ ts: _now(), sku, name: p.name, delta, stock: cur.stock, kind: kind || 'korrektur', note: note || '', ref: ref || '' });
+    _write(KEYS.stockTx, tx);
+    return { ok: true, product: getProduct(sku), stock: cur.stock };
+  }
+  const listStockTx = sku => {
+    if (!sku) return _read(KEYS.stockTx);
+    const p = getProduct(sku);
+    const key = (p ? p.sku : String(sku).trim()).toUpperCase();
+    return _read(KEYS.stockTx).filter(t => String(t.sku).toUpperCase() === key);
+  };
+
+  /* Nachgetragene Bewegungen aus love-shop-data.js einmalig buchen (siehe Kommentar dort).
+     Der Browser-Speicher gilt pro Gerät — so bekommt jedes Gerät denselben Stand. */
+  const SEED_KEY = 'love.stockseed.v1';
+  function _applyStockSeed() {
+    const seed = (typeof window !== 'undefined' && window.LOVE_STOCK_SEED) || null;
+    if (!seed || !Array.isArray(seed.moves)) return;
+    let done = [];
+    try { done = JSON.parse(localStorage.getItem(SEED_KEY)) || []; } catch (e) { done = []; }
+    if (done.includes(seed.id)) return;
+    const tx = _read(KEYS.stockTx);
+    const ov = _overlay();
+    seed.moves.forEach(mv => {
+      const p = getProduct(mv.sku);
+      if (!p) return;                       // unbekannte Nummer still übergehen
+      const cur = ov[p.sku] || {};
+      cur.stock = Math.max(0, (p.stock || 0) + Number(mv.qty || 0));
+      ov[p.sku] = cur; _writeOverlay(ov);
+      tx.unshift({ ts: seed.ts || _now(), sku: p.sku, name: p.name, delta: Number(mv.qty) || 0,
+                   stock: cur.stock, kind: mv.kind || 'korrektur', note: mv.note || '', ref: seed.id });
+    });
+    _write(KEYS.stockTx, tx);
+    done.push(seed.id);
+    localStorage.setItem(SEED_KEY, JSON.stringify(done));
+  }
+
+  /* Bestellung aus dem Online-Shop. items: [{sku, qty}] — Preise kommen aus dem Sortiment. */
+  function addOrder(data) {
+    const items = (data.items || []).map(i => {
+      const p = getProduct(i.sku);
+      return p ? { sku: p.sku, name: p.name, qty: Number(i.qty) || 1, price: Number(p.price) || 0 } : null;
+    }).filter(Boolean);
+    if (!items.length) return { ok: false, error: 'empty' };
+    const sub = items.reduce((s, i) => s + i.price * i.qty, 0);
+    const discount = Number(data.discount) || 0;
+    const shipping = data.delivery === 'post' ? SHOP_SHIPPING : 0;
+    const o = {
+      id: 'S-' + String(_read(KEYS.orders).length + 1).padStart(4, '0'),
+      ts: _now(), status: 'neu',
+      items, sub: Math.round(sub * 20) / 20, discount, shipping,
+      total: Math.round((sub - discount + shipping) * 20) / 20,
+      name: data.name || '', email: (data.email || '').trim().toLowerCase(), phone: data.phone || '',
+      delivery: data.delivery || 'abholung', address: data.address || '',
+      member: data.member || '', note: data.note || '',
+      payment: data.payment || 'online', paid: false, paid_at: null,
+      history: [{ ts: _now(), event: 'Bestellung eingegangen' }]
+    };
+    const all = _read(KEYS.orders); all.push(o); _write(KEYS.orders, all);
+    /* Bestand sofort reservieren — sonst verkaufen wir online, was an der Theke schon weg ist */
+    items.forEach(i => adjustStock(i.sku, -i.qty, 'verkauf', 'Online-Bestellung', o.id));
+    if (o.email) upsertContact(o.email, { name: o.name, phone: o.phone, tag: 'format:shop' });
+
+    /* Die Bestellung muss uns erreichen — der Warenkorb liegt sonst nur im Browser
+       der Kundin. Zwei Wege gleichzeitig, damit nichts verloren geht:
+       1. order_add — der vorgesehene Weg, sobald die Cloud-API ihn kennt
+       2. addBooking — der bereits funktionierende Kanal; die Bestellung erscheint
+          damit als Buchung vom Typ «shop» im CRM und im Host-Bereich. */
+    if (typeof LoveCloud !== 'undefined') LoveCloud.push('order_add', {
+      id: o.id, items: o.items, total: o.total, name: o.name, email: o.email,
+      delivery: o.delivery, address: o.address, member: o.member, note: o.note
+    });
+    const liste = o.items.map(i => i.qty + '× ' + i.name).join(' · ');
+    const zustellung = o.delivery === 'post' ? 'Versand an ' + o.address : 'Abholung im Studio';
+    addBooking({
+      type: 'shop', name: o.name, email: o.email, phone: o.phone,
+      message: `Shop-Bestellung ${o.id} · ${liste} · ${zustellung} · Total CHF ${o.total.toFixed(2)}`
+        + (o.shipping ? ` (inkl. CHF ${o.shipping.toFixed(2)} Porto)` : '')
+        + (o.member ? ` · Member ${o.member}` : '')
+        + (o.note ? ` · Bemerkung: ${o.note}` : ''),
+      lang: (typeof LoveSite !== 'undefined' && LoveSite.lang) ? LoveSite.lang() : 'de'
+    });
+    return { ok: true, order: o };
+  }
+  function updateOrder(id, patch, event) {
+    const all = _read(KEYS.orders);
+    const o = all.find(x => x.id === id); if (!o) return null;
+    /* Storno gibt die Ware zurück ins Lager */
+    if (patch.status === 'storniert' && o.status !== 'storniert') {
+      o.items.forEach(i => adjustStock(i.sku, i.qty, 'storno', 'Bestellung storniert', o.id));
+    }
+    Object.assign(o, patch);
+    if (patch.paid && !o.paid_at) o.paid_at = _now();
+    o.history = o.history || [];
+    o.history.push({ ts: _now(), event: event || ('Status: ' + (patch.status || 'aktualisiert')) });
+    _write(KEYS.orders, all);
+    return o;
+  }
+  const listOrders = () => _read(KEYS.orders).slice().sort((a, b) => b.ts.localeCompare(a.ts));
+  const getOrder = id => _read(KEYS.orders).find(o => o.id === String(id).trim().toUpperCase()) || null;
+
+  /* SumUp-Artikelkatalog als CSV — einmal in SumUp hochladen, dann kennt die Kasse
+     Namen, Preis und Barcode. (SumUp hat keine öffentliche Artikel-API, darum CSV.) */
+  /* Spalten exakt nach der SumUp-Importvorlage (englisch, auch in der Schweizer Version).
+     «Display item in Online Store» bleibt «No» — unser Shop läuft auf lovecreative.ch. */
+  const SHOP_IMG_HOST = 'https://lovecreative.ch/';
+
+  /* Öffentlicher Dateiname eines Produktfotos.
+     Intern heissen die Bilder nach der Artikel-Nr. (<SKU>.jpg) — praktisch bei jeder
+     Nachbestellung. Öffentlich wäre das eine Spur zum Lieferanten, darum bekommt die
+     Website einen neutralen Namen. Die Ableitung ist fest (gleiche Nummer = gleicher
+     Name), damit Website, Kasse und Build ohne Zuordnungsliste zusammenpassen. */
+  function shopPublicId(sku) {
+    let h = 0x811c9dc5;                       // FNV-1a, 32 Bit
+    const s = String(sku).toUpperCase();
+    for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+    return 'love-' + h.toString(16).padStart(8, '0');
+  }
+  const shopImageName = sku => shopPublicId(sku) + '.jpg';
+  /* Öffentliche Bildadresse — externe URLs (im CRM von Hand eingetragen) bleiben unberührt. */
+  function shopImageUrl(p) {
+    if (!p || !p.img) return '';
+    if (/^https?:\/\//i.test(p.img)) return p.img;
+    return SHOP_IMG_HOST + 'assets/img/shop/' + shopImageName(p.sku);
+  }
+  const SUMUP_COLS = [
+    'Item name', 'Variations', 'Option set 1', 'Option 1', 'Option set 2', 'Option 2',
+    'Option set 3', 'Option 3', 'Option set 4', 'Option 4', 'Is variation visible (Yes/No)',
+    'Price', 'On sale in Online Store?', 'Regular price (before sale)', 'Tax rate (%)',
+    'Take away price', 'Takeaway tax rate', 'Unit',
+    'Track inventory?', 'Quantity', 'Low stock threshold', 'SKU', 'Barcode',
+    'Modifiers', 'Description', 'Category', 'Display colour in POS checkout',
+    'Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5', 'Image 6', 'Image 7',
+    'Display item in Online Store? (Yes/No)', 'SEO Title (Online Store only)',
+    'SEO Description (Online Store only)', 'Shipping weight [kg] (Online Store only)'
+  ];
+
+  function sumupCatalogCSV() {
+    const cats = (typeof window !== 'undefined' && window.LOVE_SHOP_CATS) || {};
+    const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const lines = [SUMUP_COLS.join(',')];
+    listProducts().forEach(p => {
+      const row = {
+        'Item name': p.name,
+        'Price': (Number(p.price) || 0).toFixed(2),
+        'Tax rate (%)': SHOP_VAT.toFixed(1),
+        'Track inventory?': 'Yes',
+        'Quantity': p.stock || 0,
+        'Low stock threshold': SHOP_LOW,
+        'SKU': p.sku,
+        'Barcode': p.gtin || '',
+        'Description': p.variant || '',
+        'Category': (cats[p.cat] && cats[p.cat].de) || p.cat,
+        'Image 1': shopImageUrl(p),
+        'Display item in Online Store? (Yes/No)': 'No'
+      };
+      lines.push(SUMUP_COLS.map(c => q(row[c] !== undefined ? row[c] : '')).join(','));
+    });
+    return lines.join('\r\n');
+  }
+
+  /* Verkäufe aus einem SumUp-Export auf das Lager buchen.
+     SumUp liefert je Transaktion eine Artikelliste (products[] mit name/quantity)
+     bzw. bei kleinen Exporten nur product_summary — beides wird ausgewertet. */
+  function _bookSumUpItems(t, rawRow) {
+    const list = Array.isArray(rawRow.products) ? rawRow.products : [];
+    let booked = 0;
+    if (list.length) {
+      list.forEach(it => {
+        const p = findProduct(it.sku || it.name);
+        if (p) { adjustStock(p.sku, -(Number(it.quantity) || 1), 'verkauf', 'SumUp-Kasse', t.code); booked++; }
+      });
+      return booked;
+    }
+    /* Fallback: die Beschreibung enthält den Artikelnamen (z. B. «Mrs Mug») */
+    const desc = t.desc || '';
+    if (!desc) return 0;
+    const hit = listProducts().find(p => p.name && desc.toLowerCase().includes(p.name.toLowerCase()));
+    if (hit) { adjustStock(hit.sku, -1, 'verkauf', 'SumUp-Kasse', t.code); booked++; }
+    return booked;
+  }
+
+  try { _applyStockSeed(); } catch (e) { /* Sortiment fehlt (z. B. Seite ohne Shop) — egal */ }
+
   function stats() {
     const bookings = _read(KEYS.bookings);
     const weekAgo = Date.now() - 7 * 864e5;
@@ -340,6 +620,9 @@ const LoveData = (() => {
     const today = _today();
     const in30 = _addMonths(today, 1);
     const members = listMembers();
+    const prods = listProducts();
+    const orders = _read(KEYS.orders);
+    const stockTx = _read(KEYS.stockTx);
     return {
       bookingsNew: bookings.filter(b => b.status === 'neu').length,
       bookingsWeek: bookings.filter(isWeek).length,
@@ -354,7 +637,23 @@ const LoveData = (() => {
       membersPending: members.filter(m => m.status === 'angemeldet').length,
       membersExpiring: members.filter(m => m.status === 'aktiv' && m.end && m.end <= in30).length,
       memberCreditLiability: Math.round(members.reduce((s, m) => s + (m.credit || 0), 0)),
-      sumupImported: _read(KEYS.sumup).length
+      sumupImported: _read(KEYS.sumup).length,
+      shopProducts: prods.length,
+      shopVisible: prods.filter(p => p.visible !== false && (p.stock || 0) > 0).length,
+      shopLow: prods.filter(p => (p.stock || 0) > 0 && p.low).length,
+      shopOut: prods.filter(p => !(p.stock || 0)).length,
+      shopNoPhoto: prods.filter(p => !p.img).length,
+      shopStockValue: Math.round(prods.reduce((s, p) => s + (p.price || 0) * (p.stock || 0), 0)),
+      shopStockNet: Math.round(prods.reduce((s, p) => s + netPrice(p.price) * (p.stock || 0), 0)),
+      shopStockCost: Math.round(prods.reduce((s, p) => s + (p.cost || 0) * (p.stock || 0), 0)),
+      shopGifts: stockTx.filter(t => t.kind === 'geschenk').reduce((s, t) => s - t.delta, 0),
+      shopGiftsValue: Math.round(stockTx.filter(t => t.kind === 'geschenk').reduce((s, t) => {
+        const p = getProduct(t.sku); return s + (p ? p.price : 0) * -t.delta;
+      }, 0)),
+      shopSoldCounter: stockTx.filter(t => t.kind === 'verkauf' && !t.ref.startsWith('S-')).reduce((s, t) => s - t.delta, 0),
+      shopOrdersNew: orders.filter(o => o.status === 'neu').length,
+      shopOrdersOpen: orders.filter(o => !['abgeholt', 'versandt', 'storniert'].includes(o.status)).length,
+      shopRevenueWeek: Math.round(orders.filter(o => o.paid && isWeek(o)).reduce((s, o) => s + o.total, 0))
     };
   }
 
@@ -362,6 +661,7 @@ const LoveData = (() => {
   function exportJSON() {
     const dump = {};
     Object.entries(KEYS).forEach(([name, key]) => { dump[name] = _read(key); });
+    dump.products = _overlay();   // Sortiment-Overlay ist ein Objekt, keine Liste
     dump._exported = _now();
     return JSON.stringify(dump, null, 2);
   }
@@ -371,6 +671,9 @@ const LoveData = (() => {
     Object.entries(KEYS).forEach(([name, key]) => {
       if (Array.isArray(dump[name])) { _write(key, dump[name]); count += dump[name].length; }
     });
+    if (dump.products && !Array.isArray(dump.products)) {
+      _writeOverlay(dump.products); count += Object.keys(dump.products).length;
+    }
     return count;
   }
   function toCSV(rows) {
@@ -388,6 +691,9 @@ const LoveData = (() => {
     PLANS, addMember, updateMember, activateMember, getMember, findMembers, listMembers, memberBenefits,
     topUpMember, redeemMemberCredit, listMemberTx,
     importSumUp, parseSumUpCSV, listSumUp,
+    listProducts, getProduct, findProduct, upsertProduct, adjustStock, listStockTx,
+    addOrder, updateOrder, listOrders, getOrder, sumupCatalogCSV, SHOP_LOW, SHOP_VAT, SHOP_SHIPPING, netPrice,
+    shopImageName, shopImageUrl, shopPublicId,
     stats, exportJSON, importJSON, toCSV, KEYS
   };
 })();

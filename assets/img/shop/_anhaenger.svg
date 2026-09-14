@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Schlüsselanhänger">
+  <rect width="400" height="400" fill="#FFF0F4"/>
+  <circle cx="200" cy="128" r="40" fill="none" stroke="#337357" stroke-width="7"/>
+  <path d="M200 168v26" stroke="#337357" stroke-width="7" stroke-linecap="round"/>
+  <rect x="146" y="194" width="108" height="124" rx="18" fill="#E27396" opacity=".85" stroke="#337357" stroke-width="7"/>
+  <path d="M200 236c-11-15-35-9-35 10 0 18 23 28 35 40 12-12 35-22 35-40 0-19-24-25-35-10z" fill="#fff" opacity=".9"/>
+  <circle cx="92" cy="112" r="6" fill="#EA9AB2"/>
+  <circle cx="312" cy="322" r="7" fill="#6D9F71" opacity=".7"/>
+</svg>

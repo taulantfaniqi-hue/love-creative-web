@@ -1,0 +1,132 @@
+/* LOVE Creative — Online-Shop (Sortiment, Warenkorb, Kasse)
+   Ergänzt love.css; nutzt dieselben Farb- und Schrift-Variablen. */
+
+/* ═══════════ Filterleiste ═══════════ */
+.shop-bar{ display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin:0 0 1.6rem }
+.shop-chip{
+  border:1.5px solid var(--line, #e4ded6); background:#fff; color:var(--ink);
+  border-radius:999px; padding:.5rem 1.1rem; font-family:var(--ff-body); font-weight:600;
+  font-size:.9rem; cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.shop-chip:hover{ border-color:var(--rose) }
+.shop-chip[aria-pressed="true"]{ background:var(--green); color:#fff; border-color:var(--green) }
+.shop-chip:focus-visible{ outline:3px solid var(--rose); outline-offset:2px }
+.shop-search{
+  flex:1; min-width:190px; max-width:320px; font-family:var(--ff-body); font-size:.95rem;
+  padding:.55rem 1rem; border:1.5px solid var(--line, #e4ded6); border-radius:999px; background:#fff; color:var(--ink);
+}
+.shop-search:focus{ outline:3px solid var(--rose); outline-offset:1px; border-color:var(--rose) }
+.shop-count{ color:var(--ink-soft); font-size:.9rem; margin-left:auto }
+
+/* ═══════════ Produktraster ═══════════ */
+.shop-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(215px, 1fr)); gap:1.3rem }
+.shop-card{
+  background:#fff; border:1px solid var(--line-soft, #efe9e2); border-radius:var(--r-m, 18px);
+  overflow:hidden; display:flex; flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.shop-card:hover{ transform:translateY(-3px); box-shadow:0 14px 34px rgba(21,84,55,.12) }
+.shop-photo{ position:relative; aspect-ratio:1/1; background:var(--celadon, #FFF0F4); overflow:hidden }
+.shop-photo img{ width:100%; height:100%; object-fit:cover; display:block }
+.shop-card .body{ padding:.85rem 1rem 1rem; display:flex; flex-direction:column; gap:.35rem; flex:1 }
+.shop-card h3{ font-family:var(--ff-body); font-size:.97rem; font-weight:600; line-height:1.3; color:var(--ink) }
+.shop-cat{ font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--rose) }
+.shop-price{ font-family:var(--ff-display); font-size:1.28rem; color:var(--green); margin-top:auto }
+.shop-price .was{ font-family:var(--ff-body); font-size:.85rem; color:var(--ink-soft); text-decoration:line-through; margin-left:.4rem }
+.shop-stock{ font-size:.8rem; color:var(--ink-soft) }
+.shop-stock.low{ color:#b4622f; font-weight:600 }
+.shop-stock.out{ color:#a4243b; font-weight:600 }
+.shop-flag{
+  position:absolute; top:.6rem; left:.6rem; background:var(--rose); color:#fff;
+  border-radius:999px; font-size:.72rem; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; padding:.25rem .7rem;
+}
+.shop-flag.out{ background:var(--ink-soft) }
+.shop-card .btn{ margin-top:.55rem; width:100% }
+.shop-empty{ padding:2.4rem 1.2rem; text-align:center; color:var(--ink-soft); background:#fff;
+  border:1px dashed var(--line, #e4ded6); border-radius:var(--r-m, 18px) }
+
+/* ═══════════ Warenkorb ═══════════ */
+/* Über der Sticky-Leiste (90) und dem Reservations-Knopf (110) — sonst deckt
+   ein anderer Knopf den Warenkorb oder das Bestellformular ab. */
+.cart-launcher{
+  position:fixed; right:1.1rem; bottom:1.1rem; z-index:120;
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:var(--green); color:#fff; border:0; border-radius:999px;
+  padding:.85rem 1.35rem; font-family:var(--ff-body); font-weight:600; font-size:.95rem;
+  cursor:pointer; box-shadow:0 12px 30px rgba(21,84,55,.28);
+}
+.cart-launcher:hover{ background:#27604a }
+.cart-launcher:focus-visible{ outline:3px solid var(--rose); outline-offset:3px }
+.cart-launcher .n{ background:var(--rose); border-radius:999px; padding:.1rem .55rem; font-size:.85rem }
+.cart-launcher[hidden]{ display:none }
+
+.cart-backdrop{ position:fixed; inset:0; background:rgba(21,84,55,.34); opacity:0; pointer-events:none;
+  transition:opacity .25s ease; z-index:125 }
+.cart-backdrop.open{ opacity:1; pointer-events:auto }
+.cart-panel{
+  position:fixed; top:0; right:0; height:100%; width:min(430px, 100%);
+  background:var(--cream, #FBF7F1); z-index:130; display:flex; flex-direction:column;
+  transform:translateX(100%); transition:transform .28s ease; box-shadow:-18px 0 50px rgba(21,84,55,.16);
+}
+/* Solange der Warenkorb offen ist, hat nichts anderes etwas im Weg zu stehen */
+body.cart-open .sticky-cta,
+body.cart-open .lw-launcher,
+body.cart-open .cart-launcher{ display:none !important }
+.cart-panel.open{ transform:none }
+.cart-head{ display:flex; align-items:center; gap:.8rem; padding:1.1rem 1.2rem;
+  background:var(--green); color:#fff }
+.cart-head h2{ font-family:var(--ff-display); font-size:1.25rem; font-weight:600; margin-right:auto }
+.cart-close{ background:transparent; border:0; color:#fff; font-size:1.4rem; cursor:pointer; line-height:1; padding:.2rem }
+.cart-close:focus-visible{ outline:3px solid var(--mimi); outline-offset:2px }
+.cart-body{ flex:1; overflow-y:auto; padding:1.1rem 1.2rem }
+.cart-foot{ border-top:1px solid var(--line, #e4ded6); padding:1rem 1.2rem 1.3rem; background:#fff }
+
+.cart-line{ display:flex; gap:.8rem; padding:.75rem 0; border-bottom:1px dashed var(--line, #e4ded6) }
+.cart-line img{ width:62px; height:62px; object-fit:cover; border-radius:12px; background:var(--celadon, #FFF0F4); flex:none }
+.cart-line .t{ flex:1; min-width:0 }
+.cart-line .t b{ display:block; font-weight:600; font-size:.92rem; line-height:1.3 }
+.cart-line .t span{ font-size:.82rem; color:var(--ink-soft) }
+.qty{ display:inline-flex; align-items:center; gap:.45rem; margin-top:.35rem }
+.qty button{
+  width:28px; height:28px; border-radius:50%; border:1.5px solid var(--line, #e4ded6);
+  background:#fff; color:var(--green); font-size:1rem; line-height:1; cursor:pointer; font-weight:700;
+}
+.qty button:hover:not(:disabled){ border-color:var(--rose); color:var(--rose) }
+.qty button:disabled{ opacity:.4; cursor:not-allowed }
+.qty span{ min-width:1.6rem; text-align:center; font-weight:600 }
+.cart-line .p{ text-align:right; font-weight:600; white-space:nowrap }
+.cart-line .rm{ display:block; margin-top:.3rem; background:none; border:0; color:var(--ink-soft);
+  font-size:.78rem; text-decoration:underline; cursor:pointer; padding:0 }
+.cart-line .rm:hover{ color:#a4243b }
+
+/* Kompakte Positionsliste an der Kasse — Platz gehört dort dem Formular */
+.cart-sum-list{ list-style:none; margin:0 0 .2rem; padding:0; font-size:.9rem }
+.cart-sum-list li{ display:flex; justify-content:space-between; gap:1rem; padding:.35rem 0;
+  border-bottom:1px dashed var(--line, #e4ded6) }
+.cart-sum-list li.edit{ border:0; padding-top:.5rem; justify-content:flex-start }
+.cart-sum-list li.edit button{ background:none; border:0; padding:0; cursor:pointer;
+  color:var(--rose); font-family:var(--ff-body); font-size:.85rem; font-weight:600; text-decoration:underline }
+.cart-sum-list li.edit button:hover{ color:var(--green) }
+
+.cart-sums{ font-size:.92rem; margin-bottom:.8rem }
+.cart-sums div{ display:flex; justify-content:space-between; padding:.22rem 0 }
+.cart-sums .tot{ border-top:1px solid var(--line, #e4ded6); margin-top:.35rem; padding-top:.5rem;
+  font-family:var(--ff-display); font-size:1.25rem; color:var(--green) }
+.cart-sums .save{ color:var(--rose); font-weight:600 }
+
+/* ═══════════ Produkt-Detail ═══════════ */
+.pd-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; align-items:start }
+.pd-grid img{ width:100%; border-radius:var(--r-m, 18px); background:var(--celadon, #FFF0F4) }
+.pd-meta{ font-size:.86rem; color:var(--ink-soft); line-height:1.8 }
+.pd-meta code{ background:var(--celadon, #FFF0F4); border-radius:5px; padding:.1rem .4rem; font-size:.84em }
+
+@media (max-width:640px){
+  .pd-grid{ grid-template-columns:1fr }
+  .shop-grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:.9rem }
+  .shop-count{ width:100%; margin-left:0 }
+}
+@media (prefers-reduced-motion:reduce){
+  .shop-card, .cart-panel, .cart-backdrop{ transition:none }
+  .shop-card:hover{ transform:none }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Grusskarte">
+  <rect width="400" height="400" fill="#FFF0F4"/>
+  <rect x="112" y="88" width="176" height="224" rx="10" fill="#fff" stroke="#337357" stroke-width="7"/>
+  <path d="M112 88h176v34H112z" fill="#E27396" opacity=".4"/>
+  <path d="M200 176c-16-22-52-14-52 14 0 26 34 42 52 60 18-18 52-34 52-60 0-28-36-36-52-14z" fill="#E27396" opacity=".85"/>
+  <g stroke="#6D9F71" stroke-width="6" stroke-linecap="round">
+    <path d="M146 276h108"/><path d="M146 296h72"/>
+  </g>
+  <circle cx="88" cy="118" r="6" fill="#EA9AB2"/>
+  <circle cx="318" cy="308" r="7" fill="#6D9F71" opacity=".7"/>
+</svg>

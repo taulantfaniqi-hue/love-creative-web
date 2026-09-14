@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Tasse">
+  <rect width="400" height="400" fill="#FFF0F4"/>
+  <g fill="none" stroke="#337357" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M118 140h150v104a58 58 0 0 1-58 58h-34a58 58 0 0 1-58-58z"/>
+    <path d="M268 168h26a34 34 0 0 1 0 68h-26"/>
+  </g>
+  <path d="M118 140h150v26H118z" fill="#E27396" opacity=".45"/>
+  <circle cx="170" cy="215" r="9" fill="#E27396" opacity=".7"/>
+  <circle cx="216" cy="215" r="9" fill="#E27396" opacity=".7"/>
+  <path d="M168 248q25 22 50 0" fill="none" stroke="#E27396" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="96" cy="104" r="6" fill="#EA9AB2"/>
+  <circle cx="310" cy="330" r="7" fill="#6D9F71" opacity=".7"/>
+</svg>

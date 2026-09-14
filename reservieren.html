@@ -5,7 +5,7 @@
 <script src="assets/js/love-gate.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tisch reservieren — LOVE Creative Café, Au ZH</title>
-<meta name="description" content="Reserviere deinen Tisch im LOVE Creative Café in Au ZH: 3 Stunden Keramik bemalen, Kaffee und gute Gespräche. Rundtische für 1–3, grosse Tische für 4–10 Personen.">
+<meta name="description" content="Reserviere deinen Tisch im LOVE Creative Café in Au ZH: 3 Stunden Keramik bemalen, Kaffee und gute Gespräche. Rundtische für zwei oder vier, lange Tische für bis zu acht Personen.">
 <link rel="canonical" href="https://lovecreative.ch/reservieren.html">
 <link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,9 +17,10 @@
 <script>
 window.LOVE_TITLES = { de: 'Tisch reservieren — LOVE Creative Café, Au ZH', en: 'Reserve a table — LOVE Creative Café, Au ZH' };
 window.LOVE_DE = { // nur in JS verwendete DE-Texte
-  'f.tRund':'Rundtisch für bis zu 3 — gemütlich und schnell bestätigt.',
-  'f.tGross':'Grosser Tisch für 4–10 — Platz für alle und alle Farben.',
-  'f.tEvent':'Ab 11 Personen planen wir mit euch ein Event — mit Verpflegung und eigenem Zeitplan.'
+  'f.tRund2':'Rundtisch für 2 — gemütlich und schnell bestätigt.',
+  'f.tRund4':'Rundtisch für 4 — genug Platz für Farben und Kaffee.',
+  'f.tLang8':'Langer Tisch für bis zu 8 — Platz für alle und alle Farben.',
+  'f.tEvent':'Ab 9 Personen planen wir mit euch ein Event — mit Verpflegung und eigenem Zeitplan.'
 };
 window.LOVE_EN = {
   'rs.eyebrow':'Reservation','rs.title':'Reserve your table',
@@ -27,23 +28,24 @@ window.LOVE_EN = {
   'rs.cta1':'Reserve now','rs.cta2':'How it works',
   'how.eyebrow':'How it works','how.title':'Three steps to your table',
   'how.s1':'Date &amp; time slot','how.s1t':'Four slots a day, three hours each: 9–12, 12–3, 3–6 and 6–9 pm. Fridays 6–9 pm is Cinema Night.',
-  'how.s2':'Group size','how.s2t':'1–3 people get a cosy round table, 4–10 a large table. From 11 people, use our event planner.',
+  'how.s2':'Group size','how.s2t':'Up to 2 people get a cosy round table for two, 3–4 a round table for four, 5–8 a long table. From 9 people, use our event planner.',
   'how.s3':'Confirmation','how.s3t':'We confirm by e-mail within 24 hours. If your slot is full, we suggest alternatives — you\'re automatically on the waiting list.',
-  'room.eyebrow':'Our space','room.title':'54 seats on two floors',
-  'room.lead':'Ground floor: two large tables and five round tables around the café counter. Gallery upstairs: one large table and three round tables — quieter, ideal for couples and small groups.',
-  'room.eg':'Ground floor','room.egSub':'35 seats · café counter','room.og':'Upper floor · gallery','room.ogSub':'19 seats · quiet',
-  'room.legend1':'Large table (10)','room.legend2':'Round table (3)','room.legend3':'Fits your group',
+  'room.eyebrow':'Our space','room.title':'44 seats on two floors',
+  'room.lead':'Ground floor: two long tables for eight, two round tables for four and two for two — right by the café counter. Gallery upstairs: one long table for eight and four round tables for two — quieter, ideal for couples and small groups.',
+  'room.eg':'Ground floor','room.egSub':'28 seats · café counter','room.og':'Upper floor · gallery','room.ogSub':'16 seats · quiet',
+  'room.legend1':'Long table (8)','room.legend2':'Round table (4)','room.legend4':'Round table (2)','room.legend3':'Fits your group',
   'f.title':'Your reservation','f.sub':'Fill in — we take care of the rest.',
   'f.date':'Date','f.slot':'Time slot','f.kinoHint':'Friday evening = Cinema Night: film, ceramic piece and snacks included. We confirm the programme by e-mail.',
-  'f.persons':'Number of people','f.personsHint':'1–10 people. From 11: event planner.',
+  'f.persons':'Number of people','f.personsHint':'1–8 people at a table. From 9: event planner.',
   'f.area':'Preferred area','f.aEgal':'No preference','f.aEG':'Ground floor','f.aOG':'Gallery (upstairs)',
   'f.activity':'What would you like to do?',
   'f.act1':'Paint ceramics','f.act2':'Café only','f.act3':'Pour candles','f.act4':'Floral Bar',
   'f.name':'Name','f.email':'E-mail','f.phone':'Phone (optional)','f.msg':'Message (optional)',
   'f.msgPh':'Birthday, allergies, extra hour…',
-  'f.yourTable':'Your table','f.tRund':'Round table for up to 3 — cosy and quick to confirm.',
-  'f.tGross':'Large table for 4–10 — space for everyone and all the paints.',
-  'f.tEvent':'From 11 people we plan an event with you — with catering and your own timing.',
+  'f.yourTable':'Your table','f.tRund2':'Round table for 2 — cosy and quick to confirm.',
+  'f.tRund4':'Round table for 4 — room for the paints and the coffee.',
+  'f.tLang8':'Long table for up to 8 — space for everyone and all the paints.',
+  'f.tEvent':'From 9 people we plan an event with you — with catering and your own timing.',
   'f.tNone':'Choose the number of people and we\'ll suggest the right table.',
   'f.submit':'Request reservation','f.eventLink':'Go to event planner →',
   'f.okTitle':'Reservation received!','f.okText':'We confirm your table by e-mail within 24 hours. If your slot is full, we suggest alternatives — you\'re automatically on the waiting list.',
@@ -78,6 +80,7 @@ window.LOVE_EN = {
         <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
         <li><a href="kinoabend.html" data-i18n="nav.kino">Kinoabend</a></li>
         <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
+        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
         <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
@@ -115,7 +118,7 @@ window.LOVE_EN = {
     <h2 class="sect-title" data-i18n="how.title">In drei Schritten zu deinem Tisch</h2>
     <div class="steps">
       <div class="step reveal"><h3 data-i18n="how.s1">Datum &amp; Zeitfenster</h3><p data-i18n="how.s1t">Vier Zeitfenster pro Tag à drei Stunden: 9–12, 12–15, 15–18 und 18–21 Uhr. Freitags 18–21 Uhr ist Kino-Night.</p></div>
-      <div class="step reveal"><h3 data-i18n="how.s2">Gruppengrösse</h3><p data-i18n="how.s2t">1–3 Personen bekommen einen gemütlichen Rundtisch, 4–10 einen grossen Tisch. Ab 11 Personen geht's über den Eventplaner.</p></div>
+      <div class="step reveal"><h3 data-i18n="how.s2">Gruppengrösse</h3><p data-i18n="how.s2t">Bis 2 Personen bekommen einen gemütlichen Rundtisch für zwei, 3–4 einen Rundtisch für vier, 5–8 einen langen Tisch. Ab 9 Personen geht's über den Eventplaner.</p></div>
       <div class="step reveal"><h3 data-i18n="how.s3">Bestätigung</h3><p data-i18n="how.s3t">Wir bestätigen per E-Mail innert 24 Stunden. Ist dein Wunschtermin voll, schlagen wir Alternativen vor — du bist automatisch auf der Warteliste.</p></div>
     </div>
   </div>
@@ -124,25 +127,26 @@ window.LOVE_EN = {
 <section class="tint" id="raum">
   <div class="wrap">
     <p class="eyebrow" data-i18n="room.eyebrow">Unser Raum</p>
-    <h2 class="sect-title" data-i18n="room.title">54 Plätze auf zwei Etagen</h2>
-    <p class="sect-lead" data-i18n="room.lead">Erdgeschoss: zwei grosse Tische und fünf Rundtische rund um die Café-Theke. Galerie im 1. Obergeschoss: ein grosser Tisch und drei Rundtische — ruhiger, ideal für Paare und Kleingruppen.</p>
+    <h2 class="sect-title" data-i18n="room.title">44 Plätze auf zwei Etagen</h2>
+    <p class="sect-lead" data-i18n="room.lead">Erdgeschoss: zwei lange Tische für acht, zwei Rundtische für vier und zwei für zwei — direkt bei der Café-Theke. Galerie im 1. Obergeschoss: ein langer Tisch für acht und vier Rundtische für zwei — ruhiger, ideal für Paare und Kleingruppen.</p>
     <div class="two-col" style="margin-bottom:1.4rem">
-      <figure class="feature reveal"><img src="assets/img/platzhalter.svg" alt="Erdgeschoss: zwei grosse Maltische, Rundtische und die Café-Theke" loading="lazy" width="1200" height="900"><figcaption class="body" style="padding:.8rem 1.2rem"><b data-i18n="room.eg">Erdgeschoss</b> · <span data-i18n="room.egSub">35 Plätze · Café-Theke</span></figcaption></figure>
-      <figure class="feature reveal"><img src="assets/img/platzhalter.svg" alt="Galerie im 1. Obergeschoss: grosser Tisch und Rundtische am Holzgeländer" loading="lazy" width="1200" height="900"><figcaption class="body" style="padding:.8rem 1.2rem"><b data-i18n="room.og">1. Obergeschoss · Galerie</b> · <span data-i18n="room.ogSub">19 Plätze · ruhig</span></figcaption></figure>
+      <figure class="feature reveal"><img src="assets/img/platzhalter.svg" alt="Erdgeschoss: zwei grosse Maltische, Rundtische und die Café-Theke" loading="lazy" width="1200" height="900"><figcaption class="body" style="padding:.8rem 1.2rem"><b data-i18n="room.eg">Erdgeschoss</b> · <span data-i18n="room.egSub">28 Plätze · Café-Theke</span></figcaption></figure>
+      <figure class="feature reveal"><img src="assets/img/platzhalter.svg" alt="Galerie im 1. Obergeschoss: grosser Tisch und Rundtische am Holzgeländer" loading="lazy" width="1200" height="900"><figcaption class="body" style="padding:.8rem 1.2rem"><b data-i18n="room.og">1. Obergeschoss · Galerie</b> · <span data-i18n="room.ogSub">16 Plätze · ruhig</span></figcaption></figure>
     </div>
     <div class="rooms" id="roomMap">
       <div class="room">
-        <h4><span data-i18n="room.eg" style="color:var(--rose);font-weight:700;letter-spacing:.12em;text-transform:uppercase">Erdgeschoss</span><span data-i18n="room.egSub">35 Plätze · Café-Theke</span></h4>
+        <h4><span data-i18n="room.eg" style="color:var(--rose);font-weight:700;letter-spacing:.12em;text-transform:uppercase">Erdgeschoss</span><span data-i18n="room.egSub">28 Plätze · Café-Theke</span></h4>
         <div class="tables" data-room="EG"></div>
       </div>
       <div class="room">
-        <h4><span data-i18n="room.og" style="color:var(--rose);font-weight:700;letter-spacing:.12em;text-transform:uppercase">1. Obergeschoss · Galerie</span><span data-i18n="room.ogSub">19 Plätze · ruhig</span></h4>
+        <h4><span data-i18n="room.og" style="color:var(--rose);font-weight:700;letter-spacing:.12em;text-transform:uppercase">1. Obergeschoss · Galerie</span><span data-i18n="room.ogSub">16 Plätze · ruhig</span></h4>
         <div class="tables" data-room="OG"></div>
       </div>
     </div>
     <div class="legend">
-      <span><i></i><span data-i18n="room.legend1">Grosser Tisch (10)</span></span>
-      <span><i style="border-radius:50%"></i><span data-i18n="room.legend2">Rundtisch (3)</span></span>
+      <span><i></i><span data-i18n="room.legend1">Langer Tisch (8)</span></span>
+      <span><i style="border-radius:50%"></i><span data-i18n="room.legend2">Rundtisch (4)</span></span>
+      <span><i style="border-radius:50%;transform:scale(.75)"></i><span data-i18n="room.legend4">Rundtisch (2)</span></span>
       <span><i class="picked"></i><span data-i18n="room.legend3">Passt zu deiner Gruppe</span></span>
     </div>
   </div>
@@ -158,7 +162,7 @@ window.LOVE_EN = {
         <form id="resForm" novalidate>
           <div class="two-col">
             <div class="field"><label for="rDate" data-i18n="f.date">Datum</label><input type="date" id="rDate" required></div>
-            <div class="field"><label for="rPersons" data-i18n="f.persons">Anzahl Personen</label><input type="number" id="rPersons" min="1" max="10" value="2"><p class="hint" data-i18n="f.personsHint">1–10 Personen. Ab 11: Eventplaner.</p></div>
+            <div class="field"><label for="rPersons" data-i18n="f.persons">Anzahl Personen</label><input type="number" id="rPersons" min="1" max="8" value="2"><p class="hint" data-i18n="f.personsHint">1–8 Personen am Tisch. Ab 9: Eventplaner.</p></div>
           </div>
           <div class="field">
             <label data-i18n="f.slot">Zeitfenster</label>
@@ -237,6 +241,7 @@ window.LOVE_EN = {
           <li><a href="cafe.html" data-i18n="ft.cafe">Café &amp; Menü</a></li>
           <li><a href="index.html#kino" data-i18n="ft.kinoL">Kino-Night</a></li>
           <li><a href="index.html#events" data-i18n="ft.events">Events</a></li>
+          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
           <li><a href="membership.html" data-i18n="ft.member">Membership</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
         </ul>
@@ -333,7 +338,7 @@ function suggestTable() {
   $('#eventLinkWrap').classList.add('hidden');
   if (!kind) { out.innerHTML = t('f.tNone'); return; }
   if (kind === 'event') { out.innerHTML = t('f.tEvent'); $('#eventLinkWrap').classList.remove('hidden'); return; }
-  out.innerHTML = t(kind === 'rund' ? 'f.tRund' : 'f.tGross');
+  out.innerHTML = t({ rund2: 'f.tRund2', rund4: 'f.tRund4', lang8: 'f.tLang8' }[kind] || 'f.tNone');
   T.candidates(p, area).forEach(tb => { const el = document.querySelector(`.tbl[data-id="${tb.id}"]`); if (el) el.classList.add('picked'); });
 }
 $('#rPersons').addEventListener('input', suggestTable);
