@@ -84,7 +84,7 @@ const COMMON_EN = {
   'ft.social': 'Instagram · TikTok · Pinterest — profiles coming soon',
   'ft.worlds': 'Discover', 'ft.visit': 'Visit us', 'ft.hours': 'Daily 9 am – 9 pm', 'ft.kino': 'Cinema Night: every Friday',
   'ft.legal': 'Legal', 'ft.privacy': 'Privacy', 'ft.imprint': 'Imprint', 'ft.team': 'Team portal',
-  'ft.cafe': 'Café &amp; menu', 'ft.res': 'Reserve a table', 'ft.member': 'Membership', 'ft.gift': 'Gift an experience', 'ft.shop': 'Shop',
+  'ft.cafe': 'Café &amp; menu', 'ft.res': 'Reserve a table', 'ft.member': 'Membership', 'ft.gift': 'Gift an experience', 'ft.shop': 'Shop', 'ft.services': 'Offering &amp; services',
   'ft.keramik': 'Ceramics &amp; prices', 'ft.kinoL': 'Cinema Night', 'ft.events': 'Events',
   'err.required': 'Please fill in name and a valid e-mail address.',
   'err.email': 'Please enter a valid e-mail address.',

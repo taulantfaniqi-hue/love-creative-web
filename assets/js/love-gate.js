@@ -20,7 +20,7 @@
   var HASH = '97d5e196c8387b7bb2a3f7fcf16b5f6d4fafa09a997f910a61e4f8c69e8cf364';
 
   /* Immer öffentlich — ohne Passwort erreichbar */
-  var OFFEN = ['impressum.html', 'agb.html', 'datenschutz.html', 'willkommen.html'];
+  var OFFEN = ['impressum.html', 'agb.html', 'datenschutz.html', 'leistungen.html', 'willkommen.html'];
   var seite = location.pathname.split('/').pop().toLowerCase();
   if (OFFEN.indexOf(seite) !== -1) return;
 
