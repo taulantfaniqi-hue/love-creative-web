@@ -15,33 +15,36 @@
 /* ═══════════ Tischmodell (Raumplan Seestrasse 287B) ═══════════ */
 const ROOMS = [
   { id: 'EG', name: { de: 'Erdgeschoss', en: 'Ground floor' }, tables: [
-    { id: 'EG-G1', kind: 'gross', seats: 10, label: { de: 'Grosser Tisch 1', en: 'Large table 1' } },
-    { id: 'EG-G2', kind: 'gross', seats: 10, label: { de: 'Grosser Tisch 2', en: 'Large table 2' } },
-    { id: 'EG-R1', kind: 'rund', seats: 3, label: { de: 'Rundtisch 1', en: 'Round table 1' } },
-    { id: 'EG-R2', kind: 'rund', seats: 3, label: { de: 'Rundtisch 2', en: 'Round table 2' } },
-    { id: 'EG-R3', kind: 'rund', seats: 3, label: { de: 'Rundtisch 3', en: 'Round table 3' } },
-    { id: 'EG-R4', kind: 'rund', seats: 3, label: { de: 'Rundtisch 4', en: 'Round table 4' } },
-    { id: 'EG-R5', kind: 'rund', seats: 3, label: { de: 'Rundtisch 5', en: 'Round table 5' } }
+    { id: 'EG-R1', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 1 (2 P.)', en: 'Round table 1 (2 p.)' } },
+    { id: 'EG-R2', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 2 (2 P.)', en: 'Round table 2 (2 p.)' } },
+    { id: 'EG-M1', kind: 'rund4', seats: 4, label: { de: 'Rundtisch 3 (4 P.)', en: 'Round table 3 (4 p.)' } },
+    { id: 'EG-M2', kind: 'rund4', seats: 4, label: { de: 'Rundtisch 4 (4 P.)', en: 'Round table 4 (4 p.)' } },
+    { id: 'EG-L1', kind: 'lang8', seats: 8, label: { de: 'Langer Tisch 1 (8 P.)', en: 'Long table 1 (8 p.)' } },
+    { id: 'EG-L2', kind: 'lang8', seats: 8, label: { de: 'Langer Tisch 2 (8 P.)', en: 'Long table 2 (8 p.)' } }
   ]},
   { id: 'OG', name: { de: '1. Obergeschoss · Galerie', en: 'Upper floor · gallery' }, tables: [
-    { id: 'OG-G1', kind: 'gross', seats: 10, label: { de: 'Grosser Tisch (Galerie)', en: 'Large table (gallery)' } },
-    { id: 'OG-R1', kind: 'rund', seats: 3, label: { de: 'Rundtisch 1', en: 'Round table 1' } },
-    { id: 'OG-R2', kind: 'rund', seats: 3, label: { de: 'Rundtisch 2', en: 'Round table 2' } },
-    { id: 'OG-R3', kind: 'rund', seats: 3, label: { de: 'Rundtisch 3', en: 'Round table 3' } }
+    { id: 'OG-L1', kind: 'lang8', seats: 8, label: { de: 'Langer Tisch Galerie (8 P.)', en: 'Long table gallery (8 p.)' } },
+    { id: 'OG-R1', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 1 (2 P.)', en: 'Round table 1 (2 p.)' } },
+    { id: 'OG-R2', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 2 (2 P.)', en: 'Round table 2 (2 p.)' } },
+    { id: 'OG-R3', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 3 (2 P.)', en: 'Round table 3 (2 p.)' } },
+    { id: 'OG-R4', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 4 (2 P.)', en: 'Round table 4 (2 p.)' } }
   ]}
 ];
 const SLOTS = ['09:00–12:00', '12:00–15:00', '15:00–18:00', '18:00–21:00'];
 const KINO_SLOT = '18:00–21:00';
 
 const allTables = () => ROOMS.flatMap(r => r.tables.map(t => Object.assign({ room: r.id }, t)));
-const capacity = () => allTables().reduce((s, t) => s + t.seats, 0); // = 54
+const capacity = () => allTables().reduce((s, t) => s + t.seats, 0); // = 44
+/* Wie viele Tische es pro Typ gibt — mehrere gleichzeitige 8er-Buchungen sind möglich */
+const INVENTORY = { rund2: 6, rund4: 2, lang8: 3 };
 
 /* Welcher Tischtyp passt zur Gruppengrösse? */
 function suggest(persons) {
   persons = Number(persons) || 0;
   if (persons <= 0) return null;
-  if (persons <= 3) return 'rund';
-  if (persons <= 10) return 'gross';
+  if (persons <= 2) return 'rund2';
+  if (persons <= 4) return 'rund4';
+  if (persons <= 8) return 'lang8';
   return 'event';
 }
 function candidates(persons, area) {
@@ -67,14 +70,14 @@ function occupancy(dateISO, slot, bookings) {
   return { byTable, seats, unassigned, all: live };
 }
 
-window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, allTables, capacity, suggest, candidates, isKinoSlot, occupancy };
+window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, INVENTORY, allTables, capacity, suggest, candidates, isKinoSlot, occupancy };
 
 /* ═══════════ i18n ═══════════ */
 const COMMON_EN = {
   'skip': 'Skip to content',
   'brand.sub': 'Creative Café',
   'nav.menu': 'Menu',
-  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
+  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
   'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact',
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
@@ -86,7 +89,9 @@ const COMMON_EN = {
   'err.required': 'Please fill in name and a valid e-mail address.',
   'err.email': 'Please enter a valid e-mail address.',
   'err.date': 'Please choose a date.',
-  'err.persons': 'For 11 or more people please use the event planner.',
+  'err.persons': 'For 9 or more people please use the event planner.',
+  'err.full': 'This time slot is fully booked for your group size — please pick another slot or date.',
+  'cancel.hint': 'Free cancellation up to 24 h before your visit — directly in your LOVE account.',
   'err.plPersons': 'Events start at 6 people — for smaller groups simply reserve a table.',
   'err.amount': 'Please choose one of the gift card amounts (CHF 20-500).',
   'err.optin': 'Please confirm the checkbox so we may send you news.',
@@ -98,7 +103,9 @@ const COMMON_DE = { // DE-Texte, die nur in JS vorkommen
   'err.required': 'Bitte Name und eine gültige E-Mail-Adresse angeben.',
   'err.email': 'Bitte eine gültige E-Mail-Adresse angeben.',
   'err.date': 'Bitte ein Datum wählen.',
-  'err.persons': 'Ab 11 Personen nutze bitte den Eventplaner.',
+  'err.persons': 'Ab 9 Personen nutze bitte den Eventplaner.',
+  'err.full': 'Dieses Zeitfenster ist für eure Gruppengrösse ausgebucht — bitte wähl ein anderes Fenster oder Datum.',
+  'cancel.hint': 'Kostenlose Stornierung bis 24 h vor dem Besuch — direkt im LOVE-Konto.',
   'err.plPersons': 'Events gibt es ab 6 Personen — für kleinere Gruppen reserviere einfach einen Tisch.',
   'err.amount': 'Bitte wähl einen der Geschenkkarten-Beträge (CHF 20–500).',
   'err.optin': 'Bitte bestätige das Häkchen, damit wir dir News schicken dürfen.',

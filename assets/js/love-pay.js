@@ -31,7 +31,8 @@ const LovePay = (() => {
     if (!cloud()) return { ok: false, error: 'offline' };
     try {
       const r = await LoveCloud.call('gateway_create', {
-        amount: opts.amount, code: opts.code, purpose: opts.purpose, email: opts.email
+        amount: opts.amount, code: opts.code, purpose: opts.purpose, email: opts.email,
+        discount_code: opts.discount_code || ''
       });
       if (r.ok && r.link) {
         window.location.href = r.link; // direkte Weiterleitung auf die Payrexx-Zahlungsseite

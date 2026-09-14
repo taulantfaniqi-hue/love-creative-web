@@ -88,6 +88,41 @@
   background:rgba(255,255,255,.8);white-space:nowrap;
 }
 
+/* ── Aufklappbarer Kalender (Datum) ── */
+.lw-daterow{padding:0;background:transparent;border:0;display:block}
+.lw-datebtn{
+  position:relative;display:flex;align-items:center;gap:.7rem;width:100%;
+  background:rgba(255,255,255,.62);border:1px solid rgba(226,115,150,.28);
+  border-radius:14px;padding:.72rem .95rem;cursor:pointer;
+  font-family:var(--ff-body);font-weight:600;font-size:.98rem;color:var(--ink);text-align:left;
+}
+.lw-datebtn:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.lw-datebtn #lwDateTxt{flex:1;min-width:0}
+.lw-cal{
+  margin-top:.45rem;background:#fff;border:1px solid rgba(226,115,150,.35);
+  border-radius:14px;padding:.8rem;box-shadow:0 12px 30px rgba(44,58,49,.14);
+}
+.lw-cal.hidden{display:none}
+.lw-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem}
+.lw-cal-head b{font-family:var(--ff-body);font-size:.95rem;color:var(--ink)}
+.lw-cal-nav{
+  border:1px solid var(--line);background:#fff;border-radius:999px;width:1.9rem;height:1.9rem;
+  font-size:1rem;cursor:pointer;color:var(--green);line-height:1;
+}
+.lw-cal-nav:disabled{opacity:.3;cursor:default}
+.lw-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.15rem;text-align:center}
+.lw-cal-wd{font-size:.7rem;font-weight:700;color:var(--ink-soft);padding:.2rem 0;text-transform:uppercase}
+.lw-cal-day{
+  border:0;background:transparent;border-radius:10px;padding:.42rem 0;font-family:var(--ff-body);
+  font-weight:600;font-size:.88rem;color:var(--ink);cursor:pointer;
+}
+.lw-cal-day:hover:not(:disabled){background:var(--mimi)}
+.lw-cal-day:disabled{color:#c9c3bd;cursor:default;text-decoration:line-through;text-decoration-color:rgba(201,195,189,.6)}
+.lw-cal-day.today{box-shadow:inset 0 0 0 1.5px var(--rose)}
+.lw-cal-day.sel{background:var(--rose);color:#fff}
+.lw-cal-empty{pointer-events:none}
+.lw-cancel-hint{margin:.55rem 0 0;font-size:.78rem;color:var(--ink-soft);text-align:center}
+
 /* ── Trennlinie mit Text ── */
 .lw-divider{
   display:flex;align-items:center;gap:.8rem;

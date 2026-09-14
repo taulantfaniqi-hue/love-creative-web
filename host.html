@@ -78,6 +78,9 @@
     <button type="button" class="host-tab" data-tab="buchungen" aria-pressed="false">Buchungen</button>
     <button type="button" class="host-tab" data-tab="gutscheine" aria-pressed="false">Gutscheine</button>
     <button type="button" class="host-tab" data-tab="members" aria-pressed="false">Members</button>
+    <button type="button" class="host-tab" data-tab="anfragen" aria-pressed="false">Anfragen</button>
+    <button type="button" class="host-tab" data-tab="dienste" aria-pressed="false">Dienstleistungen</button>
+    <button type="button" class="host-tab" data-tab="eroeffnung" aria-pressed="false">Eröffnung</button>
   </div>
 
   <div class="host-table-wrap"><div id="hostContent"></div></div>
@@ -162,10 +165,26 @@ document.querySelectorAll('.host-tab').forEach(b => b.addEventListener('click', 
 
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 
+/* Host-Aktion an die Cloud schicken (mit Zugangsdaten), danach neu laden */
+async function hostCall(action, data) {
+  if (typeof LoveCloud === 'undefined' || !hostCreds) { alert('Cloud nicht verbunden.'); return; }
+  try {
+    const r = await LoveCloud.call(action, Object.assign({}, hostCreds, data || {}));
+    if (!r.ok) alert('Fehler: ' + (r.error || 'unbekannt'));
+  } catch (e) { alert('Cloud-Fehler — bitte erneut versuchen.'); }
+  loadCloud();
+}
+function wireHostActions(box) {
+  box.querySelectorAll('button[data-act]').forEach(btn => btn.addEventListener('click', () => {
+    btn.disabled = true;
+    hostCall(btn.dataset.act, { id: btn.dataset.id });
+  }));
+}
+
 function render() {
   /* Quelle: Cloud (zentral, alle Geräte) — sonst lokaler Browser-Speicher */
   const kunden = cloudData
-    ? cloudData.customers.map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, created: k.created_at, lastLogin: k.last_login }))
+    ? cloudData.customers.map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, points: k.points, created: k.created_at, lastLogin: k.last_login }))
     : LoveAccount.listCustomers();
   const kontakte = cloudData
     ? cloudData.contacts.map(c => ({ email: c.email, name: c.name, phone: c.phone, tags: String(c.tags || '').split(',').filter(Boolean), lastSeen: c.last_seen }))
@@ -173,19 +192,24 @@ function render() {
   const buchungen = cloudData ? cloudData.bookings : LoveData.listBookings();
   const gutscheine = cloudData ? cloudData.vouchers : LoveData.listVouchers();
   const members = cloudData ? cloudData.members : (LoveData.listMembers ? LoveData.listMembers() : []);
+  const redemptions = cloudData ? (cloudData.redemptions || []) : [];
+  const pwResets = cloudData ? (cloudData.pw_resets || []) : [];
+  const dienste = cloudData ? (cloudData.services || []) : [];
+  const offeneAnfragen = redemptions.filter(r => r.status === 'offen').length + pwResets.filter(r => r.status === 'offen').length;
   $('#hostStats').innerHTML = `
     <div class="host-stat"><b>${kunden.length}</b><span>Kundenkonten</span></div>
     <div class="host-stat"><b>${kontakte.length}</b><span>CRM-Kontakte</span></div>
     <div class="host-stat"><b>${buchungen.filter(b => b.status === 'neu').length}</b><span>Neue Anfragen</span></div>
     <div class="host-stat"><b>${buchungen.length}</b><span>Buchungen</span></div>
     <div class="host-stat"><b>${gutscheine.length}</b><span>Gutscheine</span></div>
-    <div class="host-stat"><b>${members.length}</b><span>Members</span></div>`;
+    <div class="host-stat"><b>${members.length}</b><span>Members</span></div>
+    <div class="host-stat"><b>${offeneAnfragen}</b><span>Offene Anfragen</span></div>`;
 
   const box = $('#hostContent');
   if (tab === 'kunden') {
     box.innerHTML = kunden.length ? `<table class="host-table">
-      <thead><tr><th>Name</th><th>E-Mail</th><th>Benutzername</th><th>Telefon</th><th>Konto seit</th><th>Letzter Login</th></tr></thead>
-      <tbody>${kunden.map(k => `<tr><td><b>${esc(k.name)}</b></td><td>${esc(k.email)}</td><td>${esc(k.username || '—')}</td><td>${esc(k.phone || '—')}</td><td>${fmtTs(k.created)}</td><td>${fmtTs(k.lastLogin)}</td></tr>`).join('')}</tbody>
+      <thead><tr><th>Name</th><th>E-Mail</th><th>Benutzername</th><th>Telefon</th><th>Punkte</th><th>Konto seit</th><th>Letzter Login</th></tr></thead>
+      <tbody>${kunden.map(k => `<tr><td><b>${esc(k.name)}</b></td><td>${esc(k.email)}</td><td>${esc(k.username || '—')}</td><td>${esc(k.phone || '—')}</td><td>${esc(k.points != null ? k.points : '—')}</td><td>${fmtTs(k.created)}</td><td>${fmtTs(k.lastLogin)}</td></tr>`).join('')}</tbody>
     </table>` : `<p class="host-empty">Noch keine Kundenkonten. Sobald sich Gäste über den «Konto»-Knopf auf der Website registrieren, erscheinen sie hier.</p>`;
   } else if (tab === 'kontakte') {
     box.innerHTML = kontakte.length ? `<table class="host-table">
@@ -209,6 +233,74 @@ function render() {
         <td><b>${esc(m.id)}</b></td><td><span class="host-pill ${m.status === 'angemeldet' ? 'neu' : ''}">${esc(m.status)}</span></td>
         <td>${esc(m.name)}</td><td>${esc(m.email)}</td><td>${esc(m.plan)}</td><td>${esc(m.period || '—')}</td><td>${fmtTs(m.ts)}</td></tr>`).join('')}</tbody>
     </table>` : `<p class="host-empty">Noch keine Member-Anmeldungen.</p>`;
+  } else if (tab === 'anfragen') {
+    if (!cloudData) { box.innerHTML = `<p class="host-empty">Anfragen (Passwort-Resets &amp; Punkte-Einlösungen) kommen aus der Cloud — bitte Verbindung prüfen.</p>`; return; }
+    const pwHtml = pwResets.length ? `<h3 style="margin:.4rem 0 .6rem">Passwort-Resets</h3><table class="host-table">
+      <thead><tr><th>Status</th><th>E-Mail</th><th>Angefragt</th><th>Aktion</th></tr></thead>
+      <tbody>${pwResets.map(r => `<tr>
+        <td><span class="host-pill ${r.status === 'offen' ? 'neu' : ''}">${esc(r.status)}</span></td>
+        <td>${esc(r.email)}</td><td>${fmtTs(r.ts)}</td>
+        <td>${r.status === 'offen' ? `<button class="btn btn-rose btn-sm" data-act="pw_reset_approve" data-id="${r.id}">Freigeben</button>
+             <button class="btn btn-ghost btn-sm" data-act="pw_reset_reject" data-id="${r.id}">Ablehnen</button>` : '—'}</td></tr>`).join('')}</tbody>
+    </table>` : '';
+    const rdHtml = redemptions.length ? `<h3 style="margin:1.2rem 0 .6rem">Punkte-Einlösungen (100 Punkte = CHF 2)</h3><table class="host-table">
+      <thead><tr><th>Status</th><th>Referenz</th><th>Kunde</th><th>E-Mail</th><th>Ort</th><th>Betrag</th><th>Datum</th><th>Aktion</th></tr></thead>
+      <tbody>${redemptions.map(r => `<tr>
+        <td><span class="host-pill ${r.status === 'offen' ? 'neu' : ''}">${esc(r.status)}</span></td>
+        <td><b>${esc(r.code)}</b></td><td>${esc(r.customer_name || '—')}</td><td>${esc(r.email)}</td>
+        <td>${r.mode === 'laden' ? 'Im Laden' : 'Online'}</td><td>CHF ${Number(r.amount).toFixed(2)}</td><td>${fmtTs(r.ts)}</td>
+        <td>${r.status === 'offen' ? `<button class="btn btn-rose btn-sm" data-act="redeem_approve" data-id="${esc(r.id)}">Genehmigen</button>
+              <button class="btn btn-ghost btn-sm" data-act="redeem_reject" data-id="${esc(r.id)}">Ablehnen</button>`
+          : r.status === 'genehmigt' && r.mode === 'laden' ? `<button class="btn btn-green btn-sm" data-act="redeem_done" data-id="${esc(r.id)}">Als eingelöst markieren</button>` : '—'}</td></tr>`).join('')}</tbody>
+    </table>` : '';
+    box.innerHTML = (pwHtml + rdHtml) || `<p class="host-empty">Keine offenen Anfragen — alles erledigt ♥</p>`;
+    wireHostActions(box);
+  } else if (tab === 'dienste') {
+    if (!cloudData) { box.innerHTML = `<p class="host-empty">Dienstleistungen werden zentral in der Cloud verwaltet — bitte Verbindung prüfen.</p>`; return; }
+    box.innerHTML = `<table class="host-table">
+      <thead><tr><th>Aktiv</th><th>Name (DE)</th><th>Name (EN)</th><th>Beschreibung</th><th>Preis</th><th>Sortierung</th></tr></thead>
+      <tbody>${dienste.map(s => `<tr>
+        <td><input type="checkbox" class="svc-toggle" data-id="${esc(s.id)}" ${Number(s.active) ? 'checked' : ''}></td>
+        <td><b>${esc(s.label_de)}</b></td><td>${esc(s.label_en || '—')}</td>
+        <td style="max-width:280px">${esc(s.desc_de || '—')}</td><td>${esc(s.price || '—')}</td><td>${esc(s.sort)}</td></tr>`).join('')}</tbody>
+    </table>
+    <div class="panel" style="margin-top:1.2rem"><div class="panel-head"><h3>Neue Dienstleistung</h3></div><div class="panel-body">
+      <div class="two-col">
+        <div class="field"><label>Name (DE)</label><input type="text" id="svcDe"></div>
+        <div class="field"><label>Name (EN)</label><input type="text" id="svcEn"></div>
+      </div>
+      <div class="field"><label>Beschreibung (DE)</label><input type="text" id="svcDescDe"></div>
+      <div class="two-col">
+        <div class="field"><label>Preis-Angabe</label><input type="text" id="svcPrice" placeholder="z. B. CHF 20 p. P."></div>
+        <div class="field"><label>Sortierung</label><input type="number" id="svcSort" value="9"></div>
+      </div>
+      <button type="button" class="btn btn-rose" id="svcAdd">Dienstleistung hinzufügen</button>
+      <p class="hint" style="margin-top:.6rem">Aktive Dienstleistungen erscheinen sofort als Karten im Reservations-Widget der Website.</p>
+    </div></div>`;
+    box.querySelectorAll('.svc-toggle').forEach(cb => cb.addEventListener('change', () => {
+      const s = dienste.find(d => d.id === cb.dataset.id);
+      if (s) hostCall('service_save', { id: s.id, label_de: s.label_de, label_en: s.label_en, desc_de: s.desc_de, desc_en: s.desc_en, price: s.price, sort: s.sort, active: cb.checked ? 1 : 0 });
+    }));
+    const addBtn = box.querySelector('#svcAdd');
+    if (addBtn) addBtn.addEventListener('click', () => {
+      const de = box.querySelector('#svcDe').value.trim();
+      if (!de) { alert('Bitte mindestens den Namen (DE) angeben.'); return; }
+      hostCall('service_save', {
+        label_de: de, label_en: box.querySelector('#svcEn').value.trim(),
+        desc_de: box.querySelector('#svcDescDe').value.trim(), desc_en: box.querySelector('#svcDescDe').value.trim(),
+        price: box.querySelector('#svcPrice').value.trim(), sort: Number(box.querySelector('#svcSort').value) || 9, active: 1
+      });
+    });
+  } else if (tab === 'eroeffnung') {
+    /* Board «Sei bei der Eröffnung dabei»: alle Wartelisten-Anmeldungen von der Startseite */
+    const wl = buchungen.filter(b => b.type === 'warteliste');
+    const extra = kontakte.filter(c => (c.tags || []).includes('newsletter') && !wl.some(w => w.email === c.email))
+                          .map(c => ({ email: c.email, ts: c.lastSeen }));
+    const rows = [...wl.map(w => ({ email: w.email, ts: w.ts })), ...extra];
+    box.innerHTML = rows.length ? `<table class="host-table">
+      <thead><tr><th>#</th><th>E-Mail</th><th>Eingetragen</th></tr></thead>
+      <tbody>${rows.map((r, i) => `<tr><td>${i + 1}</td><td><b>${esc(r.email)}</b></td><td>${fmtTs(r.ts)}</td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Anmeldungen über «Sei bei der Eröffnung dabei».</p>`;
   } else {
     box.innerHTML = buchungen.length ? `<table class="host-table">
       <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Ref.</th></tr></thead>

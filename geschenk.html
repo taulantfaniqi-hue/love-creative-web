@@ -23,6 +23,7 @@ window.LOVE_DE = {
   'dn.titleReserved':'Bestellung reserviert','dn.textReserved':'Die Online-Zahlung ist gerade nicht erreichbar. Deine Geschenkkarte ist reserviert — wir melden uns per E-Mail mit den Zahlungsdetails.',
   'dn.statusReserved':'Status: reserviert — aktiv nach Zahlungseingang',
   'py.submit':'Weiter zur Zahlung →',
+  'py.discountOk':'Rabatt angewendet: − CHF 2.00','py.discountBad':'Code ungültig, nicht freigegeben oder schon eingelöst.',
   'dn.acctYes':'Dein Kauf ist in deinem Kundenkonto abgelegt.',
   'dn.acctNo':'Tipp: Erstell ein Kundenkonto mit derselben E-Mail — dann findest du Käufe und Reservationen jederzeit dort.',
   'dn.acctBtn':'Im Kundenkonto ablegen' };
@@ -58,6 +59,8 @@ window.LOVE_EN = {
   'py.post':'By post','py.postD':'Gift sleeve, 2–3 working days — CHF 5',
   'py.name':'Your name','py.email':'Your e-mail','py.phone':'Phone (optional)',
   'py.back':'← Back','py.submit':'Continue to payment →','py.redirect':'You will be redirected to the secure Payrexx payment page (TWINT, credit & debit cards) and back to the order confirmation afterwards.',
+  'py.discount':'Discount code (point voucher from your LOVE account)','py.discountApply':'Apply',
+  'py.discountOk':'Discount applied: − CHF 2.00','py.discountBad':'Code invalid, not approved or already redeemed.',
   'dn.titlePaid':'Payment received — thank you!','dn.textPaid':'Your gift card is paid. Here it is — with code and barcode.',
   'dn.statusPaid':'Paid — gift card active','dn.statusChecking':'Confirming your payment…','dn.statusProcessing':'Payment received — confirmation follows by e-mail in a few minutes.',
   'dn.titleFail':'Payment not completed','dn.textFail':'The payment was cancelled or declined. Your gift card is reserved — you can retry the payment.',
@@ -97,14 +100,13 @@ window.LOVE_EN = {
         <li class="has-sub">
           <a href="index.html#preise" data-i18n="nav.keramik">Keramik bemalen</a>
           <ul class="sub">
-            <li><a href="index.html#events" data-i18n="nav.workshop">Workshop</a></li>
-            <li><a href="reservieren.html" data-i18n="nav.walkin">Walk-in</a></li>
+            <li><a href="workshop.html" data-i18n="nav.workshop">Workshop</a></li>
+            <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
           </ul>
         </li>
         <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
-        <li><a href="index.html#kino" data-i18n="nav.kino">Kinoabend</a></li>
-        <li><a href="index.html#events" data-i18n="nav.kidscamp">Kidscamp</a></li>
-        <li><a href="index.html#events" data-i18n="nav.geburtstage">Geburtstage</a></li>
+        <li><a href="kinoabend.html" data-i18n="nav.kino">Kinoabend</a></li>
+        <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
         <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
@@ -219,6 +221,14 @@ window.LOVE_EN = {
                   <button type="button" class="chip" data-tip="10" aria-pressed="false">CHF 10</button>
                 </div>
                 <p class="hint" data-i18n="py.tipHint">Geht zu 100 % ans Team ♥</p>
+              </div>
+              <div class="field">
+                <label for="gDiscount" data-i18n="py.discount">Rabattcode (Punkte-Gutschein aus deinem LOVE-Konto)</label>
+                <div style="display:flex;gap:.6rem;align-items:center">
+                  <input type="text" id="gDiscount" placeholder="PKT-XXXX-XXXX" style="flex:1;text-transform:uppercase" autocomplete="off">
+                  <button type="button" class="btn btn-ghost" id="gDiscountApply" data-i18n="py.discountApply">Anwenden</button>
+                </div>
+                <p class="hint" id="gDiscountMsg" aria-live="polite"></p>
               </div>
               <div class="two-col">
                 <div class="field"><label for="gBuyer" data-i18n="py.name">Dein Name</label><input type="text" id="gBuyer" autocomplete="name"></div>
@@ -383,14 +393,14 @@ const EX_LABEL = {
   'betrag':       { de: 'Wunschbetrag', en: 'Your own amount' }
 };
 const SHIP_LABEL = { print: { de: 'Print@Home', en: 'Print at home' }, pickup: { de: 'Abholung im Studio', en: 'Pick up at the studio' }, post: { de: 'Per Post (+CHF 5)', en: 'By post (+CHF 5)' } };
-const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'print', fee: 0, tip: 0 };
+const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'print', fee: 0, tip: 0, discount: 0, discountCode: '' };
 
 function amount() { return state.kind === 'betrag' ? (Number($('#gAmount').value) || 0) : state.price; }
 /* Robust gegen unbekannte Werte (z. B. alte gespeicherte Bestellungen) */
 const exLabel = k => EX_LABEL[k] || EX_LABEL['betrag'];
 const shipLabel = s => SHIP_LABEL[s] || SHIP_LABEL['print'];
 function total() { return amount() + state.fee; }
-function grand() { return total() + state.tip; } // inkl. Trinkgeld — dieser Betrag geht an Payrexx
+function grand() { return Math.max(1, total() + state.tip - state.discount); } // inkl. Trinkgeld, abzüglich Punkte-Rabatt — dieser Betrag geht an Payrexx
 function updatePreview() {
   const L = LoveSite.lang();
   $('#pvTitle').textContent = exLabel(state.kind)[L];
@@ -438,7 +448,7 @@ function fillSummary() {
   $('#sFor').textContent = $('#gFor').value.trim() || '—';
   $('#sShip').textContent = shipLabel(state.ship)[L];
   $('#sTip').textContent = state.tip ? chf(state.tip) + ' ♥' : '—';
-  $('#sTotal').textContent = chf(grand());
+  $('#sTotal').textContent = chf(grand()) + (state.discount ? ` (− CHF ${state.discount.toFixed(2)})` : '');
 }
 
 /* Trinkgeld */
@@ -464,6 +474,26 @@ $('#toStep2').addEventListener('click', () => {
   fillSummary(); showStep(2); $('#gestalten').scrollIntoView({ behavior: 'smooth' });
 });
 $('#backTo1').addEventListener('click', () => showStep(1));
+
+/* Punkte-Rabattcode aus dem Kundenkonto anwenden */
+$('#gDiscountApply').addEventListener('click', async () => {
+  const msg = $('#gDiscountMsg');
+  const code = $('#gDiscount').value.trim().toUpperCase();
+  state.discount = 0; state.discountCode = '';
+  if (!code) { msg.textContent = ''; fillSummary(); return; }
+  try {
+    const r = await LoveCloud.call('discount_check&code=' + encodeURIComponent(code));
+    if (r.ok) {
+      state.discount = Number(r.amount) || 0;
+      state.discountCode = code;
+      msg.textContent = t('py.discountOk');
+      fillSummary();
+      return;
+    }
+  } catch (e) { /* unten Fehlermeldung */ }
+  msg.textContent = t('py.discountBad');
+  fillSummary();
+});
 document.querySelectorAll('#shipGrid .choice').forEach(b => b.addEventListener('click', () => pickShip(b.dataset.ship)));
 
 /* ---------- Bestellung & Zahlung (echter Shop-Checkout) ---------- */
@@ -511,10 +541,11 @@ $('#submitGift').addEventListener('click', async () => {
   } catch (e) { /* egal */ }
   $('#gCode').textContent = v.code; $('#pvCode').textContent = v.code;
   /* Direkte Weiterleitung zur Payrexx-Zahlungsseite mit dem exakten Warenkorb-Betrag */
+  /* Der Server zieht den Rabatt selbst ab — hier den vollen Betrag mitgeben */
   const r = await LovePay.checkout({
-    amount: grand(), code: v.code,
+    amount: total() + state.tip, code: v.code,
     purpose: 'LOVE Geschenkkarte ' + v.code + (state.tip ? ' inkl. Trinkgeld CHF ' + state.tip : ''),
-    email
+    email, discount_code: state.discountCode
   });
   if (!r.ok) {
     /* Zahlung gerade nicht möglich → Bestellung bleibt reserviert */

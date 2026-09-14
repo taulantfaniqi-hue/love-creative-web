@@ -135,7 +135,27 @@ const LoveAccount = (() => {
       myVouchers: 'Deine Geschenkkarten', noVouchers: 'Noch keine Geschenkkarten.',
       vActive: 'aktiv', vOpen: 'Zahlung offen',
       user: 'Benutzername', since: 'Konto seit', logoutBtn: 'Abmelden', close: 'Schliessen',
-      stat: { neu: 'eingegangen', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', offeriert: 'Offerte', storniert: 'storniert', verloren: 'storniert' }
+      stat: { neu: 'eingegangen', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', offeriert: 'Offerte', storniert: 'storniert', verloren: 'storniert' },
+      next: 'Weiter', changeWho: 'ändern', forgot: 'Passwort vergessen?',
+      resetSent: 'Anfrage gesendet — unser Team gibt den Passwort-Reset frei. Das dauert in der Regel nur kurz.',
+      resetCheck: 'Freigabe prüfen', resetPendingStill: 'Noch nicht freigegeben — bitte später erneut prüfen.',
+      resetApproved: 'Freigegeben! Setz jetzt dein neues Passwort:',
+      newPass: 'Neues Passwort (mind. 6 Zeichen)', setPass: 'Passwort speichern',
+      resetErr: 'Das hat nicht geklappt — bitte prüf die Eingaben.',
+      myPoints: 'Deine Treuepunkte', pointsLine: (p, chf) => `<b>${p} Punkte</b> · Guthaben CHF ${chf}`,
+      pointsHint: '1 Punkt pro ausgegebenem Franken · 100 Punkte = CHF 2 Gutschrift',
+      redeemBtn: 'Einlösen (100 Punkte = CHF 2)', redeemWhere: 'Wo möchtest du einlösen?',
+      redeemStore: 'Im Laden', redeemOnline: 'Online', redeemCancel: 'Abbrechen',
+      myRedeems: 'Punkte-Gutscheine',
+      rStat: { offen: 'ausstehend', genehmigt: 'freigegeben', abgelehnt: 'abgelehnt', 'eingelöst': 'eingelöst' },
+      switchTo: m => m === 'laden' ? 'Zu Online wechseln' : 'Zu Im Laden wechseln',
+      modeLbl: m => m === 'laden' ? 'Im Laden' : 'Online-Rabattcode',
+      onlineHint: 'Rabattcode im Geschenkkarten-Warenkorb eingeben.',
+      storeHint: 'Referenz an der Kasse zeigen.',
+      cancelBtn: 'Stornieren', cancelOk: 'Buchung storniert.',
+      cancelLate: 'Stornierung ist nur bis 24 h vor dem Termin möglich.',
+      cancelHint: 'Kostenlos stornierbar bis 24 h vor dem Termin.',
+      cancelConfirm: 'Diese Buchung wirklich stornieren?'
     },
     en: {
       account: 'Account', hello: n => n.split(' ')[0],
@@ -155,7 +175,27 @@ const LoveAccount = (() => {
       myVouchers: 'Your gift cards', noVouchers: 'No gift cards yet.',
       vActive: 'active', vOpen: 'payment pending',
       user: 'Username', since: 'Member since', logoutBtn: 'Sign out', close: 'Close',
-      stat: { neu: 'received', 'bestätigt': 'confirmed', gewonnen: 'confirmed', offeriert: 'offer sent', storniert: 'cancelled', verloren: 'cancelled' }
+      stat: { neu: 'received', 'bestätigt': 'confirmed', gewonnen: 'confirmed', offeriert: 'offer sent', storniert: 'cancelled', verloren: 'cancelled' },
+      next: 'Continue', changeWho: 'change', forgot: 'Forgot password?',
+      resetSent: 'Request sent — our team approves the password reset. This usually only takes a moment.',
+      resetCheck: 'Check approval', resetPendingStill: 'Not approved yet — please check again later.',
+      resetApproved: 'Approved! Set your new password now:',
+      newPass: 'New password (min. 6 characters)', setPass: 'Save password',
+      resetErr: 'That did not work — please check your input.',
+      myPoints: 'Your loyalty points', pointsLine: (p, chf) => `<b>${p} points</b> · credit CHF ${chf}`,
+      pointsHint: '1 point per franc spent · 100 points = CHF 2 credit',
+      redeemBtn: 'Redeem (100 points = CHF 2)', redeemWhere: 'Where would you like to redeem?',
+      redeemStore: 'In store', redeemOnline: 'Online', redeemCancel: 'Cancel',
+      myRedeems: 'Point vouchers',
+      rStat: { offen: 'pending', genehmigt: 'approved', abgelehnt: 'declined', 'eingelöst': 'redeemed' },
+      switchTo: m => m === 'laden' ? 'Switch to online' : 'Switch to in store',
+      modeLbl: m => m === 'laden' ? 'In store' : 'Online discount code',
+      onlineHint: 'Enter the code in the gift card cart.',
+      storeHint: 'Show the reference at the counter.',
+      cancelBtn: 'Cancel booking', cancelOk: 'Booking cancelled.',
+      cancelLate: 'Cancellation is only possible up to 24 h before your visit.',
+      cancelHint: 'Free cancellation up to 24 h before your visit.',
+      cancelConfirm: 'Really cancel this booking?'
     }
   };
   const tx = () => (window.LoveSite && LoveSite.lang() === 'en') ? TX.en : TX.de;
@@ -188,7 +228,13 @@ const LoveAccount = (() => {
     prefillForms();
   }
   const isOpen = () => document.getElementById('accModal').classList.contains('open');
-  function openModal() { renderModal(); document.getElementById('accModal').classList.add('open'); document.getElementById('accBackdrop').classList.add('open'); }
+  function openModal() {
+    renderModal();
+    document.getElementById('accModal').classList.add('open');
+    document.getElementById('accBackdrop').classList.add('open');
+    /* Punktestand & Daten frisch vom Server holen */
+    refreshMe().then(() => { if (isOpen() && current()) renderModal(); });
+  }
   function closeModal() { document.getElementById('accModal').classList.remove('open'); document.getElementById('accBackdrop').classList.remove('open'); }
 
   function renderBtn() {
@@ -197,18 +243,51 @@ const LoveAccount = (() => {
     if (b) b.innerHTML = `<span aria-hidden="true">♥</span> ${c ? esc(x.hello(c.name || c.email)) : x.account}`;
   }
 
+  /* Zweistufiger Login: zuerst E-Mail/Benutzername, dann Passwort (oder Reset) */
+  let loginStep = 'who';   // 'who' | 'pass' | 'reset'
+  let loginWho = '';
+  let resetApproved = false;
+
+  /* Frische Kundendaten (inkl. Punkte) vom Server holen */
+  function refreshMe() {
+    const s = _session();
+    if (!(s && s.cloud && s.token && typeof LoveCloud !== 'undefined')) return Promise.resolve();
+    return LoveCloud.call('me', undefined, s.token).then(r => {
+      if (r.ok) {
+        s.customer = r.customer;
+        localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+      }
+    }).catch(() => {});
+  }
+
+  /* Kann diese Buchung noch kostenlos storniert werden? (bis 24 h vorher) */
+  function cancellable(b) {
+    if (!b.date || ['storniert', 'verloren'].includes(b.status)) return false;
+    const m = /^(\d{1,2}[:.]\d{2})/.exec(String(b.time || ''));
+    const start = new Date(b.date + 'T' + (m ? m[1].replace('.', ':').padStart(5, '0') : '09:00') + ':00');
+    return !isNaN(start) && (start.getTime() - Date.now()) > 24 * 3600 * 1000;
+  }
+
   function renderModal() {
     const x = tx(); const c = current();
     document.getElementById('accTitle').textContent = x.title;
     const body = document.getElementById('accBody');
     if (c) {
+      const s = _session();
+      const isCloud = !!(s && s.cloud && s.token && typeof LoveCloud !== 'undefined');
       const fmt = iso => new Date(iso).toLocaleDateString(LoveSite.lang() === 'en' ? 'en-GB' : 'de-CH', { day: 'numeric', month: 'long', year: 'numeric' });
       const bookingsHtml = list => list.length ? list.slice(0, 8).map(b => `
           <div class="acc-card acc-booking">
             <span><b>${esc(b.type === 'kino' ? 'Kino-Night' : b.type === 'tisch' ? (LoveSite.lang() === 'en' ? 'Table' : 'Tisch') : b.type)}</b>
             ${b.date ? ' · ' + String(b.date).split('-').reverse().join('.') : ''}${b.time ? ' · ' + b.time : ''}${b.persons ? ' · ' + b.persons + ' P.' : ''}</span>
-            <span class="acc-status">${x.stat[b.status] || esc(b.status)}</span>
-          </div>`).join('') : `<p class="acc-dim">${x.noBookings}</p>`;
+            <span style="display:flex;gap:.5rem;align-items:center">
+              <span class="acc-status">${x.stat[b.status] || esc(b.status)}</span>
+              ${cancellable(b) ? `<button type="button" class="btn btn-ghost btn-sm acc-cancel" data-id="${esc(b.id)}">${x.cancelBtn}</button>` : ''}
+            </span>
+          </div>`).join('') + `<p class="acc-dim" style="margin-top:.4rem">${x.cancelHint}</p>`
+        : `<p class="acc-dim">${x.noBookings}</p>`;
+      const points = Number(c.points || 0);
+      const chfCredit = (points / 50).toFixed(2);
       body.innerHTML = `
         <p class="acc-sub">${x.myData}</p>
         <div class="acc-card">
@@ -217,18 +296,60 @@ const LoveAccount = (() => {
           ${c.username ? `<p>${x.user}: ${esc(c.username)}</p>` : ''}
           <p class="acc-dim">${x.since} ${fmt(c.created)}</p>
         </div>
+        ${isCloud ? `
+        <p class="acc-sub">${x.myPoints}</p>
+        <div class="acc-card" id="accPointsCard">
+          <p>${x.pointsLine(points, chfCredit)}</p>
+          <p class="acc-dim">${x.pointsHint}</p>
+          <div id="accRedeemBox" style="margin-top:.6rem">
+            <button type="button" class="btn btn-rose btn-sm" id="accRedeem" ${points < 100 ? 'disabled' : ''}>${x.redeemBtn}</button>
+          </div>
+        </div>
+        <div id="accRedeems"></div>` : ''}
         <p class="acc-sub">${x.myBookings}</p>
         <div id="accBookings">${bookingsHtml(myBookings())}</div>
         <p class="acc-sub">${x.myVouchers}</p>
         <div id="accVouchers"><p class="acc-dim">${x.noVouchers}</p></div>
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
-      /* Cloud-Konto: Buchungen + Geschenkkarten zentral vom Server laden (alle Geräte) */
-      const s = _session();
-      if (s && s.cloud && s.token && typeof LoveCloud !== 'undefined') {
+
+      /* Stornieren (Cloud oder lokal) */
+      const wireCancel = () => body.querySelectorAll('.acc-cancel').forEach(btn => btn.addEventListener('click', async () => {
+        if (!confirm(x.cancelConfirm)) return;
+        btn.disabled = true;
+        if (isCloud) {
+          try {
+            const r = await LoveCloud.call('booking_cancel', { id: btn.dataset.id }, s.token);
+            if (!r.ok) { alert(r.error === 'too-late' ? x.cancelLate : x.resetErr); btn.disabled = false; return; }
+          } catch (e) { btn.disabled = false; return; }
+        } else if (typeof LoveData !== 'undefined') {
+          LoveData.updateBooking(btn.dataset.id, { status: 'storniert' });
+        }
+        renderModal();
+      }));
+      wireCancel();
+
+      /* Punkte einlösen: Ort wählen → Anfrage an den Host */
+      const redeemBtn = document.getElementById('accRedeem');
+      if (redeemBtn) redeemBtn.addEventListener('click', () => {
+        document.getElementById('accRedeemBox').innerHTML = `
+          <p style="margin-bottom:.4rem"><b>${x.redeemWhere}</b></p>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <button type="button" class="btn btn-rose btn-sm" data-mode="laden">${x.redeemStore}</button>
+            <button type="button" class="btn btn-rose btn-sm" data-mode="online">${x.redeemOnline}</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-mode="">${x.redeemCancel}</button>
+          </div>`;
+        document.getElementById('accRedeemBox').querySelectorAll('button').forEach(mb => mb.addEventListener('click', async () => {
+          if (!mb.dataset.mode) { renderModal(); return; }
+          try { await LoveCloud.call('redeem_request', { mode: mb.dataset.mode }, s.token); } catch (e) { }
+          refreshMe().then(renderModal);
+        }));
+      });
+
+      if (isCloud) {
         LoveCloud.call('my_bookings', undefined, s.token).then(r => {
           const box = document.getElementById('accBookings');
-          if (r.ok && box) box.innerHTML = bookingsHtml(r.bookings);
+          if (r.ok && box) { box.innerHTML = bookingsHtml(r.bookings); wireCancel(); }
         }).catch(() => {});
         LoveCloud.call('my_vouchers', undefined, s.token).then(r => {
           const box = document.getElementById('accVouchers');
@@ -240,20 +361,55 @@ const LoveAccount = (() => {
               </div>`).join('');
           }
         }).catch(() => {});
+        LoveCloud.call('my_redemptions', undefined, s.token).then(r => {
+          const box = document.getElementById('accRedeems');
+          if (!(r.ok && box && r.redemptions.length)) return;
+          box.innerHTML = `<div style="margin-top:.5rem">` + r.redemptions.map(rd => `
+            <div class="acc-card" style="margin-bottom:.4rem">
+              <div class="acc-booking">
+                <span><b>${esc(rd.code)}</b> · CHF ${Number(rd.amount).toFixed(2)} · ${x.modeLbl(rd.mode)}</span>
+                <span class="acc-status">${x.rStat[rd.status] || esc(rd.status)}</span>
+              </div>
+              <p class="acc-dim" style="margin-top:.25rem">${rd.mode === 'online' ? x.onlineHint : x.storeHint}</p>
+              ${['offen', 'genehmigt'].includes(rd.status) ? `<button type="button" class="btn btn-ghost btn-sm acc-switch" data-id="${esc(rd.id)}" data-mode="${rd.mode === 'laden' ? 'online' : 'laden'}" style="margin-top:.35rem">${x.switchTo(rd.mode)}</button>` : ''}
+            </div>`).join('') + '</div>';
+          box.querySelectorAll('.acc-switch').forEach(sb => sb.addEventListener('click', async () => {
+            try { await LoveCloud.call('redeem_mode', { id: sb.dataset.id, mode: sb.dataset.mode }, s.token); } catch (e) { }
+            renderModal();
+          }));
+        }).catch(() => {});
       }
     } else {
-      body.innerHTML = `
-        <div class="acc-tabs" role="tablist">
-          <button type="button" class="acc-tab" data-tab="login" aria-pressed="${tab === 'login'}">${x.tabLogin}</button>
-          <button type="button" class="acc-tab" data-tab="reg" aria-pressed="${tab === 'reg'}">${x.tabReg}</button>
-        </div>
-        <form id="accForm" novalidate>
-        ${tab === 'login' ? `
-          <input type="text" id="accWho" placeholder="${x.who}" autocomplete="username">
+      /* ── Nicht eingeloggt: Tabs Anmelden / Konto erstellen ── */
+      const whoEsc = esc(loginWho);
+      let formHtml = '';
+      if (tab === 'login' && loginStep === 'who') {
+        formHtml = `
+          <input type="text" id="accWho" placeholder="${x.who}" autocomplete="username" value="${whoEsc}">
+          <p class="acc-err" id="accErr" aria-live="polite"></p>
+          <button type="submit" class="btn btn-rose btn-block">${x.next}</button>`;
+      } else if (tab === 'login' && loginStep === 'pass') {
+        formHtml = `
+          <p class="acc-card" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem">
+            <b style="overflow-wrap:anywhere">${whoEsc}</b>
+            <button type="button" class="btn btn-ghost btn-sm" id="accBackWho">${x.changeWho}</button>
+          </p>
           <input type="password" id="accPass" placeholder="${x.pass}" autocomplete="current-password">
           <p class="acc-err" id="accErr" aria-live="polite"></p>
-          <button type="submit" class="btn btn-rose btn-block">${x.loginBtn}</button>`
-        : `
+          <button type="submit" class="btn btn-rose btn-block">${x.loginBtn}</button>
+          <p style="margin-top:.7rem;text-align:center"><a href="#" id="accForgot">${x.forgot}</a></p>`;
+      } else if (tab === 'login' && loginStep === 'reset') {
+        formHtml = resetApproved ? `
+          <p class="acc-card">${x.resetApproved}</p>
+          <input type="password" id="accPass" placeholder="${x.newPass}" autocomplete="new-password">
+          <p class="acc-err" id="accErr" aria-live="polite"></p>
+          <button type="submit" class="btn btn-rose btn-block">${x.setPass}</button>` : `
+          <p class="acc-card">${x.resetSent}</p>
+          <p class="acc-err" id="accErr" aria-live="polite"></p>
+          <button type="submit" class="btn btn-rose btn-block">${x.resetCheck}</button>
+          <p style="margin-top:.7rem;text-align:center"><a href="#" id="accBackWho">${x.changeWho}</a></p>`;
+      } else {
+        formHtml = `
           <input type="text" id="accName" placeholder="${x.name}" autocomplete="name">
           <input type="email" id="accEmail" placeholder="${x.email}" autocomplete="email">
           <input type="text" id="accUser" placeholder="${x.username}" autocomplete="username">
@@ -261,23 +417,68 @@ const LoveAccount = (() => {
           <input type="password" id="accPass" placeholder="${x.pass2}" autocomplete="new-password">
           <p class="acc-err" id="accErr" aria-live="polite"></p>
           <button type="submit" class="btn btn-rose btn-block">${x.regBtn}</button>
-          <p class="acc-dim" style="margin-top:.7rem">${x.regHint}</p>`}
-        </form>`;
-      body.querySelectorAll('.acc-tab').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; renderModal(); }));
+          <p class="acc-dim" style="margin-top:.7rem">${x.regHint}</p>`;
+      }
+      body.innerHTML = `
+        <div class="acc-tabs" role="tablist">
+          <button type="button" class="acc-tab" data-tab="login" aria-pressed="${tab === 'login'}">${x.tabLogin}</button>
+          <button type="button" class="acc-tab" data-tab="reg" aria-pressed="${tab === 'reg'}">${x.tabReg}</button>
+        </div>
+        <form id="accForm" novalidate>${formHtml}</form>`;
+      body.querySelectorAll('.acc-tab').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; loginStep = 'who'; renderModal(); }));
       document.getElementById('accForm').addEventListener('submit', onSubmit);
+      const back = document.getElementById('accBackWho');
+      if (back) back.addEventListener('click', e => { e.preventDefault(); loginStep = 'who'; resetApproved = false; renderModal(); });
+      const forgot = document.getElementById('accForgot');
+      if (forgot) forgot.addEventListener('click', async e => {
+        e.preventDefault();
+        resetApproved = false;
+        if (typeof LoveCloud !== 'undefined') { try { await LoveCloud.call('pw_reset_request', { email: loginWho }); } catch (err) { } }
+        loginStep = 'reset';
+        renderModal();
+      });
+      const p = document.getElementById('accPass') || document.getElementById('accWho');
+      if (p) p.focus();
     }
   }
 
   async function onSubmit(e) {
     e.preventDefault();
     const x = tx(); const err = document.getElementById('accErr');
-    const pass = document.getElementById('accPass').value;
+    if (tab === 'login' && loginStep === 'who') {
+      const who = document.getElementById('accWho').value.trim();
+      if (!who) { err.textContent = x.errLogin; return; }
+      loginWho = who.toLowerCase();
+      loginStep = 'pass';
+      renderModal();
+      return;
+    }
+    if (tab === 'login' && loginStep === 'reset') {
+      if (!resetApproved) {
+        /* Freigabe beim Server prüfen */
+        try {
+          const r = await LoveCloud.call('pw_reset_status&email=' + encodeURIComponent(loginWho));
+          if (r.ok && r.status === 'genehmigt') { resetApproved = true; renderModal(); return; }
+        } catch (er) { }
+        err.textContent = x.resetPendingStill;
+        return;
+      }
+      const pass = document.getElementById('accPass').value;
+      if (pass.length < 6) { err.textContent = x.errReg; return; }
+      try {
+        const r = await LoveCloud.call('pw_reset_set', { email: loginWho, pass });
+        if (r.ok) { _cloudSession(r); loginStep = 'who'; resetApproved = false; renderModal(); return; }
+      } catch (er) { }
+      err.textContent = x.resetErr;
+      return;
+    }
     if (tab === 'login') {
-      const who = document.getElementById('accWho').value;
-      if (!who.trim() || !pass) { err.textContent = x.errLogin; return; }
-      const r = await login(who, pass);
+      const pass = document.getElementById('accPass').value;
+      if (!pass) { err.textContent = x.errLogin; return; }
+      const r = await login(loginWho, pass);
       if (!r.ok) { err.textContent = r.error === 'unknown' ? x.errUnknown : x.errPass; return; }
     } else {
+      const pass = document.getElementById('accPass').value;
       const name = document.getElementById('accName').value.trim();
       const email = document.getElementById('accEmail').value.trim();
       if (!name || !LoveSite.validEmail(email) || pass.length < 6) { err.textContent = x.errReg; return; }

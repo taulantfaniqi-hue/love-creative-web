@@ -54,11 +54,12 @@ window.LOVE_EN = {
   'steps.s2':'Paint','steps.s2t':'Paints, brushes and techniques are ready. We show you the basics — no experience needed.',
   'steps.s3':'Glaze &amp; fire','steps.s3t':'We glaze and fire your piece in our studio kiln — that part is on us.',
   'steps.s4':'Pick up','steps.s4t':'After about a week your piece is ready — food-safe and dishwasher-proof.',
-  'price.eyebrow':'Ceramic painting','price.title':'One price per piece — everything included',
-  'price.lead':'No studio fee, no hidden costs: each price includes 3 hours of studio time, all paints and brushes, plus glazing and firing.',
+  'price.eyebrow':'Ceramic painting','price.title':'Service fee + your piece — that\'s it',
+  'price.lead':'CHF 25 service fee per person covers firing, glaze, all paints, brushes and studio time. On top you only pay for your piece by size:',
   'price.mini':'Espresso cup, magnet','price.s':'Small','price.sEx':'Mug, cereal bowl',
   'price.m':'Medium','price.mEx':'Plate, jug','price.l':'Large','price.lEx':'Serving platter, vase','price.xlEx':'Large vase, planter',
-  'price.extra1':'<b>Extra hour:</b> CHF 10','price.extra2':'<b>Additional pieces:</b> priced per piece','price.extra3':'<b>Members:</b> 10–20% off',
+  'price.service':'<b>Service fee:</b> CHF 25 per person — firing, glaze, paints & studio time included',
+  'price.extra2':'<b>Additional pieces:</b> priced per piece','price.extra3':'<b>Members:</b> 10–20% off',
   'price.cta':'Reserve a table',
   'kino.eyebrow':'Our signature format','kino.title':'Cinema Night — every Friday',
   'kino.lead':'Once a week the studio becomes a cinema: paint ceramics while the film plays. Formats alternate — film, ceramic piece and snacks are always included.',
@@ -133,14 +134,13 @@ window.LOVE_EN = {
         <li class="has-sub">
           <a href="#preise" data-i18n="nav.keramik">Keramik bemalen</a>
           <ul class="sub">
-            <li><a href="#events" data-i18n="nav.workshop">Workshop</a></li>
-            <li><a href="reservieren.html" data-i18n="nav.walkin">Walk-in</a></li>
+            <li><a href="workshop.html" data-i18n="nav.workshop">Workshop</a></li>
+            <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
           </ul>
         </li>
         <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
-        <li><a href="#kino" data-i18n="nav.kino">Kinoabend</a></li>
-        <li><a href="#events" data-i18n="nav.kidscamp">Kidscamp</a></li>
-        <li><a href="#events" data-i18n="nav.geburtstage">Geburtstage</a></li>
+        <li><a href="kinoabend.html" data-i18n="nav.kino">Kinoabend</a></li>
+        <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
         <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
@@ -208,17 +208,17 @@ window.LOVE_EN = {
 <section class="prices" id="preise">
   <div class="wrap">
     <p class="eyebrow" data-i18n="price.eyebrow">Keramik bemalen</p>
-    <h2 class="sect-title" data-i18n="price.title">Ein Preis pro Stück — alles inklusive</h2>
-    <p class="sect-lead" data-i18n="price.lead">Keine Studiogebühr, keine versteckten Kosten: Im Stückpreis sind 3 Stunden Studiozeit, alle Farben und Pinsel sowie Glasur und Brand enthalten.</p>
+    <h2 class="sect-title" data-i18n="price.title">Servicegebühr + dein Stück — mehr nicht</h2>
+    <p class="sect-lead" data-i18n="price.lead">CHF 25 Servicegebühr pro Person — darin sind Brennen, Glasur, alle Farben, Pinsel und die Studiozeit enthalten. Dazu kommt nur noch dein Keramikstück nach Grösse:</p>
     <div class="price-grid">
-      <div class="price-card reveal"><h3>Mini</h3><p class="ex" data-i18n="price.mini">Espressotassli, Magnet</p><p class="chf">CHF 22</p></div>
-      <div class="price-card reveal"><h3 data-i18n="price.s">Klein</h3><p class="ex" data-i18n="price.sEx">Tasse, Müslischale</p><p class="chf">CHF 32</p></div>
-      <div class="price-card highlight reveal"><h3 data-i18n="price.m">Mittel</h3><p class="ex" data-i18n="price.mEx">Teller, Krug</p><p class="chf">CHF 48</p></div>
-      <div class="price-card reveal"><h3 data-i18n="price.l">Gross</h3><p class="ex" data-i18n="price.lEx">Servierplatte, Vase</p><p class="chf">CHF 58</p></div>
-      <div class="price-card reveal"><h3>Statement</h3><p class="ex" data-i18n="price.xlEx">Grosse Vase, Übertopf</p><p class="chf">CHF 68</p></div>
+      <div class="price-card reveal"><h3>XS</h3><p class="ex" data-i18n="price.mini">Espressotassli, Magnet</p><p class="chf">CHF 10</p></div>
+      <div class="price-card reveal"><h3>S</h3><p class="ex" data-i18n="price.sEx">Tasse, Müslischale</p><p class="chf">CHF 18</p></div>
+      <div class="price-card highlight reveal"><h3>M</h3><p class="ex" data-i18n="price.mEx">Teller, Krug</p><p class="chf">CHF 25</p></div>
+      <div class="price-card reveal"><h3>L</h3><p class="ex" data-i18n="price.lEx">Servierplatte, Vase</p><p class="chf">CHF 30</p></div>
+      <div class="price-card reveal"><h3>XL</h3><p class="ex" data-i18n="price.xlEx">Grosse Vase, Übertopf</p><p class="chf">CHF 35</p></div>
     </div>
     <div class="price-extra">
-      <span data-i18n="price.extra1"><b>Zusatzstunde:</b> CHF 10</span>
+      <span data-i18n="price.service"><b>Servicegebühr:</b> CHF 25 pro Person — Brennen, Glasur, Farben &amp; Studiozeit inklusive</span>
       <span data-i18n="price.extra2"><b>Weitere Stücke:</b> je zum Stückpreis</span>
       <span data-i18n="price.extra3"><b>Member:</b> 10–20 % Rabatt</span>
     </div>
