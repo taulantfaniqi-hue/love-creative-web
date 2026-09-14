@@ -38,18 +38,19 @@ const TX = {
     name: 'Name', email: 'E-Mail', phone: 'Telefon (optional)', addr: 'Adresse',
     addrPh: 'Strasse Nr., PLZ Ort', note: 'Bemerkung (optional)',
     memberNo: 'Member-Nummer (optional)', memberPh: 'M-0042',
-    pay: 'Bestellen & bezahlen', payOffline: 'Bestellung aufgeben',
+    pay: 'Bestellung abschliessen', payOffline: 'Bestellung aufgeben',
     okTitle: 'Danke für deine Bestellung!',
-    okPickup: c => `Deine Bestellung <b>${c}</b> ist reserviert. Wir melden uns, sobald sie an der Theke bereitliegt — meist noch am selben Tag.`,
-    okPost: c => `Deine Bestellung <b>${c}</b> ist eingegangen. Wir packen sie und schicken sie dir in 2–3 Werktagen.`,
+    okPickup: c => `Deine Bestellung <b>${c}</b> ist reserviert. Wir melden uns, sobald sie an der Theke bereitliegt — meist noch am selben Tag. <b>Bezahlt wird bei der Abholung</b> (Karte, TWINT oder bar).`,
+    okPost: c => `Deine Bestellung <b>${c}</b> ist eingegangen. Wir schicken dir die Zahlungsangaben per E-Mail; sobald der Betrag da ist, geht das Paket in 2–3 Werktagen raus.`,
     okClose: 'Alles klar ♥',
     errName: 'Bitte gib deinen Namen an.', errMail: 'Bitte gib eine gültige E-Mail an.',
     errAddr: 'Für den Versand brauchen wir deine Adresse.',
     errStock: n => `Von diesem Artikel haben wir nur noch ${n} Stück.`,
     errMember: 'Diese Member-Nummer kennen wir nicht — bitte prüfen oder Feld leer lassen.',
     memberOk: (n, p) => `${n} · ${p} % Member-Rabatt aktiv`,
-    sku: 'Artikel-Nr.', supplier: 'Marke', payHint: 'Zahlung sicher über Payrexx (TWINT & Karte).',
-    payOfflineHint: 'Online-Zahlung gerade nicht möglich — deine Bestellung ist reserviert, du zahlst bei der Abholung.'
+    sku: 'Artikel-Nr.', supplier: 'Marke',
+    payHint: 'Im nächsten Schritt kannst du mit TWINT oder Karte bezahlen — falls das gerade nicht geht, reservieren wir deine Bestellung und du zahlst bei der Abholung.',
+    payOfflineHint: 'Deine Bestellung wird reserviert — bezahlt wird bei der Abholung im Studio.'
   },
   en: {
     all: 'Everything', search: 'Search…', count: n => `${n} items`,
@@ -63,18 +64,19 @@ const TX = {
     name: 'Name', email: 'E-mail', phone: 'Phone (optional)', addr: 'Address',
     addrPh: 'Street no., postcode town', note: 'Note (optional)',
     memberNo: 'Member number (optional)', memberPh: 'M-0042',
-    pay: 'Order & pay', payOffline: 'Place order',
+    pay: 'Complete order', payOffline: 'Place order',
     okTitle: 'Thank you for your order!',
-    okPickup: c => `Your order <b>${c}</b> is reserved. We'll let you know as soon as it's ready at the counter — usually the same day.`,
-    okPost: c => `We've received your order <b>${c}</b>. We'll pack it and send it within 2–3 working days.`,
+    okPickup: c => `Your order <b>${c}</b> is reserved. We'll let you know as soon as it's ready at the counter — usually the same day. <b>You pay on pick-up</b> (card, TWINT or cash).`,
+    okPost: c => `We've received your order <b>${c}</b>. We'll e-mail you the payment details; once the amount arrives, the parcel goes out within 2–3 working days.`,
     okClose: 'All set ♥',
     errName: 'Please tell us your name.', errMail: 'Please enter a valid e-mail.',
     errAddr: 'We need your address for shipping.',
     errStock: n => `We only have ${n} of this item left.`,
     errMember: "We don't know this member number — please check or leave it empty.",
     memberOk: (n, p) => `${n} · ${p}% member discount active`,
-    sku: 'Item no.', supplier: 'Brand', payHint: 'Secure payment via Payrexx (TWINT & card).',
-    payOfflineHint: "Online payment isn't available right now — your order is reserved, you pay on pick-up."
+    sku: 'Item no.', supplier: 'Brand',
+    payHint: 'In the next step you can pay by TWINT or card — if that is unavailable, we reserve your order and you pay on pick-up.',
+    payOfflineHint: 'Your order will be reserved — you pay on pick-up at the studio.'
   }
 };
 const t = () => TX[en() ? 'en' : 'de'];
