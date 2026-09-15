@@ -171,5 +171,26 @@ const todayISO = () => new Date().toISOString().slice(0, 10);
 const chf = n => 'CHF ' + (Number(n) || 0).toLocaleString('de-CH').replace(/,/g, "'");
 const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
 
+/* ═══════════ Zahlungsmethoden-Badges im Footer (Payrexx) ═══════════ */
+(function payBadges() {
+  const fb = document.querySelector('footer .foot-bottom');
+  if (!fb || document.getElementById('footPay')) return;
+  const P = [
+    ['twint', 'TWINT'], ['visa', 'Visa'], ['mastercard', 'Mastercard'],
+    ['amex', 'American Express'], ['applepay', 'Apple Pay'], ['klarna', 'Klarna']
+  ];
+  fb.insertAdjacentHTML('beforebegin', `
+    <div class="foot-pay" id="footPay" role="group" aria-label="Akzeptierte Zahlungsmethoden">
+      <span id="footPayLbl"></span>
+      ${P.map(([f, alt]) => `<img src="assets/img/pay/${f}.svg" alt="${alt}" loading="lazy" height="26">`).join('')}
+    </div>`);
+  const setLbl = () => {
+    const el = document.getElementById('footPayLbl');
+    if (el) el.textContent = lang === 'en' ? 'Secure payment:' : 'Sichere Zahlung:';
+  };
+  setLbl();
+  document.addEventListener('love:lang', setLbl);
+})();
+
 window.LoveSite = { t, applyLang, lang: () => lang, validEmail, todayISO, chf };
 })();

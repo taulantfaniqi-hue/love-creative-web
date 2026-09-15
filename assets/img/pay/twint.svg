@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 44" width="132" height="44" role="img" aria-label="TWINT">
+  <rect width="132" height="44" rx="7" fill="#000000"/>
+  <!-- Fähnchen -->
+  <path d="M20 8 H28 V22 L24 19 L20 22 Z" fill="#a6d847"/>
+  <path d="M28 8 H36 V22 L32 19 L28 22 Z" fill="#00a3da"/>
+  <text x="78" y="30" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="1.5">TWINT</text>
+</svg>

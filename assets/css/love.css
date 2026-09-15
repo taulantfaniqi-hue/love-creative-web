@@ -367,6 +367,10 @@ footer.site li{padding:.22rem 0}
 footer.site a{color:var(--green);text-decoration:none}
 footer.site a:hover{color:var(--rose);text-decoration:underline}
 .foot-brand img{width:74px;margin-bottom:.9rem}
+/* Zahlungsmethoden-Badges (Payrexx: TWINT, Visa, Mastercard, Amex, Apple Pay, Klarna) */
+.foot-pay{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin:1.6rem 0 1.2rem}
+.foot-pay span{font-size:.8rem;color:inherit;opacity:.85;margin-right:.3rem}
+.foot-pay img{height:26px;width:auto;background:#fff;border-radius:6px;padding:4px 9px;box-sizing:content-box;border:1px solid rgba(0,0,0,.08)}
 .foot-bottom{border-top:1px solid rgba(226,115,150,.35);padding-top:1.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
 .foot-bottom .lang-switch{border-color:rgba(51,115,87,.3)}
 .foot-bottom .lang-btn{color:var(--ink-soft)}
