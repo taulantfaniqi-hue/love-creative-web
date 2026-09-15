@@ -157,7 +157,15 @@ const LoveAccount = (() => {
       cancelBtn: 'Stornieren', cancelOk: 'Buchung storniert.',
       cancelLate: 'Stornierung ist nur bis 24 h vor dem Termin möglich.',
       cancelHint: 'Kostenlos stornierbar bis 24 h vor dem Termin.',
-      cancelConfirm: 'Diese Buchung wirklich stornieren?'
+      cancelConfirm: 'Diese Buchung wirklich stornieren?',
+      noAccount: 'Zu dieser E-Mail gibt es noch kein Konto — wir erstellen es jetzt für dich. Deine bisherigen Buchungen und Treuepunkte sind danach automatisch drin.',
+      sendCode: 'Bestätigungscode senden',
+      codeSent: 'Code verschickt! Schau in dein Postfach (auch im Spam) und gib den Code hier ein:',
+      codePh: 'Bestätigungscode (6 Ziffern)',
+      claimBtn: 'Konto erstellen & anmelden',
+      codeErr: 'Der Code stimmt nicht oder ist abgelaufen — bitte neu senden.',
+      linkPass: 'Fast geschafft — setz jetzt dein Passwort. Deine Buchungen und Treuepunkte sind schon in deinem Konto.',
+      resend: 'Code neu senden'
     },
     en: {
       account: 'Account', hello: n => n.split(' ')[0],
@@ -199,7 +207,15 @@ const LoveAccount = (() => {
       cancelBtn: 'Cancel booking', cancelOk: 'Booking cancelled.',
       cancelLate: 'Cancellation is only possible up to 24 h before your visit.',
       cancelHint: 'Free cancellation up to 24 h before your visit.',
-      cancelConfirm: 'Really cancel this booking?'
+      cancelConfirm: 'Really cancel this booking?',
+      noAccount: 'There is no account for this e-mail yet — we will create it now. Your existing bookings and loyalty points will be in it automatically.',
+      sendCode: 'Send confirmation code',
+      codeSent: 'Code sent! Check your inbox (and spam) and enter the code here:',
+      codePh: 'Confirmation code (6 digits)',
+      claimBtn: 'Create account & sign in',
+      codeErr: 'The code is wrong or expired — please resend it.',
+      linkPass: 'Almost there — set your password now. Your bookings and loyalty points are already in your account.',
+      resend: 'Resend code'
     }
   };
   const tx = () => (window.LoveSite && LoveSite.lang() === 'en') ? TX.en : TX.de;
@@ -230,6 +246,26 @@ const LoveAccount = (() => {
     document.addEventListener('love:lang', () => { renderBtn(); if (isOpen()) renderModal(); });
     document.addEventListener('love:account', () => { renderBtn(); prefillForms(); });
     prefillForms();
+
+    /* «Hier anmelden»-Link aus der Bestätigungs-Mail: ?konto=<token>
+       → Modal öffnet sich, E-Mail ist erkannt, nur noch Passwort setzen/eingeben. */
+    const claimParam = new URLSearchParams(location.search).get('konto');
+    if (claimParam && /^[a-f0-9]{64}$/.test(claimParam) && !current()) {
+      history.replaceState(null, '', location.pathname + location.hash);
+      (async () => {
+        if (typeof LoveCloud !== 'undefined') {
+          try {
+            const r = await LoveCloud.call('claim_info&token=' + claimParam);
+            if (r.ok) {
+              tab = 'login'; loginWho = r.email; claimToken = claimParam;
+              if (r.account) { loginStep = 'pass'; }
+              else { loginStep = 'claim'; claimPhase = 'set'; }
+            }
+          } catch (e) { /* Modal öffnet trotzdem */ }
+        }
+        openModal();
+      })();
+    }
   }
   const isOpen = () => document.getElementById('accModal').classList.contains('open');
   function openModal() {
@@ -247,10 +283,13 @@ const LoveAccount = (() => {
     if (b) b.innerHTML = `<span aria-hidden="true">♥</span> ${c ? esc(x.hello(c.name || c.email)) : x.account}`;
   }
 
-  /* Zweistufiger Login: zuerst E-Mail/Benutzername, dann Passwort (oder Reset) */
-  let loginStep = 'who';   // 'who' | 'pass' | 'reset'
+  /* Zweistufiger Login: zuerst E-Mail/Benutzername — der Server erkennt dann,
+     ob ein Konto existiert (→ Passwort) oder nicht (→ Konto per Code anlegen). */
+  let loginStep = 'who';   // 'who' | 'pass' | 'reset' | 'claim'
   let loginWho = '';
   let resetApproved = false;
+  let claimPhase = 'ask';  // 'ask' (Code anfordern) | 'code' (Code + Passwort) | 'set' (nur Passwort, per Mail-Link)
+  let claimToken = '';     // Einmal-Token aus der Bestätigungs-Mail
 
   /* Frische Kundendaten (inkl. Punkte) vom Server holen */
   function refreshMe() {
@@ -416,6 +455,32 @@ const LoveAccount = (() => {
           <p class="acc-err" id="accErr" aria-live="polite"></p>
           <button type="submit" class="btn btn-rose btn-block">${x.loginBtn}</button>
           <p style="margin-top:.7rem;text-align:center"><a href="#" id="accForgot">${x.forgot}</a></p>`;
+      } else if (tab === 'login' && loginStep === 'claim') {
+        const whoRow = `
+          <p class="acc-card" style="display:flex;justify-content:space-between;align-items:center;gap:.6rem">
+            <b style="overflow-wrap:anywhere">${whoEsc}</b>
+            <button type="button" class="btn btn-ghost btn-sm" id="accBackWho">${x.changeWho}</button>
+          </p>`;
+        if (claimPhase === 'set') {
+          formHtml = whoRow + `
+            <p class="acc-card">${x.linkPass}</p>
+            <input type="password" id="accPass" placeholder="${x.newPass}" autocomplete="new-password">
+            <p class="acc-err" id="accErr" aria-live="polite"></p>
+            <button type="submit" class="btn btn-rose btn-block">${x.setPass}</button>`;
+        } else if (claimPhase === 'code') {
+          formHtml = whoRow + `
+            <p class="acc-card">${x.codeSent}</p>
+            <input type="text" id="accCode" placeholder="${x.codePh}" inputmode="numeric" autocomplete="one-time-code">
+            <input type="password" id="accPass" placeholder="${x.newPass}" autocomplete="new-password">
+            <p class="acc-err" id="accErr" aria-live="polite"></p>
+            <button type="submit" class="btn btn-rose btn-block">${x.claimBtn}</button>
+            <p style="margin-top:.7rem;text-align:center"><a href="#" id="accResend">${x.resend}</a></p>`;
+        } else {
+          formHtml = whoRow + `
+            <p class="acc-card">${x.noAccount}</p>
+            <p class="acc-err" id="accErr" aria-live="polite"></p>
+            <button type="submit" class="btn btn-rose btn-block">${x.sendCode}</button>`;
+        }
       } else if (tab === 'login' && loginStep === 'reset') {
         formHtml = resetApproved ? `
           <p class="acc-card">${x.resetApproved}</p>
@@ -446,10 +511,20 @@ const LoveAccount = (() => {
       body.querySelectorAll('.acc-tab').forEach(b => b.addEventListener('click', () => { tab = b.dataset.tab; loginStep = 'who'; renderModal(); }));
       document.getElementById('accForm').addEventListener('submit', onSubmit);
       const back = document.getElementById('accBackWho');
-      if (back) back.addEventListener('click', e => { e.preventDefault(); loginStep = 'who'; resetApproved = false; renderModal(); });
+      if (back) back.addEventListener('click', e => { e.preventDefault(); loginStep = 'who'; resetApproved = false; claimPhase = 'ask'; claimToken = ''; renderModal(); });
+      const resend = document.getElementById('accResend');
+      if (resend) resend.addEventListener('click', async e => {
+        e.preventDefault();
+        try { await LoveCloud.call('claim_request', { email: loginWho }); } catch (er) { }
+        const errEl = document.getElementById('accErr');
+        if (errEl) errEl.textContent = tx().codeSent;
+      });
       const forgot = document.getElementById('accForgot');
       if (forgot) forgot.addEventListener('click', async e => {
         e.preventDefault();
+        /* Kommt der Gast über den Mail-Link, ist die E-Mail schon bestätigt →
+           Passwort direkt neu setzen, ohne Host-Freigabe. */
+        if (claimToken) { loginStep = 'claim'; claimPhase = 'set'; renderModal(); return; }
         resetApproved = false;
         if (typeof LoveCloud !== 'undefined') { try { await LoveCloud.call('pw_reset_request', { email: loginWho }); } catch (err) { } }
         loginStep = 'reset';
@@ -467,8 +542,38 @@ const LoveAccount = (() => {
       const who = document.getElementById('accWho').value.trim();
       if (!who) { err.textContent = x.errLogin; return; }
       loginWho = who.toLowerCase();
+      /* Server erkennt selbstständig: Konto vorhanden → Passwort, sonst → Konto anlegen */
+      if (cloud()) {
+        try {
+          const r = await LoveCloud.call('login_probe', { who: loginWho });
+          if (r.ok && !r.account && LoveSite.validEmail(loginWho)) {
+            loginStep = 'claim'; claimPhase = 'ask'; claimToken = '';
+            renderModal();
+            return;
+          }
+        } catch (er) { /* offline → normaler Passwort-Schritt */ }
+      }
       loginStep = 'pass';
       renderModal();
+      return;
+    }
+    if (tab === 'login' && loginStep === 'claim') {
+      if (claimPhase === 'ask') {
+        try { await LoveCloud.call('claim_request', { email: loginWho }); } catch (er) { }
+        claimPhase = 'code';
+        renderModal();
+        return;
+      }
+      const pass = document.getElementById('accPass').value;
+      if (pass.length < 6) { err.textContent = x.errReg; return; }
+      const payload = claimPhase === 'set' && claimToken
+        ? { token: claimToken, pass }
+        : { email: loginWho, code: (document.getElementById('accCode') || { value: '' }).value.trim(), pass };
+      try {
+        const r = await LoveCloud.call('claim_set', payload);
+        if (r.ok) { _cloudSession(r); loginStep = 'who'; claimPhase = 'ask'; claimToken = ''; renderModal(); return; }
+        err.textContent = r.error === 'wrong-code' ? x.codeErr : x.resetErr;
+      } catch (er) { err.textContent = x.resetErr; }
       return;
     }
     if (tab === 'login' && loginStep === 'reset') {

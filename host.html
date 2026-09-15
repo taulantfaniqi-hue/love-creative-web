@@ -11,12 +11,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css?v=0d69cfa2">
 <style>
-/* Host-Bereich: kompakte Verwaltungsansicht */
-.host-wrap{max-width:1080px;margin:0 auto;padding:2.5rem clamp(1rem,4vw,2.5rem) 4rem}
+/* ═══ Host-Bereich: modernes Kapitel-Layout, handyoptimiert ═══ */
+.host-wrap{max-width:1180px;margin:0 auto;padding:1.6rem clamp(.9rem,3vw,2.2rem) 4rem}
 .host-login{max-width:400px;margin:8vh auto 0}
-.host-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.4rem 0}
-.host-tab{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.5rem 1.15rem;font-family:var(--ff-body);font-weight:600;font-size:.9rem;cursor:pointer;color:var(--ink)}
-.host-tab[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* Kapitel-Navigation: Sidebar (Desktop) / scrollbare Leiste (Handy) */
+.host-shell{display:grid;grid-template-columns:212px minmax(0,1fr);gap:1.5rem;align-items:start}
+.host-nav{position:sticky;top:92px;display:flex;flex-direction:column;gap:.2rem;background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-m);padding:.55rem}
+.host-nav button{display:flex;align-items:center;gap:.55rem;width:100%;text-align:left;border:0;background:none;border-radius:12px;padding:.58rem .75rem;font-family:var(--ff-body);font-weight:600;font-size:.92rem;color:var(--ink);cursor:pointer;white-space:nowrap;transition:background .15s ease}
+.host-nav button:hover{background:var(--celadon)}
+.host-nav button[aria-pressed="true"]{background:var(--green);color:#fff}
+.host-nav .ic{font-size:1rem;line-height:1}
+.hbadge{margin-left:auto;background:var(--rose);color:#fff;border-radius:999px;font-size:.68rem;font-weight:700;padding:.12rem .45rem;min-width:1.35rem;text-align:center;line-height:1.2}
+.host-nav button[aria-pressed="true"] .hbadge{background:#fff;color:var(--rose)}
+@media (max-width:900px){
+  .host-shell{display:block}
+  .host-nav{position:sticky;top:74px;z-index:60;flex-direction:row;overflow-x:auto;padding:.4rem;margin:0 calc(-1 * clamp(.9rem,3vw,2.2rem)) 1rem;border-radius:0;border-left:0;border-right:0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .host-nav::-webkit-scrollbar{display:none}
+  .host-nav button{flex:0 0 auto;width:auto;padding:.5rem .7rem;font-size:.86rem}
+  .host-nav .hbadge{margin-left:.15rem}
+}
+
+/* Karten & Tabellen */
+.host-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;margin:1rem 0 1.4rem}
+.host-stat{background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-m);padding:.85rem 1rem;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;text-align:left;font-family:var(--ff-body)}
+.host-stat:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(51,115,87,.10)}
+.host-stat b{font-family:var(--ff-display);font-size:1.5rem;color:var(--rose);display:block}
+.host-stat span{font-size:.78rem;color:var(--ink-soft)}
 .host-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;font-size:.9rem}
 .host-table-wrap{overflow-x:auto;border-radius:var(--r-m)}
 .host-table th{background:var(--celadon);color:var(--green);text-align:left;font-weight:600;padding:.6rem .8rem;white-space:nowrap}
@@ -24,12 +45,47 @@
 .host-table tr:hover td{background:var(--warmwhite)}
 .host-pill{display:inline-block;background:var(--mimi);color:var(--green);border-radius:999px;font-size:.75rem;font-weight:600;padding:.15rem .6rem;white-space:nowrap}
 .host-pill.neu{background:var(--rose);color:#fff}
-.host-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1.2rem}
-.host-stat{background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-m);padding:.9rem 1rem}
-.host-stat b{font-family:var(--ff-display);font-size:1.5rem;color:var(--rose);display:block}
-.host-stat span{font-size:.8rem;color:var(--ink-soft)}
-.host-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+.host-pill.ok{background:var(--green);color:#fff}
 .host-empty{color:var(--ink-soft);font-size:.92rem;padding:1.2rem;background:#fff;border:1px dashed var(--line);border-radius:var(--r-m)}
+.host-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.6rem}
+.host-sect{font-size:1.08rem;margin:1.5rem 0 .7rem}
+.host-sect:first-child{margin-top:0}
+
+/* Anfrage-/Termin-Karten */
+.hcards{display:flex;flex-direction:column;gap:.65rem}
+.hcard{background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-m);padding:.95rem 1.05rem;box-shadow:0 1px 4px rgba(51,115,87,.05)}
+.hcard.pending{border-left:4px solid var(--rose)}
+.hcard-top{display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:baseline}
+.hcard-top b{font-size:1rem}
+.hcard-meta{color:var(--ink-soft);font-size:.86rem;margin-top:.15rem;overflow-wrap:anywhere}
+.hcard-msg{background:var(--warmwhite);border-radius:10px;padding:.45rem .6rem;font-size:.85rem;margin-top:.5rem}
+.hcard-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
+.hday{font-weight:700;color:var(--green);margin:1.1rem 0 .5rem;font-size:.95rem}
+.hday:first-child{margin-top:0}
+
+/* Monats-Kalender */
+.hcal-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.6rem}
+.hcal-head b{font-family:var(--ff-display);font-size:1.15rem;color:var(--green)}
+.hcal-nav{border:1.5px solid var(--line);background:#fff;border-radius:999px;width:2.1rem;height:2.1rem;font-size:1rem;cursor:pointer;color:var(--green)}
+.hcal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.hcal-wd{font-size:.7rem;font-weight:700;color:var(--ink-soft);text-align:center;padding:.15rem 0;text-transform:uppercase;letter-spacing:.06em}
+.hcal-day{position:relative;min-height:62px;background:#fff;border:1px solid var(--line-soft);border-radius:10px;padding:.28rem .4rem;font-size:.78rem;cursor:pointer;text-align:left;font-family:var(--ff-body)}
+.hcal-day:disabled{cursor:default}
+.hcal-day.empty{background:none;border:0}
+.hcal-day.today{border:2px solid var(--rose)}
+.hcal-day.closed{background:var(--warmwhite);color:var(--ink-soft)}
+.hcal-day.sel{outline:3px solid var(--green);outline-offset:-1px}
+.hcal-n{position:absolute;top:.22rem;right:.38rem;font-weight:600}
+.hcal-count{display:inline-block;background:var(--green);color:#fff;border-radius:999px;font-size:.66rem;font-weight:700;padding:.06rem .38rem;margin-top:1.15rem}
+.hcal-pend{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rose);margin-left:3px;vertical-align:middle}
+@media (max-width:640px){.hcal-day{min-height:50px}.hcal-count{margin-top:.95rem}}
+
+/* Onboarding auf der Startseite */
+.onb{background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-m);padding:1.1rem 1.2rem;margin-top:1.4rem}
+.onb h3{margin-bottom:.5rem;font-size:1.05rem}
+.onb ol{margin:.4rem 0 0 1.1rem;padding:0;font-size:.92rem;display:grid;gap:.45rem}
+.onb b{color:var(--green)}
+.host-note{background:var(--celadon);border-radius:12px;padding:.6rem .8rem;font-size:.85rem;color:var(--green);margin:.8rem 0}
 </style>
 </head>
 <body>
@@ -59,45 +115,31 @@
         <button type="submit" class="btn btn-rose btn-block">Anmelden</button>
         <p class="form-err" id="hostErr" aria-live="polite"></p>
       </form>
-      <p class="hint" style="margin-top:1rem">Interner Bereich für das Gastgeber-Team: Kundenkonten, Kontakte und Buchungen. Kein öffentlicher Zugang.</p>
+      <p class="hint" style="margin-top:1rem">Interner Bereich für das Gastgeber-Team: Anfragen, Termine, Kunden und Shop. Kein öffentlicher Zugang.</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════ Dashboard ═══════ -->
+<!-- ═══════ App ═══════ -->
 <div id="hostApp" class="hidden">
-  <p class="eyebrow">Host</p>
-  <h1 style="font-size:clamp(1.7rem,1.2rem+2vw,2.4rem)">Kunden &amp; Buchungen</h1>
-  <p class="hint" id="cloudState" style="margin-top:.3rem"></p>
-
-  <div class="host-stats" id="hostStats"></div>
-
-  <div class="host-tabs" role="tablist">
-    <button type="button" class="host-tab" data-tab="kunden" aria-pressed="true">Kundenkonten</button>
-    <button type="button" class="host-tab" data-tab="kontakte" aria-pressed="false">CRM-Kontakte</button>
-    <button type="button" class="host-tab" data-tab="buchungen" aria-pressed="false">Buchungen</button>
-    <button type="button" class="host-tab" data-tab="gutscheine" aria-pressed="false">Gutscheine</button>
-    <button type="button" class="host-tab" data-tab="bestellungen" aria-pressed="false">Shop-Bestellungen</button>
-    <button type="button" class="host-tab" data-tab="members" aria-pressed="false">Members</button>
-    <button type="button" class="host-tab" data-tab="anfragen" aria-pressed="false">Anfragen</button>
-    <button type="button" class="host-tab" data-tab="dienste" aria-pressed="false">Dienstleistungen</button>
-    <button type="button" class="host-tab" data-tab="eroeffnung" aria-pressed="false">Eröffnung</button>
+  <div class="host-shell">
+    <nav class="host-nav" id="hostNav" aria-label="Kapitel"></nav>
+    <section id="hostMain">
+      <p class="hint" id="cloudState" style="margin-bottom:.6rem"></p>
+      <div id="hostContent"></div>
+      <div class="host-actions">
+        <button type="button" class="btn btn-ghost btn-sm" id="expKunden">Kunden als CSV</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="expBackup">Komplett-Backup (JSON)</button>
+      </div>
+    </section>
   </div>
-
-  <div class="host-table-wrap"><div id="hostContent"></div></div>
-
-  <div class="host-actions">
-    <button type="button" class="btn btn-ghost btn-sm" id="expKunden">Kunden als CSV</button>
-    <button type="button" class="btn btn-ghost btn-sm" id="expBackup">Komplett-Backup (JSON)</button>
-  </div>
-  <p class="hint" style="margin-top:1.2rem">Hinweis: Daten liegen im Browser-Speicher dieser Domain (pro Gerät). Für den Mehrgeräte-Betrieb kommt das Server-Backend (Infomaniak, Ausbaustufe 1). Dieser Passwortschutz hält Besucher fern, ist aber kein Server-Login — die Seite gehört vor dem Go-Live zusätzlich hinter Cloudflare Access o. ä.</p>
 </div>
 
 </main>
 
 <script src="assets/js/love-data.js?v=b43acf6f"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=bd71a622"></script>
+<script src="assets/js/love-account.js?v=43f3acf9"></script>
 <script>
 (() => {
 'use strict';
@@ -156,15 +198,78 @@ async function loadCloud() {
 }
 $('#hostLogout').addEventListener('click', () => { localStorage.removeItem(SESSION_KEY); show(false); });
 
-/* ---------- Ansichten ---------- */
-let tab = 'kunden';
-document.querySelectorAll('.host-tab').forEach(b => b.addEventListener('click', () => {
-  tab = b.dataset.tab;
-  document.querySelectorAll('.host-tab').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-  render();
-}));
+/* Schliesstage aus dem Google-Kalender (für den Host-Kalender) */
+let closures = [];
+function loadClosures() {
+  if (typeof LoveCloud === 'undefined') return;
+  LoveCloud.call('closures').then(r => {
+    if (r.ok && Array.isArray(r.closures)) { closures = r.closures; if (chapter === 'kalender') render(); }
+  }).catch(() => {});
+}
 
+/* ---------- Daten-Helfer ---------- */
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
+const fmtDay = iso => iso ? String(iso).split('-').reverse().join('.') : '—';
+const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk' };
+const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) : '—');
+const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
+const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
+
+function getData() {
+  const kunden = cloudData
+    ? cloudData.customers.map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, points: k.points, created: k.created_at, lastLogin: k.last_login }))
+    : LoveAccount.listCustomers();
+  const kontakte = cloudData
+    ? cloudData.contacts.map(c => ({ email: c.email, name: c.name, phone: c.phone, tags: String(c.tags || '').split(',').filter(Boolean), lastSeen: c.last_seen }))
+    : LoveData.listContacts();
+  return {
+    kunden, kontakte,
+    buchungen: cloudData ? cloudData.bookings : LoveData.listBookings(),
+    gutscheine: cloudData ? cloudData.vouchers : LoveData.listVouchers(),
+    members: cloudData ? cloudData.members : (LoveData.listMembers ? LoveData.listMembers() : []),
+    redemptions: cloudData ? (cloudData.redemptions || []) : [],
+    pwResets: cloudData ? (cloudData.pw_resets || []) : [],
+    dienste: cloudData ? (cloudData.services || []) : [],
+    bestellungen: cloudData ? (cloudData.orders || []) : (LoveData.listOrders ? LoveData.listOrders() : [])
+  };
+}
+/* Neue Reservations-Anfragen: online gebucht, warten auf Annahme */
+const pendingBookings = d => d.buchungen.filter(b => b.status === 'neu' && b.date && !['warteliste', 'geschenk'].includes(b.type));
+const upcoming = d => d.buchungen
+  .filter(b => ['bestätigt', 'gewonnen'].includes(b.status) && b.date >= todayISO())
+  .sort((a, b2) => (a.date + (a.time || '')).localeCompare(b2.date + (b2.time || '')));
+const openRequests = d => pendingBookings(d).length
+  + d.pwResets.filter(r => r.status === 'offen').length
+  + d.redemptions.filter(r => r.status === 'offen').length;
+
+/* ---------- Kapitel-Navigation ---------- */
+let chapter = 'start';
+const CHAPTERS = [
+  { id: 'start', ic: '🏠', lbl: 'Start' },
+  { id: 'anfragen', ic: '📥', lbl: 'Anfragen', badge: d => openRequests(d) },
+  { id: 'termine', ic: '📅', lbl: 'Termine', badge: d => upcoming(d).filter(b => b.date === todayISO()).length },
+  { id: 'kalender', ic: '🗓️', lbl: 'Kalender' },
+  { id: 'buchungen', ic: '📖', lbl: 'Buchungen' },
+  { id: 'kunden', ic: '👥', lbl: 'Kunden' },
+  { id: 'bestellungen', ic: '🛍️', lbl: 'Shop', badge: d => d.bestellungen.filter(o => o.status === 'neu').length },
+  { id: 'gutscheine', ic: '🎁', lbl: 'Gutscheine' },
+  { id: 'dienste', ic: '🎨', lbl: 'Angebote' },
+  { id: 'eroeffnung', ic: '🎉', lbl: 'Eröffnung' }
+];
+function renderNav(d) {
+  $('#hostNav').innerHTML = CHAPTERS.map(c => {
+    const n = c.badge ? c.badge(d) : 0;
+    return `<button type="button" data-ch="${c.id}" aria-pressed="${chapter === c.id}">
+      <span class="ic" aria-hidden="true">${c.ic}</span><span>${c.lbl}</span>${n ? `<span class="hbadge">${n}</span>` : ''}
+    </button>`;
+  }).join('');
+  $('#hostNav').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    chapter = b.dataset.ch;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+}
 
 /* Host-Aktion an die Cloud schicken (mit Zugangsdaten), danach neu laden */
 async function hostCall(action, data) {
@@ -182,68 +287,164 @@ function wireHostActions(box) {
   }));
 }
 
-function render() {
-  /* Quelle: Cloud (zentral, alle Geräte) — sonst lokaler Browser-Speicher */
-  const kunden = cloudData
-    ? cloudData.customers.map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, points: k.points, created: k.created_at, lastLogin: k.last_login }))
-    : LoveAccount.listCustomers();
-  const kontakte = cloudData
-    ? cloudData.contacts.map(c => ({ email: c.email, name: c.name, phone: c.phone, tags: String(c.tags || '').split(',').filter(Boolean), lastSeen: c.last_seen }))
-    : LoveData.listContacts();
-  const buchungen = cloudData ? cloudData.bookings : LoveData.listBookings();
-  const gutscheine = cloudData ? cloudData.vouchers : LoveData.listVouchers();
-  const members = cloudData ? cloudData.members : (LoveData.listMembers ? LoveData.listMembers() : []);
-  const redemptions = cloudData ? (cloudData.redemptions || []) : [];
-  const pwResets = cloudData ? (cloudData.pw_resets || []) : [];
-  const dienste = cloudData ? (cloudData.services || []) : [];
-  const bestellungen = cloudData ? (cloudData.orders || []) : (LoveData.listOrders ? LoveData.listOrders() : []);
-  const offeneAnfragen = redemptions.filter(r => r.status === 'offen').length + pwResets.filter(r => r.status === 'offen').length;
-  $('#hostStats').innerHTML = `
-    <div class="host-stat"><b>${kunden.length}</b><span>Kundenkonten</span></div>
-    <div class="host-stat"><b>${kontakte.length}</b><span>CRM-Kontakte</span></div>
-    <div class="host-stat"><b>${buchungen.filter(b => b.status === 'neu').length}</b><span>Neue Anfragen</span></div>
-    <div class="host-stat"><b>${buchungen.length}</b><span>Buchungen</span></div>
-    <div class="host-stat"><b>${gutscheine.length}</b><span>Gutscheine</span></div>
-    <div class="host-stat"><b>${bestellungen.filter(o => o.status === 'neu').length}</b><span>Neue Bestellungen</span></div>
-    <div class="host-stat"><b>${members.length}</b><span>Members</span></div>
-    <div class="host-stat"><b>${offeneAnfragen}</b><span>Offene Anfragen</span></div>`;
+/* Karte einer Buchung (Anfragen & Termine) */
+function bookingCard(b, withActions) {
+  const msg = String(b.message || '').replace(/\s*\[Widget\]$/, '').trim();
+  return `<div class="hcard ${b.status === 'neu' ? 'pending' : ''}">
+    <div class="hcard-top">
+      <b>${esc(typeLbl(b.type))} · ${esc(b.name || '—')}</b>
+      <span class="host-pill ${STATUS_CLS(b.status)}">${esc(STATUS_LBL[b.status] || b.status)}</span>
+    </div>
+    <p class="hcard-meta">${fmtDay(b.date)}${b.time ? ' · ' + esc(b.time) : ''}${b.persons ? ' · ' + esc(b.persons) + ' P.' : ''}${b.world ? ' · ' + esc(b.world) : ''} · ${esc(b.email || '—')}${b.phone ? ' · ' + esc(b.phone) : ''} · <span style="font-size:.78em">${esc(b.id)}</span></p>
+    ${msg ? `<p class="hcard-msg">💬 ${esc(msg)}</p>` : ''}
+    ${withActions ? `<div class="hcard-actions">
+      <button class="btn btn-green btn-sm" data-bact="booking_confirm" data-id="${esc(b.id)}">✓ Annehmen</button>
+      <button class="btn btn-ghost btn-sm" data-bact="booking_reject" data-id="${esc(b.id)}">Ablehnen</button>
+    </div>` : ''}
+  </div>`;
+}
+function wireBookingActions(box) {
+  box.querySelectorAll('button[data-bact]').forEach(btn => btn.addEventListener('click', () => {
+    if (btn.dataset.bact === 'booking_reject' && !confirm('Diese Anfrage wirklich ablehnen? Der Gast bekommt eine Absage-Mail.')) return;
+    btn.disabled = true;
+    hostCall(btn.dataset.bact, { id: btn.dataset.id });
+  }));
+}
 
+/* ---------- Kapitel-Ansichten ---------- */
+function render() {
+  const d = getData();
+  renderNav(d);
   const box = $('#hostContent');
-  if (tab === 'kunden') {
-    box.innerHTML = kunden.length ? `<table class="host-table">
+
+  /* ═══ Start: Übersicht + Onboarding ═══ */
+  if (chapter === 'start') {
+    const heute = upcoming(d).filter(b => b.date === todayISO());
+    const offen = openRequests(d);
+    box.innerHTML = `
+      <p class="eyebrow">Host</p>
+      <h1 style="font-size:clamp(1.6rem,1.2rem+1.6vw,2.2rem)">Schön, dass du da bist ♥</h1>
+      <div class="host-stats">
+        <button type="button" class="host-stat" data-go="anfragen"><b>${offen}</b><span>Offene Anfragen</span></button>
+        <button type="button" class="host-stat" data-go="termine"><b>${heute.length}</b><span>Termine heute</span></button>
+        <button type="button" class="host-stat" data-go="buchungen"><b>${d.buchungen.length}</b><span>Buchungen gesamt</span></button>
+        <button type="button" class="host-stat" data-go="kunden"><b>${d.kunden.length}</b><span>Kundenkonten</span></button>
+        <button type="button" class="host-stat" data-go="bestellungen"><b>${d.bestellungen.filter(o => o.status === 'neu').length}</b><span>Neue Bestellungen</span></button>
+        <button type="button" class="host-stat" data-go="gutscheine"><b>${d.gutscheine.length}</b><span>Gutscheine</span></button>
+      </div>
+      ${offen ? `<div class="hcard pending"><div class="hcard-top"><b>📥 ${offen} offene Anfrage${offen === 1 ? '' : 'n'}</b>
+        <button type="button" class="btn btn-rose btn-sm" data-go="anfragen">Jetzt ansehen</button></div>
+        <p class="hcard-meta">Neue Reservationen annehmen, Passwort-Resets freigeben, Punkte-Einlösungen genehmigen.</p></div>` : ''}
+      <h3 class="host-sect">Heute im Café</h3>
+      ${heute.length ? `<div class="hcards">${heute.map(b => bookingCard(b, false)).join('')}</div>`
+        : `<p class="host-empty">Heute stehen keine bestätigten Termine an.</p>`}
+      <div class="onb">
+        <h3>🌱 So funktioniert dein Host-Bereich</h3>
+        <ol>
+          <li><b>📥 Anfragen</b> — Jede Online-Reservation kommt zuerst hier an. Mit <b>Annehmen</b> geht automatisch die Bestätigungs-Mail an den Gast raus und der Termin wandert in den Google-Kalender (und damit in die SumUp-Kasse). <b>Ablehnen</b> schickt eine freundliche Absage und gibt den Tisch sofort wieder frei.</li>
+          <li><b>📅 Termine</b> — Alle angenommenen Buchungen der nächsten Tage, nach Tag gruppiert.</li>
+          <li><b>🗓️ Kalender</b> — Monatsübersicht, synchron mit Google Kalender &amp; SumUp. Ferien/Schliesstage pflegst du direkt in Google oder SumUp — die Website blockt diese Tage automatisch.</li>
+          <li><b>📖 Buchungen</b> — Das komplette Archiv aller Anfragen und Buchungen.</li>
+          <li><b>👥 Kunden</b> — Kundenkonten (mit Treuepunkten), CRM-Kontakte und Members.</li>
+          <li><b>🛍️ Shop</b> — Bestellungen aus dem Online-Shop: bezahlt, abgeholt oder versendet markieren.</li>
+          <li><b>🎁 Gutscheine</b> — Verkaufte Geschenkkarten mit Saldo und Zahlstatus.</li>
+          <li><b>🎨 Angebote</b> — Aktivitäten fürs Reservations-Widget ein-/ausschalten und neue hinzufügen.</li>
+          <li><b>🎉 Eröffnung</b> — Alle «Sei bei der Eröffnung dabei»-Anmeldungen.</li>
+        </ol>
+      </div>`;
+    box.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => { chapter = el.dataset.go; render(); }));
+
+  /* ═══ Anfragen: Reservationen annehmen + Kundenanfragen ═══ */
+  } else if (chapter === 'anfragen') {
+    const pend = pendingBookings(d);
+    const pwOffen = d.pwResets;
+    const rdOffen = d.redemptions;
+    let html = `<h3 class="host-sect">Neue Reservationen</h3>
+      <div class="host-note">Beim <b>Annehmen</b> bekommt der Gast automatisch seine Bestätigung per E-Mail (mit Link zum Kundenkonto) und der Termin erscheint im Google-Kalender / in der SumUp-Kasse.</div>`;
+    html += pend.length ? `<div class="hcards" id="pendList">${pend.map(b => bookingCard(b, !!cloudData)).join('')}</div>`
+      : `<p class="host-empty">Keine offenen Reservations-Anfragen — alles angenommen ♥</p>`;
+    if (!cloudData) html += `<p class="hint" style="margin-top:.5rem">Zum Annehmen/Ablehnen wird die Cloud-Verbindung gebraucht.</p>`;
+    if (cloudData) {
+      html += pwOffen.length ? `<h3 class="host-sect">Passwort-Resets</h3><div class="host-table-wrap"><table class="host-table">
+        <thead><tr><th>Status</th><th>E-Mail</th><th>Angefragt</th><th>Aktion</th></tr></thead>
+        <tbody>${pwOffen.map(r => `<tr>
+          <td><span class="host-pill ${r.status === 'offen' ? 'neu' : ''}">${esc(r.status)}</span></td>
+          <td>${esc(r.email)}</td><td>${fmtTs(r.ts)}</td>
+          <td>${r.status === 'offen' ? `<button class="btn btn-rose btn-sm" data-act="pw_reset_approve" data-id="${r.id}">Freigeben</button>
+               <button class="btn btn-ghost btn-sm" data-act="pw_reset_reject" data-id="${r.id}">Ablehnen</button>` : '—'}</td></tr>`).join('')}</tbody>
+      </table></div>` : '';
+      html += rdOffen.length ? `<h3 class="host-sect">Punkte-Einlösungen (100 Punkte = CHF 2)</h3><div class="host-table-wrap"><table class="host-table">
+        <thead><tr><th>Status</th><th>Referenz</th><th>Kunde</th><th>E-Mail</th><th>Ort</th><th>Betrag</th><th>Datum</th><th>Aktion</th></tr></thead>
+        <tbody>${rdOffen.map(r => `<tr>
+          <td><span class="host-pill ${r.status === 'offen' ? 'neu' : ''}">${esc(r.status)}</span></td>
+          <td><b>${esc(r.code)}</b></td><td>${esc(r.customer_name || '—')}</td><td>${esc(r.email)}</td>
+          <td>${r.mode === 'laden' ? 'Im Laden' : 'Online'}</td><td>CHF ${Number(r.amount).toFixed(2)}</td><td>${fmtTs(r.ts)}</td>
+          <td>${r.status === 'offen' ? `<button class="btn btn-rose btn-sm" data-act="redeem_approve" data-id="${esc(r.id)}">Genehmigen</button>
+                <button class="btn btn-ghost btn-sm" data-act="redeem_reject" data-id="${esc(r.id)}">Ablehnen</button>`
+            : r.status === 'genehmigt' && r.mode === 'laden' ? `<button class="btn btn-green btn-sm" data-act="redeem_done" data-id="${esc(r.id)}">Als eingelöst markieren</button>` : '—'}</td></tr>`).join('')}</tbody>
+      </table></div>` : '';
+    }
+    box.innerHTML = html;
+    wireBookingActions(box);
+    wireHostActions(box);
+
+  /* ═══ Anstehende Termine ═══ */
+  } else if (chapter === 'termine') {
+    const up = upcoming(d);
+    if (!up.length) { box.innerHTML = `<h3 class="host-sect">Anstehende Termine</h3><p class="host-empty">Keine bestätigten Termine in Sicht — nimm offene Anfragen an, dann erscheinen sie hier.</p>`; }
+    else {
+      const groups = {};
+      up.forEach(b => { (groups[b.date] = groups[b.date] || []).push(b); });
+      const dayLbl = iso => {
+        const diff = Math.round((new Date(iso + 'T12:00:00') - new Date(todayISO() + 'T12:00:00')) / 864e5);
+        const wd = new Date(iso + 'T12:00:00').toLocaleDateString('de-CH', { weekday: 'long', day: 'numeric', month: 'long' });
+        return diff === 0 ? 'Heute — ' + wd : diff === 1 ? 'Morgen — ' + wd : wd;
+      };
+      box.innerHTML = `<h3 class="host-sect">Anstehende Termine</h3>` + Object.keys(groups).map(iso =>
+        `<p class="hday">${dayLbl(iso)}</p><div class="hcards">${groups[iso].map(b => bookingCard(b, false)).join('')}</div>`).join('');
+    }
+
+  /* ═══ Kundenkalender (Google-synchron) ═══ */
+  } else if (chapter === 'kalender') {
+    renderCalendar(box, d);
+
+  /* ═══ Alle Buchungen ═══ */
+  } else if (chapter === 'buchungen') {
+    box.innerHTML = `<h3 class="host-sect">Alle Buchungen</h3>` + (d.buchungen.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Ref.</th></tr></thead>
+      <tbody>${d.buchungen.map(b => `<tr>
+        <td><span class="host-pill ${STATUS_CLS(b.status)}">${esc(STATUS_LBL[b.status] || b.status)}</span></td>
+        <td>${esc(typeLbl(b.type))}</td><td><b>${esc(b.name)}</b></td><td>${esc(b.email)}</td>
+        <td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.time || '—')}</td>
+        <td>${esc(b.persons || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
+    </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`);
+
+  /* ═══ Kunden: Konten + CRM + Members ═══ */
+  } else if (chapter === 'kunden') {
+    box.innerHTML = `<h3 class="host-sect">Kundenkonten</h3>` + (d.kunden.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Name</th><th>E-Mail</th><th>Benutzername</th><th>Telefon</th><th>Punkte</th><th>Konto seit</th><th>Letzter Login</th></tr></thead>
-      <tbody>${kunden.map(k => `<tr><td><b>${esc(k.name)}</b></td><td>${esc(k.email)}</td><td>${esc(k.username || '—')}</td><td>${esc(k.phone || '—')}</td><td>${esc(k.points != null ? k.points : '—')}</td><td>${fmtTs(k.created)}</td><td>${fmtTs(k.lastLogin)}</td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Kundenkonten. Sobald sich Gäste über den «Konto»-Knopf auf der Website registrieren, erscheinen sie hier.</p>`;
-  } else if (tab === 'kontakte') {
-    box.innerHTML = kontakte.length ? `<table class="host-table">
+      <tbody>${d.kunden.map(k => `<tr><td><b>${esc(k.name)}</b></td><td>${esc(k.email)}</td><td>${esc(k.username || '—')}</td><td>${esc(k.phone || '—')}</td><td>${esc(k.points != null ? k.points : '—')}</td><td>${fmtTs(k.created)}</td><td>${fmtTs(k.lastLogin)}</td></tr>`).join('')}</tbody>
+    </table></div>` : `<p class="host-empty">Noch keine Kundenkonten. Sobald sich Gäste über den «Konto»-Knopf auf der Website registrieren, erscheinen sie hier.</p>`)
+    + `<h3 class="host-sect">CRM-Kontakte</h3>` + (d.kontakte.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>E-Mail</th><th>Name</th><th>Telefon</th><th>Tags</th><th>Zuletzt gesehen</th></tr></thead>
-      <tbody>${kontakte.map(c => `<tr><td>${esc(c.email)}</td><td>${esc(c.name || '—')}</td><td>${esc(c.phone || '—')}</td><td>${(c.tags || []).map(t => `<span class="host-pill">${esc(t)}</span>`).join(' ')}</td><td>${fmtTs(c.lastSeen)}</td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Kontakte — sie entstehen automatisch aus Reservationen, Gutschein-Käufen und Kundenkonten.</p>`;
-  } else if (tab === 'gutscheine') {
-    box.innerHTML = gutscheine.length ? `<table class="host-table">
-      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Bezahlt</th><th>Status</th></tr></thead>
-      <tbody>${gutscheine.map(v => `<tr>
-        <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td>CHF ${Number(v.balance).toFixed(0)}</td>
-        <td>${Number(v.tip || 0) ? 'CHF ' + Number(v.tip).toFixed(0) : '—'}</td>
-        <td>${esc(v.buyer || '—')}</td><td>${esc(v.email || '—')}</td>
-        <td>${(v.paid == 1 || v.paid === true) ? '✓' : '—'}</td>
-        <td><span class="host-pill ${v.status === 'offen' ? 'neu' : ''}">${esc(v.status)}</span></td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`;
-  } else if (tab === 'members') {
-    box.innerHTML = members.length ? `<table class="host-table">
+      <tbody>${d.kontakte.map(c => `<tr><td>${esc(c.email)}</td><td>${esc(c.name || '—')}</td><td>${esc(c.phone || '—')}</td><td>${(c.tags || []).map(t => `<span class="host-pill">${esc(t)}</span>`).join(' ')}</td><td>${fmtTs(c.lastSeen)}</td></tr>`).join('')}</tbody>
+    </table></div>` : `<p class="host-empty">Noch keine Kontakte — sie entstehen automatisch aus Reservationen, Gutschein-Käufen und Kundenkonten.</p>`)
+    + `<h3 class="host-sect">Members</h3>` + (d.members.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Member-Nr.</th><th>Status</th><th>Name</th><th>E-Mail</th><th>Plan</th><th>Laufzeit</th><th>Seit</th></tr></thead>
-      <tbody>${members.map(m => `<tr>
+      <tbody>${d.members.map(m => `<tr>
         <td><b>${esc(m.id)}</b></td><td><span class="host-pill ${m.status === 'angemeldet' ? 'neu' : ''}">${esc(m.status)}</span></td>
         <td>${esc(m.name)}</td><td>${esc(m.email)}</td><td>${esc(m.plan)}</td><td>${esc(m.period || '—')}</td><td>${fmtTs(m.ts)}</td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Member-Anmeldungen.</p>`;
-  } else if (tab === 'bestellungen') {
+    </table></div>` : `<p class="host-empty">Noch keine Member-Anmeldungen.</p>`);
+
+  /* ═══ Shop-Bestellungen ═══ */
+  } else if (chapter === 'bestellungen') {
     const itemsTxt = o => {
       const arr = Array.isArray(o.items) ? o.items : (() => { try { return JSON.parse(o.items) || []; } catch (e) { return []; } })();
       return arr.map(i => i.qty + '× ' + (i.name || i.sku)).join(', ');
     };
-    box.innerHTML = bestellungen.length ? `<table class="host-table">
+    box.innerHTML = `<h3 class="host-sect">Shop-Bestellungen</h3>` + (d.bestellungen.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Status</th><th>Nr.</th><th>Name</th><th>E-Mail</th><th>Artikel</th><th>Total</th><th>Zustellung</th><th>Bezahlt</th><th>Aktion</th></tr></thead>
-      <tbody>${bestellungen.map(o => `<tr>
+      <tbody>${d.bestellungen.map(o => `<tr>
         <td><span class="host-pill ${o.status === 'neu' ? 'neu' : ''}">${esc(o.status)}</span></td>
         <td><b>${esc(o.id)}</b></td><td>${esc(o.name)}</td><td>${esc(o.email)}</td>
         <td style="max-width:260px">${esc(itemsTxt(o))}</td><td>CHF ${Number(o.total).toFixed(2)}</td>
@@ -253,44 +454,36 @@ function render() {
           ${!(o.paid == 1 || o.paid === true) ? `<button class="btn btn-rose btn-sm" data-oact="bezahlt" data-id="${esc(o.id)}">Bezahlt</button>` : ''}
           ${o.status !== 'abgeholt' && o.status !== 'versendet' && o.status !== 'storniert' ? `<button class="btn btn-green btn-sm" data-oact="${o.delivery === 'post' ? 'versendet' : 'abgeholt'}" data-id="${esc(o.id)}">${o.delivery === 'post' ? 'Versendet' : 'Abgeholt'}</button>` : ''}
           ${o.status !== 'storniert' ? `<button class="btn btn-ghost btn-sm" data-oact="storniert" data-id="${esc(o.id)}">Stornieren</button>` : ''}` : '—'}</td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Shop-Bestellungen.</p>`;
+    </table></div>` : `<p class="host-empty">Noch keine Shop-Bestellungen.</p>`);
     box.querySelectorAll('button[data-oact]').forEach(btn => btn.addEventListener('click', () => {
       btn.disabled = true;
       const patch = { id: btn.dataset.id, status: btn.dataset.oact };
       if (btn.dataset.oact === 'bezahlt') patch.paid = 1;
       hostCall('order_update', patch);
     }));
-  } else if (tab === 'anfragen') {
-    if (!cloudData) { box.innerHTML = `<p class="host-empty">Anfragen (Passwort-Resets &amp; Punkte-Einlösungen) kommen aus der Cloud — bitte Verbindung prüfen.</p>`; return; }
-    const pwHtml = pwResets.length ? `<h3 style="margin:.4rem 0 .6rem">Passwort-Resets</h3><table class="host-table">
-      <thead><tr><th>Status</th><th>E-Mail</th><th>Angefragt</th><th>Aktion</th></tr></thead>
-      <tbody>${pwResets.map(r => `<tr>
-        <td><span class="host-pill ${r.status === 'offen' ? 'neu' : ''}">${esc(r.status)}</span></td>
-        <td>${esc(r.email)}</td><td>${fmtTs(r.ts)}</td>
-        <td>${r.status === 'offen' ? `<button class="btn btn-rose btn-sm" data-act="pw_reset_approve" data-id="${r.id}">Freigeben</button>
-             <button class="btn btn-ghost btn-sm" data-act="pw_reset_reject" data-id="${r.id}">Ablehnen</button>` : '—'}</td></tr>`).join('')}</tbody>
-    </table>` : '';
-    const rdHtml = redemptions.length ? `<h3 style="margin:1.2rem 0 .6rem">Punkte-Einlösungen (100 Punkte = CHF 2)</h3><table class="host-table">
-      <thead><tr><th>Status</th><th>Referenz</th><th>Kunde</th><th>E-Mail</th><th>Ort</th><th>Betrag</th><th>Datum</th><th>Aktion</th></tr></thead>
-      <tbody>${redemptions.map(r => `<tr>
-        <td><span class="host-pill ${r.status === 'offen' ? 'neu' : ''}">${esc(r.status)}</span></td>
-        <td><b>${esc(r.code)}</b></td><td>${esc(r.customer_name || '—')}</td><td>${esc(r.email)}</td>
-        <td>${r.mode === 'laden' ? 'Im Laden' : 'Online'}</td><td>CHF ${Number(r.amount).toFixed(2)}</td><td>${fmtTs(r.ts)}</td>
-        <td>${r.status === 'offen' ? `<button class="btn btn-rose btn-sm" data-act="redeem_approve" data-id="${esc(r.id)}">Genehmigen</button>
-              <button class="btn btn-ghost btn-sm" data-act="redeem_reject" data-id="${esc(r.id)}">Ablehnen</button>`
-          : r.status === 'genehmigt' && r.mode === 'laden' ? `<button class="btn btn-green btn-sm" data-act="redeem_done" data-id="${esc(r.id)}">Als eingelöst markieren</button>` : '—'}</td></tr>`).join('')}</tbody>
-    </table>` : '';
-    box.innerHTML = (pwHtml + rdHtml) || `<p class="host-empty">Keine offenen Anfragen — alles erledigt ♥</p>`;
-    wireHostActions(box);
-  } else if (tab === 'dienste') {
-    if (!cloudData) { box.innerHTML = `<p class="host-empty">Dienstleistungen werden zentral in der Cloud verwaltet — bitte Verbindung prüfen.</p>`; return; }
-    box.innerHTML = `<table class="host-table">
+
+  /* ═══ Gutscheine ═══ */
+  } else if (chapter === 'gutscheine') {
+    box.innerHTML = `<h3 class="host-sect">Gutscheine</h3>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Bezahlt</th><th>Status</th></tr></thead>
+      <tbody>${d.gutscheine.map(v => `<tr>
+        <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td>CHF ${Number(v.balance).toFixed(0)}</td>
+        <td>${Number(v.tip || 0) ? 'CHF ' + Number(v.tip).toFixed(0) : '—'}</td>
+        <td>${esc(v.buyer || '—')}</td><td>${esc(v.email || '—')}</td>
+        <td>${(v.paid == 1 || v.paid === true) ? '✓' : '—'}</td>
+        <td><span class="host-pill ${v.status === 'offen' ? 'neu' : ''}">${esc(v.status)}</span></td></tr>`).join('')}</tbody>
+    </table></div>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`);
+
+  /* ═══ Angebote (Dienstleistungen) ═══ */
+  } else if (chapter === 'dienste') {
+    if (!cloudData) { box.innerHTML = `<p class="host-empty">Angebote werden zentral in der Cloud verwaltet — bitte Verbindung prüfen.</p>`; return; }
+    box.innerHTML = `<h3 class="host-sect">Angebote im Reservations-Widget</h3><div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Aktiv</th><th>Name (DE)</th><th>Name (EN)</th><th>Beschreibung</th><th>Preis</th><th>Sortierung</th></tr></thead>
-      <tbody>${dienste.map(s => `<tr>
+      <tbody>${d.dienste.map(s => `<tr>
         <td><input type="checkbox" class="svc-toggle" data-id="${esc(s.id)}" ${Number(s.active) ? 'checked' : ''}></td>
         <td><b>${esc(s.label_de)}</b></td><td>${esc(s.label_en || '—')}</td>
         <td style="max-width:280px">${esc(s.desc_de || '—')}</td><td>${esc(s.price || '—')}</td><td>${esc(s.sort)}</td></tr>`).join('')}</tbody>
-    </table>
+    </table></div>
     <div class="panel" style="margin-top:1.2rem"><div class="panel-head"><h3>Neue Dienstleistung</h3></div><div class="panel-body">
       <div class="two-col">
         <div class="field"><label>Name (DE)</label><input type="text" id="svcDe"></div>
@@ -305,7 +498,7 @@ function render() {
       <p class="hint" style="margin-top:.6rem">Aktive Dienstleistungen erscheinen sofort als Karten im Reservations-Widget der Website.</p>
     </div></div>`;
     box.querySelectorAll('.svc-toggle').forEach(cb => cb.addEventListener('change', () => {
-      const s = dienste.find(d => d.id === cb.dataset.id);
+      const s = d.dienste.find(x => x.id === cb.dataset.id);
       if (s) hostCall('service_save', { id: s.id, label_de: s.label_de, label_en: s.label_en, desc_de: s.desc_de, desc_en: s.desc_en, price: s.price, sort: s.sort, active: cb.checked ? 1 : 0 });
     }));
     const addBtn = box.querySelector('#svcAdd');
@@ -318,26 +511,84 @@ function render() {
         price: box.querySelector('#svcPrice').value.trim(), sort: Number(box.querySelector('#svcSort').value) || 9, active: 1
       });
     });
-  } else if (tab === 'eroeffnung') {
-    /* Board «Sei bei der Eröffnung dabei»: alle Wartelisten-Anmeldungen von der Startseite */
-    const wl = buchungen.filter(b => b.type === 'warteliste');
-    const extra = kontakte.filter(c => (c.tags || []).includes('newsletter') && !wl.some(w => w.email === c.email))
-                          .map(c => ({ email: c.email, ts: c.lastSeen }));
+
+  /* ═══ Eröffnung ═══ */
+  } else if (chapter === 'eroeffnung') {
+    const wl = d.buchungen.filter(b => b.type === 'warteliste');
+    const extra = d.kontakte.filter(c => (c.tags || []).includes('newsletter') && !wl.some(w => w.email === c.email))
+                            .map(c => ({ email: c.email, ts: c.lastSeen }));
     const rows = [...wl.map(w => ({ email: w.email, ts: w.ts })), ...extra];
-    box.innerHTML = rows.length ? `<table class="host-table">
+    box.innerHTML = `<h3 class="host-sect">«Sei bei der Eröffnung dabei» — 12.09.2026</h3>` + (rows.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>#</th><th>E-Mail</th><th>Eingetragen</th></tr></thead>
       <tbody>${rows.map((r, i) => `<tr><td>${i + 1}</td><td><b>${esc(r.email)}</b></td><td>${fmtTs(r.ts)}</td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Anmeldungen über «Sei bei der Eröffnung dabei».</p>`;
-  } else {
-    box.innerHTML = buchungen.length ? `<table class="host-table">
-      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Ref.</th></tr></thead>
-      <tbody>${buchungen.map(b => `<tr>
-        <td><span class="host-pill ${b.status === 'neu' ? 'neu' : ''}">${esc(b.status)}</span></td>
-        <td>${esc(b.type)}</td><td><b>${esc(b.name)}</b></td><td>${esc(b.email)}</td>
-        <td>${b.date ? esc(String(b.date).split('-').reverse().join('.')) : '—'}</td><td>${esc(b.time || '—')}</td>
-        <td>${esc(b.persons || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
-    </table>` : `<p class="host-empty">Noch keine Buchungen.</p>`;
+    </table></div>` : `<p class="host-empty">Noch keine Anmeldungen über «Sei bei der Eröffnung dabei».</p>`);
   }
+}
+
+/* ---------- Monats-Kalender (Google-synchron) ---------- */
+let calMonth = null;   // Date auf den 1. des angezeigten Monats
+let calSel = null;     // ausgewählter Tag (ISO)
+function renderCalendar(box, d) {
+  if (!calMonth) { const t = new Date(); calMonth = new Date(t.getFullYear(), t.getMonth(), 1, 12); }
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  const startCol = (new Date(y, m, 1, 12).getDay() + 6) % 7; // Montag = 0
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const today = todayISO();
+  /* Buchungen pro Tag zählen */
+  const conf = {}, pend = {};
+  d.buchungen.forEach(b => {
+    if (!b.date) return;
+    if (['bestätigt', 'gewonnen'].includes(b.status)) conf[b.date] = (conf[b.date] || 0) + 1;
+    else if (b.status === 'neu' && !['warteliste', 'geschenk'].includes(b.type)) pend[b.date] = (pend[b.date] || 0) + 1;
+  });
+  /* Schliesstage aus dem Google-Kalender */
+  const closed = {};
+  closures.forEach(c => {
+    if (!/geschlossen|closed|ferien|feiertag|holiday|betriebsferien/i.test(c.title || '')) return;
+    let dd = new Date((c.start || '') + 'T12:00:00');
+    const end = new Date((c.end || c.start || '') + 'T12:00:00');
+    if (isNaN(dd) || isNaN(end)) return;
+    for (let i = 0; dd < end && i < 90; i++, dd = new Date(dd.getTime() + 864e5)) closed[dd.toISOString().slice(0, 10)] = c.title;
+  });
+  const mn = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  let cells = '';
+  for (let i = 0; i < startCol; i++) cells += '<span class="hcal-day empty" aria-hidden="true"></span>';
+  for (let day = 1; day <= daysInMonth; day++) {
+    const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const cls = ['hcal-day', iso === today ? 'today' : '', closed[iso] ? 'closed' : '', iso === calSel ? 'sel' : ''].filter(Boolean).join(' ');
+    cells += `<button type="button" class="${cls}" data-iso="${iso}" ${closed[iso] ? `title="${esc(closed[iso])}"` : ''}>
+      <span class="hcal-n">${day}</span>
+      ${conf[iso] ? `<span class="hcal-count">${conf[iso]}</span>` : ''}${pend[iso] ? '<span class="hcal-pend" title="offene Anfrage"></span>' : ''}
+      ${closed[iso] ? '<span style="font-size:.62rem;display:block;margin-top:1.1rem">geschl.</span>' : ''}
+    </button>`;
+  }
+  const selBookings = calSel ? d.buchungen
+    .filter(b => b.date === calSel && !['storniert', 'verloren', 'abgelehnt'].includes(b.status) && !['warteliste', 'geschenk'].includes(b.type))
+    .sort((a, b2) => String(a.time).localeCompare(String(b2.time))) : [];
+  box.innerHTML = `
+    <h3 class="host-sect">Kundenkalender</h3>
+    <div class="host-note">🔄 Synchron mit dem <a href="https://calendar.google.com" target="_blank" rel="noopener">Google-Kalender</a> und der SumUp-Kasse. Grüne Zahl = bestätigte Termine, rosa Punkt = offene Anfrage. Ferien &amp; Schliesstage pflegst du in Google/SumUp — sie erscheinen hier grau und werden auf der Website automatisch geblockt.</div>
+    <div class="hcal-head">
+      <button type="button" class="hcal-nav" id="hcalPrev" aria-label="Voriger Monat">‹</button>
+      <b>${mn[m]} ${y}</b>
+      <button type="button" class="hcal-nav" id="hcalNext" aria-label="Nächster Monat">›</button>
+    </div>
+    <div class="hcal">
+      ${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="hcal-wd">${w}</span>`).join('')}
+      ${cells}
+    </div>
+    <div id="hcalDetail" style="margin-top:1rem">
+      ${calSel ? `<p class="hday">${fmtDay(calSel)}</p>` + (selBookings.length
+        ? `<div class="hcards">${selBookings.map(b => bookingCard(b, b.status === 'neu' && !!cloudData)).join('')}</div>`
+        : `<p class="host-empty">Keine Termine an diesem Tag.</p>`) : `<p class="hint">Tipp: Tag antippen für die Termin-Details.</p>`}
+    </div>`;
+  $('#hcalPrev').addEventListener('click', () => { calMonth = new Date(y, m - 1, 1, 12); render(); });
+  $('#hcalNext').addEventListener('click', () => { calMonth = new Date(y, m + 1, 1, 12); render(); });
+  box.querySelectorAll('.hcal-day[data-iso]').forEach(btn => btn.addEventListener('click', () => {
+    calSel = calSel === btn.dataset.iso ? null : btn.dataset.iso;
+    render();
+  }));
+  wireBookingActions(box);
 }
 
 /* ---------- Export ---------- */
@@ -358,6 +609,7 @@ $('#expBackup').addEventListener('click', () => {
 });
 
 show(hasSession());
+loadClosures();
 })();
 </script>
 </body>
