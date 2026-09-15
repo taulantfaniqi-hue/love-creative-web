@@ -133,6 +133,8 @@ const LoveAccount = (() => {
       errLogin: 'Bitte beide Felder ausfüllen.',
       myData: 'Deine Angaben', myBookings: 'Deine Buchungen', noBookings: 'Noch keine Buchungen — Zeit für einen Besuch ♥',
       myVouchers: 'Deine Geschenkkarten', noVouchers: 'Noch keine Geschenkkarten.',
+      myOrders: 'Deine Shop-Bestellungen',
+      oStat: { neu: 'eingegangen', bezahlt: 'bezahlt', abgeholt: 'abgeholt', versendet: 'versendet', storniert: 'storniert' },
       vActive: 'aktiv', vOpen: 'Zahlung offen',
       user: 'Benutzername', since: 'Konto seit', logoutBtn: 'Abmelden', close: 'Schliessen',
       stat: { neu: 'eingegangen', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', offeriert: 'Offerte', storniert: 'storniert', verloren: 'storniert' },
@@ -173,6 +175,8 @@ const LoveAccount = (() => {
       errLogin: 'Please fill in both fields.',
       myData: 'Your details', myBookings: 'Your bookings', noBookings: 'No bookings yet — time for a visit ♥',
       myVouchers: 'Your gift cards', noVouchers: 'No gift cards yet.',
+      myOrders: 'Your shop orders',
+      oStat: { neu: 'received', bezahlt: 'paid', abgeholt: 'picked up', versendet: 'shipped', storniert: 'cancelled' },
       vActive: 'active', vOpen: 'payment pending',
       user: 'Username', since: 'Member since', logoutBtn: 'Sign out', close: 'Close',
       stat: { neu: 'received', 'bestätigt': 'confirmed', gewonnen: 'confirmed', offeriert: 'offer sent', storniert: 'cancelled', verloren: 'cancelled' },
@@ -310,6 +314,7 @@ const LoveAccount = (() => {
         <div id="accBookings">${bookingsHtml(myBookings())}</div>
         <p class="acc-sub">${x.myVouchers}</p>
         <div id="accVouchers"><p class="acc-dim">${x.noVouchers}</p></div>
+        <div id="accOrders"></div>
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
 
@@ -360,6 +365,19 @@ const LoveAccount = (() => {
                 <span class="acc-status">${(v.paid == 1) ? x.vActive : x.vOpen}</span>
               </div>`).join('');
           }
+        }).catch(() => {});
+        LoveCloud.call('my_orders', undefined, s.token).then(r => {
+          const box = document.getElementById('accOrders');
+          if (!(r.ok && box && r.orders.length)) return;
+          const itemsTxt = o => {
+            try { return (JSON.parse(o.items) || []).map(i => i.qty + '× ' + i.name).join(', '); }
+            catch (e) { return ''; }
+          };
+          box.innerHTML = `<p class="acc-sub">${x.myOrders}</p>` + r.orders.slice(0, 8).map(o => `
+            <div class="acc-card acc-booking">
+              <span><b>${esc(o.id)}</b> · CHF ${Number(o.total).toFixed(2)}${itemsTxt(o) ? '<br><span class="acc-dim">' + esc(itemsTxt(o)) + '</span>' : ''}</span>
+              <span class="acc-status">${x.oStat[o.status] || esc(o.status)}</span>
+            </div>`).join('');
         }).catch(() => {});
         LoveCloud.call('my_redemptions', undefined, s.token).then(r => {
           const box = document.getElementById('accRedeems');

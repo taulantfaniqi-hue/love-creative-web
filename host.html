@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=92a9af91">
+<link rel="stylesheet" href="assets/css/love.css?v=0d69cfa2">
 <style>
 /* Host-Bereich: kompakte Verwaltungsansicht */
 .host-wrap{max-width:1080px;margin:0 auto;padding:2.5rem clamp(1rem,4vw,2.5rem) 4rem}
@@ -77,6 +77,7 @@
     <button type="button" class="host-tab" data-tab="kontakte" aria-pressed="false">CRM-Kontakte</button>
     <button type="button" class="host-tab" data-tab="buchungen" aria-pressed="false">Buchungen</button>
     <button type="button" class="host-tab" data-tab="gutscheine" aria-pressed="false">Gutscheine</button>
+    <button type="button" class="host-tab" data-tab="bestellungen" aria-pressed="false">Shop-Bestellungen</button>
     <button type="button" class="host-tab" data-tab="members" aria-pressed="false">Members</button>
     <button type="button" class="host-tab" data-tab="anfragen" aria-pressed="false">Anfragen</button>
     <button type="button" class="host-tab" data-tab="dienste" aria-pressed="false">Dienstleistungen</button>
@@ -94,9 +95,9 @@
 
 </main>
 
-<script src="assets/js/love-data.js?v=39fda98b"></script>
-<script src="assets/js/love-cloud.js?v=a1c36180"></script>
-<script src="assets/js/love-account.js?v=612d083c"></script>
+<script src="assets/js/love-data.js?v=b43acf6f"></script>
+<script src="assets/js/love-cloud.js?v=2c94f003"></script>
+<script src="assets/js/love-account.js?v=bd71a622"></script>
 <script>
 (() => {
 'use strict';
@@ -195,6 +196,7 @@ function render() {
   const redemptions = cloudData ? (cloudData.redemptions || []) : [];
   const pwResets = cloudData ? (cloudData.pw_resets || []) : [];
   const dienste = cloudData ? (cloudData.services || []) : [];
+  const bestellungen = cloudData ? (cloudData.orders || []) : (LoveData.listOrders ? LoveData.listOrders() : []);
   const offeneAnfragen = redemptions.filter(r => r.status === 'offen').length + pwResets.filter(r => r.status === 'offen').length;
   $('#hostStats').innerHTML = `
     <div class="host-stat"><b>${kunden.length}</b><span>Kundenkonten</span></div>
@@ -202,6 +204,7 @@ function render() {
     <div class="host-stat"><b>${buchungen.filter(b => b.status === 'neu').length}</b><span>Neue Anfragen</span></div>
     <div class="host-stat"><b>${buchungen.length}</b><span>Buchungen</span></div>
     <div class="host-stat"><b>${gutscheine.length}</b><span>Gutscheine</span></div>
+    <div class="host-stat"><b>${bestellungen.filter(o => o.status === 'neu').length}</b><span>Neue Bestellungen</span></div>
     <div class="host-stat"><b>${members.length}</b><span>Members</span></div>
     <div class="host-stat"><b>${offeneAnfragen}</b><span>Offene Anfragen</span></div>`;
 
@@ -233,6 +236,30 @@ function render() {
         <td><b>${esc(m.id)}</b></td><td><span class="host-pill ${m.status === 'angemeldet' ? 'neu' : ''}">${esc(m.status)}</span></td>
         <td>${esc(m.name)}</td><td>${esc(m.email)}</td><td>${esc(m.plan)}</td><td>${esc(m.period || '—')}</td><td>${fmtTs(m.ts)}</td></tr>`).join('')}</tbody>
     </table>` : `<p class="host-empty">Noch keine Member-Anmeldungen.</p>`;
+  } else if (tab === 'bestellungen') {
+    const itemsTxt = o => {
+      const arr = Array.isArray(o.items) ? o.items : (() => { try { return JSON.parse(o.items) || []; } catch (e) { return []; } })();
+      return arr.map(i => i.qty + '× ' + (i.name || i.sku)).join(', ');
+    };
+    box.innerHTML = bestellungen.length ? `<table class="host-table">
+      <thead><tr><th>Status</th><th>Nr.</th><th>Name</th><th>E-Mail</th><th>Artikel</th><th>Total</th><th>Zustellung</th><th>Bezahlt</th><th>Aktion</th></tr></thead>
+      <tbody>${bestellungen.map(o => `<tr>
+        <td><span class="host-pill ${o.status === 'neu' ? 'neu' : ''}">${esc(o.status)}</span></td>
+        <td><b>${esc(o.id)}</b></td><td>${esc(o.name)}</td><td>${esc(o.email)}</td>
+        <td style="max-width:260px">${esc(itemsTxt(o))}</td><td>CHF ${Number(o.total).toFixed(2)}</td>
+        <td>${o.delivery === 'post' ? 'Post' : 'Abholung'}</td>
+        <td>${(o.paid == 1 || o.paid === true) ? '✓' : '—'}</td>
+        <td>${cloudData ? `
+          ${!(o.paid == 1 || o.paid === true) ? `<button class="btn btn-rose btn-sm" data-oact="bezahlt" data-id="${esc(o.id)}">Bezahlt</button>` : ''}
+          ${o.status !== 'abgeholt' && o.status !== 'versendet' && o.status !== 'storniert' ? `<button class="btn btn-green btn-sm" data-oact="${o.delivery === 'post' ? 'versendet' : 'abgeholt'}" data-id="${esc(o.id)}">${o.delivery === 'post' ? 'Versendet' : 'Abgeholt'}</button>` : ''}
+          ${o.status !== 'storniert' ? `<button class="btn btn-ghost btn-sm" data-oact="storniert" data-id="${esc(o.id)}">Stornieren</button>` : ''}` : '—'}</td></tr>`).join('')}</tbody>
+    </table>` : `<p class="host-empty">Noch keine Shop-Bestellungen.</p>`;
+    box.querySelectorAll('button[data-oact]').forEach(btn => btn.addEventListener('click', () => {
+      btn.disabled = true;
+      const patch = { id: btn.dataset.id, status: btn.dataset.oact };
+      if (btn.dataset.oact === 'bezahlt') patch.paid = 1;
+      hostCall('order_update', patch);
+    }));
   } else if (tab === 'anfragen') {
     if (!cloudData) { box.innerHTML = `<p class="host-empty">Anfragen (Passwort-Resets &amp; Punkte-Einlösungen) kommen aus der Cloud — bitte Verbindung prüfen.</p>`; return; }
     const pwHtml = pwResets.length ? `<h3 style="margin:.4rem 0 .6rem">Passwort-Resets</h3><table class="host-table">

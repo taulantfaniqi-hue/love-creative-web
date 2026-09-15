@@ -476,7 +476,9 @@ const LoveData = (() => {
     const discount = Number(data.discount) || 0;
     const shipping = data.delivery === 'post' ? SHOP_SHIPPING : 0;
     const o = {
-      id: 'S-' + String(_read(KEYS.orders).length + 1).padStart(4, '0'),
+      /* Weltweit eindeutig — die Nummer ist auch die Zahlungs-Referenz bei Payrexx.
+         Eine fortlaufende Nummer pro Gerät würde kollidieren, sobald zwei Gäste bestellen. */
+      id: 'S-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase(),
       ts: _now(), status: 'neu',
       items, sub: Math.round(sub * 20) / 20, discount, shipping,
       total: Math.round((sub - discount + shipping) * 20) / 20,

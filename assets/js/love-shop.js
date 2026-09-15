@@ -50,7 +50,10 @@ const TX = {
     memberOk: (n, p) => `${n} · ${p} % Member-Rabatt aktiv`,
     sku: 'Artikel-Nr.', supplier: 'Marke',
     payHint: 'Zahlung mit TWINT oder Karte im nächsten Schritt.',
-    payOfflineHint: 'Bezahlt wird bei der Abholung im Studio.'
+    payOfflineHint: 'Bezahlt wird bei der Abholung im Studio.',
+    pkt: 'Rabattcode (Punkte-Gutschein aus deinem LOVE-Konto)', pktApply: 'Anwenden',
+    pktOk: a => `Rabatt angewendet: −${chf(a)}`, pktBad: 'Code ungültig, nicht freigegeben oder schon eingelöst.',
+    pktRow: c => `Punkte-Gutschein ${c}`
   },
   en: {
     all: 'Everything', search: 'Search…', count: n => `${n} items`,
@@ -76,7 +79,10 @@ const TX = {
     memberOk: (n, p) => `${n} · ${p}% member discount active`,
     sku: 'Item no.', supplier: 'Brand',
     payHint: 'Pay by TWINT or card in the next step.',
-    payOfflineHint: 'You pay on pick-up at the studio.'
+    payOfflineHint: 'You pay on pick-up at the studio.',
+    pkt: 'Discount code (point voucher from your LOVE account)', pktApply: 'Apply',
+    pktOk: a => `Discount applied: −${chf(a)}`, pktBad: 'Code invalid, not approved or already redeemed.',
+    pktRow: c => `Point voucher ${c}`
   }
 };
 const t = () => TX[en() ? 'en' : 'de'];
@@ -112,6 +118,10 @@ function setQty(sku, qty) {
   if (!qty) cart.splice(i, 1); else cart[i].qty = qty;
   saveCart(); renderCartBadge(); renderCart();
 }
+
+/* ═══════════ Punkte-Rabattcode aus dem Kundenkonto (PKT-…) ═══════════ */
+let pkt = null;  // {code, amount} — der Server prüft den Code und zieht den Betrag ab
+const pktOff = () => (pkt ? pkt.amount : 0);
 
 /* ═══════════ Member-Rabatt ═══════════ */
 let member = null;  // {id, name, discount}
@@ -204,7 +214,7 @@ const closeCart = () => {
 let checkout = false;
 /* Eingetippte Angaben überleben ein Neuzeichnen (z. B. Wechsel auf Postversand) —
    sonst steht der Gast plötzlich wieder vor leeren Feldern. */
-const CO_FELDER = ['coName', 'coMail', 'coPhone', 'coAddr', 'coMember', 'coNote'];
+const CO_FELDER = ['coName', 'coMail', 'coPhone', 'coAddr', 'coMember', 'coPkt', 'coNote'];
 let coDraft = {};
 const merkeEingaben = () => CO_FELDER.forEach(id => { const e = $('#' + id); if (e) coDraft[id] = e.value; });
 const setzeEingaben = () => CO_FELDER.forEach(id => { const e = $('#' + id); if (e && coDraft[id]) e.value = coDraft[id]; });
@@ -286,6 +296,13 @@ function renderCheckout(s, delivery) {
       </div>
       <div class="field"><label for="coMember">${esc(t().memberNo)}</label><input id="coMember" placeholder="${esc(t().memberPh)}" value="${esc(member ? member.id : '')}"></div>
       <p class="hint" id="coMemberMsg" aria-live="polite">${member ? esc(t().memberOk(member.name, member.discount)) : ''}</p>
+      <div class="field"><label for="coPkt">${esc(t().pkt)}</label>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <input id="coPkt" placeholder="PKT-XXXX-XXXX" style="flex:1;text-transform:uppercase" autocomplete="off" value="${esc(pkt ? pkt.code : '')}">
+          <button type="button" class="btn btn-ghost btn-sm" id="coPktApply">${esc(t().pktApply)}</button>
+        </div>
+        <p class="hint" id="coPktMsg" aria-live="polite">${pkt ? esc(t().pktOk(pkt.amount)) : ''}</p>
+      </div>
       <div class="field"><label for="coNote">${esc(t().note)}</label><input id="coNote"></div>
     </form>`);
   /* Der Fuss bleibt bewusst schlank: Summen, Fehlermeldung, ein Knopf. Jede
@@ -295,8 +312,9 @@ function renderCheckout(s, delivery) {
     <div class="cart-sums">
       <div><span>${esc(t().sub)}</span><span>${chf(s.sub)}</span></div>
       ${s.disc ? `<div class="save"><span>${esc(t().memberOff(member.discount))}</span><span>−${chf(s.disc)}</span></div>` : ''}
+      ${pkt ? `<div class="save"><span>${esc(t().pktRow(pkt.code))}</span><span>−${chf(pkt.amount)}</span></div>` : ''}
       <div><span>${esc(t().ship)}</span><span>${s.ship ? chf(s.ship) : esc(t().shipNone)}</span></div>
-      <div class="tot"><span>${esc(t().total)}</span><span>${chf(s.total)}</span></div>
+      <div class="tot"><span>${esc(t().total)}</span><span>${chf(Math.max(1, s.total - pktOff()))}</span></div>
     </div>
     <p class="form-err" id="coErr" aria-live="assertive"></p>
     <button type="submit" form="coForm" class="btn btn-rose btn-block" id="coSubmit">${esc(online ? t().pay : t().payOffline)}</button>
@@ -319,6 +337,21 @@ function renderCheckout(s, delivery) {
     $('#coMemberMsg').textContent = !r.ok ? t().errMember : (member ? t().memberOk(member.name, member.discount) : '');
     $('#coMemberMsg').style.color = r.ok ? '' : '#a4243b';
     renderGrid(); renderCart();
+  });
+  /* Punkte-Rabattcode serverseitig prüfen (100 Punkte = CHF 2, siehe Kundenkonto) */
+  $('#coPktApply').addEventListener('click', async () => {
+    const msg = $('#coPktMsg');
+    const code = $('#coPkt').value.trim().toUpperCase();
+    pkt = null;
+    if (!code) { msg.textContent = ''; renderCart(); return; }
+    if (typeof LoveCloud !== 'undefined') {
+      try {
+        const r = await LoveCloud.call('discount_check&code=' + encodeURIComponent(code));
+        if (r.ok) { pkt = { code, amount: Number(r.amount) || 0 }; renderCart(); return; }
+      } catch (er) { /* unten Fehlermeldung */ }
+    }
+    msg.textContent = t().pktBad;
+    msg.style.color = '#a4243b';
   });
   $('#coBack').addEventListener('click', () => { checkout = false; renderCart(); });
   $('#coForm').addEventListener('submit', submitOrder);
@@ -354,10 +387,11 @@ async function submitOrder(e) {
 
   /* Online zahlen, wenn die Cloud erreichbar ist — sonst bleibt die Bestellung reserviert */
   if (typeof LovePay !== 'undefined' && LovePay.available()) {
+    /* Der Server zieht den Punkte-Rabatt selbst ab — hier den vollen Betrag mitgeben */
     const r = await LovePay.checkout({
       amount: o.total, code: o.id,
       purpose: 'LOVE Shop ' + o.id + ' · ' + o.items.reduce((n, i) => n + i.qty, 0) + ' Artikel',
-      email
+      email, discount_code: pkt ? pkt.code : ''
     });
     if (r.ok) return;  // Weiterleitung zu Payrexx läuft
   }
@@ -367,6 +401,7 @@ async function submitOrder(e) {
 
 function showDone(o) {
   checkout = false;
+  pkt = null; /* verwendeter Punkte-Code ist serverseitig eingelöst */
   $('#cartTitle').textContent = t().okTitle;
   $('#cartBody').innerHTML = `<div class="success" style="display:block">
       <h3>${esc(t().okTitle)}</h3>
