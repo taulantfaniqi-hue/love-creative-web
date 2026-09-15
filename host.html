@@ -139,7 +139,7 @@
 
 <script src="assets/js/love-data.js?v=01eaf989"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=43f3acf9"></script>
+<script src="assets/js/love-account.js?v=c83aad3e"></script>
 <script>
 (() => {
 'use strict';
@@ -289,6 +289,48 @@ function wireHostActions(box) {
   }));
 }
 
+/* ---------- Bestellungen: Status, Aktionen, Versand-Tracking ---------- */
+const orderItemsTxt = o => {
+  const arr = Array.isArray(o.items) ? o.items : (() => { try { return JSON.parse(o.items) || []; } catch (e) { return []; } })();
+  return arr.map(i => i.qty + '× ' + (i.name || i.sku)).join(', ');
+};
+/* «versendet» wird 3 Tage nach dem Versand automatisch als «zugestellt» angezeigt */
+function orderStat(o) {
+  if (o.status === 'versendet' && o.shipped_at && (Date.now() - new Date(o.shipped_at).getTime()) > 3 * 864e5) return 'zugestellt';
+  return o.status;
+}
+const O_LBL = { neu: 'neu', bezahlt: 'bezahlt', abholbereit: 'abholbereit', abgeholt: 'abgeholt', versendet: 'versendet', zugestellt: 'zugestellt', storniert: 'storniert' };
+const O_CLS = s => s === 'neu' ? 'neu' : ['bezahlt', 'abholbereit'].includes(s) ? '' : ['abgeholt', 'versendet', 'zugestellt'].includes(s) ? 'ok' : '';
+const orderOpen = o => !['abgeholt', 'versendet', 'storniert'].includes(o.status);
+function orderActions(o) {
+  if (!cloudData) return '—';
+  const B = [];
+  const paid = (o.paid == 1 || o.paid === true);
+  if (!paid && o.status !== 'storniert') B.push(`<button class="btn btn-rose btn-sm" data-oact="bezahlt" data-id="${esc(o.id)}">Bezahlt</button>`);
+  if (o.delivery === 'post') {
+    if (!['versendet', 'storniert'].includes(o.status)) B.push(`<button class="btn btn-green btn-sm" data-oact="versendet" data-id="${esc(o.id)}">📦 Versendet</button>`);
+  } else {
+    if (!['abholbereit', 'abgeholt', 'storniert'].includes(o.status)) B.push(`<button class="btn btn-green btn-sm" data-oact="abholbereit" data-id="${esc(o.id)}">Abholbereit</button>`);
+    if (o.status === 'abholbereit') B.push(`<button class="btn btn-green btn-sm" data-oact="abgeholt" data-id="${esc(o.id)}">Abgeholt</button>`);
+  }
+  if (orderOpen(o)) B.push(`<button class="btn btn-ghost btn-sm" data-oact="storniert" data-id="${esc(o.id)}">Stornieren</button>`);
+  return B.join(' ') || '—';
+}
+function wireOrderActions(box) {
+  box.querySelectorAll('button[data-oact]').forEach(btn => btn.addEventListener('click', () => {
+    const patch = { id: btn.dataset.id, status: btn.dataset.oact };
+    if (btn.dataset.oact === 'bezahlt') patch.paid = 1;
+    if (btn.dataset.oact === 'versendet') {
+      const tr = prompt('Post-Tracking-Link einfügen (optional — der Kunde bekommt ihn per E-Mail und sieht ihn im Kundenkonto):', '');
+      if (tr === null) return; // abgebrochen
+      patch.tracking = tr.trim();
+    }
+    if (btn.dataset.oact === 'storniert' && !confirm('Diese Bestellung wirklich stornieren?')) return;
+    btn.disabled = true;
+    hostCall('order_update', patch);
+  }));
+}
+
 /* Karte einer Buchung (Anfragen & Termine) */
 function bookingCard(b, withActions) {
   const msg = String(b.message || '').replace(/\s*\[Widget\]$/, '').trim();
@@ -323,15 +365,17 @@ function render() {
   if (chapter === 'start') {
     const heute = upcoming(d).filter(b => b.date === todayISO());
     const offen = openRequests(d);
+    const offeneBest = d.bestellungen.filter(orderOpen);
+    const naechste = upcoming(d).filter(b => b.date !== todayISO()).slice(0, 5);
     box.innerHTML = `
       <p class="eyebrow">Host</p>
       <h1 style="font-size:clamp(1.6rem,1.2rem+1.6vw,2.2rem)">Schön, dass du da bist ♥</h1>
       <div class="host-stats">
         <button type="button" class="host-stat" data-go="anfragen"><b>${offen}</b><span>Offene Anfragen</span></button>
+        <button type="button" class="host-stat" data-go="bestellungen"><b>${offeneBest.length}</b><span>Offene Bestellungen</span></button>
         <button type="button" class="host-stat" data-go="termine"><b>${heute.length}</b><span>Termine heute</span></button>
-        <button type="button" class="host-stat" data-go="buchungen"><b>${d.buchungen.length}</b><span>Buchungen gesamt</span></button>
+        <button type="button" class="host-stat" data-go="termine"><b>${upcoming(d).length}</b><span>Anstehende Buchungen</span></button>
         <button type="button" class="host-stat" data-go="kunden"><b>${d.kunden.length}</b><span>Kundenkonten</span></button>
-        <button type="button" class="host-stat" data-go="bestellungen"><b>${d.bestellungen.filter(o => o.status === 'neu').length}</b><span>Neue Bestellungen</span></button>
         <button type="button" class="host-stat" data-go="gutscheine"><b>${d.gutscheine.length}</b><span>Gutscheine</span></button>
       </div>
       ${offen ? `<div class="hcard pending"><div class="hcard-top"><b>📥 ${offen} offene Anfrage${offen === 1 ? '' : 'n'}</b>
@@ -340,6 +384,18 @@ function render() {
       <h3 class="host-sect">Heute im Café</h3>
       ${heute.length ? `<div class="hcards">${heute.map(b => bookingCard(b, false)).join('')}</div>`
         : `<p class="host-empty">Heute stehen keine bestätigten Termine an.</p>`}
+      <h3 class="host-sect">🛍 Offene Bestellungen${offeneBest.length ? ` (${offeneBest.length})` : ''}</h3>
+      ${offeneBest.length ? `<div class="hcards">${offeneBest.slice(0, 8).map(o => `
+        <div class="hcard ${o.status === 'neu' ? 'pending' : ''}">
+          <div class="hcard-top"><b>${esc(o.id)} · ${esc(o.name || '—')}</b>
+            <span class="host-pill ${O_CLS(orderStat(o))}">${esc(O_LBL[orderStat(o)] || orderStat(o))}</span></div>
+          <p class="hcard-meta">${esc(orderItemsTxt(o))} · CHF ${Number(o.total).toFixed(2)} · ${o.delivery === 'post' ? '📮 Post' : '🏠 Abholung'}${(o.paid == 1 || o.paid === true) ? ' · bezahlt ✓' : ''}</p>
+          <div class="hcard-actions">${orderActions(o)}</div>
+        </div>`).join('')}</div>`
+        : `<p class="host-empty">Nichts zu versenden oder bereitzustellen — alles erledigt ♥</p>`}
+      <h3 class="host-sect">📅 Nächste Termine</h3>
+      ${naechste.length ? `<div class="hcards">${naechste.map(b => bookingCard(b, false)).join('')}</div>`
+        : `<p class="host-empty">Keine weiteren bestätigten Termine in Sicht.</p>`}
       <div class="onb">
         <h3>🌱 So funktioniert dein Host-Bereich</h3>
         <ol>
@@ -450,29 +506,20 @@ function render() {
 
   /* ═══ Shop-Bestellungen ═══ */
   } else if (chapter === 'bestellungen') {
-    const itemsTxt = o => {
-      const arr = Array.isArray(o.items) ? o.items : (() => { try { return JSON.parse(o.items) || []; } catch (e) { return []; } })();
-      return arr.map(i => i.qty + '× ' + (i.name || i.sku)).join(', ');
-    };
-    box.innerHTML = `<h3 class="host-sect">Shop-Bestellungen</h3>` + (d.bestellungen.length ? `<div class="host-table-wrap"><table class="host-table">
+    box.innerHTML = `<h3 class="host-sect">Shop-Bestellungen</h3>
+      <div class="host-note">📦 <b>Versendet</b> fragt nach dem Post-Tracking-Link — der Kunde bekommt automatisch eine Mail und sieht den Link klickbar im Kundenkonto. <b>Abholbereit</b> schickt die «liegt bereit»-Mail. 3 Tage nach dem Versand zeigt der Status automatisch «zugestellt».</div>`
+      + (d.bestellungen.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Status</th><th>Nr.</th><th>Name</th><th>E-Mail</th><th>Artikel</th><th>Total</th><th>Zustellung</th><th>Bezahlt</th><th>Aktion</th></tr></thead>
       <tbody>${d.bestellungen.map(o => `<tr>
-        <td><span class="host-pill ${o.status === 'neu' ? 'neu' : ''}">${esc(o.status)}</span></td>
+        <td><span class="host-pill ${O_CLS(orderStat(o))}">${esc(O_LBL[orderStat(o)] || orderStat(o))}</span>
+            ${o.tracking ? `<br><a href="${esc(o.tracking)}" target="_blank" rel="noopener" style="font-size:.78rem">Sendung ↗</a>` : ''}</td>
         <td><b>${esc(o.id)}</b></td><td>${esc(o.name)}</td><td>${esc(o.email)}</td>
-        <td style="max-width:260px">${esc(itemsTxt(o))}</td><td>CHF ${Number(o.total).toFixed(2)}</td>
-        <td>${o.delivery === 'post' ? 'Post' : 'Abholung'}</td>
+        <td style="max-width:260px">${esc(orderItemsTxt(o))}</td><td>CHF ${Number(o.total).toFixed(2)}</td>
+        <td>${o.delivery === 'post' ? 'Post' + (o.address ? `<br><span style="font-size:.78rem;color:var(--ink-soft)">${esc(o.address)}</span>` : '') : 'Abholung'}</td>
         <td>${(o.paid == 1 || o.paid === true) ? '✓' : '—'}</td>
-        <td>${cloudData ? `
-          ${!(o.paid == 1 || o.paid === true) ? `<button class="btn btn-rose btn-sm" data-oact="bezahlt" data-id="${esc(o.id)}">Bezahlt</button>` : ''}
-          ${o.status !== 'abgeholt' && o.status !== 'versendet' && o.status !== 'storniert' ? `<button class="btn btn-green btn-sm" data-oact="${o.delivery === 'post' ? 'versendet' : 'abgeholt'}" data-id="${esc(o.id)}">${o.delivery === 'post' ? 'Versendet' : 'Abgeholt'}</button>` : ''}
-          ${o.status !== 'storniert' ? `<button class="btn btn-ghost btn-sm" data-oact="storniert" data-id="${esc(o.id)}">Stornieren</button>` : ''}` : '—'}</td></tr>`).join('')}</tbody>
+        <td style="min-width:170px">${orderActions(o)}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Shop-Bestellungen.</p>`);
-    box.querySelectorAll('button[data-oact]').forEach(btn => btn.addEventListener('click', () => {
-      btn.disabled = true;
-      const patch = { id: btn.dataset.id, status: btn.dataset.oact };
-      if (btn.dataset.oact === 'bezahlt') patch.paid = 1;
-      hostCall('order_update', patch);
-    }));
+    wireOrderActions(box);
 
   /* ═══ Gutscheine ═══ */
   } else if (chapter === 'gutscheine') {

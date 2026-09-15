@@ -133,8 +133,9 @@ const LoveAccount = (() => {
       errLogin: 'Bitte beide Felder ausfüllen.',
       myData: 'Deine Angaben', myBookings: 'Deine Buchungen', noBookings: 'Noch keine Buchungen — Zeit für einen Besuch ♥',
       myVouchers: 'Deine Geschenkkarten', noVouchers: 'Noch keine Geschenkkarten.',
-      myOrders: 'Deine Shop-Bestellungen',
-      oStat: { neu: 'eingegangen', bezahlt: 'bezahlt', abgeholt: 'abgeholt', versendet: 'versendet', storniert: 'storniert' },
+      myOrders: 'Deine Bestellungen', noOrders: 'Noch keine Bestellungen — schau doch mal im Shop vorbei ♥',
+      track: 'Sendung verfolgen ↗',
+      oStat: { neu: 'eingegangen', bezahlt: 'bezahlt', abholbereit: 'abholbereit', abgeholt: 'abgeholt', versendet: 'versendet', zugestellt: 'zugestellt', storniert: 'storniert' },
       vActive: 'aktiv', vOpen: 'Zahlung offen',
       user: 'Benutzername', since: 'Konto seit', logoutBtn: 'Abmelden', close: 'Schliessen',
       stat: { neu: 'eingegangen', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', offeriert: 'Offerte', storniert: 'storniert', verloren: 'storniert' },
@@ -183,8 +184,9 @@ const LoveAccount = (() => {
       errLogin: 'Please fill in both fields.',
       myData: 'Your details', myBookings: 'Your bookings', noBookings: 'No bookings yet — time for a visit ♥',
       myVouchers: 'Your gift cards', noVouchers: 'No gift cards yet.',
-      myOrders: 'Your shop orders',
-      oStat: { neu: 'received', bezahlt: 'paid', abgeholt: 'picked up', versendet: 'shipped', storniert: 'cancelled' },
+      myOrders: 'Your orders', noOrders: 'No orders yet — have a look at the shop ♥',
+      track: 'Track shipment ↗',
+      oStat: { neu: 'received', bezahlt: 'paid', abholbereit: 'ready for pick-up', abgeholt: 'picked up', versendet: 'shipped', zugestellt: 'delivered', storniert: 'cancelled' },
       vActive: 'active', vOpen: 'payment pending',
       user: 'Username', since: 'Member since', logoutBtn: 'Sign out', close: 'Close',
       stat: { neu: 'received', 'bestätigt': 'confirmed', gewonnen: 'confirmed', offeriert: 'offer sent', storniert: 'cancelled', verloren: 'cancelled' },
@@ -351,9 +353,10 @@ const LoveAccount = (() => {
         <div id="accRedeems"></div>` : ''}
         <p class="acc-sub">${x.myBookings}</p>
         <div id="accBookings">${bookingsHtml(myBookings())}</div>
+        <p class="acc-sub">${x.myOrders}</p>
+        <div id="accOrders"><p class="acc-dim">${x.noOrders}</p></div>
         <p class="acc-sub">${x.myVouchers}</p>
         <div id="accVouchers"><p class="acc-dim">${x.noVouchers}</p></div>
-        <div id="accOrders"></div>
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
 
@@ -408,14 +411,23 @@ const LoveAccount = (() => {
         LoveCloud.call('my_orders', undefined, s.token).then(r => {
           const box = document.getElementById('accOrders');
           if (!(r.ok && box && r.orders.length)) return;
-          const itemsTxt = o => {
-            try { return (JSON.parse(o.items) || []).map(i => i.qty + '× ' + i.name).join(', '); }
-            catch (e) { return ''; }
+          /* «versendet» gilt 3 Tage nach dem Versand automatisch als «zugestellt» */
+          const oStat = o => (o.status === 'versendet' && o.shipped_at
+            && (Date.now() - new Date(String(o.shipped_at).replace(' ', 'T')).getTime()) > 3 * 864e5) ? 'zugestellt' : o.status;
+          const itemsList = o => {
+            try {
+              return (JSON.parse(o.items) || []).map(i =>
+                `<span style="display:block">${esc(i.qty + '× ' + (i.name || i.sku))}</span>`).join('');
+            } catch (e) { return ''; }
           };
-          box.innerHTML = `<p class="acc-sub">${x.myOrders}</p>` + r.orders.slice(0, 8).map(o => `
-            <div class="acc-card acc-booking">
-              <span><b>${esc(o.id)}</b> · CHF ${Number(o.total).toFixed(2)}${itemsTxt(o) ? '<br><span class="acc-dim">' + esc(itemsTxt(o)) + '</span>' : ''}</span>
-              <span class="acc-status">${x.oStat[o.status] || esc(o.status)}</span>
+          box.innerHTML = r.orders.slice(0, 10).map(o => `
+            <div class="acc-card" style="margin-bottom:.4rem">
+              <div class="acc-booking">
+                <span><b>${esc(o.id)}</b> · ${fmt(String(o.ts).replace(' ', 'T'))} · CHF ${Number(o.total).toFixed(2)}</span>
+                <span class="acc-status">${x.oStat[oStat(o)] || esc(o.status)}</span>
+              </div>
+              <div class="acc-dim" style="margin-top:.3rem">${itemsList(o)}</div>
+              ${o.tracking ? `<p style="margin-top:.4rem"><a href="${esc(o.tracking)}" target="_blank" rel="noopener"><b>${x.track}</b></a></p>` : ''}
             </div>`).join('');
         }).catch(() => {});
         LoveCloud.call('my_redemptions', undefined, s.token).then(r => {
