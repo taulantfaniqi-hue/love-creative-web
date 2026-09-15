@@ -88,7 +88,7 @@ const TX = {
    widget-candle.jpeg · illus-flower-workshop.jpeg · studio-og.jpeg */
 const ACT_IMG = {
   keramik: 'assets/img/platzhalter.svg',
-  cafe: 'assets/img/platzhalter.svg',
+  cafe: 'assets/img/interior-og-tische.jpeg',
   candle: 'assets/img/platzhalter.svg',
   floral: 'assets/img/platzhalter.svg',
   kino: 'assets/img/platzhalter.svg'
