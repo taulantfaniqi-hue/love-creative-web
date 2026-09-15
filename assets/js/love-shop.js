@@ -42,6 +42,8 @@ const TX = {
     okTitle: 'Danke für deine Bestellung!',
     okPickup: c => `Deine Bestellung <b>${c}</b> ist reserviert. Wir melden uns, sobald sie an der Theke bereitliegt — meist noch am selben Tag. <b>Bezahlt wird bei der Abholung</b> (Karte, TWINT oder bar).`,
     okPost: c => `Deine Bestellung <b>${c}</b> ist eingegangen. Wir schicken dir die Zahlungsangaben per E-Mail; sobald der Betrag da ist, geht das Paket in 2–3 Werktagen raus.`,
+    okPaidPickup: c => `Zahlung erhalten — deine Bestellung <b>${c}</b> ist bezahlt. Wir melden uns, sobald sie an der Theke bereitliegt — meist noch am selben Tag.`,
+    okPaidPost: c => `Zahlung erhalten — deine Bestellung <b>${c}</b> ist bezahlt. Das Paket geht innert 2–3 Werktagen raus.`,
     okClose: 'Alles klar ♥',
     errName: 'Bitte gib deinen Namen an.', errMail: 'Bitte gib eine gültige E-Mail an.',
     errAddr: 'Für den Versand brauchen wir deine Adresse.',
@@ -71,6 +73,8 @@ const TX = {
     okTitle: 'Thank you for your order!',
     okPickup: c => `Your order <b>${c}</b> is reserved. We'll let you know as soon as it's ready at the counter — usually the same day. <b>You pay on pick-up</b> (card, TWINT or cash).`,
     okPost: c => `We've received your order <b>${c}</b>. We'll e-mail you the payment details; once the amount arrives, the parcel goes out within 2–3 working days.`,
+    okPaidPickup: c => `Payment received — your order <b>${c}</b> is paid. We'll let you know as soon as it's ready at the counter — usually the same day.`,
+    okPaidPost: c => `Payment received — your order <b>${c}</b> is paid. The parcel goes out within 2–3 working days.`,
     okClose: 'All set ♥',
     errName: 'Please tell us your name.', errMail: 'Please enter a valid e-mail.',
     errAddr: 'We need your address for shipping.',
@@ -399,13 +403,16 @@ async function submitOrder(e) {
   busy = false;
 }
 
-function showDone(o) {
+function showDone(o, wasPaid) {
   checkout = false;
   pkt = null; /* verwendeter Punkte-Code ist serverseitig eingelöst */
   $('#cartTitle').textContent = t().okTitle;
+  const msg = wasPaid
+    ? (o.delivery === 'post' ? t().okPaidPost(esc(o.id)) : t().okPaidPickup(esc(o.id)))
+    : (o.delivery === 'post' ? t().okPost(esc(o.id)) : t().okPickup(esc(o.id)));
   $('#cartBody').innerHTML = `<div class="success" style="display:block">
       <h3>${esc(t().okTitle)}</h3>
-      <p>${o.delivery === 'post' ? t().okPost(esc(o.id)) : t().okPickup(esc(o.id))}</p>
+      <p>${msg}</p>
       <p class="hint" style="margin-top:.7rem">${esc(t().total)}: <b>${chf(o.total)}</b></p>
     </div>`;
   $('#cartFoot').innerHTML = `<button type="button" class="btn btn-rose btn-block" id="doneClose">${esc(t().okClose)}</button>`;
@@ -449,7 +456,7 @@ function init() {
     const o = LoveData.getOrder(paid);
     if (o) {
       LoveData.updateOrder(o.id, { paid: true, status: 'bezahlt' }, 'Online bezahlt (Payrexx)');
-      openCart(); showDone(LoveData.getOrder(o.id));
+      openCart(); showDone(LoveData.getOrder(o.id), true);
       history.replaceState(null, '', location.pathname);
     }
   }

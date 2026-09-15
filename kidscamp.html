@@ -23,7 +23,21 @@ window.LOVE_EN = {
   'kg.cTitle':'Holiday kids camp','kg.cText':'Half-day creative camps in the school holidays: ceramics, candles and flowers — a different project every day. Snack and drinks included.','kg.perDay':'per child & day',
   'kg.pTitle':'Private group','kg.pText':'School class, club or family party — the studio is yours. Programme and catering as you like.','kg.onReq':'on request',
   'kg.note':'Dates for camps are announced before every school holiday. Birthdays can be booked on any day of the week — just plan them with the event planner.',
-  'kg.cta3':'Open the event planner'
+  'kg.cta3':'Open the event planner',
+  'kb.cta':'Book now',
+  'kb.eyebrow':'Book directly','kb.title':'Save your spot & pay online',
+  'kb.lead':'Kids camps and birthdays are paid in full when booking (TWINT or card via Payrexx). Our team then checks the request and confirms the date by e-mail.',
+  'kb.what':'What would you like to book?',
+  'kb.gebD':'2 hours with supervision, invitation cards included','kb.campD':'Half-day, snack and drinks included',
+  'kb.kids':'Number of kids','kb.days':'Number of days','kb.date':'Preferred date','kb.time':'Preferred time (optional)',
+  'kb.name':'Name','kb.mail':'E-mail','kb.phone':'Phone (optional)','kb.msg':'Note (optional)',
+  'kb.submit':'Book & pay →',
+  'kb.payHint':'You pay securely via Payrexx (TWINT, credit & debit cards). The date is final once our team confirms it by e-mail.',
+  'kb.err':'Please fill in name, a valid e-mail and a date.',
+  'kb.okPaid':'Payment received — thank you! Our team will confirm the date by e-mail.',
+  'kb.okFail':'The payment was not completed. Your request is saved — you can retry the payment.',
+  'kb.okReserved':'Online payment is temporarily unavailable. Your request is saved — we will e-mail you the payment details.',
+  'kb.retry':'Retry payment','kb.again':'New booking','kb.ref':'Reference: '
 };
 </script>
 </head>
@@ -73,7 +87,7 @@ window.LOVE_EN = {
       <h1 data-i18n="kg.title">Feste und Camps, die bleiben.</h1>
       <p class="lead" data-i18n="kg.lead">Vom Kindergeburtstag bis zum Ferien-Camp: Die Kinder bemalen, feiern und werken — wir kümmern uns um Tische, Farben, Betreuung und die Kuchen-Logistik.</p>
       <div class="hero-ctas">
-        <a class="btn btn-rose" href="index.html#eventplaner" data-i18n="kg.cta1">Event planen</a>
+        <a class="btn btn-rose" href="#buchen" data-i18n="kb.cta">Jetzt buchen</a>
         <a class="btn btn-ghost" href="#angebote" data-i18n="kg.cta2">Angebote ansehen</a>
       </div>
     </div>
@@ -92,6 +106,58 @@ window.LOVE_EN = {
     </div>
     <p class="sect-lead" style="margin-top:2rem" data-i18n="kg.note">Camp-Termine kündigen wir vor jeden Schulferien an. Geburtstage sind an allen Wochentagen buchbar — plant sie einfach über den Eventplaner.</p>
     <p style="margin-top:1rem"><a class="btn btn-rose" href="index.html#eventplaner" data-i18n="kg.cta3">Zum Eventplaner</a></p>
+  </div>
+</section>
+
+<section id="buchen">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="kb.eyebrow">Direkt buchen</p>
+    <h2 class="sect-title" data-i18n="kb.title">Platz sichern &amp; online bezahlen</h2>
+    <p class="sect-lead" data-i18n="kb.lead">Kidscamp und Kindergeburtstag werden beim Buchen vollständig online bezahlt (TWINT oder Karte via Payrexx). Danach prüft unser Team die Anfrage und bestätigt den Termin per E-Mail.</p>
+    <div class="panel reveal"><div class="panel-body">
+      <div id="kbForm">
+        <div class="field">
+          <label data-i18n="kb.what">Was möchtest du buchen?</label>
+          <div class="choice-grid" id="kbGrid" role="group" aria-label="Angebot">
+            <button type="button" class="choice" data-kb="geburtstag" data-price="45" aria-pressed="true"><span class="t" data-i18n="kg.bTitle">Kindergeburtstag</span><span class="d" data-i18n="kb.gebD">2 Stunden mit Betreuung, Einladungskarten inklusive</span><span class="p">CHF 45 <span data-i18n="kg.perKid">pro Kind</span></span></button>
+            <button type="button" class="choice" data-kb="kidscamp" data-price="65" aria-pressed="false"><span class="t" data-i18n="kg.cTitle">Ferien-Kidscamp</span><span class="d" data-i18n="kb.campD">Halbtags, inkl. Znüni und Getränke</span><span class="p">CHF 65 <span data-i18n="kg.perDay">pro Kind &amp; Tag</span></span></button>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label for="kbKids" data-i18n="kb.kids">Anzahl Kinder</label><input type="number" id="kbKids" min="1" max="20" value="6"></div>
+          <div class="field hidden" id="kbTageWrap"><label for="kbTage" data-i18n="kb.days">Anzahl Tage</label><input type="number" id="kbTage" min="1" max="5" value="1"></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label for="kbDate" data-i18n="kb.date">Wunschdatum</label><input type="date" id="kbDate"></div>
+          <div class="field"><label for="kbTime" data-i18n="kb.time">Wunschzeit (optional)</label><input type="text" id="kbTime" placeholder="z. B. 14:00–16:00"></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label for="kbName" data-i18n="kb.name">Name</label><input id="kbName" autocomplete="name"></div>
+          <div class="field"><label for="kbMail" data-i18n="kb.mail">E-Mail</label><input id="kbMail" type="email" autocomplete="email"></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label for="kbPhone" data-i18n="kb.phone">Telefon (optional)</label><input id="kbPhone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="kbMsg" data-i18n="kb.msg">Bemerkung (optional)</label><input id="kbMsg"></div>
+        </div>
+        <div class="p-nav" style="align-items:center">
+          <b id="kbTotal" style="font-size:1.25rem;color:var(--green)">CHF 270</b>
+          <button type="button" class="btn btn-rose" id="kbSubmit" data-i18n="kb.submit">Kostenpflichtig buchen →</button>
+        </div>
+        <p class="hint" style="margin-top:.6rem" data-i18n="kb.payHint">Bezahlt wird sicher über Payrexx (TWINT, Kredit- &amp; Debitkarte). Der Termin gilt, sobald unser Team ihn per E-Mail bestätigt.</p>
+        <p class="form-err" id="kbErr" aria-live="polite"></p>
+      </div>
+      <div id="kbDone" class="hidden">
+        <div class="success">
+          <h3 id="kbDoneTitle"></h3>
+          <p id="kbDoneText"></p>
+          <p class="hint" id="kbDoneRef"></p>
+          <div class="hero-ctas" style="justify-content:center;margin-top:1rem">
+            <button type="button" class="btn btn-rose hidden" id="kbRetry" data-i18n="kb.retry">Zahlung erneut versuchen</button>
+            <button type="button" class="btn btn-ghost" id="kbAgain" data-i18n="kb.again">Neue Buchung</button>
+          </div>
+        </div>
+      </div>
+    </div></div>
   </div>
 </section>
 
@@ -148,11 +214,107 @@ window.LOVE_EN = {
   </div>
 </footer>
 
-<script src="assets/js/love-data.js?v=b43acf6f"></script>
+<script src="assets/js/love-data.js?v=01eaf989"></script>
 <script src="assets/js/love-site.js?v=b566d865"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=43f3acf9"></script>
 <script src="assets/js/love-pay.js?v=757b0b69"></script>
 <script src="assets/js/love-widget.js?v=f5389333"></script>
+<script>
+/* Kidscamp & Kindergeburtstag: buchen + vollen Betrag direkt über Payrexx bezahlen */
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const chf = n => 'CHF ' + Number(n).toFixed(0);
+const M = {
+  de: { err: 'Bitte Name, gültige E-Mail und ein Datum angeben.',
+        okPaid: 'Zahlung erhalten — vielen Dank! Unser Team bestätigt dir den Termin per E-Mail.',
+        okFail: 'Die Zahlung wurde nicht abgeschlossen. Deine Anfrage ist gespeichert — du kannst die Zahlung erneut versuchen.',
+        okReserved: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Anfrage ist gespeichert — wir melden uns per E-Mail mit den Zahlungsdetails.',
+        titlePaid: 'Zahlung erhalten!', titleFail: 'Zahlung nicht abgeschlossen', titleReserved: 'Anfrage gespeichert', ref: 'Referenz: ' },
+  en: { err: 'Please fill in name, a valid e-mail and a date.',
+        okPaid: 'Payment received — thank you! Our team will confirm the date by e-mail.',
+        okFail: 'The payment was not completed. Your request is saved — you can retry the payment.',
+        okReserved: 'Online payment is temporarily unavailable. Your request is saved — we will e-mail you the payment details.',
+        titlePaid: 'Payment received!', titleFail: 'Payment not completed', titleReserved: 'Request saved', ref: 'Reference: ' }
+};
+const m = () => M[LoveSite.lang()] || M.de;
+const state = { kind: 'geburtstag', price: 45 };
+
+function total() {
+  const kids = Math.max(1, Number($('#kbKids').value) || 1);
+  const tage = state.kind === 'kidscamp' ? Math.max(1, Number($('#kbTage').value) || 1) : 1;
+  return state.price * kids * tage;
+}
+function renderTotal() { $('#kbTotal').textContent = chf(total()); }
+
+document.querySelectorAll('#kbGrid .choice').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#kbGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  state.kind = b.dataset.kb; state.price = Number(b.dataset.price);
+  $('#kbTageWrap').classList.toggle('hidden', state.kind !== 'kidscamp');
+  renderTotal();
+}));
+['kbKids', 'kbTage'].forEach(id => $('#' + id).addEventListener('input', renderTotal));
+/* Wunschdatum: frühestens morgen */
+(() => { const d = new Date(Date.now() + 864e5); $('#kbDate').min = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); })();
+renderTotal();
+
+function showDone(kind, id, grand) {
+  $('#kbForm').classList.add('hidden');
+  $('#kbDone').classList.remove('hidden');
+  const x = m();
+  $('#kbDoneTitle').textContent = kind === 'paid' ? x.titlePaid : kind === 'fail' ? x.titleFail : x.titleReserved;
+  $('#kbDoneText').textContent = kind === 'paid' ? x.okPaid : kind === 'fail' ? x.okFail : x.okReserved;
+  $('#kbDoneRef').textContent = x.ref + id + (grand ? ' · ' + chf(grand) : '');
+  $('#kbRetry').classList.toggle('hidden', kind !== 'fail');
+  document.getElementById('buchen').scrollIntoView({ behavior: 'smooth' });
+}
+$('#kbAgain').addEventListener('click', () => { $('#kbDone').classList.add('hidden'); $('#kbForm').classList.remove('hidden'); });
+
+let busy = false;
+$('#kbSubmit').addEventListener('click', async () => {
+  if (busy) return;
+  const name = $('#kbName').value.trim(), email = $('#kbMail').value.trim(), date = $('#kbDate').value;
+  if (!name || !LoveSite.validEmail(email) || !date) { $('#kbErr').textContent = m().err; return; }
+  $('#kbErr').textContent = '';
+  busy = true; $('#kbSubmit').disabled = true;
+  const kids = Math.max(1, Number($('#kbKids').value) || 1);
+  const tage = state.kind === 'kidscamp' ? Math.max(1, Number($('#kbTage').value) || 1) : 1;
+  const grand = total();
+  const label = state.kind === 'kidscamp' ? 'Ferien-Kidscamp' : 'Kindergeburtstag';
+  const b = LoveData.addBooking({
+    type: state.kind, name, email, phone: $('#kbPhone').value.trim(),
+    date, time: $('#kbTime').value.trim(), persons: kids,
+    price: 'CHF ' + grand,
+    message: `${label} · ${kids} Kind(er)` + (state.kind === 'kidscamp' ? ` · ${tage} Tag(e)` : '')
+      + ($('#kbMsg').value.trim() ? ' · ' + $('#kbMsg').value.trim() : ''),
+    lang: LoveSite.lang()
+  });
+  try { localStorage.setItem('love.lastKids', JSON.stringify({ id: b.id, total: grand, email, label })); } catch (e) { }
+  /* Voller Betrag direkt über Payrexx */
+  const r = await LovePay.checkout({
+    amount: grand, code: b.id, email,
+    purpose: 'LOVE ' + label + ' ' + b.id + ' · ' + kids + ' Kind(er)'
+  });
+  if (!r.ok) { showDone('reserved', b.id, grand); busy = false; $('#kbSubmit').disabled = false; }
+  /* bei ok verlässt der Browser die Seite Richtung Payrexx */
+});
+
+/* Rückkehr von der Payrexx-Zahlungsseite: ?paid=B-… / ?payfail=B-… */
+(() => {
+  const q = new URLSearchParams(location.search);
+  const paid = q.get('paid'), fail = q.get('payfail');
+  if (!paid && !fail) return;
+  let last = null;
+  try { last = JSON.parse(localStorage.getItem('love.lastKids')); } catch (e) { }
+  const id = paid || fail;
+  showDone(paid ? 'paid' : 'fail', id, last && last.id === id ? last.total : 0);
+  history.replaceState(null, '', location.pathname + '#buchen');
+  if (fail) $('#kbRetry').addEventListener('click', () => {
+    if (last && last.id === id) LovePay.checkout({ amount: last.total, code: id, email: last.email, purpose: 'LOVE ' + (last.label || 'Kidscamp') + ' ' + id });
+  });
+})();
+})();
+</script>
 </body>
 </html>

@@ -137,7 +137,7 @@
 
 </main>
 
-<script src="assets/js/love-data.js?v=b43acf6f"></script>
+<script src="assets/js/love-data.js?v=01eaf989"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=43f3acf9"></script>
 <script>
@@ -211,7 +211,7 @@ function loadClosures() {
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 const fmtDay = iso => iso ? String(iso).split('-').reverse().join('.') : '—';
 const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
-const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk' };
+const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin' };
 const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) : '—');
 const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
 const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
@@ -279,7 +279,7 @@ async function hostCall(action, data) {
     if (!r.ok) alert('Fehler: ' + (r.error || 'unbekannt'));
   } catch (e) { alert('Cloud-Fehler — bitte erneut versuchen.'); }
   /* Nach Buchungs-Aktionen den Kundenkalender sofort frisch von Google holen */
-  if (/^booking_/.test(action)) { try { loadGcalMonth(calKey(), true); } catch (e) { } }
+  if (/^(booking_|host_event_)/.test(action)) { try { loadGcalMonth(calKey(), true); } catch (e) { } }
   loadCloud();
 }
 function wireHostActions(box) {
@@ -476,12 +476,15 @@ function render() {
 
   /* ═══ Gutscheine ═══ */
   } else if (chapter === 'gutscheine') {
+    const delLbl = v => v.delivery === 'post' ? '📮 Post' + (v.address ? ': ' + v.address : '')
+      : v.delivery === 'pickup' ? '🏠 Abholung' : v.delivery === 'email' ? '✉️ ' + (v.recipient_email || 'E-Mail') : v.delivery === 'konto' ? '💾 Konto' : '—';
     box.innerHTML = `<h3 class="host-sect">Gutscheine</h3>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
-      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Bezahlt</th><th>Status</th></tr></thead>
+      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Zustellung</th><th>Bezahlt</th><th>Status</th></tr></thead>
       <tbody>${d.gutscheine.map(v => `<tr>
         <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td>CHF ${Number(v.balance).toFixed(0)}</td>
         <td>${Number(v.tip || 0) ? 'CHF ' + Number(v.tip).toFixed(0) : '—'}</td>
         <td>${esc(v.buyer || '—')}</td><td>${esc(v.email || '—')}</td>
+        <td style="max-width:220px">${esc(delLbl(v))}</td>
         <td>${(v.paid == 1 || v.paid === true) ? '✓' : '—'}</td>
         <td><span class="host-pill ${v.status === 'offen' ? 'neu' : ''}">${esc(v.status)}</span></td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`);
@@ -641,6 +644,23 @@ function renderCalendar(box, d) {
       ${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="hcal-wd">${w}</span>`).join('')}
       ${cells}
     </div>
+    <div class="hcard" style="margin-top:1rem">
+      <div class="hcard-top"><b>➕ Termin eintragen</b><span class="hcard-meta">landet direkt im Google-Kalender &amp; in der SumUp-Kasse</span></div>
+      <div class="two-col" style="margin-top:.6rem">
+        <div class="field"><label for="hevTitle">Titel</label><input type="text" id="hevTitle" placeholder="z. B. Privatanlass Familie Muster"></div>
+        <div class="field"><label for="hevDate">Datum</label><input type="date" id="hevDate" value="${calSel || todayISO()}"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label for="hevVon">Von</label><input type="time" id="hevVon"></div>
+        <div class="field"><label for="hevBis">Bis</label><input type="time" id="hevBis"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label for="hevPers">Personen (optional)</label><input type="number" id="hevPers" min="1" max="99"></div>
+        <div class="field"><label for="hevNote">Notiz (optional)</label><input type="text" id="hevNote"></div>
+      </div>
+      <button type="button" class="btn btn-rose btn-sm" id="hevAdd">Termin eintragen</button>
+      <span class="hint" id="hevHint" style="margin-left:.6rem" aria-live="polite">${cloudData ? '' : 'Braucht die Cloud-Verbindung (frisch anmelden).'}</span>
+    </div>
     <div id="hcalDetail" style="margin-top:1rem">
       ${calSel ? `<p class="hday">${fmtDay(calSel)}</p>`
         + (selEvents.length ? selEvents.map(ev => `
@@ -651,6 +671,18 @@ function renderCalendar(box, d) {
     </div>`;
   $('#hcalPrev').addEventListener('click', () => { calMonth = new Date(y, m - 1, 1, 12); render(); });
   $('#hcalNext').addEventListener('click', () => { calMonth = new Date(y, m + 1, 1, 12); render(); });
+  /* Individuellen Termin direkt in den Google-Kalender eintragen */
+  $('#hevAdd').addEventListener('click', () => {
+    const title = $('#hevTitle').value.trim();
+    const date = $('#hevDate').value;
+    if (!title || !date) { $('#hevHint').textContent = 'Bitte mindestens Titel und Datum angeben.'; return; }
+    $('#hevAdd').disabled = true;
+    $('#hevHint').textContent = 'Wird eingetragen …';
+    hostCall('host_event_add', {
+      title, date, von: $('#hevVon').value, bis: $('#hevBis').value,
+      persons: $('#hevPers').value, note: $('#hevNote').value.trim()
+    });
+  });
   box.querySelectorAll('.hcal-day[data-iso]').forEach(btn => btn.addEventListener('click', () => {
     calSel = calSel === btn.dataset.iso ? null : btn.dataset.iso;
     render();

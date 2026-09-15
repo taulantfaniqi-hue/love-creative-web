@@ -23,6 +23,8 @@ window.LOVE_DE = {
   'dn.statusReserved':'Status: reserviert — aktiv nach Zahlungseingang',
   'py.submit':'Weiter zur Zahlung →',
   'py.discountOk':'Rabatt angewendet: − CHF 2.00','py.discountBad':'Code ungültig, nicht freigegeben oder schon eingelöst.',
+  'err.recipMail':'Bitte gib eine gültige E-Mail der beschenkten Person an.',
+  'err.address':'Für den Postversand brauchen wir die Versandadresse.',
   'dn.acctYes':'Dein Kauf ist in deinem Kundenkonto abgelegt.',
   'dn.acctNo':'Tipp: Erstell ein Kundenkonto mit derselben E-Mail — dann findest du Käufe und Reservationen jederzeit dort.',
   'dn.acctBtn':'Im Kundenkonto ablegen' };
@@ -53,9 +55,13 @@ window.LOVE_EN = {
   'dn.acctYes':'Your purchase is saved in your customer account.','dn.acctNo':'Tip: create a customer account with the same e-mail to find purchases and reservations there anytime.','dn.acctBtn':'Save to my account',
   'py.studio':'Pay at the studio','py.studioD':'Pay and pick up at the counter',
   'py.delivery':'How should the gift card arrive?',
-  'py.print':'Print at home','py.printD':'Immediately as a PDF — free',
-  'py.pickup':'Pick up at the studio','py.pickupD':'In a gift sleeve — free',
-  'py.post':'By post','py.postD':'Gift sleeve, 2–3 working days — CHF 5',
+  'py.konto':'Into your customer account','py.kontoD':'Digital — printable as a PDF right away, stored in your LOVE account — free',
+  'py.pickup':'Pick up at the café','py.pickupD':'In a gift sleeve at Seestrasse 287B, 8804 Au ZH — free',
+  'py.mailopt':'Gift it to an e-mail','py.mailoptD':'The recipient gets an e-mail and finds the card in their customer account — free',
+  'py.post':'By post to your home','py.postD':'Gift sleeve, 2–3 working days — CHF 5 shipping & service fee',
+  'py.recipMail':'Recipient\'s e-mail','py.recipMailHint':'The card is sent only after successful payment.',
+  'py.address':'Shipping address',
+  'err.recipMail':'Please enter a valid e-mail for the recipient.','err.address':'We need the shipping address for postal delivery.',
   'py.name':'Your name','py.email':'Your e-mail','py.phone':'Phone (optional)',
   'py.back':'← Back','py.submit':'Continue to payment →','py.redirect':'You will be redirected to the secure Payrexx payment page (TWINT, credit & debit cards) and back to the order confirmation afterwards.',
   'py.discount':'Discount code (point voucher from your LOVE account)','py.discountApply':'Apply',
@@ -207,10 +213,20 @@ window.LOVE_EN = {
               <div class="field">
                 <label data-i18n="py.delivery">Wie soll der Gutschein ankommen?</label>
                 <div class="pay-opts" id="shipGrid" role="group" aria-label="Zustellung">
-                  <button type="button" class="choice" data-ship="print" data-fee="0" aria-pressed="true"><span class="t" data-i18n="py.print">Print@Home</span><span class="d" data-i18n="py.printD">Sofort als PDF — gratis</span></button>
-                  <button type="button" class="choice" data-ship="pickup" data-fee="0" aria-pressed="false"><span class="t" data-i18n="py.pickup">Abholung im Studio</span><span class="d" data-i18n="py.pickupD">In der Geschenkhülle — gratis</span></button>
-                  <button type="button" class="choice" data-ship="post" data-fee="5" aria-pressed="false"><span class="t" data-i18n="py.post">Per Post</span><span class="d" data-i18n="py.postD">Geschenkhülle, 2–3 Werktage — CHF 5</span></button>
+                  <button type="button" class="choice" data-ship="konto" data-fee="0" aria-pressed="true"><span class="t" data-i18n="py.konto">In dein Kundenkonto</span><span class="d" data-i18n="py.kontoD">Digital — sofort als PDF druckbar, liegt in deinem LOVE-Konto — gratis</span></button>
+                  <button type="button" class="choice" data-ship="pickup" data-fee="0" aria-pressed="false"><span class="t" data-i18n="py.pickup">Abholen im Café</span><span class="d" data-i18n="py.pickupD">In der Geschenkhülle an der Seestrasse 287B, 8804 Au ZH — gratis</span></button>
+                  <button type="button" class="choice" data-ship="email" data-fee="0" aria-pressed="false"><span class="t" data-i18n="py.mailopt">An eine E-Mail verschenken</span><span class="d" data-i18n="py.mailoptD">Die beschenkte Person bekommt eine Mail und findet die Karte in ihrem Kundenkonto — gratis</span></button>
+                  <button type="button" class="choice" data-ship="post" data-fee="5" aria-pressed="false"><span class="t" data-i18n="py.post">Per Post nach Hause</span><span class="d" data-i18n="py.postD">Geschenkhülle, 2–3 Werktage — CHF 5 Versand &amp; Servicegebühr</span></button>
                 </div>
+              </div>
+              <div class="field hidden" id="shipEmailWrap">
+                <label for="gRecipMail" data-i18n="py.recipMail">E-Mail der beschenkten Person</label>
+                <input type="email" id="gRecipMail" autocomplete="off" placeholder="name@example.ch">
+                <p class="hint" data-i18n="py.recipMailHint">Die Karte wird erst nach erfolgreicher Zahlung verschickt.</p>
+              </div>
+              <div class="field hidden" id="shipPostWrap">
+                <label for="gAddress" data-i18n="py.address">Versandadresse</label>
+                <textarea id="gAddress" rows="2" placeholder="Name, Strasse Nr., PLZ Ort" autocomplete="street-address"></textarea>
               </div>
               <div class="field">
                 <label data-i18n="py.tip">Trinkgeld fürs Team (optional)</label>
@@ -371,7 +387,7 @@ window.LOVE_EN = {
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
-<script src="assets/js/love-data.js?v=b43acf6f"></script>
+<script src="assets/js/love-data.js?v=01eaf989"></script>
 <script src="assets/js/love-site.js?v=b566d865"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=43f3acf9"></script>
@@ -394,13 +410,19 @@ const EX_LABEL = {
   'cafe-keramik': { de: 'Café & Keramik', en: 'Café & ceramics' },
   'betrag':       { de: 'Wunschbetrag', en: 'Your own amount' }
 };
-const SHIP_LABEL = { print: { de: 'Print@Home', en: 'Print at home' }, pickup: { de: 'Abholung im Studio', en: 'Pick up at the studio' }, post: { de: 'Per Post (+CHF 5)', en: 'By post (+CHF 5)' } };
-const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'print', fee: 0, tip: 0, discount: 0, discountCode: '' };
+const SHIP_LABEL = {
+  konto:  { de: 'In dein Kundenkonto (digital)', en: 'Into your customer account (digital)' },
+  print:  { de: 'In dein Kundenkonto (digital)', en: 'Into your customer account (digital)' }, // alte gespeicherte Bestellungen
+  pickup: { de: 'Abholung: Seestrasse 287B, Au', en: 'Pick-up: Seestrasse 287B, Au' },
+  email:  { de: 'Per E-Mail an die beschenkte Person', en: 'By e-mail to the recipient' },
+  post:   { de: 'Per Post (+CHF 5)', en: 'By post (+CHF 5)' }
+};
+const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'konto', fee: 0, tip: 0, discount: 0, discountCode: '' };
 
 function amount() { return state.kind === 'betrag' ? (Number($('#gAmount').value) || 0) : state.price; }
 /* Robust gegen unbekannte Werte (z. B. alte gespeicherte Bestellungen) */
 const exLabel = k => EX_LABEL[k] || EX_LABEL['betrag'];
-const shipLabel = s => SHIP_LABEL[s] || SHIP_LABEL['print'];
+const shipLabel = s => SHIP_LABEL[s] || SHIP_LABEL['konto'];
 function total() { return amount() + state.fee; }
 function grand() { return Math.max(1, total() + state.tip - state.discount); } // inkl. Trinkgeld, abzüglich Punkte-Rabatt — dieser Betrag geht an Payrexx
 function updatePreview() {
@@ -466,6 +488,9 @@ function pickShip(s) {
     x.setAttribute('aria-pressed', String(on));
     if (on) state.fee = Number(x.dataset.fee);
   });
+  /* Zusatzfelder je nach Zustellart */
+  $('#shipEmailWrap').classList.toggle('hidden', s !== 'email');
+  $('#shipPostWrap').classList.toggle('hidden', s !== 'post');
   fillSummary(); updatePreview();
 }
 $('#toStep2').addEventListener('click', () => {
@@ -519,13 +544,19 @@ $('#submitGift').addEventListener('click', async () => {
   const err = $('#gErr');
   const buyer = $('#gBuyer').value.trim(), email = $('#gEmail').value.trim();
   if (!buyer || !validEmail(email)) { err.textContent = t('err.required'); return; }
+  const recipMail = $('#gRecipMail').value.trim().toLowerCase();
+  const address = $('#gAddress').value.trim();
+  if (state.ship === 'email' && !validEmail(recipMail)) { err.textContent = t('err.recipMail'); $('#gRecipMail').focus(); return; }
+  if (state.ship === 'post' && address.length < 8) { err.textContent = t('err.address'); $('#gAddress').focus(); return; }
   err.textContent = '';
   submitBusy = true;
   $('#submitGift').textContent = '…';
   const v = LoveData.addVoucher({
     amount: amount(), buyer, email, recipient: $('#gFor').value.trim(), from: $('#gFrom').value.trim(),
     message: $('#gMsg').value.trim(), kind: state.kind, design: state.design,
-    payment: 'online' + (state.ship === 'post' ? '+post' : ''), tip: state.tip
+    payment: 'online' + (state.ship === 'post' ? '+post' : ''), tip: state.tip,
+    delivery: state.ship, recipient_email: state.ship === 'email' ? recipMail : '',
+    address: state.ship === 'post' ? address : ''
   });
   lastVoucher = v;
   LoveData.addBooking({

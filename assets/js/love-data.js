@@ -132,13 +132,16 @@ const LoveData = (() => {
       recipient: data.recipient || '', from: data.from || '', message: data.message || '',
       kind: data.kind || 'betrag', design: data.design || 'mimi',
       payment: data.payment || '', paid: !!data.paid, paid_at: data.paid ? _now() : null,
+      delivery: data.delivery || '', recipient_email: (data.recipient_email || '').trim().toLowerCase(),
+      address: data.address || '',
       status: 'offen', redemptions: []
     };
     const all = _read(KEYS.vouchers); all.push(v); _write(KEYS.vouchers, all);
     if (v.email) upsertContact(v.email, { name: v.buyer, tag: 'format:gutschein' });
     if (typeof LoveCloud !== 'undefined') LoveCloud.push('voucher_add', {
       code: v.code, amount: v.amount, tip: Number(data.tip) || 0, buyer: v.buyer, email: v.email,
-      recipient: v.recipient, from: v.from, message: v.message, kind: v.kind, design: v.design, payment: v.payment
+      recipient: v.recipient, from: v.from, message: v.message, kind: v.kind, design: v.design, payment: v.payment,
+      delivery: v.delivery, recipient_email: v.recipient_email, address: v.address
     });
     return v;
   }
