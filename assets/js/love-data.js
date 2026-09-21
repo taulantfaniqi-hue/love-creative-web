@@ -40,7 +40,7 @@ const LoveData = (() => {
      status-Pipeline (love-sales-events): neu → bestätigt | offeriert → follow-up-1 → follow-up-2 → gewonnen | verloren | storniert
      Tisch-Felder: date (ISO), time (Slot '09:00–12:00'), persons, area ('EG'|'OG'|'egal'),
                    table_type ('rund'|'gross'|'event'), table (zugewiesen im CRM, z. B. 'EG-G1') */
-  function addBooking(data) {
+  function addBooking(data, opts) {
     const b = {
       id: _id('B'), ts: _now(), status: 'neu',
       type: data.type || 'sonstiges',
@@ -54,8 +54,28 @@ const LoveData = (() => {
     };
     const all = _read(KEYS.bookings); all.push(b); _write(KEYS.bookings, all);
     if (b.email) upsertContact(b.email, { name: b.name, phone: b.phone, tag: 'format:' + b.type });
-    if (typeof LoveCloud !== 'undefined') LoveCloud.push('booking_add', b); // Cloud zieht nach
+    if (typeof LoveCloud !== 'undefined' && !(opts && opts.push === false)) LoveCloud.push('booking_add', b); // Cloud zieht nach
     return b;
+  }
+
+  /* Anmeldung mit vertraulichen Einzelheiten — Kidscamp und Kindergeburtstag.
+     Zwei Dinge sind hier anders als bei einer Tischreservation:
+     1. Die Einzelheiten (Gesundheit des Kindes, Abholung, Einwilligungen) bleiben
+        NICHT im Browser der Kundin liegen. Lokal steht nur die Kurzfassung; das
+        Ganze geht einmal an den Server.
+     2. Es wird nicht «auf gut Glück» gesendet. Das Ergebnis sagt, ob der Server
+        die Anmeldung wirklich hat — sonst wüsste das Team nichts von einer
+        Allergie, und niemand merkt es.
+     Rückgabe: Promise auf { booking, delivered }. */
+  async function addRegistration(data) {
+    const b = addBooking(data, { push: false });
+    let delivered = false;
+    if (typeof LoveCloud !== 'undefined') {
+      const voll = Object.assign({}, b, { message: b.message + (data.details ? '\n\n' + data.details : '') });
+      try { const r = await LoveCloud.call('booking_add', voll); delivered = !!(r && r.ok); }
+      catch (e) { delivered = false; }
+    }
+    return { booking: b, delivered };
   }
   function updateBooking(id, patch) {
     const all = _read(KEYS.bookings);
@@ -689,7 +709,7 @@ const LoveData = (() => {
   }
 
   return {
-    addBooking, updateBooking, listBookings,
+    addBooking, addRegistration, updateBooking, listBookings,
     upsertContact, listContacts,
     addKiln, updateKiln, listKiln,
     addVoucher, updateVoucher, redeemVoucher, listVouchers,

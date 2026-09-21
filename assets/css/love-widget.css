@@ -18,10 +18,15 @@
 .lw-launcher:focus-visible{outline:3px solid var(--green);outline-offset:2px}
 .lw-launcher .lw-heart{font-size:1.05rem;line-height:1}
 .lw-launcher.lw-hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
-@media (max-width:1080px){
-  /* über der Sticky-CTA-Leiste parken */
-  .lw-launcher{bottom:calc(4.9rem + env(safe-area-inset-bottom))}
+/* Nur ein Reservations-Knopf. Sobald die durchgehende Leiste am unteren Rand
+   erscheint (unter 1310 px, siehe love.css), verschwindet der schwebende Knopf —
+   zwei Knöpfe mit demselben Wort direkt übereinander verwirren nur. Die Leiste
+   übernimmt seine Aufgabe und öffnet dasselbe Fenster (love-widget.js). */
+@media (max-width:1310px){
+  .lw-launcher{display:none}
 }
+/* Solange das Reservations-Fenster offen ist, hat die Leiste nichts im Weg zu stehen */
+body.lw-open .sticky-cta{display:none !important}
 
 /* ── Abdunkelung ── */
 .lw-backdrop{

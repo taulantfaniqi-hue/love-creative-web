@@ -76,7 +76,9 @@ body.cart-open .cart-launcher{ display:none !important }
 .cart-panel.open{ transform:none }
 .cart-head{ display:flex; align-items:center; gap:.8rem; padding:1.1rem 1.2rem;
   background:var(--green); color:#fff }
-.cart-head h2{ font-family:var(--ff-display); font-size:1.25rem; font-weight:600; margin-right:auto }
+/* Farbe ausdrücklich setzen: Die allgemeine Überschriftenfarbe (Grün) schlug sonst die weisse
+   Schrift des Balkens — der Titel stand grün auf grün und war unsichtbar. */
+.cart-head h2{ font-family:var(--ff-display); font-size:1.25rem; font-weight:600; margin-right:auto; color:#fff }
 .cart-close{ background:transparent; border:0; color:#fff; font-size:1.4rem; cursor:pointer; line-height:1; padding:.2rem }
 .cart-close:focus-visible{ outline:3px solid var(--mimi); outline-offset:2px }
 .cart-body{ flex:1; overflow-y:auto; padding:1.1rem 1.2rem }

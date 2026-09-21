@@ -22,7 +22,11 @@ html{scroll-behavior:smooth}
   .reveal{opacity:1!important;transform:none!important;transition:none!important}
 }
 body{font-family:var(--ff-body);font-weight:400;color:var(--ink);background:var(--cream);line-height:1.65;font-size:1.02rem}
-img{max-width:100%;display:block}
+/* height:auto ist nötig, seit die Bilder width- und height-Angaben im HTML tragen: Ohne sie
+   gewinnt die Höhe aus dem HTML (z. B. 1680 px) über aspect-ratio, und ein 4:3-Rasterbild
+   wird zum meterhohen Streifen. Bilder mit gewollt fester Höhe (Logo, Zahlungs-Logos,
+   Bogen-Bilder, Shop-Fotos) haben dafür eigene, stärkere Regeln. */
+img{max-width:100%;height:auto;display:block}
 a{color:var(--green)}
 h1,h2,h3{font-family:var(--ff-display);color:var(--green);line-height:1.15;font-weight:700}
 .skip{position:absolute;left:-999px;top:0;background:var(--green);color:#fff;padding:.6rem 1rem;z-index:200;border-radius:0 0 var(--r-s) var(--r-s)}
@@ -182,6 +186,91 @@ nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 .step h3{font-size:1.05rem;margin-bottom:.4rem}
 .step p{font-size:.92rem;color:var(--ink-soft)}
 
+/* So funktioniert's — Ablauf nach der A4-Vorlage «How It Works»:
+   nummerierter Kreis, Text, Illustration. Farbfolge wie im Aushang:
+   Kreis 1 zart mit grüner Zahl, dann Rose, Salbei, Pink. */
+.howto{display:grid;gap:1.6rem;max-width:50rem;margin:0 auto}
+.howto-row{display:grid;grid-template-columns:auto 1fr 140px;gap:1.5rem;align-items:center}
+.howto-num{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;position:relative;
+  font-family:var(--ff-display);font-weight:700;font-size:2.15rem;line-height:1}
+/* Die zwei Punkte links und rechts der Zahl — wie auf dem Aushang */
+.howto-num::before,.howto-num::after{content:"";position:absolute;width:5px;height:5px;
+  border-radius:50%;background:currentColor;opacity:.5}
+.howto-num::before{left:-12px}
+.howto-num::after{right:-12px}
+.howto-row:nth-child(1) .howto-num{background:var(--mimi);color:var(--green)}
+.howto-row:nth-child(2) .howto-num{background:var(--rose);color:#fff}
+.howto-row:nth-child(3) .howto-num{background:var(--asparagus);color:#fff}
+.howto-row:nth-child(4) .howto-num{background:var(--amaranth);color:#fff}
+.howto-row h3{font-family:var(--ff-display);font-size:1.3rem;font-weight:600;margin-bottom:.3rem}
+.howto-row:nth-child(1) h3{color:var(--green)}
+.howto-row:nth-child(2) h3{color:var(--rose)}
+.howto-row:nth-child(3) h3{color:var(--asparagus)}
+.howto-row:nth-child(4) h3{color:var(--amaranth)}
+.howto-row p{font-size:.95rem;color:var(--ink);max-width:24rem}
+.howto-art{width:140px;height:112px;display:block}
+@media(max-width:640px){
+  .howto{gap:1.9rem}
+  .howto-row{grid-template-columns:auto 1fr;gap:.9rem 1rem}
+  .howto-num{width:56px;height:56px;font-size:1.55rem}
+  .howto-num::before,.howto-num::after{width:4px;height:4px}
+  .howto-num::before{left:-9px}
+  .howto-num::after{right:-9px}
+  .howto-row h3{font-size:1.15rem}
+  .howto-art{grid-column:2;width:120px;height:96px;margin-top:.2rem}
+}
+
+/* Kennzahlen-Leiste (Team-Events): drei Zahlen, die eine Firma zuerst wissen will */
+.kennzahlen{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;text-align:center}
+.kennzahlen > div{background:var(--warmwhite);border:1px solid var(--line-soft);border-radius:var(--r-m);padding:1.3rem 1rem}
+.kennzahlen b{display:block;font-family:var(--ff-display);font-size:1.9rem;line-height:1.1;color:var(--green)}
+.kennzahlen span{display:block;margin-top:.35rem;font-size:.9rem;color:var(--ink-soft)}
+
+/* Häkchenliste in den Angebotskarten — was alles im Preis steckt */
+.tick{list-style:none;margin:.8rem 0 1rem;padding:0;font-size:.9rem}
+.tick li{position:relative;padding-left:1.5rem;margin-bottom:.35rem;color:var(--ink)}
+.tick li::before{content:"✓";position:absolute;left:0;top:-.05em;color:var(--rose);font-weight:700}
+
+/* Anmeldung Kidscamp & Geburtstag */
+.anm-block{border:1.5px solid var(--line-soft);border-radius:var(--r-m);padding:1.1rem 1.2rem;margin-bottom:1rem;background:#fff}
+.anm-block > h3{font-family:var(--ff-body);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--rose);font-weight:700;margin-bottom:.8rem}
+.anm-kind{border:1px dashed var(--line);border-radius:14px;padding:1rem 1.1rem;margin-bottom:.8rem;background:var(--warmwhite)}
+.anm-kind h4{font-family:var(--ff-display);font-size:1.08rem;margin-bottom:.7rem;color:var(--green)}
+.anm-kind .rm{background:none;border:0;color:var(--ink-soft);font-size:.8rem;text-decoration:underline;
+  cursor:pointer;padding:0;float:right;font-family:var(--ff-body)}
+.anm-kind .rm:hover{color:#a4243b}
+/* Freiwillige Einwilligungen deutlich von den nötigen trennen — sonst hakt man
+   alles blind ab, und eine Fotoeinwilligung muss echte Wahl sein. */
+.anm-opt{background:var(--celadon);border-radius:14px;padding:.9rem 1.1rem;margin-top:.8rem}
+.anm-opt .lbl{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  color:var(--green);margin-bottom:.6rem}
+.anm-sum{background:var(--mimi);border-radius:var(--r-m);padding:1rem 1.2rem;margin:1rem 0}
+.anm-sum div{display:flex;justify-content:space-between;padding:.2rem 0;font-size:.93rem}
+.anm-sum .tot{border-top:1px solid rgba(51,115,87,.25);margin-top:.4rem;padding-top:.5rem;
+  font-family:var(--ff-display);font-size:1.3rem;color:var(--green)}
+
+/* Servicegebühren als Pillen — wie auf dem Aushang «How It Works» */
+.fee-pills{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;
+  max-width:44rem;margin:0 auto 1.8rem}
+.fee-pill{border-radius:999px;padding:1.15rem 1.6rem;text-align:center}
+.fee-pill.rose{background:var(--mimi)}
+.fee-pill.green{background:var(--asparagus)}
+.fee-h{font-family:var(--ff-body);font-weight:700;font-size:1.02rem;letter-spacing:.01em}
+.fee-pill.rose .fee-h{color:var(--rose)}
+.fee-pill.green .fee-h{color:#fff}
+.fee-s{font-size:.86rem;font-weight:600;margin-top:.2rem}
+/* Auf dem gedruckten Aushang steht die Zeile weiss auf Rosé. Am Bildschirm ist
+   das in dieser Schriftgrösse kaum lesbar — daher dunkel statt weiss. */
+.fee-pill.rose .fee-s{color:var(--green)}
+.fee-pill.green .fee-s{color:#0f3d28}
+.fee-sub{font-family:var(--ff-display);font-size:1.45rem;font-weight:600;color:var(--asparagus);
+  text-align:center;margin:0 0 1rem}
+@media (max-width:640px){
+  .fee-pill{border-radius:26px;padding:1rem 1.2rem}
+  .fee-h{font-size:.96rem}
+}
+
 /* Preise Keramik */
 .prices{background:linear-gradient(180deg,var(--cream),var(--mimi) 140%)}
 .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
@@ -325,6 +414,10 @@ nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 .faq .a{padding:0 1.3rem 1.1rem;color:var(--ink-soft);font-size:.95rem}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.9rem}
 .gallery-grid img{border-radius:var(--r-m);aspect-ratio:4/3;object-fit:cover;width:100%;border:1px solid var(--line-soft)}
+/* Steht nur ein einziges Bild im Raster, rückt es in die Mitte und wird grösser — ein
+   einsames Drittel neben zwei leeren Spalten sähe aus wie ein Ladefehler. Das Format
+   bleibt 4:3: als Panorama zeigt ein Hochformat-Foto nur noch Wand. */
+.gallery-grid img:only-child{grid-column:1/-1;max-width:36rem;justify-self:center}
 .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,4vw,3.5rem);align-items:start}
 @media (max-width:880px){.contact-grid{grid-template-columns:1fr}}
 .addr-card{background:var(--celadon);border:1px solid var(--line);border-radius:var(--r-arch);padding:2.6rem 2rem;text-align:center}

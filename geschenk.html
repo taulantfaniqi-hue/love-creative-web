@@ -10,83 +10,155 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=627bb210">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=3f01c37f">
-<link rel="stylesheet" href="assets/css/love-account.css?v=bb2faca7">
+<link rel="stylesheet" href="assets/css/love.css?v=1c26cbaa">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=7b08b285">
+<link rel="stylesheet" href="assets/css/love-account.css?v=900ff869">
 <script>
 window.LOVE_TITLES = { de: 'Verschenke ein kreatives Erlebnis — LOVE Creative Café', en: 'Gift a creative experience — LOVE Creative Café' };
 window.LOVE_DE = {
-  'dn.titlePaid':'Zahlung erhalten — vielen Dank!','dn.textPaid':'Deine Geschenkkarte ist bezahlt. Hier ist sie — mit Code und Barcode zum Einlösen.',
-  'dn.statusPaid':'Bezahlt — Geschenkkarte aktiv','dn.statusChecking':'Zahlung wird bestätigt…','dn.statusProcessing':'Zahlung eingegangen — die Bestätigung folgt in wenigen Minuten per E-Mail.',
-  'dn.titleFail':'Zahlung nicht abgeschlossen','dn.textFail':'Die Zahlung wurde abgebrochen oder abgelehnt. Deine Geschenkkarte ist reserviert — du kannst die Zahlung erneut versuchen.',
-  'dn.titleReserved':'Bestellung reserviert','dn.textReserved':'Die Online-Zahlung ist gerade nicht erreichbar. Deine Geschenkkarte ist reserviert — wir melden uns per E-Mail mit den Zahlungsdetails.',
+  'dn.titlePaid':'Zahlung erhalten — vielen Dank!',
+  'dn.textPaid':'Deine Geschenkkarte ist bezahlt. Hier ist sie — mit Code und Barcode zum Einlösen.',
+  'dn.statusPaid':'Bezahlt — Geschenkkarte aktiv',
+  'dn.statusChecking':'Zahlung wird bestätigt…',
+  'dn.statusProcessing':'Zahlung eingegangen — die Bestätigung folgt in wenigen Minuten per E-Mail.',
+  'dn.titleFail':'Zahlung nicht abgeschlossen',
+  'dn.textFail':'Die Zahlung wurde abgebrochen oder abgelehnt. Deine Geschenkkarte ist reserviert — du kannst die Zahlung erneut versuchen.',
+  'dn.titleReserved':'Bestellung reserviert',
+  'dn.textReserved':'Die Online-Zahlung ist gerade nicht erreichbar. Deine Geschenkkarte ist reserviert — wir melden uns per E-Mail mit den Zahlungsdetails.',
   'dn.statusReserved':'Status: reserviert — aktiv nach Zahlungseingang',
   'py.submit':'Weiter zur Zahlung →',
-  'py.discountOk':'Rabatt angewendet: − CHF 2.00','py.discountBad':'Code ungültig, nicht freigegeben oder schon eingelöst.',
+  'py.discountOk':'Rabatt angewendet: − CHF 2.00',
+  'py.discountBad':'Code ungültig, nicht freigegeben oder schon eingelöst.',
   'err.recipMail':'Bitte gib eine gültige E-Mail der beschenkten Person an.',
   'err.address':'Für den Postversand brauchen wir die Versandadresse.',
   'dn.acctYes':'Dein Kauf ist in deinem Kundenkonto abgelegt.',
   'dn.acctNo':'Tipp: Erstell ein Kundenkonto mit derselben E-Mail — dann findest du Käufe und Reservationen jederzeit dort.',
-  'dn.acctBtn':'Im Kundenkonto ablegen' };
+  'dn.acctBtn':'Im Kundenkonto ablegen'
+};
 window.LOVE_EN = {
-  'gs.eyebrow':'Gift a creative experience','gs.title':'Not a thing. A moment.',
+  'gs.eyebrow':'Gift a creative experience',
+  'gs.title':'Not a thing. A moment.',
   'gs.lead':'An afternoon of painting, a cinema night for two, or credit for whatever they fancy. Design the gift card here, pay the way you like, print it right away or pick it up at the studio. Valid for 5 years.',
-  'gs.cta1':'Design a gift card','gs.cta2':'How it works',
-  'hw.eyebrow':'It\'s this easy','hw.title':'Three steps to the gift',
-  'hw.s1':'Choose','hw.s1t':'An experience or an amount — plus a personal message and card design.',
-  'hw.s2':'Pay','hw.s2t':'TWINT, card online or at the studio. We e-mail you the details right away.',
-  'hw.s3':'Give','hw.s3t':'Print at home in a minute, pick up at the counter, or have it mailed in a gift sleeve.',
-  'cf.title':'Your gift card','cf.sub':'Everything you choose shows up live on the card.',
-  'cf.s1':'1 · Experience','cf.s2':'2 · Payment','cf.s3':'3 · Done',
+  'gs.cta1':'Design a gift card',
+  'gs.cta2':'How it works',
+  'hw.eyebrow':'It\'s this easy',
+  'hw.title':'Three steps to the gift',
+  'hw.s1':'Choose',
+  'hw.s1t':'An experience or an amount — plus a personal message and card design.',
+  'hw.s2':'Pay',
+  'hw.s2t':'TWINT, card online or at the studio. We e-mail you the details right away.',
+  'hw.s3':'Give',
+  'hw.s3t':'Print at home in a minute, pick up at the counter, or have it mailed in a gift sleeve.',
+  'cf.title':'Your gift card',
+  'cf.sub':'Everything you choose shows up live on the card.',
+  'cf.s1':'1 · Experience',
+  'cf.s2':'2 · Payment',
+  'cf.s3':'3 · Done',
   'cf.pick':'What are you giving?',
-  'ex.date':'Ceramic date for two','ex.dateD':'Two medium pieces incl. studio time, glazing and firing',
-  'ex.kino':'Cinema Night for two','ex.kinoD':'Adults Edition: film, ceramics, a drink and crêpes',
-  'ex.family':'Family Cinema Night','ex.familyD':'Two kids: film, ceramics, popcorn, hot chocolate',
-  'ex.cafe':'Café &amp; ceramics','ex.cafeD':'Credit for a small piece and something from the counter',
-  'ex.amount':'Gift card','ex.amountD':'CHF 20–500, redeemable for everything at LOVE — payable online by card',
-  'cf.amount':'Choose amount (CHF)','cf.amountCustom':'Or your own amount (CHF 20–500):',
-  'cf.for':'For (name)','cf.from':'From (name)','cf.msg':'Your message (optional)','cf.msgPh':'e.g. Happy birthday — let\'s go painting!',
-  'cf.design':'Card design','cf.next':'Continue to payment →',
-  'py.summary':'Summary','py.item':'Gift','py.value':'Value','py.for':'For','py.ship':'Delivery',
+  'ex.date':'Ceramic date for two',
+  'ex.dateD':'Two medium pieces incl. studio time, glazing and firing',
+  'ex.kino':'Cinema Night for two',
+  'ex.kinoD':'Adults Edition: film, ceramics and a drink',
+  'ex.family':'Family Cinema Night',
+  'ex.familyD':'Two kids: film, ceramics and hot chocolate',
+  'ex.cafe':'Café &amp; ceramics',
+  'ex.cafeD':'Credit for a small piece and something from the counter',
+  'ex.amount':'Gift card',
+  'ex.amountD':'CHF 20–500, redeemable for everything at LOVE — payable online by card',
+  'cf.amount':'Choose amount (CHF)',
+  'cf.amountCustom':'Or your own amount (CHF 20–500):',
+  'cf.for':'For (name)',
+  'cf.from':'From (name)',
+  'cf.msg':'Your message (optional)',
+  'cf.msgPh':'e.g. Happy birthday — let\'s go painting!',
+  'cf.design':'Card design',
+  'cf.next':'Continue to payment →',
+  'py.summary':'Summary',
+  'py.item':'Gift',
+  'py.value':'Value',
+  'py.for':'For',
+  'py.ship':'Delivery',
   'py.how':'How would you like to pay?',
-  'py.twint':'TWINT','py.twintD':'We e-mail you the TWINT details — done in a minute',
-  'py.card':'Card online','py.cardD':'Secure payment via Payrexx (TWINT &amp; card)','py.cardSoon':'Online payment is available for gift cards (CHF 20–500)',
-  'py.tip':'Tip for the team (optional)','py.tip0':'No tip','py.tipHint':'100% goes to the team ♥','py.tipLbl':'Tip','py.total':'Total',
-  'dn.acctYes':'Your purchase is saved in your customer account.','dn.acctNo':'Tip: create a customer account with the same e-mail to find purchases and reservations there anytime.','dn.acctBtn':'Save to my account',
-  'py.studio':'Pay at the studio','py.studioD':'Pay and pick up at the counter',
+  'py.twint':'TWINT',
+  'py.twintD':'We e-mail you the TWINT details — done in a minute',
+  'py.card':'Card online',
+  'py.cardD':'Secure payment via Payrexx (TWINT &amp; card)',
+  'py.cardSoon':'Online payment is available for gift cards (CHF 20–500)',
+  'py.tip':'Tip for the team (optional)',
+  'py.tip0':'No tip',
+  'py.tipHint':'100% goes to the team ♥',
+  'py.tipLbl':'Tip',
+  'py.total':'Total',
+  'dn.acctYes':'Your purchase is saved in your customer account.',
+  'dn.acctNo':'Tip: create a customer account with the same e-mail to find purchases and reservations there anytime.',
+  'dn.acctBtn':'Save to my account',
+  'py.studio':'Pay at the studio',
+  'py.studioD':'Pay and pick up at the counter',
   'py.delivery':'How should the gift card arrive?',
-  'py.konto':'Into your customer account','py.kontoD':'Digital — printable as a PDF right away, stored in your LOVE account — free',
-  'py.pickup':'Pick up at the café','py.pickupD':'In a gift sleeve at Seestrasse 287B, 8804 Au ZH — free',
-  'py.mailopt':'Gift it to an e-mail','py.mailoptD':'The recipient gets an e-mail and finds the card in their customer account — free',
-  'py.post':'By post to your home','py.postD':'Gift sleeve, 2–3 working days — CHF 5 shipping & service fee',
-  'py.recipMail':'Recipient\'s e-mail','py.recipMailHint':'The card is sent only after successful payment.',
+  'py.konto':'Into your customer account',
+  'py.kontoD':'Digital — printable as a PDF right away, stored in your LOVE account — free',
+  'py.pickup':'Pick up at the café',
+  'py.pickupD':'In a gift sleeve at Seestrasse 287B, 8804 Au ZH — free',
+  'py.mailopt':'Gift it to an e-mail',
+  'py.mailoptD':'The recipient gets an e-mail and finds the card in their customer account — free',
+  'py.post':'By post to your home',
+  'py.postD':'Gift sleeve, 2–3 working days — CHF 5 shipping & service fee',
+  'py.recipMail':'Recipient\'s e-mail',
+  'py.recipMailHint':'The card is sent only after successful payment.',
   'py.address':'Shipping address',
-  'err.recipMail':'Please enter a valid e-mail for the recipient.','err.address':'We need the shipping address for postal delivery.',
-  'py.name':'Your name','py.email':'Your e-mail','py.phone':'Phone (optional)',
-  'py.back':'← Back','py.submit':'Continue to payment →','py.redirect':'You will be redirected to the secure Payrexx payment page (TWINT, credit & debit cards) and back to the order confirmation afterwards.',
-  'py.discount':'Discount code (point voucher from your LOVE account)','py.discountApply':'Apply',
-  'py.discountOk':'Discount applied: − CHF 2.00','py.discountBad':'Code invalid, not approved or already redeemed.',
-  'dn.titlePaid':'Payment received — thank you!','dn.textPaid':'Your gift card is paid. Here it is — with code and barcode.',
-  'dn.statusPaid':'Paid — gift card active','dn.statusChecking':'Confirming your payment…','dn.statusProcessing':'Payment received — confirmation follows by e-mail in a few minutes.',
-  'dn.titleFail':'Payment not completed','dn.textFail':'The payment was cancelled or declined. Your gift card is reserved — you can retry the payment.',
-  'dn.titleReserved':'Order reserved','dn.textReserved':'Online payment is temporarily unavailable. Your gift card is reserved — we will e-mail you the payment details.',
-  'dn.statusReserved':'Status: reserved — active after payment','dn.retry':'Retry payment',
-  'dn.title':'Order confirmation','dn.text':'Thank you for your order! Here is your gift card.',
-  'dn.code':'Gift card code','dn.print':'Download as PDF / print','dn.again':'Design another one',
+  'err.recipMail':'Please enter a valid e-mail for the recipient.',
+  'err.address':'We need the shipping address for postal delivery.',
+  'py.name':'Your name',
+  'py.email':'Your e-mail',
+  'py.phone':'Phone (optional)',
+  'py.back':'← Back',
+  'py.submit':'Continue to payment →',
+  'py.redirect':'You will be redirected to the secure Payrexx payment page (TWINT, credit & debit cards) and back to the order confirmation afterwards.',
+  'py.discount':'Discount code (point voucher from your LOVE account)',
+  'py.discountApply':'Apply',
+  'py.discountOk':'Discount applied: − CHF 2.00',
+  'py.discountBad':'Code invalid, not approved or already redeemed.',
+  'dn.titlePaid':'Payment received — thank you!',
+  'dn.textPaid':'Your gift card is paid. Here it is — with code and barcode.',
+  'dn.statusPaid':'Paid — gift card active',
+  'dn.statusChecking':'Confirming your payment…',
+  'dn.statusProcessing':'Payment received — confirmation follows by e-mail in a few minutes.',
+  'dn.titleFail':'Payment not completed',
+  'dn.textFail':'The payment was cancelled or declined. Your gift card is reserved — you can retry the payment.',
+  'dn.titleReserved':'Order reserved',
+  'dn.textReserved':'Online payment is temporarily unavailable. Your gift card is reserved — we will e-mail you the payment details.',
+  'dn.statusReserved':'Status: reserved — active after payment',
+  'dn.retry':'Retry payment',
+  'dn.title':'Order confirmation',
+  'dn.text':'Thank you for your order! Here is your gift card.',
+  'dn.code':'Gift card code',
+  'dn.print':'Download as PDF / print',
+  'dn.again':'Design another one',
   'dn.status':'Checking status…',
-  'rd.eyebrow':'Redeeming','rd.title':'How the gift is used',
-  'rd.s1':'Reserve','rd.s1t':'Mention the code when reserving a table or show it at the counter.',
-  'rd.s2':'Use partially','rd.s2t':'Only part of it used? The remaining balance stays on the code.',
-  'rd.s3':'5 years','rd.s3t':'Valid for five years from purchase — no rush.',
-  'rd.balance':'Check your balance','rd.balanceT':'E-mail us your code and we\'ll reply with the remaining balance — or ask at the counter.',
+  'rd.eyebrow':'Redeeming',
+  'rd.title':'How the gift is used',
+  'rd.s1':'Reserve',
+  'rd.s1t':'Mention the code when reserving a table or show it at the counter.',
+  'rd.s2':'Use partially',
+  'rd.s2t':'Only part of it used? The remaining balance stays on the code.',
+  'rd.s3':'5 years',
+  'rd.s3t':'Valid for five years from purchase — no rush.',
+  'rd.balance':'Check your balance',
+  'rd.balanceT':'E-mail us your code and we\'ll reply with the remaining balance — or ask at the counter.',
   'rd.balanceBtn':'Ask by e-mail',
-  'faq.eyebrow':'Good to know','faq.title':'Gift card questions',
-  'faq.q1':'Can the gift card be used for anything?','faq.a1':'Yes — ceramics, café, Cinema Nights, workshops and events. Experience cards can also be converted to credit.',
-  'faq.q2':'How do I get the card?','faq.a2':'Print it yourself right after ordering, pick it up at the studio, or have it mailed in a gift sleeve.',
-  'faq.q3':'Can I get cash for it?','faq.a3':'No — gift cards cannot be paid out in cash, but they can be transferred to someone else.',
-  'faq.q4':'What if the code gets lost?','faq.a4':'Write to us with the buyer\'s name and e-mail — we\'ll find the card in our ledger.',
-  'pc.kicker':'Gift card','pc.redeem':'Redeem: mention the code when reserving at lovecreative.ch or show it at the counter · valid 5 years · partial redemption possible',
-  'pc.where':'LOVE Creative Café · Seestrasse 287B · 8804 Au ZH · daily 9 am – 9 pm'
+  'faq.eyebrow':'Good to know',
+  'faq.title':'Gift card questions',
+  'faq.q1':'Can the gift card be used for anything?',
+  'faq.a1':'Yes — ceramics, café, Cinema Nights, workshops and events. Experience cards can also be converted to credit.',
+  'faq.q2':'How do I get the card?',
+  'faq.a2':'Print it yourself right after ordering, pick it up at the studio, or have it mailed in a gift sleeve.',
+  'faq.q3':'Can I get cash for it?',
+  'faq.a3':'No — gift cards cannot be paid out in cash, but they can be transferred to someone else.',
+  'faq.q4':'What if the code gets lost?',
+  'faq.a4':'Write to us with the buyer\'s name and e-mail — we\'ll find the card in our ledger.',
+  'pc.kicker':'Gift card',
+  'pc.redeem':'Redeem: mention the code when reserving at lovecreative.ch or show it at the counter · valid 5 years · partial redemption possible',
+  'pc.where':'LOVE Creative Café · Seestrasse 287B · 8804 Au ZH · Wed &amp; Fri 12–20 · Sat &amp; Sun 10–18:30'
 };
 </script>
 </head>
@@ -109,11 +181,10 @@ window.LOVE_EN = {
             <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
           </ul>
         </li>
-        <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
         <li><a href="kinoabend.html" data-i18n="nav.kino">Kinoabend</a></li>
         <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
-        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
-        <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
+        <li><a href="teamevents.html" data-i18n="nav.team">Team-Events</a></li>
+        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
       </ul>
@@ -140,7 +211,7 @@ window.LOVE_EN = {
         <a class="btn btn-ghost" href="#ablauf" data-i18n="gs.cta2">So funktioniert's</a>
       </div>
     </div>
-    <div class="arch reveal"><img src="assets/img/platzhalter.svg" alt="Regal mit bunten Tassen, Notizbüchern und Papeterie im LOVE Shop" width="1200" height="960" fetchpriority="high"></div>
+    <div class="arch reveal"><img src="assets/img/studio-regal-tassen.jpeg" alt="Regal mit bunten Tassen, Notizbüchern und Papeterie im LOVE Shop" width="1200" height="900" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -174,8 +245,8 @@ window.LOVE_EN = {
                 <label data-i18n="cf.pick">Was schenkst du?</label>
                 <div class="choice-grid" id="exGrid" role="group" aria-label="Erlebnis">
                   <button type="button" class="choice" data-kind="keramik-date" data-price="96" aria-pressed="true"><span class="t" data-i18n="ex.date">Keramik-Date für zwei</span><span class="d" data-i18n="ex.dateD">Zwei Stücke Mittel inkl. Studiozeit, Glasur und Brand</span><span class="p">CHF 96</span></button>
-                  <button type="button" class="choice" data-kind="kino-duo" data-price="165" aria-pressed="false"><span class="t" data-i18n="ex.kino">Kino-Night für zwei</span><span class="d" data-i18n="ex.kinoD">Adults Edition: Film, Keramik, ein Getränk und Crêpes</span><span class="p">CHF 165</span></button>
-                  <button type="button" class="choice" data-kind="kino-family" data-price="76" aria-pressed="false"><span class="t" data-i18n="ex.family">Family Kino-Night</span><span class="d" data-i18n="ex.familyD">Zwei Kinder: Film, Keramik, Popcorn, heisse Schoggi</span><span class="p">CHF 76</span></button>
+                  <button type="button" class="choice" data-kind="kino-duo" data-price="165" aria-pressed="false"><span class="t" data-i18n="ex.kino">Kino-Night für zwei</span><span class="d" data-i18n="ex.kinoD">Adults Edition: Film, Keramik und ein Getränk</span><span class="p">CHF 165</span></button>
+                  <button type="button" class="choice" data-kind="kino-family" data-price="76" aria-pressed="false"><span class="t" data-i18n="ex.family">Family Kino-Night</span><span class="d" data-i18n="ex.familyD">Zwei Kinder: Film, Keramik und heisse Schoggi</span><span class="p">CHF 76</span></button>
                   <button type="button" class="choice" data-kind="cafe-keramik" data-price="50" aria-pressed="false"><span class="t" data-i18n="ex.cafe">Café &amp; Keramik</span><span class="d" data-i18n="ex.cafeD">Guthaben für ein kleines Stück und etwas von der Theke</span><span class="p">CHF 50</span></button>
                   <button type="button" class="choice" data-kind="betrag" data-price="100" aria-pressed="false"><span class="t" data-i18n="ex.amount">Geschenkkarte</span><span class="d" data-i18n="ex.amountD">CHF 20–500, einlösbar für alles bei LOVE — online per Karte zahlbar</span><span class="p">CHF …</span></button>
                 </div>
@@ -237,14 +308,6 @@ window.LOVE_EN = {
                   <button type="button" class="chip" data-tip="10" aria-pressed="false">CHF 10</button>
                 </div>
                 <p class="hint" data-i18n="py.tipHint">Geht zu 100 % ans Team ♥</p>
-              </div>
-              <div class="field">
-                <label for="gDiscount" data-i18n="py.discount">Rabattcode (Punkte-Gutschein aus deinem LOVE-Konto)</label>
-                <div style="display:flex;gap:.6rem;align-items:center">
-                  <input type="text" id="gDiscount" placeholder="PKT-XXXX-XXXX" style="flex:1;text-transform:uppercase" autocomplete="off">
-                  <button type="button" class="btn btn-ghost" id="gDiscountApply" data-i18n="py.discountApply">Anwenden</button>
-                </div>
-                <p class="hint" id="gDiscountMsg" aria-live="polite"></p>
               </div>
               <div class="two-col">
                 <div class="field"><label for="gBuyer" data-i18n="py.name">Dein Name</label><input type="text" id="gBuyer" autocomplete="name"></div>
@@ -332,7 +395,7 @@ window.LOVE_EN = {
     <svg id="ppBarcode"></svg>
   </div>
   <p style="max-width:16cm;margin:0 auto;font-size:.85rem;color:#2C3A31;text-align:center" data-i18n="pc.redeem">Einlösen: Code bei der Reservation auf lovecreative.ch angeben oder an der Theke zeigen · 5 Jahre gültig · Teileinlösung möglich</p>
-  <p style="max-width:16cm;margin:.4rem auto 0;font-size:.8rem;color:#56685D;text-align:center" data-i18n="pc.where">LOVE Creative Café · Seestrasse 287B · 8804 Au ZH · täglich 09–21 Uhr</p>
+  <p style="max-width:16cm;margin:.4rem auto 0;font-size:.8rem;color:#56685D;text-align:center" data-i18n="pc.where">LOVE Creative Café · Seestrasse 287B · 8804 Au ZH · Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</p>
 </div>
 
 <footer class="site">
@@ -347,11 +410,9 @@ window.LOVE_EN = {
         <h4 data-i18n="ft.worlds">Entdecken</h4>
         <ul>
           <li><a href="index.html#preise" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
-          <li><a href="cafe.html" data-i18n="ft.cafe">Café &amp; Menü</a></li>
           <li><a href="index.html#kino" data-i18n="ft.kinoL">Kino-Night</a></li>
           <li><a href="index.html#events" data-i18n="ft.events">Events</a></li>
-          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
-          <li><a href="membership.html" data-i18n="ft.member">Membership</a></li>
+          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
         </ul>
       </div>
@@ -360,7 +421,7 @@ window.LOVE_EN = {
         <ul>
           <li>Seestrasse 287B, 8804 Au ZH</li>
           <li><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></li>
-          <li data-i18n="ft.hours">Täglich 09:00–21:00</li>
+          <li data-i18n="ft.hours">Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</li>
           <li data-i18n="ft.kino">Kino-Night: jeden Freitag</li>
           <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
         </ul>
@@ -387,12 +448,12 @@ window.LOVE_EN = {
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
-<script src="assets/js/love-data.js?v=01eaf989"></script>
-<script src="assets/js/love-site.js?v=57883088"></script>
-<script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=c83aad3e"></script>
-<script src="assets/js/love-pay.js?v=757b0b69"></script>
-<script src="assets/js/love-widget.js?v=f5389333"></script>
+<script src="assets/js/love-data.js?v=f962e5d3"></script>
+<script src="assets/js/love-site.js?v=f8e03b83"></script>
+<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-account.js?v=3b2472f0"></script>
+<script src="assets/js/love-pay.js?v=b73a853e"></script>
+<script src="assets/js/love-widget.js?v=807308db"></script>
 <script>
 (() => {
 'use strict';
@@ -502,25 +563,8 @@ $('#toStep2').addEventListener('click', () => {
 });
 $('#backTo1').addEventListener('click', () => showStep(1));
 
-/* Punkte-Rabattcode aus dem Kundenkonto anwenden */
-$('#gDiscountApply').addEventListener('click', async () => {
-  const msg = $('#gDiscountMsg');
-  const code = $('#gDiscount').value.trim().toUpperCase();
-  state.discount = 0; state.discountCode = '';
-  if (!code) { msg.textContent = ''; fillSummary(); return; }
-  try {
-    const r = await LoveCloud.call('discount_check&code=' + encodeURIComponent(code));
-    if (r.ok) {
-      state.discount = Number(r.amount) || 0;
-      state.discountCode = code;
-      msg.textContent = t('py.discountOk');
-      fillSummary();
-      return;
-    }
-  } catch (e) { /* unten Fehlermeldung */ }
-  msg.textContent = t('py.discountBad');
-  fillSummary();
-});
+/* Hier stand die Prüfung des Punkte-Rabattcodes. Rabatte sind abgeschaltet —
+ * es gilt ein Preis für alle. */
 document.querySelectorAll('#shipGrid .choice').forEach(b => b.addEventListener('click', () => pickShip(b.dataset.ship)));
 
 /* ---------- Bestellung & Zahlung (echter Shop-Checkout) ---------- */

@@ -10,34 +10,105 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=627bb210">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=3f01c37f">
-<link rel="stylesheet" href="assets/css/love-account.css?v=bb2faca7">
+<link rel="stylesheet" href="assets/css/love.css?v=1c26cbaa">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=7b08b285">
+<link rel="stylesheet" href="assets/css/love-account.css?v=900ff869">
 <script>
 window.LOVE_TITLES = { de: 'Kidscamp & Geburtstage — LOVE Creative Café, Au ZH', en: 'Kids camp & birthdays — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
-  'kg.eyebrow':'Kids camp &amp; birthdays','kg.title':'Celebrations and camps that stay.',
+  'kg.eyebrow':'Kids camp &amp; birthdays',
+  'kg.title':'Celebrations and camps that stay.',
   'kg.lead':'From birthday parties to holiday camps: the kids paint, celebrate and create — we take care of tables, colours, supervision and the cake logistics.',
-  'kg.cta1':'Plan an event','kg.cta2':'See offers',
-  'kg.bTitle':'Kids\' birthday','kg.bText':'Painting, celebrating, cake — we take care of everything. 2 hours with supervision, invitation cards included.','kg.perKid':'per child',
-  'kg.cTitle':'Holiday kids camp','kg.cText':'Half-day creative camps in the school holidays: ceramics, candles and flowers — a different project every day. Snack and drinks included.','kg.perDay':'per child & day',
-  'kg.pTitle':'Private group','kg.pText':'School class, club or family party — the studio is yours. Programme and catering as you like.','kg.onReq':'on request',
-  'kg.note':'Dates for camps are announced before every school holiday. Birthdays can be booked on any day of the week — just plan them with the event planner.',
-  'kg.cta3':'Open the event planner',
-  'kb.cta':'Book now',
-  'kb.eyebrow':'Book directly','kb.title':'Save your spot & pay online',
-  'kb.lead':'Kids camps and birthdays are paid in full when booking (TWINT or card via Payrexx). Our team then checks the request and confirms the date by e-mail.',
-  'kb.what':'What would you like to book?',
-  'kb.gebD':'2 hours with supervision, invitation cards included','kb.campD':'Half-day, snack and drinks included',
-  'kb.kids':'Number of kids','kb.days':'Number of days','kb.date':'Preferred date','kb.time':'Preferred time (optional)',
-  'kb.name':'Name','kb.mail':'E-mail','kb.phone':'Phone (optional)','kb.msg':'Note (optional)',
-  'kb.submit':'Book & pay →',
-  'kb.payHint':'You pay securely via Payrexx (TWINT, credit & debit cards). The date is final once our team confirms it by e-mail.',
-  'kb.err':'Please fill in name, a valid e-mail and a date.',
-  'kb.okPaid':'Payment received — thank you! Our team will confirm the date by e-mail.',
-  'kb.okFail':'The payment was not completed. Your request is saved — you can retry the payment.',
-  'kb.okReserved':'Online payment is temporarily unavailable. Your request is saved — we will e-mail you the payment details.',
-  'kb.retry':'Retry payment','kb.again':'New booking','kb.ref':'Reference: '
+  'kg.cta1':'Plan an event',
+  'kg.cta2':'See offers',
+  'kb.cta':'Register now',
+  'kg.oEyebrow':'Our formats',
+  'kg.oTitle':'Two formats, clearly priced',
+  'kg.bTitle':'Kids\' birthday',
+  'kg.bText':'Two and a half hours, a table just for you, supervision included. Every child paints their own piece — we glaze and fire it.',
+  'kg.b1':'Up to 9 children included, your own table',
+  'kg.b1b':'Each additional child CHF 45 — up to 20 children',
+  'kg.from':'from',
+  'kg.b2':'One ceramic piece size S per child',
+  'kg.b3':'Colours, glaze and firing included',
+  'kg.b4':'Water and syrup included',
+  'kg.b5':'You are welcome to bring a cake',
+  'kg.flat':'flat rate',
+  'kg.cTitle':'Holiday kids camp',
+  'kg.cText':'A whole week of workshop: watch a film, develop your own motifs from it, paint, glaze — and see how a kiln works.',
+  'kg.c1':'Monday to Friday, 9 am – 3 pm',
+  'kg.c2':'Lunch (delivered by a partner), morning snack and drinks included',
+  'kg.c3':'Five finished pieces to take home',
+  'kg.c4':'All materials, glaze and firing',
+  'kg.c5':'Extended care until 4:30 pm with afternoon snack: + CHF 20 per day',
+  'kg.perWeek':'per child and week',
+  'kg.pTitle':'Private group',
+  'kg.pText':'School class, club or family party — the studio is yours. Programme and catering as you like.',
+  'kg.p1':'From 21 children, or the whole studio',
+  'kg.p2':'Programme and food by arrangement',
+  'kg.p3':'Also on Monday, Tuesday and Thursday',
+  'kg.onReq':'on request',
+  'kg.note':'For birthdays, up to 9 children are included in the price of CHF 450; each additional child is CHF 45, and up to 20 children are possible. From 11 children we add a second table. Camps take place during school holidays; we confirm the week by e-mail.',
+  'kw.eyebrow':'The camp week',
+  'kw.title':'Five days, five pieces',
+  'kw.lead':'We watch a film together and turn it into something of our own: every child develops motifs, transfers them onto ceramics and follows their piece all the way into the kiln. On Friday every child goes home with five finished pieces.',
+  'kw.d1':'Monday · Film &amp; ideas',
+  'kw.d1t':'Watch together, then draw: favourite scenes become your own motifs on paper.',
+  'kw.d2':'Tuesday · Onto the piece',
+  'kw.d2t':'The motifs move onto the ceramics. We show techniques — outlines, areas, patterns.',
+  'kw.d3':'Wednesday · Colour',
+  'kw.d3t':'Painting layer by layer. Whoever is faster starts the next piece.',
+  'kw.d4':'Thursday · Glaze &amp; kiln',
+  'kw.d4t':'Glazing, loading, watching: how does colour become shine? The kiln explains itself.',
+  'kw.d5':'Friday · Unpacking',
+  'kw.d5t':'The kiln is opened. Every child packs their five pieces and takes them home.',
+  'kw.note':'Lunch, a morning snack and drinks are included in the price. Lunch is delivered fresh to the studio by a partner. Tell us what to look out for when you register — allergies, vegetarian or vegan; we pass it on without your child\'s name.',
+  'kb.eyebrow':'Registration',
+  'kb.title':'Save your spot',
+  'kb.lead':'Fill in the registration and pay online (TWINT or card). Our team then checks the date and confirms it by e-mail. We need the details about your child to look after them well — they stay with us.',
+  'kb.what':'1 · What would you like to book?',
+  'kb.gebD':'2½ hours · 9 children included · up to 20 possible',
+  'kb.campD':'Mon–Fri · 9 am – 3 pm · lunch included',
+  'kb.gebH':'2 · The party',
+  'kb.date':'Preferred date',
+  'kb.start':'Start',
+  'kb.startPh':'Choose a date first',
+  'kb.gChild':'Name of the birthday child',
+  'kb.gAge':'Turning how old?',
+  'kb.kids':'Number of children (up to 20)',
+  'kb.gAllergy':'Allergies in the group (optional)',
+  'kb.gAllergyPh':'e.g. nuts, lactose',
+  'kb.campH':'2 · The camp week',
+  'kb.cDate':'First camp day (Monday)',
+  'kb.care':'Care hours',
+  'kb.care1':'9 am – 3 pm · included',
+  'kb.care2':'9 am – 4:30 pm with afternoon snack · + CHF 20 per day',
+  'kb.kinderH':'3 · Your child',
+  'kb.kindPlus':'+ Register another child',
+  'kb.elternH':'3 · Your details',
+  'kb.pName':'First and last name',
+  'kb.mail':'E-mail',
+  'kb.pPhone':'Mobile phone',
+  'kb.pAddr':'Address (street, postcode, town)',
+  'kb.nName':'Emergency contact — name',
+  'kb.nPhone':'Emergency contact — phone',
+  'kb.nHint':'A second person we can reach if you do not pick up.',
+  'kb.msg':'Note (optional)',
+  'kb.einwH':'4 · Consent',
+  'kb.eAgb':'I have read and accept the <a href="agb.html" target="_blank" rel="noopener">terms</a> including the cancellation policy.',
+  'kb.eDsg':'I agree that LOVE Creative processes the information given here to run the event — in line with the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>. Health details are seen only by the supervisors. For the kids camp we tell the partner who delivers lunch the diet and allergies — without any name. We delete the details 30 days after the event.',
+  'kb.eSorge':'I hold parental authority for the registered child and make these declarations also on behalf of any other person holding parental authority.',
+  'kb.eNotfall':'In an emergency the team may call medical help. I will be informed immediately.',
+  'kb.eVers':'My child has health and accident insurance. Insurance is the parents\' responsibility.',
+  'kb.optLbl':'Optional — you decide',
+  'kb.fErinnerung':'You may take photos and e-mail them to me as a keepsake.',
+  'kb.fOeffentlich':'You may show photos in which my child is recognisable on your website and social media.',
+  'kb.fNews':'Send me the newsletter with new camps and dates.',
+  'kb.optHint':'Without a tick we will not photograph your child recognisably. This has no effect on participation. You can withdraw any consent at any time: hello@lovecreative.ch.',
+  'kb.submit':'Register &amp; pay →',
+  'kb.payHint':'You pay securely via Payrexx (TWINT, credit &amp; debit cards). The date is final once our team confirms it by e-mail.',
+  'kb.retry':'Retry payment',
+  'kb.again':'New registration'
 };
 </script>
 </head>
@@ -60,11 +131,10 @@ window.LOVE_EN = {
             <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
           </ul>
         </li>
-        <li><a href="cafe.html" data-i18n="nav.cafe">Café &amp; Bar</a></li>
         <li><a href="kinoabend.html" data-i18n="nav.kino">Kinoabend</a></li>
         <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
+        <li><a href="teamevents.html" data-i18n="nav.team">Team-Events</a></li>
         <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
-        <li><a href="membership.html" data-i18n="nav.membership">Membership</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
       </ul>
@@ -99,53 +169,174 @@ window.LOVE_EN = {
 
 <section class="tint" id="angebote">
   <div class="wrap">
+    <p class="eyebrow" data-i18n="kg.oEyebrow">Unsere Angebote</p>
+    <h2 class="sect-title" data-i18n="kg.oTitle">Zwei Formate, klar gerechnet</h2>
     <div class="grid-3">
-      <div class="card reveal"><h3 data-i18n="kg.bTitle">Kindergeburtstag</h3><p data-i18n="kg.bText">Bemalen, Feiern, Kuchen — wir kümmern uns um alles. 2 Stunden mit Betreuung, Einladungskarten inklusive.</p><span class="tag">CHF 45 <span data-i18n="kg.perKid">pro Kind</span></span></div>
-      <div class="card reveal"><h3 data-i18n="kg.cTitle">Ferien-Kidscamp</h3><p data-i18n="kg.cText">Halbtägige Kreativ-Camps in den Schulferien: Keramik, Kerzen und Blumen — jeden Tag ein anderes Projekt. Znüni und Getränke inklusive.</p><span class="tag">CHF 65 <span data-i18n="kg.perDay">pro Kind &amp; Tag</span></span></div>
-      <div class="card reveal"><h3 data-i18n="kg.pTitle">Private Gruppe</h3><p data-i18n="kg.pText">Schulklasse, Verein oder Familienfest — das Studio gehört euch. Programm und Verpflegung nach Wunsch.</p><span class="tag" data-i18n="kg.onReq">auf Anfrage</span></div>
+
+      <div class="card reveal">
+        <h3 data-i18n="kg.bTitle">Kindergeburtstag</h3>
+        <p data-i18n="kg.bText">Zweieinhalb Stunden, ein eigener Tisch nur für euch, Betreuung inklusive. Jedes Kind bemalt ein eigenes Stück — wir glasieren und brennen es.</p>
+        <ul class="tick">
+          <li data-i18n="kg.b1">Bis 9 Kinder im Preis, eigener Tisch</li>
+          <li data-i18n="kg.b1b">Jedes weitere Kind CHF 45 — bis 20 Kinder</li>
+          <li data-i18n="kg.b2">Pro Kind ein Keramikstück Grösse S</li>
+          <li data-i18n="kg.b3">Farben, Glasur und Brand inklusive</li>
+          <li data-i18n="kg.b4">Wasser und Sirup inklusive</li>
+          <li data-i18n="kg.b5">Kuchen dürft ihr mitbringen</li>
+        </ul>
+        <span class="tag"><span data-i18n="kg.from">ab</span> CHF 450</span>
+      </div>
+
+      <div class="card reveal">
+        <h3 data-i18n="kg.cTitle">Ferien-Kidscamp</h3>
+        <p data-i18n="kg.cText">Eine ganze Woche Werkstatt: Film schauen, eigene Motive daraus entwickeln, bemalen, glasieren — und dabei sehen, wie ein Brennofen arbeitet.</p>
+        <ul class="tick">
+          <li data-i18n="kg.c1">Montag bis Freitag, 09:00–15:00</li>
+          <li data-i18n="kg.c2">Mittagessen (vom Partner geliefert), Znüni und Getränke inklusive</li>
+          <li data-i18n="kg.c3">Fünf fertige Stücke zum Mitnehmen</li>
+          <li data-i18n="kg.c4">Alle Materialien, Glasur und Brand</li>
+          <li data-i18n="kg.c5">Randbetreuung bis 16:30 mit Zvieri: + CHF 20 pro Tag</li>
+        </ul>
+        <span class="tag">CHF 590 <span data-i18n="kg.perWeek">pro Kind und Woche</span></span>
+      </div>
+
+      <div class="card reveal">
+        <h3 data-i18n="kg.pTitle">Private Gruppe</h3>
+        <p data-i18n="kg.pText">Schulklasse, Verein oder Familienfest — das Studio gehört euch. Programm und Verpflegung nach Wunsch.</p>
+        <ul class="tick">
+          <li data-i18n="kg.p1">Ab 21 Kindern oder ganzes Studio</li>
+          <li data-i18n="kg.p2">Programm und Essen nach Absprache</li>
+          <li data-i18n="kg.p3">Auch an Montag, Dienstag und Donnerstag</li>
+        </ul>
+        <span class="tag" data-i18n="kg.onReq">auf Anfrage</span>
+      </div>
+
     </div>
-    <p class="sect-lead" style="margin-top:2rem" data-i18n="kg.note">Camp-Termine kündigen wir vor jeden Schulferien an. Geburtstage sind an allen Wochentagen buchbar — plant sie einfach über den Eventplaner.</p>
-    <p style="margin-top:1rem"><a class="btn btn-rose" href="index.html#eventplaner" data-i18n="kg.cta3">Zum Eventplaner</a></p>
+    <p class="sect-lead" style="margin-top:2rem" data-i18n="kg.note">Beim Geburtstag sind bis 9 Kinder im Preis von CHF 450 enthalten; jedes weitere Kind kostet CHF 45, möglich sind bis 20 Kinder. Ab 11 Kindern stellen wir einen zweiten Tisch dazu. Camps finden in den Schulferien statt; wir bestätigen die Woche per E-Mail.</p>
   </div>
 </section>
 
+<section id="woche">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="kw.eyebrow">Die Camp-Woche</p>
+    <h2 class="sect-title" data-i18n="kw.title">Fünf Tage, fünf Stücke</h2>
+    <p class="sect-lead" data-i18n="kw.lead">Wir schauen gemeinsam einen Film und machen daraus etwas Eigenes: Jedes Kind entwickelt Motive, überträgt sie auf Keramik und begleitet sein Stück bis in den Brennofen. Am Freitag geht jedes Kind mit fünf fertigen Stücken nach Hause.</p>
+    <div class="steps">
+      <div class="step reveal"><h3 data-i18n="kw.d1">Montag · Film &amp; Ideen</h3><p data-i18n="kw.d1t">Gemeinsam schauen, dann zeichnen: Aus den Lieblingsszenen entstehen eigene Motive auf Papier.</p></div>
+      <div class="step reveal"><h3 data-i18n="kw.d2">Dienstag · Aufs Stück</h3><p data-i18n="kw.d2t">Die Motive wandern auf die Keramik. Wir zeigen Techniken — Umrisse, Flächen, Muster.</p></div>
+      <div class="step reveal"><h3 data-i18n="kw.d3">Mittwoch · Farbe</h3><p data-i18n="kw.d3t">Schicht für Schicht bemalen. Wer schneller ist, beginnt das nächste Stück.</p></div>
+      <div class="step reveal"><h3 data-i18n="kw.d4">Donnerstag · Glasur &amp; Ofen</h3><p data-i18n="kw.d4t">Glasieren, einräumen, zuschauen: Wie wird aus Farbe Glanz? Der Brennofen erklärt sich selbst.</p></div>
+      <div class="step reveal"><h3 data-i18n="kw.d5">Freitag · Auspacken</h3><p data-i18n="kw.d5t">Der Ofen wird geöffnet. Jedes Kind packt seine fünf Stücke ein und nimmt sie mit nach Hause.</p></div>
+    </div>
+    <p class="hint" style="margin-top:1.2rem" data-i18n="kw.note">Mittagessen, Znüni und Getränke sind im Preis inbegriffen. Das Mittagessen liefert uns ein Partner frisch ins Studio. Sag uns bei der Anmeldung, worauf wir achten müssen — Allergien, vegetarisch oder vegan; wir geben es ohne den Namen deines Kindes weiter.</p>
+  </div>
+</section>
+
+
 <section id="buchen">
   <div class="wrap">
-    <p class="eyebrow" data-i18n="kb.eyebrow">Direkt buchen</p>
-    <h2 class="sect-title" data-i18n="kb.title">Platz sichern &amp; online bezahlen</h2>
-    <p class="sect-lead" data-i18n="kb.lead">Kidscamp und Kindergeburtstag werden beim Buchen vollständig online bezahlt (TWINT oder Karte via Payrexx). Danach prüft unser Team die Anfrage und bestätigt den Termin per E-Mail.</p>
+    <p class="eyebrow" data-i18n="kb.eyebrow">Anmeldung</p>
+    <h2 class="sect-title" data-i18n="kb.title">Platz sichern</h2>
+    <p class="sect-lead" data-i18n="kb.lead">Füll die Anmeldung aus und bezahl online (TWINT oder Karte). Danach prüft unser Team den Termin und bestätigt ihn per E-Mail. Die Angaben zum Kind brauchen wir, damit wir es gut betreuen können — sie bleiben bei uns.</p>
     <div class="panel reveal"><div class="panel-body">
-      <div id="kbForm">
-        <div class="field">
-          <label data-i18n="kb.what">Was möchtest du buchen?</label>
+      <form id="kbForm" novalidate>
+
+        <div class="anm-block">
+          <h3 data-i18n="kb.what">1 · Was möchtest du buchen?</h3>
           <div class="choice-grid" id="kbGrid" role="group" aria-label="Angebot">
-            <button type="button" class="choice" data-kb="geburtstag" data-price="45" aria-pressed="true"><span class="t" data-i18n="kg.bTitle">Kindergeburtstag</span><span class="d" data-i18n="kb.gebD">2 Stunden mit Betreuung, Einladungskarten inklusive</span><span class="p">CHF 45 <span data-i18n="kg.perKid">pro Kind</span></span></button>
-            <button type="button" class="choice" data-kb="kidscamp" data-price="65" aria-pressed="false"><span class="t" data-i18n="kg.cTitle">Ferien-Kidscamp</span><span class="d" data-i18n="kb.campD">Halbtags, inkl. Znüni und Getränke</span><span class="p">CHF 65 <span data-i18n="kg.perDay">pro Kind &amp; Tag</span></span></button>
+            <button type="button" class="choice" data-kb="geburtstag" aria-pressed="true"><span class="t" data-i18n="kg.bTitle">Kindergeburtstag</span><span class="d" data-i18n="kb.gebD">2½ Stunden · 9 Kinder im Preis · bis 20 möglich</span><span class="p"><span data-i18n="kg.from">ab</span> CHF 450</span></button>
+            <button type="button" class="choice" data-kb="kidscamp" aria-pressed="false"><span class="t" data-i18n="kg.cTitle">Ferien-Kidscamp</span><span class="d" data-i18n="kb.campD">Mo–Fr · 09–15 Uhr · Mittagessen inklusive</span><span class="p">CHF 590 <span data-i18n="kg.perWeek">pro Kind und Woche</span></span></button>
           </div>
         </div>
-        <div class="two-col">
-          <div class="field"><label for="kbKids" data-i18n="kb.kids">Anzahl Kinder</label><input type="number" id="kbKids" min="1" max="20" value="6"></div>
-          <div class="field hidden" id="kbTageWrap"><label for="kbTage" data-i18n="kb.days">Anzahl Tage</label><input type="number" id="kbTage" min="1" max="5" value="1"></div>
+
+        <!-- ═══ Kindergeburtstag ═══ -->
+        <div class="anm-block" id="blockGeb">
+          <h3 data-i18n="kb.gebH">2 · Das Fest</h3>
+          <div class="two-col">
+            <div class="field"><label for="gDate" data-i18n="kb.date">Wunschdatum</label><input type="date" id="gDate"></div>
+            <div class="field"><label for="gStart" data-i18n="kb.start">Beginn</label><select id="gStart"><option value="" data-i18n="kb.startPh">Zuerst Datum wählen</option></select></div>
+          </div>
+          <p class="hint" id="gDateHint" aria-live="polite"></p>
+          <div class="two-col">
+            <div class="field"><label for="gChild" data-i18n="kb.gChild">Name des Geburtstagskinds</label><input id="gChild" autocomplete="off"></div>
+            <div class="field"><label for="gAge" data-i18n="kb.gAge">Wird wie alt?</label><input type="number" id="gAge" min="3" max="16" inputmode="numeric"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="gKids" data-i18n="kb.kids">Anzahl Kinder (bis 20)</label><input type="number" id="gKids" min="1" max="20" value="8" inputmode="numeric"></div>
+            <div class="field"><label for="gAllergy" data-i18n="kb.gAllergy">Allergien in der Gruppe (optional)</label><input id="gAllergy" data-i18n-ph="kb.gAllergyPh" placeholder="z. B. Nüsse, Laktose"></div>
+          </div>
         </div>
-        <div class="two-col">
-          <div class="field"><label for="kbDate" data-i18n="kb.date">Wunschdatum</label><input type="date" id="kbDate"></div>
-          <div class="field"><label for="kbTime" data-i18n="kb.time">Wunschzeit (optional)</label><input type="text" id="kbTime" placeholder="z. B. 14:00–16:00"></div>
+
+        <!-- ═══ Kidscamp ═══ -->
+        <div class="anm-block hidden" id="blockCamp">
+          <h3 data-i18n="kb.campH">2 · Die Camp-Woche</h3>
+          <div class="two-col">
+            <div class="field"><label for="cDate" data-i18n="kb.cDate">Erster Camp-Tag (Montag)</label><input type="date" id="cDate"></div>
+            <div class="field">
+              <label for="cCare" data-i18n="kb.care">Betreuungszeit</label>
+              <select id="cCare">
+                <option value="standard" data-i18n="kb.care1">09:00–15:00 · im Preis inbegriffen</option>
+                <option value="lang" data-i18n="kb.care2">09:00–16:30 mit Zvieri · + CHF 20 pro Tag</option>
+              </select>
+            </div>
+          </div>
+          <p class="hint" id="cDateHint" aria-live="polite"></p>
         </div>
-        <div class="two-col">
-          <div class="field"><label for="kbName" data-i18n="kb.name">Name</label><input id="kbName" autocomplete="name"></div>
-          <div class="field"><label for="kbMail" data-i18n="kb.mail">E-Mail</label><input id="kbMail" type="email" autocomplete="email"></div>
+
+        <div class="anm-block hidden" id="blockKinder">
+          <h3 data-i18n="kb.kinderH">3 · Dein Kind</h3>
+          <div id="kinderListe"></div>
+          <button type="button" class="btn btn-ghost btn-sm" id="kindPlus" data-i18n="kb.kindPlus">+ Weiteres Kind anmelden</button>
         </div>
-        <div class="two-col">
-          <div class="field"><label for="kbPhone" data-i18n="kb.phone">Telefon (optional)</label><input id="kbPhone" type="tel" autocomplete="tel"></div>
-          <div class="field"><label for="kbMsg" data-i18n="kb.msg">Bemerkung (optional)</label><input id="kbMsg"></div>
+
+        <!-- ═══ Eltern ═══ -->
+        <div class="anm-block">
+          <h3 id="elternH" data-i18n="kb.elternH">3 · Deine Angaben</h3>
+          <div class="two-col">
+            <div class="field"><label for="pName" data-i18n="kb.pName">Vor- und Nachname</label><input id="pName" autocomplete="name"></div>
+            <div class="field"><label for="pMail" data-i18n="kb.mail">E-Mail</label><input id="pMail" type="email" autocomplete="email"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="pPhone" data-i18n="kb.pPhone">Mobiltelefon</label><input id="pPhone" type="tel" autocomplete="tel"></div>
+            <div class="field camp-only hidden"><label for="pAddr" data-i18n="kb.pAddr">Adresse (Strasse, PLZ, Ort)</label><input id="pAddr" autocomplete="street-address"></div>
+          </div>
+          <div class="two-col camp-only hidden">
+            <div class="field"><label for="nName" data-i18n="kb.nName">Notfallkontakt — Name</label><input id="nName" autocomplete="off"></div>
+            <div class="field"><label for="nPhone" data-i18n="kb.nPhone">Notfallkontakt — Telefon</label><input id="nPhone" type="tel" autocomplete="off"></div>
+          </div>
+          <p class="hint camp-only hidden" data-i18n="kb.nHint">Eine zweite Person, die wir erreichen, falls du nicht abnimmst.</p>
+          <div class="field"><label for="pMsg" data-i18n="kb.msg">Bemerkung (optional)</label><input id="pMsg"></div>
         </div>
+
+        <!-- ═══ Einwilligungen ═══ -->
+        <div class="anm-block">
+          <h3 id="einwH" data-i18n="kb.einwH">4 · Einverständnis</h3>
+
+          <label class="check"><input type="checkbox" id="eAgb"><span data-i18n="kb.eAgb">Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB</a> mit den Stornobedingungen gelesen und akzeptiere sie.</span></label>
+          <label class="check"><input type="checkbox" id="eDsg"><span data-i18n="kb.eDsg">Ich bin einverstanden, dass LOVE Creative die hier gemachten Angaben für die Durchführung bearbeitet — gemäss <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a>. Gesundheitsangaben sehen nur die Betreuungspersonen. Beim Kidscamp nennen wir dem Partner, der das Mittagessen liefert, Ernährungsform und Allergien — ohne Namen. Wir löschen die Angaben 30 Tage nach dem Anlass.</span></label>
+          <label class="check"><input type="checkbox" id="eSorge"><span data-i18n="kb.eSorge">Ich bin für das angemeldete Kind sorgeberechtigt und gebe diese Erklärungen auch im Namen einer weiteren sorgeberechtigten Person ab.</span></label>
+          <label class="check camp-only hidden"><input type="checkbox" id="eNotfall"><span data-i18n="kb.eNotfall">Im Notfall darf das Team ärztliche Hilfe holen. Ich werde sofort informiert.</span></label>
+          <label class="check camp-only hidden"><input type="checkbox" id="eVers"><span data-i18n="kb.eVers">Mein Kind ist kranken- und unfallversichert. Die Versicherung ist Sache der Eltern.</span></label>
+
+          <div class="anm-opt">
+            <p class="lbl" data-i18n="kb.optLbl">Freiwillig — du entscheidest</p>
+            <label class="check"><input type="checkbox" id="fErinnerung"><span data-i18n="kb.fErinnerung">Ihr dürft Fotos machen und sie mir als Erinnerung per E-Mail schicken.</span></label>
+            <label class="check"><input type="checkbox" id="fOeffentlich"><span data-i18n="kb.fOeffentlich">Ihr dürft Fotos, auf denen mein Kind zu erkennen ist, auf eurer Website und auf Social Media zeigen.</span></label>
+            <label class="check"><input type="checkbox" id="fNews"><span data-i18n="kb.fNews">Schickt mir den Newsletter mit neuen Camps und Terminen.</span></label>
+            <p class="hint" style="margin:.4rem 0 0" data-i18n="kb.optHint">Ohne Häkchen fotografieren wir dein Kind nicht erkennbar. Das hat keinen Einfluss auf die Teilnahme. Du kannst jede Einwilligung jederzeit widerrufen: hello@lovecreative.ch.</p>
+          </div>
+        </div>
+
+        <div class="anm-sum" id="kbSum"></div>
+
         <div class="p-nav" style="align-items:center">
-          <b id="kbTotal" style="font-size:1.25rem;color:var(--green)">CHF 270</b>
-          <button type="button" class="btn btn-rose" id="kbSubmit" data-i18n="kb.submit">Kostenpflichtig buchen →</button>
+          <span></span>
+          <button type="submit" class="btn btn-rose" id="kbSubmit" data-i18n="kb.submit">Kostenpflichtig anmelden →</button>
         </div>
+        <p class="form-err" id="kbErr" aria-live="assertive"></p>
         <p class="hint" style="margin-top:.6rem" data-i18n="kb.payHint">Bezahlt wird sicher über Payrexx (TWINT, Kredit- &amp; Debitkarte). Der Termin gilt, sobald unser Team ihn per E-Mail bestätigt.</p>
-        <p class="form-err" id="kbErr" aria-live="polite"></p>
-      </div>
+      </form>
+
       <div id="kbDone" class="hidden">
         <div class="success">
           <h3 id="kbDoneTitle"></h3>
@@ -153,7 +344,7 @@ window.LOVE_EN = {
           <p class="hint" id="kbDoneRef"></p>
           <div class="hero-ctas" style="justify-content:center;margin-top:1rem">
             <button type="button" class="btn btn-rose hidden" id="kbRetry" data-i18n="kb.retry">Zahlung erneut versuchen</button>
-            <button type="button" class="btn btn-ghost" id="kbAgain" data-i18n="kb.again">Neue Buchung</button>
+            <button type="button" class="btn btn-ghost" id="kbAgain" data-i18n="kb.again">Neue Anmeldung</button>
           </div>
         </div>
       </div>
@@ -175,11 +366,10 @@ window.LOVE_EN = {
         <h4 data-i18n="ft.worlds">Entdecken</h4>
         <ul>
           <li><a href="walkin.html" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
-          <li><a href="cafe.html" data-i18n="ft.cafe">Café &amp; Menü</a></li>
           <li><a href="kinoabend.html" data-i18n="ft.kinoL">Kino-Night</a></li>
           <li><a href="kidscamp.html" data-i18n="ft.events">Events</a></li>
+          <li><a href="teamevents.html" data-i18n="ft.firmen">Team- &amp; Firmenevents</a></li>
           <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
-          <li><a href="membership.html" data-i18n="ft.member">Membership</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
         </ul>
       </div>
@@ -188,7 +378,7 @@ window.LOVE_EN = {
         <ul>
           <li>Seestrasse 287B, 8804 Au ZH</li>
           <li><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></li>
-          <li data-i18n="ft.hours">Täglich 09:00–21:00</li>
+          <li data-i18n="ft.hours">Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</li>
           <li data-i18n="ft.kino">Kino-Night: jeden Freitag</li>
           <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
         </ul>
@@ -214,91 +404,335 @@ window.LOVE_EN = {
   </div>
 </footer>
 
-<script src="assets/js/love-data.js?v=01eaf989"></script>
-<script src="assets/js/love-site.js?v=57883088"></script>
-<script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=c83aad3e"></script>
-<script src="assets/js/love-pay.js?v=757b0b69"></script>
-<script src="assets/js/love-widget.js?v=f5389333"></script>
+<script src="assets/js/love-data.js?v=f962e5d3"></script>
+<script src="assets/js/love-site.js?v=f8e03b83"></script>
+<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-account.js?v=3b2472f0"></script>
+<script src="assets/js/love-pay.js?v=b73a853e"></script>
+<script src="assets/js/love-widget.js?v=807308db"></script>
 <script>
-/* Kidscamp & Kindergeburtstag: buchen + vollen Betrag direkt über Payrexx bezahlen */
+/* Anmeldung Kidscamp & Kindergeburtstag
+ *
+ * Preise (Entscheid 20.09.2026):
+ *   Kindergeburtstag  CHF 450 für bis zu 9 Kinder · jedes weitere Kind + CHF 45 · höchstens 20
+ *                     2½ Stunden · eigener Tisch (ab 11 Kindern ein zweiter)
+ *                     pro Kind ein Stück Grösse S · Wasser und Sirup inklusive
+ *   Ferien-Kidscamp   CHF 590 pro Kind und Woche · Mo–Fr · 09–15 Uhr
+ *                     Mittagessen, Znüni, Getränke, fünf fertige Stücke inklusive
+ *   Randbetreuung     bis 16:30 Uhr mit Zvieri · + CHF 20 pro Kind und Tag (= +100 pro Woche)
+ *
+ * Der Sockel beim Geburtstag ist Absicht: Der Tisch ist für die Zeit blockiert,
+ * ob fünf oder neun Kinder kommen. Erst das zehnte Kind kostet zusätzlich.
+ */
 (() => {
 'use strict';
 const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
 const chf = n => 'CHF ' + Number(n).toFixed(0);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const PREIS = { geburtstag: 450, gebInklKinder: 9, gebZusatzKind: 45, gebMaxKinder: 20, gebDauerMin: 150,
+  camp: 590, randProTag: 20, campTage: 5, maxKinderProAnmeldung: 4 };
+
 const M = {
-  de: { err: 'Bitte Name, gültige E-Mail und ein Datum angeben.',
-        okPaid: 'Zahlung erhalten — vielen Dank! Unser Team bestätigt dir den Termin per E-Mail.',
-        okFail: 'Die Zahlung wurde nicht abgeschlossen. Deine Anfrage ist gespeichert — du kannst die Zahlung erneut versuchen.',
-        okReserved: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Anfrage ist gespeichert — wir melden uns per E-Mail mit den Zahlungsdetails.',
-        titlePaid: 'Zahlung erhalten!', titleFail: 'Zahlung nicht abgeschlossen', titleReserved: 'Anfrage gespeichert', ref: 'Referenz: ' },
-  en: { err: 'Please fill in name, a valid e-mail and a date.',
-        okPaid: 'Payment received — thank you! Our team will confirm the date by e-mail.',
-        okFail: 'The payment was not completed. Your request is saved — you can retry the payment.',
-        okReserved: 'Online payment is temporarily unavailable. Your request is saved — we will e-mail you the payment details.',
-        titlePaid: 'Payment received!', titleFail: 'Payment not completed', titleReserved: 'Request saved', ref: 'Reference: ' }
+  de: {
+    h3Geb: '3 · Deine Angaben', h4Geb: '4 · Einverständnis', h3Camp: '4 · Deine Angaben', h4Camp: '5 · Einverständnis',
+    kind: n => 'Kind ' + n, rm: 'entfernen',
+    vor: 'Vorname', nach: 'Nachname', geb: 'Geburtsdatum',
+    essen: 'Ernährung', essen0: 'isst alles', essen1: 'vegetarisch', essen2: 'vegan', essen3: 'anderes — siehe Allergien',
+    allergie: 'Allergien und Unverträglichkeiten', allergiePh: 'z. B. Nüsse, Gluten, Laktose — oder «keine»',
+    gesund: 'Was sollen wir wissen? (Medikamente, Gesundheit, Besonderes)', gesundPh: 'optional — nur was für die Betreuung wichtig ist',
+    heim: 'Heimweg', heim0: 'wird abgeholt', heim1: 'darf allein nach Hause gehen',
+    abhol: 'Wer darf das Kind abholen?', abholPh: 'Namen der abholberechtigten Personen',
+    startPh: 'Zuerst Datum wählen', startWahl: 'Bitte wählen',
+    zuHinweis: 'An diesem Tag haben wir regulär geschlossen — für euren Geburtstag öffnen wir gern. Wir bestätigen die Zeit per E-Mail.',
+    keinMontag: 'Das Camp beginnt immer an einem Montag — bitte einen Montag wählen.',
+    campBis: (a, b) => `Camp-Woche: ${a} bis ${b}`,
+    sGeb: 'Kindergeburtstag · bis 9 Kinder', sGebPlus: n => `${n} weitere${n === 1 ? 's' : ''} Kind${n === 1 ? '' : 'er'} × CHF ${PREIS.gebZusatzKind}`, sCamp: n => `Ferien-Kidscamp · ${n} Kind${n === 1 ? '' : 'er'} × CHF ${PREIS.camp}`,
+    sRand: n => `Randbetreuung bis 16:30 · ${n} Kind${n === 1 ? '' : 'er'} × 5 Tage × CHF ${PREIS.randProTag}`, sTotal: 'Total',
+    errPflicht: 'Bitte füll alle Pflichtfelder aus: ', errMail: 'Bitte gib eine gültige E-Mail-Adresse an.',
+    errEinw: 'Bitte bestätige die nötigen Einverständnisse — ohne sie können wir die Anmeldung nicht annehmen.',
+    errKinder: 'Ein Kindergeburtstag ist für höchstens 20 Kinder möglich. Für grössere Gruppen planen wir gern etwas Eigenes — schreib uns an hello@lovecreative.ch.',
+    fDatum: 'Datum', fStart: 'Beginn', fGebKind: 'Name des Geburtstagskinds', fName: 'dein Name', fTel: 'Mobiltelefon',
+    fAdr: 'Adresse', fNot: 'Notfallkontakt (Name und Telefon)', fKindName: n => `Kind ${n}: Vor- und Nachname`,
+    fKindGeb: n => `Kind ${n}: Geburtsdatum`, fKindAll: n => `Kind ${n}: Allergien (oder «keine»)`, fKindAbh: n => `Kind ${n}: abholberechtigte Personen`,
+    okPaid: 'Zahlung erhalten — vielen Dank! Unser Team bestätigt dir den Termin per E-Mail.',
+    okFail: 'Die Zahlung wurde nicht abgeschlossen. Deine Anmeldung ist gespeichert — du kannst die Zahlung erneut versuchen.',
+    okReserved: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Anmeldung ist bei uns angekommen — wir melden uns per E-Mail mit den Zahlungsdetails.',
+    okLost: 'Deine Anmeldung konnte gerade nicht übermittelt werden. Bitte schick sie uns per E-Mail an hello@lovecreative.ch oder versuch es in ein paar Minuten noch einmal — sonst wissen wir nichts davon.',
+    titlePaid: 'Zahlung erhalten!', titleFail: 'Zahlung nicht abgeschlossen', titleReserved: 'Anmeldung angekommen', titleLost: 'Noch nicht angekommen', ref: 'Referenz: '
+  },
+  en: {
+    h3Geb: '3 · Your details', h4Geb: '4 · Consent', h3Camp: '4 · Your details', h4Camp: '5 · Consent',
+    kind: n => 'Child ' + n, rm: 'remove',
+    vor: 'First name', nach: 'Last name', geb: 'Date of birth',
+    essen: 'Diet', essen0: 'eats everything', essen1: 'vegetarian', essen2: 'vegan', essen3: 'other — see allergies',
+    allergie: 'Allergies and intolerances', allergiePh: 'e.g. nuts, gluten, lactose — or "none"',
+    gesund: 'What should we know? (medication, health, anything special)', gesundPh: 'optional — only what matters for care',
+    heim: 'Way home', heim0: 'will be picked up', heim1: 'may go home alone',
+    abhol: 'Who may pick up the child?', abholPh: 'Names of the authorised persons',
+    startPh: 'Choose a date first', startWahl: 'Please choose',
+    zuHinweis: 'We are normally closed on this day — but we will gladly open for your birthday. We confirm the time by e-mail.',
+    keinMontag: 'The camp always starts on a Monday — please choose a Monday.',
+    campBis: (a, b) => `Camp week: ${a} to ${b}`,
+    sGeb: 'Kids\' birthday · up to 9 children', sGebPlus: n => `${n} additional child${n === 1 ? '' : 'ren'} × CHF ${PREIS.gebZusatzKind}`, sCamp: n => `Holiday kids camp · ${n} child${n === 1 ? '' : 'ren'} × CHF ${PREIS.camp}`,
+    sRand: n => `Extended care until 4:30 pm · ${n} child${n === 1 ? '' : 'ren'} × 5 days × CHF ${PREIS.randProTag}`, sTotal: 'Total',
+    errPflicht: 'Please fill in all required fields: ', errMail: 'Please enter a valid e-mail address.',
+    errEinw: 'Please confirm the required consents — we cannot accept the registration without them.',
+    errKinder: 'A kids\' birthday is possible for up to 20 children. For larger groups we will gladly plan something of its own — write to hello@lovecreative.ch.',
+    fDatum: 'date', fStart: 'start time', fGebKind: 'name of the birthday child', fName: 'your name', fTel: 'mobile phone',
+    fAdr: 'address', fNot: 'emergency contact (name and phone)', fKindName: n => `child ${n}: first and last name`,
+    fKindGeb: n => `child ${n}: date of birth`, fKindAll: n => `child ${n}: allergies (or "none")`, fKindAbh: n => `child ${n}: authorised persons`,
+    okPaid: 'Payment received — thank you! Our team will confirm the date by e-mail.',
+    okFail: 'The payment was not completed. Your registration is saved — you can retry the payment.',
+    okReserved: 'Online payment is temporarily unavailable. Your registration has reached us — we will e-mail you the payment details.',
+    okLost: 'Your registration could not be transmitted just now. Please e-mail it to hello@lovecreative.ch or try again in a few minutes — otherwise we will not know about it.',
+    titlePaid: 'Payment received!', titleFail: 'Payment not completed', titleReserved: 'Registration received', titleLost: 'Not received yet', ref: 'Reference: '
+  }
 };
 const m = () => M[LoveSite.lang()] || M.de;
-const state = { kind: 'geburtstag', price: 45 };
+const state = { kind: 'geburtstag', kinder: 1 };
 
-function total() {
-  const kids = Math.max(1, Number($('#kbKids').value) || 1);
-  const tage = state.kind === 'kidscamp' ? Math.max(1, Number($('#kbTage').value) || 1) : 1;
-  return state.price * kids * tage;
+/* ═══════════ Angebot umschalten ═══════════ */
+function zeigeAngebot() {
+  const camp = state.kind === 'kidscamp';
+  $('#blockGeb').classList.toggle('hidden', camp);
+  $('#blockCamp').classList.toggle('hidden', !camp);
+  $('#blockKinder').classList.toggle('hidden', !camp);
+  $$('.camp-only').forEach(e => e.classList.toggle('hidden', !camp));
+  $('#elternH').textContent = camp ? m().h3Camp : m().h3Geb;
+  $('#einwH').textContent = camp ? m().h4Camp : m().h4Geb;
+  if (camp && !$('#kinderListe').children.length) zeichneKinder();
+  zeichneSumme();
 }
-function renderTotal() { $('#kbTotal').textContent = chf(total()); }
-
-document.querySelectorAll('#kbGrid .choice').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('#kbGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-  state.kind = b.dataset.kb; state.price = Number(b.dataset.price);
-  $('#kbTageWrap').classList.toggle('hidden', state.kind !== 'kidscamp');
-  renderTotal();
+$$('#kbGrid .choice').forEach(b => b.addEventListener('click', () => {
+  $$('#kbGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  state.kind = b.dataset.kb;
+  $('#kbErr').textContent = '';
+  zeigeAngebot();
 }));
-['kbKids', 'kbTage'].forEach(id => $('#' + id).addEventListener('input', renderTotal));
-/* Wunschdatum: frühestens morgen */
-(() => { const d = new Date(Date.now() + 864e5); $('#kbDate').min = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); })();
-renderTotal();
 
-function showDone(kind, id, grand) {
+/* ═══════════ Geburtstag: Startzeiten aus den Öffnungszeiten ═══════════
+   Ein Fest dauert 2½ Stunden und muss vor Ladenschluss enden. An den regulär
+   geschlossenen Tagen (Mo, Di, Do) öffnen wir für Gruppen — dort sind freie
+   Zeiten zwischen 10 und 17 Uhr wählbar, bestätigt wird per E-Mail. */
+const zuMin = s => { const [h, mi] = s.split(':').map(Number); return h * 60 + mi; };
+const zuText = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+function startzeiten(dateISO) {
+  if (!dateISO) return [];
+  const tag = LoveTables.OEFFNUNG[new Date(dateISO + 'T12:00:00').getDay()];
+  const von = tag ? zuMin(tag.von) : 600, bis = tag ? zuMin(tag.bis) : 1170;
+  const out = [];
+  for (let t = von; t + PREIS.gebDauerMin <= bis; t += 30) out.push(zuText(t) + '–' + zuText(t + PREIS.gebDauerMin));
+  return out;
+}
+function zeichneStart() {
+  const d = $('#gDate').value, sel = $('#gStart'), vorher = sel.value;
+  const zeiten = startzeiten(d);
+  sel.innerHTML = zeiten.length
+    ? `<option value="">${esc(m().startWahl)}</option>` + zeiten.map(z => `<option${z === vorher ? ' selected' : ''}>${z}</option>`).join('')
+    : `<option value="">${esc(m().startPh)}</option>`;
+  $('#gDateHint').textContent = d && !LoveTables.isOpen(d) ? m().zuHinweis : '';
+}
+$('#gDate').addEventListener('input', zeichneStart);
+
+/* ═══════════ Camp: Woche ═══════════ */
+const fmtTag = iso => new Date(iso + 'T12:00:00').toLocaleDateString(LoveSite.lang() === 'en' ? 'en-GB' : 'de-CH', { weekday: 'short', day: 'numeric', month: 'long' });
+function pruefeCampDatum() {
+  const d = $('#cDate').value, h = $('#cDateHint');
+  if (!d) { h.textContent = ''; h.style.color = ''; return false; }
+  if (new Date(d + 'T12:00:00').getDay() !== 1) { h.textContent = m().keinMontag; h.style.color = '#a4243b'; return false; }
+  const fr = new Date(new Date(d + 'T12:00:00').getTime() + 4 * 864e5).toISOString().slice(0, 10);
+  h.textContent = m().campBis(fmtTag(d), fmtTag(fr)); h.style.color = '';
+  return true;
+}
+$('#cDate').addEventListener('input', pruefeCampDatum);
+$('#cCare').addEventListener('change', zeichneSumme);
+$('#gKids').addEventListener('input', zeichneSumme);
+
+/* ═══════════ Camp: Kinder (eines oder mehrere Geschwister) ═══════════ */
+const KIND_FELDER = ['vor', 'nach', 'geb', 'essen', 'allergie', 'gesund', 'heim', 'abhol'];
+function leseKinder() {
+  return $$('#kinderListe .anm-kind').map(box => {
+    const k = {};
+    KIND_FELDER.forEach(f => { const el = box.querySelector('[data-f="' + f + '"]'); k[f] = el ? el.value.trim() : ''; });
+    return k;
+  });
+}
+function zeichneKinder() {
+  const alt = leseKinder(), x = m();
+  $('#kinderListe').innerHTML = Array.from({ length: state.kinder }, (_, i) => {
+    const k = alt[i] || {}, n = i + 1;
+    const opt = (wert, text, feld) => `<option value="${wert}"${k[feld] === wert ? ' selected' : ''}>${esc(text)}</option>`;
+    return `<div class="anm-kind">
+      ${state.kinder > 1 ? `<button type="button" class="rm" data-rm="${i}">${esc(x.rm)}</button>` : ''}
+      <h4>${esc(x.kind(n))}</h4>
+      <div class="two-col">
+        <div class="field"><label>${esc(x.vor)}</label><input data-f="vor" value="${esc(k.vor)}" autocomplete="off"></div>
+        <div class="field"><label>${esc(x.nach)}</label><input data-f="nach" value="${esc(k.nach)}" autocomplete="off"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>${esc(x.geb)}</label><input type="date" data-f="geb" value="${esc(k.geb)}"></div>
+        <div class="field"><label>${esc(x.essen)}</label><select data-f="essen">${opt('alles', x.essen0, 'essen')}${opt('vegetarisch', x.essen1, 'essen')}${opt('vegan', x.essen2, 'essen')}${opt('anderes', x.essen3, 'essen')}</select></div>
+      </div>
+      <div class="field"><label>${esc(x.allergie)}</label><input data-f="allergie" value="${esc(k.allergie)}" placeholder="${esc(x.allergiePh)}"></div>
+      <div class="field"><label>${esc(x.gesund)}</label><input data-f="gesund" value="${esc(k.gesund)}" placeholder="${esc(x.gesundPh)}"></div>
+      <div class="two-col">
+        <div class="field"><label>${esc(x.heim)}</label><select data-f="heim">${opt('abgeholt', x.heim0, 'heim')}${opt('allein', x.heim1, 'heim')}</select></div>
+        <div class="field"><label>${esc(x.abhol)}</label><input data-f="abhol" value="${esc(k.abhol)}" placeholder="${esc(x.abholPh)}"></div>
+      </div>
+    </div>`;
+  }).join('');
+  $$('#kinderListe [data-rm]').forEach(b => b.addEventListener('click', () => {
+    const alle = leseKinder(); alle.splice(Number(b.dataset.rm), 1);
+    state.kinder = Math.max(1, state.kinder - 1);
+    /* Werte der verbleibenden Kinder behalten */
+    zeichneKinder();
+    $$('#kinderListe .anm-kind').forEach((box, i) => KIND_FELDER.forEach(f => { const el = box.querySelector('[data-f="' + f + '"]'); if (el && alle[i]) el.value = alle[i][f] || el.value; }));
+    zeichneSumme();
+  }));
+  $('#kindPlus').classList.toggle('hidden', state.kinder >= PREIS.maxKinderProAnmeldung);
+}
+$('#kindPlus').addEventListener('click', () => { state.kinder = Math.min(PREIS.maxKinderProAnmeldung, state.kinder + 1); zeichneKinder(); zeichneSumme(); });
+
+/* ═══════════ Summe ═══════════ */
+/* Wie viele Kinder über den neun im Preis enthaltenen? Über 20 zählt nicht mit — das fängt die Prüfung ab. */
+function gebZusatzKinder() {
+  const n = Math.min(PREIS.gebMaxKinder, Math.max(1, Number($('#gKids').value) || 1));
+  return Math.max(0, n - PREIS.gebInklKinder);
+}
+function total() {
+  if (state.kind !== 'kidscamp') return PREIS.geburtstag + gebZusatzKinder() * PREIS.gebZusatzKind;
+  const rand = $('#cCare').value === 'lang' ? PREIS.randProTag * PREIS.campTage : 0;
+  return (PREIS.camp + rand) * state.kinder;
+}
+function zeichneSumme() {
+  const x = m(), n = state.kinder;
+  const zeilen = state.kind === 'kidscamp'
+    ? [`<div><span>${esc(x.sCamp(n))}</span><span>${chf(PREIS.camp * n)}</span></div>`]
+      .concat($('#cCare').value === 'lang' ? [`<div><span>${esc(x.sRand(n))}</span><span>${chf(PREIS.randProTag * PREIS.campTage * n)}</span></div>`] : [])
+    : [`<div><span>${esc(x.sGeb)}</span><span>${chf(PREIS.geburtstag)}</span></div>`]
+      .concat(gebZusatzKinder() ? [`<div><span>${esc(x.sGebPlus(gebZusatzKinder()))}</span><span>${chf(gebZusatzKinder() * PREIS.gebZusatzKind)}</span></div>`] : []);
+  $('#kbSum').innerHTML = zeilen.join('') + `<div class="tot"><span>${esc(x.sTotal)}</span><span>${chf(total())}</span></div>`;
+}
+
+/* Frühestes Datum: morgen */
+(() => { const d = new Date(Date.now() + 864e5); const min = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); $('#gDate').min = min; $('#cDate').min = min; })();
+
+/* ═══════════ Prüfen ═══════════ */
+function pruefe() {
+  const x = m(), fehlt = [];
+  const camp = state.kind === 'kidscamp';
+  const v = id => $('#' + id).value.trim();
+  if (camp) {
+    if (!v('cDate') || !pruefeCampDatum()) fehlt.push(x.fDatum);
+    leseKinder().forEach((k, i) => {
+      if (!k.vor || !k.nach) fehlt.push(x.fKindName(i + 1));
+      if (!k.geb) fehlt.push(x.fKindGeb(i + 1));
+      if (!k.allergie) fehlt.push(x.fKindAll(i + 1));   // «keine» ist eine gültige Antwort — leer nicht
+      if (!k.abhol && k.heim !== 'allein') fehlt.push(x.fKindAbh(i + 1));
+    });
+    if (!v('pAddr')) fehlt.push(x.fAdr);
+    if (!v('nName') || !v('nPhone')) fehlt.push(x.fNot);
+  } else {
+    if (!v('gDate')) fehlt.push(x.fDatum);
+    if (!v('gStart')) fehlt.push(x.fStart);
+    if (!v('gChild')) fehlt.push(x.fGebKind);
+    if ((Number(v('gKids')) || 0) > PREIS.gebMaxKinder) return x.errKinder;
+  }
+  if (!v('pName')) fehlt.push(x.fName);
+  if (!v('pPhone')) fehlt.push(x.fTel);
+  if (fehlt.length) return x.errPflicht + fehlt.join(' · ');
+  if (!LoveSite.validEmail(v('pMail'))) return x.errMail;
+  const noetig = ['eAgb', 'eDsg', 'eSorge'].concat(camp ? ['eNotfall', 'eVers'] : []);
+  if (!noetig.every(id => $('#' + id).checked)) return x.errEinw;
+  return '';
+}
+
+/* ═══════════ Für das Team lesbar aufbereiten ═══════════
+   Kurzfassung bleibt im Browser der Kundin; die Einzelheiten gehen nur an den Server. */
+function kurzfassung() {
+  if (state.kind === 'kidscamp') {
+    const rand = $('#cCare').value === 'lang';
+    return `Ferien-Kidscamp · ${state.kinder} Kind(er) · Woche ab ${$('#cDate').value} · ${rand ? '09:00–16:30 mit Zvieri' : '09:00–15:00'}`;
+  }
+  return `Kindergeburtstag · ${$('#gChild').value.trim()}${$('#gAge').value ? ' wird ' + $('#gAge').value : ''} · ${Number($('#gKids').value) || 0} Kinder · ${$('#gStart').value}`;
+}
+function einzelheiten() {
+  const ja = id => ($('#' + id).checked ? 'JA' : 'nein');
+  const z = [];
+  if (state.kind === 'kidscamp') {
+    leseKinder().forEach((k, i) => {
+      z.push(`— KIND ${i + 1}: ${k.vor} ${k.nach}, geb. ${k.geb}`);
+      z.push(`   Ernährung: ${k.essen} · Allergien: ${k.allergie}`);
+      if (k.gesund) z.push(`   Gesundheit/Medikamente: ${k.gesund}`);
+      z.push(`   Heimweg: ${k.heim === 'allein' ? 'darf allein nach Hause' : 'wird abgeholt'}${k.abhol ? ' · abholberechtigt: ' + k.abhol : ''}`);
+    });
+    z.push(`— ELTERN: ${$('#pName').value.trim()} · ${$('#pAddr').value.trim()}`);
+    z.push(`— NOTFALL: ${$('#nName').value.trim()} · ${$('#nPhone').value.trim()}`);
+  } else if ($('#gAllergy').value.trim()) {
+    z.push(`— Allergien in der Gruppe: ${$('#gAllergy').value.trim()}`);
+  }
+  z.push('— EINVERSTÄNDNIS (' + new Date().toLocaleString('de-CH') + ')');
+  z.push(`   AGB/Storno: ${ja('eAgb')} · Datenbearbeitung: ${ja('eDsg')} · sorgeberechtigt: ${ja('eSorge')}`
+    + (state.kind === 'kidscamp' ? ` · Notfallhilfe: ${ja('eNotfall')} · versichert: ${ja('eVers')}` : ''));
+  z.push(`   FOTOS — Erinnerung per E-Mail: ${ja('fErinnerung')} · Website/Social Media: ${ja('fOeffentlich')}`);
+  z.push(`   Newsletter: ${ja('fNews')}`);
+  if ($('#pMsg').value.trim()) z.push('— Bemerkung: ' + $('#pMsg').value.trim());
+  return z.join('\n');
+}
+
+/* ═══════════ Abschluss ═══════════ */
+function showDone(art, id, grand) {
   $('#kbForm').classList.add('hidden');
   $('#kbDone').classList.remove('hidden');
   const x = m();
-  $('#kbDoneTitle').textContent = kind === 'paid' ? x.titlePaid : kind === 'fail' ? x.titleFail : x.titleReserved;
-  $('#kbDoneText').textContent = kind === 'paid' ? x.okPaid : kind === 'fail' ? x.okFail : x.okReserved;
-  $('#kbDoneRef').textContent = x.ref + id + (grand ? ' · ' + chf(grand) : '');
-  $('#kbRetry').classList.toggle('hidden', kind !== 'fail');
+  $('#kbDoneTitle').textContent = { paid: x.titlePaid, fail: x.titleFail, lost: x.titleLost }[art] || x.titleReserved;
+  $('#kbDoneText').textContent = { paid: x.okPaid, fail: x.okFail, lost: x.okLost }[art] || x.okReserved;
+  $('#kbDoneRef').textContent = id ? x.ref + id + (grand ? ' · ' + chf(grand) : '') : '';
+  $('#kbRetry').classList.toggle('hidden', art !== 'fail');
   document.getElementById('buchen').scrollIntoView({ behavior: 'smooth' });
 }
 $('#kbAgain').addEventListener('click', () => { $('#kbDone').classList.add('hidden'); $('#kbForm').classList.remove('hidden'); });
 
 let busy = false;
-$('#kbSubmit').addEventListener('click', async () => {
+$('#kbForm').addEventListener('submit', async e => {
+  e.preventDefault();
   if (busy) return;
-  const name = $('#kbName').value.trim(), email = $('#kbMail').value.trim(), date = $('#kbDate').value;
-  if (!name || !LoveSite.validEmail(email) || !date) { $('#kbErr').textContent = m().err; return; }
-  $('#kbErr').textContent = '';
+  const fehler = pruefe();
+  $('#kbErr').textContent = fehler;
+  if (fehler) { $('#kbErr').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+  /* Zweite, unabhängige Sperre. Ohne diese Häkchen verlässt keine Anmeldung den
+     Browser — auch dann nicht, wenn die Prüfung oben einmal umgebaut wird. */
+  const pflicht = ['eAgb', 'eDsg', 'eSorge'].concat(state.kind === 'kidscamp' ? ['eNotfall', 'eVers'] : []);
+  if (pflicht.some(id => !document.getElementById(id).checked)) { $('#kbErr').textContent = m().errEinw; return; }
   busy = true; $('#kbSubmit').disabled = true;
-  const kids = Math.max(1, Number($('#kbKids').value) || 1);
-  const tage = state.kind === 'kidscamp' ? Math.max(1, Number($('#kbTage').value) || 1) : 1;
-  const grand = total();
-  const label = state.kind === 'kidscamp' ? 'Ferien-Kidscamp' : 'Kindergeburtstag';
-  const b = LoveData.addBooking({
-    type: state.kind, name, email, phone: $('#kbPhone').value.trim(),
-    date, time: $('#kbTime').value.trim(), persons: kids,
-    price: 'CHF ' + grand,
-    message: `${label} · ${kids} Kind(er)` + (state.kind === 'kidscamp' ? ` · ${tage} Tag(e)` : '')
-      + ($('#kbMsg').value.trim() ? ' · ' + $('#kbMsg').value.trim() : ''),
-    lang: LoveSite.lang()
+
+  const camp = state.kind === 'kidscamp';
+  const grand = total(), email = $('#pMail').value.trim();
+  const label = camp ? 'Ferien-Kidscamp' : 'Kindergeburtstag';
+  const { booking, delivered } = await LoveData.addRegistration({
+    type: state.kind, name: $('#pName').value.trim(), email, phone: $('#pPhone').value.trim(),
+    date: camp ? $('#cDate').value : $('#gDate').value,
+    time: camp ? ($('#cCare').value === 'lang' ? '09:00–16:30' : '09:00–15:00') : $('#gStart').value,
+    persons: camp ? state.kinder : (Number($('#gKids').value) || 0),
+    price: 'CHF ' + grand, message: kurzfassung(), details: einzelheiten(), lang: LoveSite.lang()
   });
-  try { localStorage.setItem('love.lastKids', JSON.stringify({ id: b.id, total: grand, email, label })); } catch (e) { }
-  /* Voller Betrag direkt über Payrexx */
-  const r = await LovePay.checkout({
-    amount: grand, code: b.id, email,
-    purpose: 'LOVE ' + label + ' ' + b.id + ' · ' + kids + ' Kind(er)'
-  });
-  if (!r.ok) { showDone('reserved', b.id, grand); busy = false; $('#kbSubmit').disabled = false; }
+  if ($('#fNews').checked) LoveData.upsertContact(email, { optin: true });
+
+  /* Kam die Anmeldung nicht beim Server an, wird NICHT kassiert — sonst zahlt
+     jemand für ein Camp, von dem das Team nichts weiss. */
+  if (!delivered) { showDone('lost', booking.id); busy = false; $('#kbSubmit').disabled = false; return; }
+
+  try { localStorage.setItem('love.lastKids', JSON.stringify({ id: booking.id, total: grand, email, label })); } catch (er) { }
+  const r = await LovePay.checkout({ amount: grand, code: booking.id, email, purpose: 'LOVE ' + label + ' ' + booking.id });
+  if (!r.ok) { showDone('reserved', booking.id, grand); busy = false; $('#kbSubmit').disabled = false; }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
 });
+
+document.addEventListener('love:lang', () => { zeigeAngebot(); zeichneKinder(); zeichneStart(); pruefeCampDatum(); });
+zeigeAngebot();
+zeichneStart();
 
 /* Rückkehr von der Payrexx-Zahlungsseite: ?paid=B-… / ?payfail=B-… */
 (() => {

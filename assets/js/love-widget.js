@@ -42,11 +42,9 @@ const TX = {
     foot: 'Alle Details & Raumplan ansehen →',
     persons: 'Personen',
     acts: {
-      keramik: { title: 'Keramik bemalen', desc: 'Rohling aussuchen, bemalen, wir glasieren und brennen — nach 7–10 Tagen abholen.', price: 'CHF 25 Service + Stück ab CHF 10' },
-      cafe:    { title: 'Nur Café', desc: 'Kaffee, Matcha, Bowls und Apéro — einfach gemütlich sitzen und geniessen.', price: 'à la carte' },
-      candle:  { title: 'Kerzen giessen', desc: 'Deine eigene Sojakerze — von Fresh Fig bis Wild Rose, fertig zum Mitnehmen.', price: 'CHF 18 p. P.' },
-      floral:  { title: 'Floral Bar', desc: 'Blumen wählen, Bouquet binden — wir zeigen dir, wie es hält.', price: 'nach Auswahl' },
-      kino:    { title: 'Kino-Night', desc: 'Film, Keramikstück und Snacks inklusive — jeden Freitagabend.', price: 'ab CHF 38 p. P.' }
+      keramik: { title: 'Keramik bemalen', desc: 'Stück aussuchen, bemalen, wir glasieren und brennen — nach rund zwei Wochen abholen.', price: 'CHF 25 Service + Stück ab CHF 7' },
+      cafe:    { title: 'Nur Café', desc: 'Auf einen Kaffee vorbeikommen — gemütlich sitzen und auf den See schauen.', price: 'à la carte' },
+      kino:    { title: 'Kino-Night', desc: 'Film und Keramikstück inklusive — jeden Freitagabend.', price: 'ab CHF 38 p. P.' }
     }
   },
   en: {
@@ -75,31 +73,27 @@ const TX = {
     foot: 'See all details & floor plan →',
     persons: 'people',
     acts: {
-      keramik: { title: 'Paint ceramics', desc: 'Pick a piece, paint it — we glaze and fire it, ready in 7–10 days.', price: 'CHF 25 service + pieces from CHF 10' },
-      cafe:    { title: 'Café only', desc: 'Coffee, matcha, bowls and apéro — just sit back and enjoy.', price: 'à la carte' },
-      candle:  { title: 'Pour candles', desc: 'Your own soy candle — from Fresh Fig to Wild Rose, ready to take home.', price: 'CHF 18 p. p.' },
-      floral:  { title: 'Floral Bar', desc: 'Choose your flowers and bind a bouquet — we show you how.', price: 'by selection' },
-      kino:    { title: 'Cinema Night', desc: 'Film, ceramic piece and snacks included — every Friday evening.', price: 'from CHF 38 p. p.' }
+      keramik: { title: 'Paint ceramics', desc: 'Pick a piece, paint it — we glaze and fire it, ready after about two weeks.', price: 'CHF 25 service + pieces from CHF 7' },
+      cafe:    { title: 'Café only', desc: 'Drop in for a coffee — sit back and look out over the lake.', price: 'à la carte' },
+      kino:    { title: 'Cinema Night', desc: 'Film and ceramic piece included — every Friday evening.', price: 'from CHF 38 p. p.' }
     }
   }
 };
-/* Echte Fotos folgen — bis dahin überall der Platzhalter.
-   Originale: studio_bemalen.png · interior-cafe-counter.jpeg ·
-   widget-candle.jpeg · illus-flower-workshop.jpeg · studio-og.jpeg */
 const ACT_IMG = {
-  keramik: 'assets/img/platzhalter.svg',
+  keramik: 'assets/img/studio-regal-keramik.jpeg',
   cafe: 'assets/img/interior-og-tische.jpeg',
-  candle: 'assets/img/platzhalter.svg',
-  floral: 'assets/img/platzhalter.svg',
-  kino: 'assets/img/platzhalter.svg'
+  kino: 'assets/img/studio-og.jpeg'
 };
+/* Angebote, die es im Moment nicht gibt, erscheinen nirgends — auch dann nicht, wenn die
+   Liste vom Server sie noch führt (Entscheid 21.09.2026: keine Kerzen, keine Floral Bar). */
+const NICHT_ANGEBOTEN = ['candle', 'floral'];
 const tw = () => TX[LoveSite.lang()] || TX.de;
 
 /* ═══════════ Zustand ═══════════ */
 const state = {
   guests: 2,
   date: LoveSite.todayISO(),
-  slot: T.SLOTS[0],
+  slot: T.slotsFor(LoveSite.todayISO())[0] || '',
   act: null,       // gewählte Aktivität
   done: null       // Buchung nach Erfolg
 };
@@ -181,7 +175,9 @@ function dateOptions() {
   for (let i = 0; i < HORIZON_DAYS; i++) {
     const d = new Date(base.getTime() + i * 864e5);
     const iso = d.toISOString().slice(0, 10);
-    if (!closedDays.has(iso)) out.push(iso);
+    /* Geschlossene Wochentage (Mo, Di, Do) gar nicht erst anbieten — dazu die
+       einzelnen Schliesstage aus der Cloud (Ferien, Feiertage). */
+    if (!closedDays.has(iso) && T.isOpen(iso)) out.push(iso);
   }
   return out.length ? out : [LoveSite.todayISO()];
 }
@@ -197,15 +193,16 @@ function loadServices() {
 }
 function actList() {
   const en = LoveSite.lang() === 'en';
-  if (services) {
-    return services.map(s => ({
-      id: s.id,
-      title: en ? (s.label_en || s.label_de) : s.label_de,
-      desc: en ? (s.desc_en || s.desc_de) : s.desc_de,
-      price: s.price
-    }));
-  }
   const x = tw();
+  if (services) {
+    /* Für Keramik, Café und Kino gelten die Texte der Website: Die Serverliste hat sich als
+       veraltet erwiesen («7–10 Tage», «ab CHF 10», «Snacks inklusive»), und Preise und Fristen
+       sollen an EINER Stelle stimmen. Neue, im Host-Bereich angelegte Angebote kommen weiter
+       vom Server. */
+    return services.filter(s => !NICHT_ANGEBOTEN.includes(s.id)).map(s => x.acts[s.id]
+      ? { id: s.id, title: x.acts[s.id].title, desc: x.acts[s.id].desc, price: x.acts[s.id].price }
+      : { id: s.id, title: en ? (s.label_en || s.label_de) : s.label_de, desc: en ? (s.desc_en || s.desc_de) : s.desc_de, price: s.price });
+  }
   return Object.entries(x.acts).map(([id, c]) => ({ id, title: c.title, desc: c.desc, price: c.price }));
 }
 
@@ -263,7 +260,7 @@ function renderCal() {
   for (let i = 0; i < startCol; i++) cells += '<span class="lw-cal-day lw-cal-empty"></span>';
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso);
+    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso) && T.isOpen(iso);
     cells += `<button type="button" class="lw-cal-day${iso === state.date ? ' sel' : ''}${iso === todayIso ? ' today' : ''}" data-iso="${iso}" ${ok ? '' : 'disabled'}>${day}</button>`;
   }
   $('lwCal').innerHTML = `
@@ -295,15 +292,21 @@ function toggleCal(open) {
 
 function renderSlots() {
   const x = tw();
-  const fullSel = slotFull(state.date, state.slot, state.guests);
-  if (fullSel) {
-    const free = T.SLOTS.find(s => !slotFull(state.date, s, state.guests));
+  /* Die Fenster hängen am Wochentag — Mi/Fr ab 12 Uhr, Sa/So ab 10 Uhr. */
+  const offen = T.slotsFor(state.date);
+  if (!offen.length) { $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; return; }
+  if (!offen.includes(state.slot)) state.slot = offen[0];
+  if (slotFull(state.date, state.slot, state.guests)) {
+    const free = offen.find(s => !slotFull(state.date, s, state.guests));
     if (free) state.slot = free;
   }
-  $('lwSlot').innerHTML = T.SLOTS.map(s => {
+  $('lwSlot').innerHTML = offen.map(s => {
     const kino = T.isKinoSlot(state.date, s);
     const full = slotFull(state.date, s, state.guests);
-    return `<option value="${s}" ${state.slot === s ? 'selected' : ''} ${full ? 'disabled' : ''}>${s.split('–')[0]} · ${full ? x.full : (kino ? x.kino : x.hours3)}</option>`;
+    /* Das letzte Fenster des Tages ist kürzer — das gehört hingeschrieben */
+    const h = T.slotLength(s);
+    const dauer = (h % 1 === 0 ? String(h) : Math.floor(h) + '½') + (LoveSite.lang() === 'en' ? ' hrs' : ' Std.');
+    return `<option value="${s}" ${state.slot === s ? 'selected' : ''} ${full ? 'disabled' : ''}>${s.split('–')[0]} · ${full ? x.full : (kino ? x.kino : dauer)}</option>`;
   }).join('');
   $('lwUntil').textContent = `${x.until} ${state.slot.split('–')[1]}`;
 }
@@ -411,16 +414,31 @@ function openSheet() {
   renderAll();
   sheet.classList.add('open'); backdrop.classList.add('open');
   launcher.classList.add('lw-hidden');
+  document.body.classList.add('lw-open');
   launcher.setAttribute('aria-expanded', 'true');
   $('lwClose').focus({ preventScroll: true });
 }
 function closeSheet() {
   sheet.classList.remove('open'); backdrop.classList.remove('open');
   launcher.classList.remove('lw-hidden');
+  document.body.classList.remove('lw-open');
   launcher.setAttribute('aria-expanded', 'false');
   if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
 }
 launcher.addEventListener('click', openSheet);
+
+/* Auf schmalen Bildschirmen ist der schwebende Knopf ausgeblendet (love-widget.css)
+   und die Leiste am unteren Rand ist der einzige Reservations-Knopf. Sie öffnet
+   dann dasselbe Fenster, statt die Seite zu wechseln — ein Tippen weniger.
+   Auf der Reservationsseite selbst zeigt die Leiste auf «#formular» und bleibt
+   damit unberührt: dort führt sie weiterhin direkt zum Formular. */
+document.querySelectorAll('.sticky-cta a[href*="reservieren.html"]').forEach(a => {
+  a.addEventListener('click', e => {
+    if (getComputedStyle(launcher).display !== 'none') return;   // breiter Bildschirm: Link lassen
+    e.preventDefault();
+    openSheet();
+  });
+});
 $('lwClose').addEventListener('click', closeSheet);
 backdrop.addEventListener('click', closeSheet);
 addEventListener('keydown', e => { if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet(); });

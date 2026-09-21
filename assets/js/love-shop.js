@@ -142,8 +142,9 @@ function applyMember(input) {
 function sums(delivery) {
   const lines = cartLines();
   const sub = lines.reduce((s, l) => s + l.p.price * l.qty, 0);
-  /* Rabatt auf 5 Rappen runden — sonst weicht der gespeicherte Betrag von dem ab, was der Gast sieht */
-  const disc = member ? Math.round(sub * member.discount / 5) / 20 : 0;
+  /* Keine Rabatte: ein Preis für alle. Member-Rabatt und Punkte-Gutschein sind
+     bewusst abgeschaltet, die Felder dafür stehen nicht mehr an der Kasse. */
+  const disc = 0;
   /* Porto kommt IMMER dazu — es ist in den Artikelpreisen nicht enthalten. */
   const ship = delivery === 'post' ? LoveData.SHOP_SHIPPING : 0;
   return { lines, sub, disc, ship, total: Math.round((sub - disc + ship) * 20) / 20 };
@@ -164,9 +165,7 @@ function renderGrid() {
   if (!rows.length) { host.innerHTML = `<div class="shop-empty">${esc(en() ? 'Nothing found — try another category.' : 'Nichts gefunden — probier eine andere Kategorie.')}</div>`; return; }
   host.innerHTML = rows.map(p => {
     const out = !(p.stock > 0);
-    const price = member && member.discount
-      ? `${chf(p.price * (100 - member.discount) / 100)}<span class="was">${chf(p.price)}</span>`
-      : chf(p.price);
+    const price = chf(p.price);   // ein Preis für alle — keine Member-Staffel
     return `<article class="shop-card">
       <div class="shop-photo">
         <img src="${esc(photo(p))}" alt="${esc(p.name)}" loading="lazy" width="400" height="400"
@@ -218,7 +217,7 @@ const closeCart = () => {
 let checkout = false;
 /* Eingetippte Angaben überleben ein Neuzeichnen (z. B. Wechsel auf Postversand) —
    sonst steht der Gast plötzlich wieder vor leeren Feldern. */
-const CO_FELDER = ['coName', 'coMail', 'coPhone', 'coAddr', 'coMember', 'coPkt', 'coNote'];
+const CO_FELDER = ['coName', 'coMail', 'coPhone', 'coAddr', 'coNote'];
 let coDraft = {};
 const merkeEingaben = () => CO_FELDER.forEach(id => { const e = $('#' + id); if (e) coDraft[id] = e.value; });
 const setzeEingaben = () => CO_FELDER.forEach(id => { const e = $('#' + id); if (e && coDraft[id]) e.value = coDraft[id]; });
@@ -298,15 +297,6 @@ function renderCheckout(s, delivery) {
         <label for="coAddr">${esc(t().addr)}</label>
         <textarea id="coAddr" rows="2" placeholder="${esc(t().addrPh)}" autocomplete="street-address"></textarea>
       </div>
-      <div class="field"><label for="coMember">${esc(t().memberNo)}</label><input id="coMember" placeholder="${esc(t().memberPh)}" value="${esc(member ? member.id : '')}"></div>
-      <p class="hint" id="coMemberMsg" aria-live="polite">${member ? esc(t().memberOk(member.name, member.discount)) : ''}</p>
-      <div class="field"><label for="coPkt">${esc(t().pkt)}</label>
-        <div style="display:flex;gap:.5rem;align-items:center">
-          <input id="coPkt" placeholder="PKT-XXXX-XXXX" style="flex:1;text-transform:uppercase" autocomplete="off" value="${esc(pkt ? pkt.code : '')}">
-          <button type="button" class="btn btn-ghost btn-sm" id="coPktApply">${esc(t().pktApply)}</button>
-        </div>
-        <p class="hint" id="coPktMsg" aria-live="polite">${pkt ? esc(t().pktOk(pkt.amount)) : ''}</p>
-      </div>
       <div class="field"><label for="coNote">${esc(t().note)}</label><input id="coNote"></div>
     </form>`);
   /* Der Fuss bleibt bewusst schlank: Summen, Fehlermeldung, ein Knopf. Jede
@@ -336,27 +326,8 @@ function renderCheckout(s, delivery) {
     $('#coAddrWrap').hidden = r.value !== 'post' || !r.checked;
     renderCart();
   }));
-  $('#coMember').addEventListener('change', e => {
-    const r = applyMember(e.target.value);
-    $('#coMemberMsg').textContent = !r.ok ? t().errMember : (member ? t().memberOk(member.name, member.discount) : '');
-    $('#coMemberMsg').style.color = r.ok ? '' : '#a4243b';
-    renderGrid(); renderCart();
-  });
-  /* Punkte-Rabattcode serverseitig prüfen (100 Punkte = CHF 2, siehe Kundenkonto) */
-  $('#coPktApply').addEventListener('click', async () => {
-    const msg = $('#coPktMsg');
-    const code = $('#coPkt').value.trim().toUpperCase();
-    pkt = null;
-    if (!code) { msg.textContent = ''; renderCart(); return; }
-    if (typeof LoveCloud !== 'undefined') {
-      try {
-        const r = await LoveCloud.call('discount_check&code=' + encodeURIComponent(code));
-        if (r.ok) { pkt = { code, amount: Number(r.amount) || 0 }; renderCart(); return; }
-      } catch (er) { /* unten Fehlermeldung */ }
-    }
-    msg.textContent = t().pktBad;
-    msg.style.color = '#a4243b';
-  });
+  /* Hier standen die Felder für Member-Nummer und Punkte-Gutschein. Beides ist
+     abgeschaltet — es gibt einen Preis für alle. */
   $('#coBack').addEventListener('click', () => { checkout = false; renderCart(); });
   $('#coForm').addEventListener('submit', submitOrder);
 }

@@ -341,16 +341,10 @@ const LoveAccount = (() => {
           ${c.username ? `<p>${x.user}: ${esc(c.username)}</p>` : ''}
           <p class="acc-dim">${x.since} ${fmt(c.created)}</p>
         </div>
-        ${isCloud ? `
-        <p class="acc-sub">${x.myPoints}</p>
-        <div class="acc-card" id="accPointsCard">
-          <p>${x.pointsLine(points, chfCredit)}</p>
-          <p class="acc-dim">${x.pointsHint}</p>
-          <div id="accRedeemBox" style="margin-top:.6rem">
-            <button type="button" class="btn btn-rose btn-sm" id="accRedeem" ${points < 100 ? 'disabled' : ''}>${x.redeemBtn}</button>
-          </div>
-        </div>
-        <div id="accRedeems"></div>` : ''}
+        ${'' /* Treuepunkte und Punkte-Gutscheine sind ausgeblendet: Rabatte wurden
+                von der Website genommen (Entscheid 20.09.2026). Der Server zählt die
+                Punkte weiter, es geht also nichts verloren — zum Wiedereinschalten
+                genügt es, diesen Block und die Rabattfelder an den Kassen zurückzuholen. */}
         <p class="acc-sub">${x.myBookings}</p>
         <div id="accBookings">${bookingsHtml(myBookings())}</div>
         <p class="acc-sub">${x.myOrders}</p>

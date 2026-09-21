@@ -30,8 +30,36 @@ const ROOMS = [
     { id: 'OG-R4', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 4 (2 P.)', en: 'Round table 4 (2 p.)' } }
   ]}
 ];
-const SLOTS = ['09:00–12:00', '12:00–15:00', '15:00–18:00', '18:00–21:00'];
-const KINO_SLOT = '18:00–21:00';
+/* ═══════════ Öffnungszeiten und Zeitfenster ═══════════
+   Montag, Dienstag und Donnerstag bleibt das Studio zu — an diesen Tagen sind
+   nur Gruppenreservierungen auf Anfrage möglich. An den offenen Tagen gilt das
+   Drei-Stunden-Raster; das letzte Fenster ist kürzer, damit die Öffnungszeit
+   ohne Lücke aufgeht (Mi/Fr bis 20 Uhr, Sa/So bis 18:30 Uhr).
+   Wochentage nach JavaScript: 0 = Sonntag … 6 = Samstag. */
+const OEFFNUNG = {
+  0: { von: '10:00', bis: '18:30', slots: ['10:00–13:00', '13:00–16:00', '16:00–18:30'] }, // Sonntag
+  1: null,                                                                                  // Montag  — geschlossen
+  2: null,                                                                                  // Dienstag — geschlossen
+  3: { von: '12:00', bis: '20:00', slots: ['12:00–15:00', '15:00–18:00', '18:00–20:00'] }, // Mittwoch
+  4: null,                                                                                  // Donnerstag — geschlossen
+  5: { von: '12:00', bis: '20:00', slots: ['12:00–15:00', '15:00–18:00', '18:00–20:00'] }, // Freitag
+  6: { von: '10:00', bis: '18:30', slots: ['10:00–13:00', '13:00–16:00', '16:00–18:30'] }  // Samstag
+};
+const wochentag = dateISO => new Date(dateISO + 'T12:00:00').getDay();
+/* Hat das Studio an diesem Datum offen? */
+const isOpen = dateISO => !!(dateISO && OEFFNUNG[wochentag(dateISO)]);
+/* Die Zeitfenster dieses Tages — an geschlossenen Tagen eine leere Liste */
+const slotsFor = dateISO => (dateISO && OEFFNUNG[wochentag(dateISO)] ? OEFFNUNG[wochentag(dateISO)].slots : []);
+/* Wie lange dauert dieses Fenster? Für die Beschriftung («3 Stunden» / «2½ Stunden») */
+function slotLength(slot) {
+  const m = String(slot).match(/(\d{2}):(\d{2})[–-](\d{2}):(\d{2})/);
+  if (!m) return 0;
+  return ((+m[3] * 60 + +m[4]) - (+m[1] * 60 + +m[2])) / 60;
+}
+/* Alle vorkommenden Fenster — für Übersichten im CRM, die alle Tage nebeneinander zeigen */
+const SLOTS = [...new Set(Object.values(OEFFNUNG).filter(Boolean).flatMap(t => t.slots))]
+  .sort((a, b) => a.localeCompare(b));
+const KINO_SLOT = '18:00–20:00';   // Freitagabend
 
 const allTables = () => ROOMS.flatMap(r => r.tables.map(t => Object.assign({ room: r.id }, t)));
 const capacity = () => allTables().reduce((s, t) => s + t.seats, 0); // = 44
@@ -53,7 +81,7 @@ function candidates(persons, area) {
 }
 function isKinoSlot(dateISO, slot) {
   if (!dateISO || slot !== KINO_SLOT) return false;
-  return new Date(dateISO + 'T12:00:00').getDay() === 5; // Freitag
+  return wochentag(dateISO) === 5; // Freitag
 }
 /* Belegung eines Zeitfensters aus der Buchungsliste (für CRM-Tischplan) */
 function occupancy(dateISO, slot, bookings) {
@@ -70,19 +98,20 @@ function occupancy(dateISO, slot, bookings) {
   return { byTable, seats, unassigned, all: live };
 }
 
-window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, INVENTORY, allTables, capacity, suggest, candidates, isKinoSlot, occupancy };
+window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, INVENTORY, OEFFNUNG, allTables, capacity, suggest,
+  candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength };
 
 /* ═══════════ i18n ═══════════ */
 const COMMON_EN = {
   'skip': 'Skip to content',
   'brand.sub': 'Creative Café',
   'nav.menu': 'Menu',
-  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
+  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.team': 'Team events', 'ft.firmen': 'Team &amp; corporate events', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
   'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact', 'nav.shop': 'Shop',
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
   'ft.social': 'Instagram · TikTok · Pinterest — profiles coming soon',
-  'ft.worlds': 'Discover', 'ft.visit': 'Visit us', 'ft.hours': 'Daily 9 am – 9 pm', 'ft.kino': 'Cinema Night: every Friday',
+  'ft.worlds': 'Discover', 'ft.visit': 'Visit us', 'ft.hours': 'Wed &amp; Fri 12:00–20:00 · Sat &amp; Sun 10:00–18:30', 'ft.kino': 'Cinema Night: every Friday',
   'ft.legal': 'Legal', 'ft.privacy': 'Privacy', 'ft.imprint': 'Imprint', 'ft.team': 'Team portal',
   'ft.cafe': 'Café &amp; menu', 'ft.res': 'Reserve a table', 'ft.member': 'Membership', 'ft.gift': 'Gift an experience', 'ft.shop': 'Shop', 'ft.services': 'Offering &amp; services',
   'ft.keramik': 'Ceramics &amp; prices', 'ft.kinoL': 'Cinema Night', 'ft.events': 'Events',
