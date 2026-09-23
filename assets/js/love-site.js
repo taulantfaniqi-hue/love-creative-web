@@ -181,6 +181,29 @@ function applyLang(l) {
   const li = document.createElement('li'); li.className = 'nav-lang';
   li.appendChild(ls.cloneNode(true)); ul.appendChild(li);
 })();
+/* ═══════════ Öffnungszeiten-Karte (Startseite) ═══════════
+   Liest OEFFNUNG, damit Karte, Reservation und Google-Angaben nie auseinanderlaufen. */
+function renderHours() {
+  const tbl = document.getElementById('hoursTable'), st = document.getElementById('hoursStatus');
+  if (!tbl) return;
+  const en = lang === 'en';
+  const NAMEN = en ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] : ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  const jetzt = new Date(), heute = jetzt.getDay();
+  const zeit = t => t.replace(/:00$/, '') + (en ? '' : '');
+  tbl.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => {
+    const o = OEFFNUNG[d], ist = d === heute;
+    return `<tr class="${o ? '' : 'closed'}${ist ? ' today' : ''}"><td>${NAMEN[d]}${ist ? `<span class="today-tag">${en ? 'today' : 'heute'}</span>` : ''}</td>` +
+      `<td>${o ? zeit(o.von) + ' – ' + zeit(o.bis) + (en ? '' : ' Uhr') : (en ? 'closed' : 'geschlossen')}</td></tr>`;
+  }).join('');
+  /* Status: offen bis … / heute geschlossen / öffnet um … */
+  const o = OEFFNUNG[heute], min = jetzt.getHours() * 60 + jetzt.getMinutes(), zuMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+  if (!o) { st.textContent = en ? 'Closed today' : 'Heute geschlossen'; st.className = 'hours-status closed'; }
+  else if (min < zuMin(o.von)) { st.textContent = (en ? 'Opens today at ' : 'Öffnet heute um ') + zeit(o.von) + (en ? '' : ' Uhr'); st.className = 'hours-status closed'; }
+  else if (min < zuMin(o.bis)) { st.textContent = (en ? 'Open now until ' : 'Jetzt offen bis ') + zeit(o.bis) + (en ? '' : ' Uhr'); st.className = 'hours-status open'; }
+  else { st.textContent = en ? 'Closed for today' : 'Heute bereits geschlossen'; st.className = 'hours-status closed'; }
+}
+renderHours();
+document.addEventListener('love:lang', renderHours);
 document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 if (lang !== 'de') applyLang(lang);
 

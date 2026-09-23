@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=906d653e">
+<link rel="stylesheet" href="assets/css/love.css?v=3aa9b8c7">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=7b08b285">
 <link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script type="application/ld+json">
@@ -43,7 +43,6 @@ window.LOVE_EN = {
   'hero.title':'Paint ceramics, enjoy coffee, celebrate moments.',
   'hero.lead':'Pick a piece and paint it at your own pace — over a coffee, with a view of Lake Zurich. No experience needed. We glaze and fire it, and about two weeks later you collect something that exists only once.',
   'hero.cta2':'See prices',
-  'hero.hours':'<strong>Wed &amp; Fri 12:00–20:00</strong> · Sat &amp; Sun 10:00–18:30',
   'steps.eyebrow':'Paint pottery',
   'steps.title':'How It Works',
   'steps.s1':'Choose your pottery',
@@ -171,7 +170,9 @@ window.LOVE_EN = {
   'ct.ovV':'S-Bahn to Au ZH, 5 min on foot · parking nearby',
   'ct.lake':'right on Lake Zurich',
   'ev.ask':'Enquire →',
-  'pl.tDate':'Date night (for two)'
+  'pl.tDate':'Date night (for two)',
+  'oz.eyebrow':'Opening hours',
+  'oz.note':'On the days we are closed, we open for groups of 6 or more on request — <a href="teamevents.html">companies</a>, <a href="kidscamp.html">kids\' birthdays</a> or <a href="#eventplaner">private events</a>.'
 };
 </script>
 </head>
@@ -223,11 +224,23 @@ window.LOVE_EN = {
         <a class="btn btn-rose" href="reservieren.html" data-i18n="cta.reserve2">Tisch reservieren</a>
         <a class="btn btn-ghost" href="#preise" data-i18n="hero.cta2">Preise ansehen</a>
       </div>
-      <p class="hero-meta"><span data-i18n="hero.hours"><strong>Mi &amp; Fr 12–20 Uhr</strong> · Sa &amp; So 10–18:30</span></p>
     </div>
     <div class="hero-visual reveal">
       <div class="arch"><img src="assets/img/interior-kids-bemalen.jpeg" alt="Kinder bemalen Keramik am grossen Tisch im LOVE Creative Café in Au ZH — mit Blick auf den Zürichsee" width="927" height="1647" fetchpriority="high"></div>
       <span class="confetti c1"></span><span class="confetti c2"></span><span class="confetti c3"></span>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="oeffnungszeiten">
+  <div class="wrap">
+    <div class="hours-card reveal">
+      <div class="hours-head">
+        <p class="eyebrow" data-i18n="oz.eyebrow">Öffnungszeiten</p>
+        <p class="hours-status" id="hoursStatus" aria-live="polite"></p>
+      </div>
+      <table class="hours-table" id="hoursTable" aria-label="Öffnungszeiten"></table>
+      <p class="hours-note" data-i18n="oz.note">An den geschlossenen Tagen öffnen wir für Gruppen ab 6 Personen auf Anfrage — <a href="teamevents.html">Firmen</a>, <a href="kidscamp.html">Kindergeburtstage</a> oder <a href="#eventplaner">private Anlässe</a>.</p>
     </div>
   </div>
 </section>
@@ -581,7 +594,7 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-site.js?v=f53397b7"></script>
+<script src="assets/js/love-site.js?v=3dc49422"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=63337b48"></script>
 <script src="assets/js/love-pay.js?v=b73a853e"></script>

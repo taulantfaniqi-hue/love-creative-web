@@ -249,6 +249,28 @@ html{overflow-x:clip}
 .kennzahlen b{display:block;font-family:var(--ff-display);font-size:1.9rem;line-height:1.1;color:var(--green)}
 .kennzahlen span{display:block;margin-top:.35rem;font-size:.9rem;color:var(--ink-soft)}
 
+/* Öffnungszeiten-Karte unter dem Hero (23.09.2026). Alle sieben Tage, «Heute» hervorgehoben,
+   geschlossene Tage ehrlich als solche — die Zeiten kommen aus OEFFNUNG in love-site.js. */
+#oeffnungszeiten{padding-top:0}
+.hours-card{background:#fff;border:1.5px solid var(--line);border-radius:var(--r-m);padding:1.4rem 1.6rem 1.2rem;box-shadow:var(--shadow);max-width:44rem}
+.hours-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.hours-head .eyebrow{margin-bottom:.6rem}
+.hours-status{font-weight:700;font-size:.95rem;margin-bottom:.6rem}
+.hours-status.open{color:var(--green)}
+.hours-status.closed{color:#a4243b}
+.hours-table{width:100%;border-collapse:collapse;font-size:1rem}
+.hours-table td{padding:.5rem 0;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.hours-table tr:last-child td{border-bottom:0}
+.hours-table td:first-child{font-weight:600;color:var(--ink);width:45%}
+.hours-table td:last-child{text-align:right;font-family:var(--ff-display);font-size:1.08rem;color:var(--green);white-space:nowrap}
+.hours-table tr.closed td:last-child{color:var(--ink-soft);font-family:var(--ff-body);font-size:.95rem;font-weight:500}
+.hours-table tr.today td{background:var(--celadon)}
+.hours-table tr.today td:first-child{border-radius:10px 0 0 10px;padding-left:.7rem}
+.hours-table tr.today td:last-child{border-radius:0 10px 10px 0;padding-right:.7rem}
+.hours-table .today-tag{display:inline-block;background:var(--rose);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:.12rem .55rem;margin-left:.5rem;vertical-align:middle}
+.hours-note{margin-top:.9rem;font-size:.9rem;color:var(--ink-soft)}
+@media (max-width:640px){.hours-card{padding:1.1rem 1.1rem 1rem}.hours-table td:first-child{width:52%}.hours-table td:last-child{font-size:1rem}}
+
 /* Häkchenliste in den Angebotskarten — was alles im Preis steckt */
 .tick{list-style:none;margin:.8rem 0 1rem;padding:0;font-size:.9rem}
 .tick li{position:relative;padding-left:1.5rem;margin-bottom:.35rem;color:var(--ink)}
