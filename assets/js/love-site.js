@@ -60,6 +60,11 @@ function slotLength(slot) {
 const SLOTS = [...new Set(Object.values(OEFFNUNG).filter(Boolean).flatMap(t => t.slots))]
   .sort((a, b) => a.localeCompare(b));
 const KINO_SLOT = '18:00–20:00';   // Freitagabend
+/* Die Kino-Night ist ausgeblendet, bis das Konzept steht (Entscheid Taulant, 22.09.2026).
+   Solange der Schalter auf false steht, ist der Freitagabend ein gewöhnliches Zeitfenster —
+   Reservation, Reservations-Fenster und Hinweise richten sich alle danach. Zum Einschalten:
+   true setzen, kinoabend.html wieder in tools/build-public.js aufnehmen, Navigation ergänzen. */
+const KINO_AKTIV = false;
 
 const allTables = () => ROOMS.flatMap(r => r.tables.map(t => Object.assign({ room: r.id }, t)));
 const capacity = () => allTables().reduce((s, t) => s + t.seats, 0); // = 44
@@ -80,7 +85,7 @@ function candidates(persons, area) {
   return allTables().filter(t => t.kind === kind && (!area || area === 'egal' || t.room === area));
 }
 function isKinoSlot(dateISO, slot) {
-  if (!dateISO || slot !== KINO_SLOT) return false;
+  if (!KINO_AKTIV || !dateISO || slot !== KINO_SLOT) return false;
   return wochentag(dateISO) === 5; // Freitag
 }
 /* Belegung eines Zeitfensters aus der Buchungsliste (für CRM-Tischplan) */
@@ -98,7 +103,7 @@ function occupancy(dateISO, slot, bookings) {
   return { byTable, seats, unassigned, all: live };
 }
 
-window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, INVENTORY, OEFFNUNG, allTables, capacity, suggest,
+window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, KINO_AKTIV, INVENTORY, OEFFNUNG, allTables, capacity, suggest,
   candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength };
 
 /* ═══════════ i18n ═══════════ */
@@ -167,6 +172,15 @@ function applyLang(l) {
   if (titles[lang]) document.title = titles[lang];
   document.dispatchEvent(new CustomEvent('love:lang', { detail: lang }));
 }
+/* Zweite Sprachwahl im aufklappbaren Menü: Auf dem Handy hat sie in der Kopfzeile keinen Platz
+   (sie ragte über den Rand und machte die Seite seitlich verschiebbar). Die Kopie entsteht VOR
+   dem Anbinden der Klicks, damit beide gleich funktionieren und gleich markiert werden. */
+(() => {
+  const ls = document.querySelector('.nav-in > .lang-switch'), ul = document.querySelector('nav.main > ul');
+  if (!ls || !ul) return;
+  const li = document.createElement('li'); li.className = 'nav-lang';
+  li.appendChild(ls.cloneNode(true)); ul.appendChild(li);
+})();
 document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 if (lang !== 'de') applyLang(lang);
 

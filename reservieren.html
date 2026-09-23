@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=1c26cbaa">
+<link rel="stylesheet" href="assets/css/love.css?v=906d653e">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=7b08b285">
-<link rel="stylesheet" href="assets/css/love-account.css?v=900ff869">
+<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script>
 window.LOVE_TITLES = { de: 'Tisch reservieren — LOVE Creative Café, Au ZH', en: 'Reserve a table — LOVE Creative Café, Au ZH' };
 window.LOVE_DE = {
@@ -30,7 +30,7 @@ window.LOVE_EN = {
   'how.eyebrow':'How it works',
   'how.title':'Three steps to your table',
   'how.s1':'Date &amp; time slot',
-  'how.s1t':'Wednesday and Friday: 12–3, 3–6 and 6–8 pm. Saturday and Sunday: 10–1, 1–4 and 4–6:30 pm. Fridays 6–8 pm is Cinema Night. Closed Monday, Tuesday and Thursday — groups on request.',
+  'how.s1t':'Wednesday and Friday: 12–3, 3–6 and 6–8 pm. Saturday and Sunday: 10–1, 1–4 and 4–6:30 pm. Closed Monday, Tuesday and Thursday — groups on request.',
   'how.s2':'Group size',
   'how.s2t':'Up to 2 people get a cosy round table for two, 3–4 a round table for four, 5–8 a long table. From 9 people, use our event planner.',
   'how.s3':'Confirmation',
@@ -50,7 +50,6 @@ window.LOVE_EN = {
   'f.sub':'Fill in — we take care of the rest.',
   'f.date':'Date',
   'f.slot':'Time slot',
-  'f.kinoHint':'Friday evening = Cinema Night: film and ceramic piece included. We confirm the programme by e-mail.',
   'f.persons':'Number of people',
   'f.personsHint':'1–8 people at a table. From 9: event planner.',
   'f.area':'Preferred area',
@@ -75,17 +74,16 @@ window.LOVE_EN = {
   'f.eventLink':'Go to event planner →',
   'f.okTitle':'Reservation received!',
   'f.okText':'We confirm your table by e-mail within 24 hours. If your slot is already full, we\'ll get back to you with alternatives.',
-  'f.okKino':'Cinema Night: we\'ll send you the programme and format with the confirmation.',
   'faq.eyebrow':'Good to know',
   'faq.title':'Questions about reservations',
   'faq.q1':'Do I have to pay in advance?',
-  'faq.a1':'No. You pay at the studio — ceramics per piece, café à la carte. Only events and private cinema nights require a deposit.',
+  'faq.a1':'No. You pay at the studio — ceramics per piece, café à la carte. Only events require a deposit.',
   'faq.q2':'How long can I stay?',
   'faq.a2':'A reservation covers 3 hours. Want longer? Note it in the message — an extra hour is CHF 10 if there\'s space.',
   'faq.q3':'Can I cancel?',
   'faq.a3':'Free of charge up to 48 hours before, 50% up to 24 hours, after that the full amount is due. Tickets are transferable.',
   'faq.q4':'Are walk-ins possible?',
-  'faq.a4':'Yes — as long as there\'s space. On weekends and Friday evenings we recommend reserving.'
+  'faq.a4':'Yes — as long as there\'s space. On weekends we recommend reserving.'
 };
 </script>
 </head>
@@ -108,7 +106,6 @@ window.LOVE_EN = {
             <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
           </ul>
         </li>
-        <li><a href="kinoabend.html" data-i18n="nav.kino">Kinoabend</a></li>
         <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
         <li><a href="teamevents.html" data-i18n="nav.team">Team-Events</a></li>
         <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
@@ -147,7 +144,7 @@ window.LOVE_EN = {
     <p class="eyebrow" data-i18n="how.eyebrow">So funktioniert's</p>
     <h2 class="sect-title" data-i18n="how.title">In drei Schritten zu deinem Tisch</h2>
     <div class="steps">
-      <div class="step reveal"><h3 data-i18n="how.s1">Datum &amp; Zeitfenster</h3><p data-i18n="how.s1t">Mittwoch und Freitag: 12–15, 15–18 und 18–20 Uhr. Samstag und Sonntag: 10–13, 13–16 und 16–18:30 Uhr. Freitags 18–20 Uhr ist Kino-Night. Montag, Dienstag und Donnerstag haben wir geschlossen — Gruppen auf Anfrage.</p></div>
+      <div class="step reveal"><h3 data-i18n="how.s1">Datum &amp; Zeitfenster</h3><p data-i18n="how.s1t">Mittwoch und Freitag: 12–15, 15–18 und 18–20 Uhr. Samstag und Sonntag: 10–13, 13–16 und 16–18:30 Uhr. Montag, Dienstag und Donnerstag haben wir geschlossen — Gruppen auf Anfrage.</p></div>
       <div class="step reveal"><h3 data-i18n="how.s2">Gruppengrösse</h3><p data-i18n="how.s2t">Bis 2 Personen bekommen einen gemütlichen Rundtisch für zwei, 3–4 einen Rundtisch für vier, 5–8 einen langen Tisch. Ab 9 Personen geht's über den Eventplaner.</p></div>
       <div class="step reveal"><h3 data-i18n="how.s3">Bestätigung</h3><p data-i18n="how.s3t">Wir bestätigen per E-Mail innert 24 Stunden. Ist dein Wunschtermin schon voll, melden wir uns mit Alternativen.</p></div>
     </div>
@@ -197,7 +194,6 @@ window.LOVE_EN = {
           <div class="field">
             <label data-i18n="f.slot">Zeitfenster</label>
             <div class="choice-grid" id="slotGrid" role="group" aria-label="Zeitfenster"></div>
-            <p class="hint hidden" id="kinoHint" data-i18n="f.kinoHint">Freitagabend = Kino-Night: Film und Keramikstück inklusive. Das Programm bestätigen wir per E-Mail.</p>
           </div>
           <div class="field">
             <label data-i18n="f.area">Bevorzugter Bereich</label>
@@ -233,7 +229,6 @@ window.LOVE_EN = {
         <div class="success hidden" id="resSuccess" aria-live="polite">
           <h3 data-i18n="f.okTitle">Reservation eingegangen!</h3>
           <p data-i18n="f.okText">Wir bestätigen dir deinen Tisch innert 24 Stunden per E-Mail. Ist dein Wunschtermin schon voll, melden wir uns mit Alternativen.</p>
-          <p class="hidden" id="okKino" data-i18n="f.okKino">Kino-Night: Programm und Format schicken wir dir mit der Bestätigung.</p>
           <p class="code" id="resRef"></p>
           <p id="resSummary"></p>
         </div>
@@ -246,7 +241,7 @@ window.LOVE_EN = {
   <div class="wrap wrap-narrow">
     <p class="eyebrow" data-i18n="faq.eyebrow">Gut zu wissen</p>
     <h2 class="sect-title" data-i18n="faq.title">Fragen zur Reservation</h2>
-    <details><summary data-i18n="faq.q1">Muss ich vorauszahlen?</summary><p class="a" data-i18n="faq.a1">Nein. Bezahlt wird im Studio — Keramik pro Stück, Café à la carte. Nur Events und Private Movie Nights brauchen eine Anzahlung.</p></details>
+    <details><summary data-i18n="faq.q1">Muss ich vorauszahlen?</summary><p class="a" data-i18n="faq.a1">Nein. Bezahlt wird im Studio — Keramik pro Stück, Café à la carte. Nur Events brauchen eine Anzahlung.</p></details>
     <details><summary data-i18n="faq.q2">Wie lange darf ich bleiben?</summary><p class="a" data-i18n="faq.a2">Eine Reservation gilt für 3 Stunden. Du willst länger? Schreib es in die Nachricht — die Zusatzstunde kostet CHF 10, wenn Platz ist.</p></details>
     <details><summary data-i18n="faq.q3">Kann ich stornieren?</summary><p class="a" data-i18n="faq.a3">Bis 48 Stunden vorher kostenlos, bis 24 Stunden 50 %, danach wird der volle Betrag fällig. Tickets sind übertragbar.</p></details>
     <details><summary data-i18n="faq.q4">Geht auch spontan?</summary><p class="a" data-i18n="faq.a4">Ja — solange Platz frei ist. An Wochenenden und am Freitagabend empfehlen wir eine Reservation.</p></details>
@@ -266,7 +261,6 @@ window.LOVE_EN = {
         <h4 data-i18n="ft.worlds">Entdecken</h4>
         <ul>
           <li><a href="index.html#preise" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
-          <li><a href="index.html#kino" data-i18n="ft.kinoL">Kino-Night</a></li>
           <li><a href="index.html#events" data-i18n="ft.events">Events</a></li>
           <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
@@ -278,7 +272,6 @@ window.LOVE_EN = {
           <li>Seestrasse 287B, 8804 Au ZH</li>
           <li><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></li>
           <li data-i18n="ft.hours">Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</li>
-          <li data-i18n="ft.kino">Kino-Night: jeden Freitag</li>
           <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
         </ul>
       </div>
@@ -304,9 +297,9 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-site.js?v=f8e03b83"></script>
+<script src="assets/js/love-site.js?v=f53397b7"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
-<script src="assets/js/love-account.js?v=3b2472f0"></script>
+<script src="assets/js/love-account.js?v=63337b48"></script>
 <script src="assets/js/love-pay.js?v=b73a853e"></script>
 <script src="assets/js/love-widget.js?v=807308db"></script>
 <script>
@@ -347,7 +340,7 @@ function drawSlots() {
     slotGrid.innerHTML = `<p class="hint" style="grid-column:1/-1;margin:0">${en
       ? 'Closed on Mondays, Tuesdays and Thursdays. Group reservations are possible on request — just send us your enquiry below.'
       : 'Montag, Dienstag und Donnerstag haben wir geschlossen. Gruppenreservierungen sind auf Anfrage möglich — schick uns unten einfach deine Anfrage.'}</p>`;
-    $('#kinoHint').classList.add('hidden');
+    if ($('#kinoHint')) $('#kinoHint').classList.add('hidden');
     return;
   }
   if (slot && !offen.includes(slot)) slot = '';   // Fenster gibt es an diesem Tag nicht
@@ -359,9 +352,9 @@ function drawSlots() {
   slotGrid.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => {
     slot = b.dataset.slot;
     slotGrid.querySelectorAll('.choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-    $('#kinoHint').classList.toggle('hidden', !T.isKinoSlot($('#rDate').value, slot));
+    if ($('#kinoHint')) $('#kinoHint').classList.toggle('hidden', !T.isKinoSlot($('#rDate').value, slot));
   }));
-  $('#kinoHint').classList.toggle('hidden', !T.isKinoSlot(d, slot));
+  if ($('#kinoHint')) $('#kinoHint').classList.toggle('hidden', !T.isKinoSlot(d, slot));
 }
 $('#rDate').min = todayISO();
 $('#rDate').addEventListener('input', drawSlots);
@@ -411,7 +404,7 @@ $('#resForm').addEventListener('submit', e => {
   $('#resForm').classList.add('hidden');
   $('#resRef').textContent = t('ref.lbl') + b.id;
   $('#resSummary').innerHTML = `<b>${date.split('-').reverse().join('.')}</b> · ${slot} · ${persons} ${LoveSite.lang() === 'en' ? 'people' : 'Personen'}`;
-  $('#okKino').classList.toggle('hidden', !kino);
+  if ($('#okKino')) $('#okKino').classList.toggle('hidden', !kino);
   $('#resSuccess').classList.remove('hidden');
   /* Online-Zahlung Kino-Night (Payrexx), sobald der Paylink in love-pay.js hinterlegt ist */
   if (kino) LovePay.mountButton($('#resSuccess'), 'kino', { email, name });

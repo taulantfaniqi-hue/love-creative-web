@@ -231,7 +231,10 @@ const LoveAccount = (() => {
     const btn = document.createElement('button');
     btn.id = 'accBtn'; btn.className = 'acc-btn'; btn.type = 'button';
     btn.setAttribute('aria-haspopup', 'dialog');
-    navIn.insertBefore(btn, navIn.querySelector('.lang-switch'));
+    /* Nur die Sprachwahl DIREKT in der Kopfzeile meinen: Im aufklappbaren Menü liegt seit dem
+       22.09.2026 eine zweite (fürs Handy). Ohne «:scope >» fand querySelector jene zuerst — sie ist
+       kein direktes Kind der Kopfzeile, insertBefore scheiterte, und der Knopf fehlte ganz. */
+    navIn.insertBefore(btn, navIn.querySelector(':scope > .lang-switch'));
 
     document.body.insertAdjacentHTML('beforeend', `
       <div class="acc-backdrop" id="accBackdrop"></div>
@@ -282,7 +285,9 @@ const LoveAccount = (() => {
   function renderBtn() {
     const x = tx(); const c = current();
     const b = document.getElementById('accBtn');
-    if (b) b.innerHTML = `<span aria-hidden="true">♥</span> ${c ? esc(x.hello(c.name || c.email)) : x.account}`;
+    /* Text in eigener Hülle: auf dem Handy zeigt die Kopfzeile nur das Herz (love-account.css) */
+    const etikett = c ? x.hello(c.name || c.email) : x.account;
+    if (b) { b.innerHTML = `<span aria-hidden="true">♥</span><span class="acc-txt"> ${esc(etikett)}</span>`; b.setAttribute('aria-label', etikett); }
   }
 
   /* Zweistufiger Login: zuerst E-Mail/Benutzername — der Server erkennt dann,

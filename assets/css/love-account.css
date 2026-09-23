@@ -18,6 +18,11 @@
   .acc-btn{margin-left:auto;margin-right:.2rem}
   .burger{margin-left:0}
 }
+/* Handy: nur das Herz, 44 px — der Text «Konto» hat in der Kopfzeile keinen Platz */
+@media (max-width:640px){
+  .acc-btn{min-width:44px;min-height:44px;padding:0;justify-content:center;margin-right:0;font-size:1rem}
+  .acc-btn .acc-txt{display:none}
+}
 
 /* Abdunkelung + Modal */
 .acc-backdrop{

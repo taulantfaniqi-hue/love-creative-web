@@ -90,6 +90,29 @@ nav.main .sub a:hover{background:var(--mimi);color:var(--green)}
 .nav-cta{margin-left:.35rem}
 .burger{display:none;margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:var(--r-s);padding:.45rem .6rem;cursor:pointer;color:var(--green);font-size:1.1rem;line-height:1;transition:transform .25s ease,background .2s ease}
 .burger[aria-expanded="true"]{transform:rotate(90deg);background:var(--mimi)}
+/* Sprachwahl im aufgeklappten Menü — nur auf dem Handy sichtbar (siehe unten) */
+.nav-lang{display:none}
+/* HANDY-KOPFZEILE. Logo, Menü, «Konto» und Sprachwahl passen bei 375 px nicht nebeneinander:
+   Die Sprachwahl lag bei 394–471 px, also ausserhalb — die ganze Seite liess sich dadurch seitlich
+   verschieben. Unter 640 px wandert die Sprachwahl ins Menü, das Logo wird kompakter, und die
+   Knöpfe bekommen 44 px, damit man sie mit dem Daumen trifft. */
+@media (max-width:640px){
+  .nav-in{gap:.45rem;padding:.55rem .9rem}
+  .brand{gap:.5rem;margin-right:.2rem;min-width:0}
+  .brand img{width:44px;height:44px}
+  .brand-name{font-size:1.05rem;letter-spacing:.12em}
+  .brand-name small{font-size:.56rem;letter-spacing:.2em}
+  .nav-in > .lang-switch{display:none}
+  .nav-lang{display:block;padding-top:.4rem;border-top:1px solid var(--line-soft);width:100%}
+  .nav-lang .lang-switch{display:inline-flex;margin-left:0}
+  .nav-lang .lang-btn{padding:.55rem .95rem;font-size:.9rem}
+  .burger{display:grid;place-items:center;min-width:44px;min-height:44px;padding:0}
+  /* «header.site» davor, damit diese Regel die allgemeine (80 px, weiter unten) schlägt — die Kopfzeile ist hier nur 63 px hoch */
+  header.site nav.main{inset:63px 0 auto 0;max-height:calc(100vh - 63px)}
+}
+/* Sicherheitsnetz: Sollte je wieder ein Element über den Rand ragen, wird es abgeschnitten,
+   statt die Seite seitlich verschiebbar zu machen. «clip» stört position:sticky nicht. */
+html{overflow-x:clip}
 @media (max-width:1310px){
   .burger{display:block}
   /* Menü gleitet animiert von oben herein */
