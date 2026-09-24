@@ -114,9 +114,8 @@ window.LOVE_EN = {
   'kb.eVers':'My child has health and accident insurance. Insurance is the parents\' responsibility.',
   'kb.optLbl':'Optional — you decide',
   'kb.fErinnerung':'You may take photos and e-mail them to me as a keepsake.',
-  'kb.fOeffentlich':'You may show photos in which my child is recognisable on your website and social media.',
   'kb.fNews':'Send me the newsletter with new camps and dates.',
-  'kb.optHint':'Without a tick we will not photograph your child recognisably. This has no effect on participation. You can withdraw any consent at any time: hello@lovecreative.ch.',
+  'kb.optHint':'We do not publish photos. The tick has no effect on participation — and you can withdraw the consent at any time: hello@lovecreative.ch.',
   'kb.submit':'Register &amp; pay →',
   'kb.payHint':'You pay securely via Payrexx (TWINT, credit &amp; debit cards). The date is final once our team confirms it by e-mail.',
   'kb.retry':'Retry payment',
@@ -295,9 +294,8 @@ window.LOVE_EN = {
           <div class="anm-opt">
             <p class="lbl" data-i18n="kb.optLbl">Freiwillig — du entscheidest</p>
             <label class="check"><input type="checkbox" id="fErinnerung"><span data-i18n="kb.fErinnerung">Ihr dürft Fotos machen und sie mir als Erinnerung per E-Mail schicken.</span></label>
-            <label class="check"><input type="checkbox" id="fOeffentlich"><span data-i18n="kb.fOeffentlich">Ihr dürft Fotos, auf denen mein Kind zu erkennen ist, auf eurer Website und auf Social Media zeigen.</span></label>
             <label class="check"><input type="checkbox" id="fNews"><span data-i18n="kb.fNews">Schickt mir den Newsletter mit neuen Camps und Terminen.</span></label>
-            <p class="hint" style="margin:.4rem 0 0" data-i18n="kb.optHint">Ohne Häkchen fotografieren wir dein Kind nicht erkennbar. Das hat keinen Einfluss auf die Teilnahme. Du kannst jede Einwilligung jederzeit widerrufen: hello@lovecreative.ch.</p>
+            <p class="hint" style="margin:.4rem 0 0" data-i18n="kb.optHint">Fotos veröffentlichen wir nicht. Das Häkchen hat keinen Einfluss auf die Teilnahme — und du kannst die Einwilligung jederzeit widerrufen: hello@lovecreative.ch.</p>
           </div>
         </div>
 
@@ -593,7 +591,7 @@ function einzelheiten() {
   z.push('— EINVERSTÄNDNIS (' + new Date().toLocaleString('de-CH') + ')');
   z.push(`   AGB/Storno: ${ja('eAgb')} · Datenbearbeitung: ${ja('eDsg')} · sorgeberechtigt: ${ja('eSorge')}`
     + ` · Notfallhilfe: ${ja('eNotfall')} · versichert: ${ja('eVers')}`);
-  z.push(`   FOTOS — Erinnerung per E-Mail: ${ja('fErinnerung')} · Website/Social Media: ${ja('fOeffentlich')}`);
+  z.push(`   FOTOS — Erinnerung per E-Mail: ${ja('fErinnerung')}`);
   z.push(`   Newsletter: ${ja('fNews')}`);
   if ($('#pMsg').value.trim()) z.push('— Bemerkung: ' + $('#pMsg').value.trim());
   return z.join('\n');
