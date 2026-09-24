@@ -124,6 +124,9 @@ body.lw-open .sticky-cta{display:none !important}
 .lw-cal-day:hover:not(:disabled){background:var(--mimi)}
 .lw-cal-day:disabled{color:#c9c3bd;cursor:default;text-decoration:line-through;text-decoration-color:rgba(201,195,189,.6)}
 .lw-cal-day.today{box-shadow:inset 0 0 0 1.5px var(--rose)}
+/* Geschlossene Wochentage: buchbar als private Keramik-Session (ab 6 P., Gebühr vorbezahlt) */
+.lw-cal-day.priv{color:var(--ink-soft);background:var(--warmwhite)}
+.lw-cal-day.priv::after{content:"🎨";display:block;font-size:.55rem;line-height:1;margin-top:1px}
 .lw-cal-day.sel{background:var(--rose);color:#fff}
 .lw-cal-empty{pointer-events:none}
 .lw-cancel-hint{margin:.55rem 0 0;font-size:.78rem;color:var(--ink-soft);text-align:center}

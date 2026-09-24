@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css?v=935fb209">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=175b7957">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
 <link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
 <script>
 window.LOVE_TITLES = { de: 'Tisch reservieren — LOVE Creative Café, Au ZH', en: 'Reserve a table — LOVE Creative Café, Au ZH' };
@@ -61,7 +61,7 @@ window.LOVE_EN = {
   'f.act2':'Café only',
   'f.name':'Name',
   'f.email':'E-mail',
-  'f.phone':'Phone (optional)',
+  'f.phone':'Phone',
   'f.msg':'Message (optional)',
   'f.msgPh':'Birthday, allergies, extra hour…',
   'f.yourTable':'Your table',
@@ -220,7 +220,7 @@ window.LOVE_EN = {
             <div class="field"><label for="rEmail" data-i18n="f.email">E-Mail</label><input type="email" id="rEmail" autocomplete="email"></div>
           </div>
           <div class="two-col">
-            <div class="field"><label for="rPhone" data-i18n="f.phone">Telefon (optional)</label><input type="tel" id="rPhone" autocomplete="tel"></div>
+            <div class="field"><label for="rPhone" data-i18n="f.phone">Telefon</label><input type="tel" id="rPhone" autocomplete="tel" required></div>
             <div class="field"><label for="rMsg" data-i18n="f.msg">Nachricht (optional)</label><input type="text" id="rMsg" data-i18n-ph="f.msgPh" placeholder="Geburtstag, Allergien, Zusatzstunde…"></div>
           </div>
           <button type="submit" class="btn btn-rose btn-block" data-i18n="f.submit">Reservation anfragen</button>
@@ -297,11 +297,11 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=2af837ff"></script>
-<script src="assets/js/love-site.js?v=62ae7013"></script>
+<script src="assets/js/love-site.js?v=452d5591"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=fd71b4ab"></script>
-<script src="assets/js/love-pay.js?v=757b0b69"></script>
-<script src="assets/js/love-widget.js?v=487f630c"></script>
+<script src="assets/js/love-pay.js?v=f8e0a896"></script>
+<script src="assets/js/love-widget.js?v=b2b72c00"></script>
 <script>
 (() => {
 'use strict';
@@ -394,6 +394,8 @@ $('#resForm').addEventListener('submit', e => {
   if (!slot) { err.textContent = t('err.slot'); return; }
   if (!persons || persons > 10) { err.textContent = t('err.persons'); return; }
   if (!name || !validEmail(email)) { err.textContent = t('err.required'); return; }
+  /* Telefon ist Pflicht — fürs Team bei Rückfragen */
+  if ($('#rPhone').value.replace(/\D/g, '').length < 7) { err.textContent = t('err.phone'); return; }
   err.textContent = '';
   const kino = T.isKinoSlot(date, slot);
   const b = LoveData.addBooking({
@@ -410,6 +412,26 @@ $('#resForm').addEventListener('submit', e => {
   if (kino) LovePay.mountButton($('#resSuccess'), 'kino', { email, name });
   $('#resSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
+
+/* Rückkehr von der Payrexx-Zahlung einer privaten Keramik-Session (Widget) */
+(() => {
+  const q = new URLSearchParams(location.search);
+  const paid = q.get('paid'), fail = q.get('payfail');
+  if (!paid && !fail) return;
+  const de = LoveSite.lang() !== 'en';
+  const msg = paid
+    ? (de ? `Zahlung erhalten — danke! Deine private Keramik-Session (${paid}) ist eingegangen. Unser Team bestätigt dir den Termin per E-Mail.`
+          : `Payment received — thank you! Your private ceramic session (${paid}) is in. Our team will confirm the date by e-mail.`)
+    : (de ? `Die Zahlung wurde nicht abgeschlossen. Deine Anfrage (${fail}) ist gespeichert — wir melden uns per E-Mail mit dem Zahlungslink.`
+          : `The payment was not completed. Your request (${fail}) is saved — we will e-mail you the payment link.`);
+  const div = document.createElement('div');
+  div.style.cssText = 'max-width:900px;margin:1.2rem auto 0;padding:1rem 1.3rem;border-radius:14px;background:' + (paid ? 'var(--celadon)' : 'var(--mimi)') + ';color:var(--green);font-weight:600';
+  div.setAttribute('role', 'status');
+  div.textContent = (paid ? '✓ ' : '✕ ') + msg;
+  document.querySelector('main').prepend(div);
+  history.replaceState(null, '', location.pathname);
+  div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+})();
 })();
 </script>
 </body>

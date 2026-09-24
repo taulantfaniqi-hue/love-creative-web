@@ -32,7 +32,8 @@ const LovePay = (() => {
     try {
       const r = await LoveCloud.call('gateway_create', {
         amount: opts.amount, code: opts.code, purpose: opts.purpose, email: opts.email,
-        discount_code: opts.discount_code || ''
+        discount_code: opts.discount_code || '', voucher_code: opts.voucher_code || '',
+        back: opts.back || ''
       });
       if (r.ok && r.link) {
         window.location.href = r.link; // direkte Weiterleitung auf die Payrexx-Zahlungsseite

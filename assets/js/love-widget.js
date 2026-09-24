@@ -33,8 +33,16 @@ const TX = {
     eventNote: 'Ab 9 Personen planen wir mit euch ein Event — mit Verpflegung und eigenem Zeitplan.',
     eventLink: 'Zum Eventplaner →',
     formTitle: sel => `Fast geschafft — ${sel}`,
-    name: 'Name', email: 'E-Mail', note: 'Nachricht (optional)',
+    name: 'Name', email: 'E-Mail', phone: 'Telefon (für Rückfragen)', note: 'Nachricht (optional)',
+    errPhone: 'Bitte gib eine Telefonnummer an — wir brauchen sie für Rückfragen zur Reservation.',
     submit: 'Reservation anfragen',
+    guestsPriv: n => `${n} Personen`,
+    privBadge: 'Private Keramik-Session',
+    privNote: min => `An diesem Tag ist das Studio regulär geschlossen — buchbar ist eine <b>private Keramik-Session ab ${min} Personen</b>. Die Servicegebühr wird online vorbezahlt, die Keramikstücke zahlt ihr vor Ort.`,
+    privFee: (n, chf) => `Servicegebühr: ${n} × CHF 25 = <b>CHF ${chf}</b> — jetzt online bezahlen`,
+    priv24h: 'Absage bis 24 h vor dem Termin: volle Rückerstattung der Gebühr. Bei kurzfristigeren Buchungen oder Absagen unter 24 h gibt es keine Rückerstattung.',
+    submitPay: chf => `Kostenpflichtig buchen — CHF ${chf} →`,
+    privPayFail: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Anfrage ist gespeichert — wir melden uns per E-Mail mit dem Zahlungslink.',
     okTitle: 'Anfrage eingegangen!',
     okText: 'Du bekommst gleich eine E-Mail von uns. Bitte warte kurz, bis unser Team deine Buchung annimmt — die Bestätigung kommt ebenfalls per E-Mail.',
     okKino: 'Kino-Night: Programm und Format schicken wir dir mit der Bestätigung.',
@@ -64,8 +72,16 @@ const TX = {
     eventNote: 'From 9 people we plan an event with you — with catering and your own timing.',
     eventLink: 'Go to event planner →',
     formTitle: sel => `Almost there — ${sel}`,
-    name: 'Name', email: 'E-mail', note: 'Message (optional)',
+    name: 'Name', email: 'E-mail', phone: 'Phone (for queries)', note: 'Message (optional)',
+    errPhone: 'Please add a phone number — we need it for queries about your reservation.',
     submit: 'Request reservation',
+    guestsPriv: n => `${n} people`,
+    privBadge: 'Private ceramic session',
+    privNote: min => `The studio is regularly closed on this day — you can book a <b>private ceramic session from ${min} people</b>. The service fee is prepaid online; you pay for the ceramic pieces on site.`,
+    privFee: (n, chf) => `Service fee: ${n} × CHF 25 = <b>CHF ${chf}</b> — paid online now`,
+    priv24h: 'Cancel up to 24 h before your session for a full refund of the fee. Bookings made or cancelled less than 24 h ahead are non-refundable.',
+    submitPay: chf => `Book & pay — CHF ${chf} →`,
+    privPayFail: 'Online payment is temporarily unavailable. Your request is saved — we will e-mail you the payment link.',
     okTitle: 'Request received!',
     okText: 'You will get an e-mail from us right away. Please wait until our team accepts your booking — the confirmation also arrives by e-mail.',
     okKino: 'Cinema Night: we send you the programme with the confirmation.',
@@ -169,15 +185,18 @@ function loadClosures() {
   }).catch(() => {});
 }
 const HORIZON_DAYS = 60; // so weit im Voraus kann online reserviert werden
+/* Geschlossener Wochentag (Mo/Di/Do)? Dann ist nur die private Keramik-Session
+   ab 6 Personen buchbar — mit vorbezahlter Servicegebühr. */
+const isPriv = iso => !!iso && !T.isOpen(iso);
 function dateOptions() {
   const out = [];
   const base = new Date(LoveSite.todayISO() + 'T12:00:00');
   for (let i = 0; i < HORIZON_DAYS; i++) {
     const d = new Date(base.getTime() + i * 864e5);
     const iso = d.toISOString().slice(0, 10);
-    /* Geschlossene Wochentage (Mo, Di, Do) gar nicht erst anbieten — dazu die
-       einzelnen Schliesstage aus der Cloud (Ferien, Feiertage). */
-    if (!closedDays.has(iso) && T.isOpen(iso)) out.push(iso);
+    /* Ferien/Feiertage aus der Cloud bleiben ganz zu; geschlossene Wochentage
+       (Mo, Di, Do) sind als private Keramik-Session ab 6 Personen wählbar. */
+    if (!closedDays.has(iso)) out.push(iso);
   }
   return out.length ? out : [LoveSite.todayISO()];
 }
@@ -234,6 +253,14 @@ function renderStatic() {
 }
 function renderGuests() {
   const x = tw();
+  if (isPriv(state.date)) {
+    /* Privat-Session: ab 6 Personen (bis 8 am langen Tisch; grössere Gruppen → Eventplaner) */
+    if (state.guests < T.PRIVAT_MIN) state.guests = T.PRIVAT_MIN;
+    $('lwGuests').innerHTML =
+      [6, 7, 8].map(n => `<option value="${n}" ${state.guests === n ? 'selected' : ''}>${x.guestsPriv(n)}</option>`).join('') +
+      `<option value="9" ${state.guests >= 9 ? 'selected' : ''}>${x.guestsEvent}</option>`;
+    return;
+  }
   $('lwGuests').innerHTML =
     Array.from({ length: 8 }, (_, i) => `<option value="${i + 1}" ${state.guests === i + 1 ? 'selected' : ''}>${x.guests(i + 1)}</option>`).join('') +
     `<option value="9" ${state.guests >= 9 ? 'selected' : ''}>${x.guestsEvent}</option>`;
@@ -260,8 +287,8 @@ function renderCal() {
   for (let i = 0; i < startCol; i++) cells += '<span class="lw-cal-day lw-cal-empty"></span>';
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso) && T.isOpen(iso);
-    cells += `<button type="button" class="lw-cal-day${iso === state.date ? ' sel' : ''}${iso === todayIso ? ' today' : ''}" data-iso="${iso}" ${ok ? '' : 'disabled'}>${day}</button>`;
+    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso);
+    cells += `<button type="button" class="lw-cal-day${iso === state.date ? ' sel' : ''}${iso === todayIso ? ' today' : ''}${ok && isPriv(iso) ? ' priv' : ''}" data-iso="${iso}" ${ok ? '' : 'disabled'}>${day}</button>`;
   }
   $('lwCal').innerHTML = `
     <div class="lw-cal-head">
@@ -292,8 +319,9 @@ function toggleCal(open) {
 
 function renderSlots() {
   const x = tw();
-  /* Die Fenster hängen am Wochentag — Mi/Fr ab 12 Uhr, Sa/So ab 10 Uhr. */
-  const offen = T.slotsFor(state.date);
+  /* Die Fenster hängen am Wochentag — Mi/Fr ab 12 Uhr, Sa/So ab 10 Uhr;
+     an geschlossenen Tagen gelten die Fenster der privaten Session. */
+  const offen = isPriv(state.date) ? T.PRIVAT_SLOTS : T.slotsFor(state.date);
   if (!offen.length) { $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; return; }
   if (!offen.includes(state.slot)) state.slot = offen[0];
   if (slotFull(state.date, state.slot, state.guests)) {
@@ -328,8 +356,15 @@ function renderCards() {
   let acts = actList();
   acts = kino ? [...acts.filter(a => a.id === 'kino'), ...acts.filter(a => a.id !== 'kino')]
               : acts.filter(a => a.id !== 'kino');
+  /* Geschlossener Tag: nur Keramik als private Session, mit klarem Hinweis */
+  let privHtml = '';
+  if (isPriv(state.date)) {
+    acts = acts.filter(a => a.id === 'keramik');
+    if (!state.act) state.act = 'keramik';
+    privHtml = `<div class="lw-event-note" style="text-align:left"><b>🎨 ${x.privBadge}</b><br>${x.privNote(T.PRIVAT_MIN)}<br><span style="font-size:.85em">${x.priv24h}</span></div>`;
+  }
   const esc = s => String(s || '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
-  box.innerHTML = acts.map(a => `
+  box.innerHTML = privHtml + acts.map(a => `
     <button type="button" class="lw-card" data-act="${esc(a.id)}" aria-pressed="${state.act === a.id}">
       <span class="lw-imgwrap">
         ${a.id === 'kino' ? `<span class="lw-kino-flag">${x.kino}</span>` : ''}
@@ -352,17 +387,22 @@ function renderForm() {
   const acc = (typeof LoveAccount !== 'undefined' && LoveAccount.current()) || null;
   const prevName = (wrap.querySelector('#lwName') ? wrap.querySelector('#lwName').value : '') || (acc ? acc.name : '');
   const prevMail = (wrap.querySelector('#lwEmail') ? wrap.querySelector('#lwEmail').value : '') || (acc ? acc.email : '');
+  const prevPhone = (wrap.querySelector('#lwPhone') ? wrap.querySelector('#lwPhone').value : '') || (acc ? (acc.phone || '') : '');
   const prevNote = wrap.querySelector('#lwNote') ? wrap.querySelector('#lwNote').value : '';
   const act = actList().find(a => a.id === state.act);
+  const priv = isPriv(state.date);
+  const fee = T.PRIVAT_GEBUEHR * state.guests;
   wrap.innerHTML = `
   <form class="lw-form" id="lwForm" novalidate>
     <h5>${x.formTitle(act ? act.title : '')}</h5>
     <input type="text" id="lwName" autocomplete="name" placeholder="${x.name}" value="${prevName.replace(/"/g, '&quot;')}">
     <input type="email" id="lwEmail" autocomplete="email" placeholder="${x.email}" value="${prevMail.replace(/"/g, '&quot;')}">
+    <input type="tel" id="lwPhone" autocomplete="tel" placeholder="${x.phone}" value="${prevPhone.replace(/"/g, '&quot;')}">
     <input type="text" id="lwNote" placeholder="${x.note}" value="${prevNote.replace(/"/g, '&quot;')}">
+    ${priv ? `<p class="lw-cancel-hint" style="font-weight:600">${x.privFee(state.guests, fee)}</p>` : ''}
     <p class="lw-err" id="lwErr" aria-live="polite"></p>
-    <button type="submit" class="btn btn-rose btn-block">${x.submit}</button>
-    <p class="lw-cancel-hint">${LoveSite.t('cancel.hint')}</p>
+    <button type="submit" class="btn btn-rose btn-block">${priv ? x.submitPay(fee) : x.submit}</button>
+    <p class="lw-cancel-hint">${priv ? x.priv24h : LoveSite.t('cancel.hint')}</p>
   </form>`;
   $('lwForm').addEventListener('submit', submit);
 }
@@ -374,6 +414,7 @@ function renderResult() {
   <div class="lw-success" aria-live="polite">
     <h4>${x.okTitle}</h4>
     <p>${x.okText}</p>
+    ${b.payFailed ? `<p><b>${x.privPayFail}</b></p>` : ''}
     ${b.type === 'kino' ? `<p>${x.okKino}</p>` : ''}
     <p class="lw-ref">${LoveSite.t('ref.lbl')}${b.id}</p>
     <p><b>${new Date(b.date + 'T12:00:00').toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })}</b> · ${b.time} · ${b.persons} ${x.persons}</p>
@@ -385,22 +426,41 @@ function renderResult() {
 function renderAll() { renderStatic(); renderGuests(); renderDates(); renderSlots(); renderCards(); }
 
 /* ═══════════ Absenden ═══════════ */
-function submit(e) {
+let submitBusy = false;
+async function submit(e) {
   e.preventDefault();
+  if (submitBusy) return;
   const x = tw();
   const name = $('lwName').value.trim(), email = $('lwEmail').value.trim();
+  const phone = $('lwPhone').value.trim();
   if (!name || !LoveSite.validEmail(email)) { $('lwErr').textContent = LoveSite.t('err.required'); return; }
+  /* Telefon ist Pflicht — fürs Team bei Rückfragen zur Reservation */
+  if ((phone.replace(/\D/g, '')).length < 7) { $('lwErr').textContent = x.errPhone; return; }
   if (slotFull(state.date, state.slot, state.guests)) { $('lwErr').textContent = LoveSite.t('err.full'); return; }
-  const kino = T.isKinoSlot(state.date, state.slot) && state.act === 'kino';
+  const priv = isPriv(state.date);
+  const kino = !priv && T.isKinoSlot(state.date, state.slot) && state.act === 'kino';
+  const fee = T.PRIVAT_GEBUEHR * state.guests;
+  submitBusy = true;
   state.done = LoveData.addBooking({
-    type: kino ? 'kino' : 'tisch',
-    name, email, phone: '',
+    type: priv ? 'keramik-privat' : (kino ? 'kino' : 'tisch'),
+    name, email, phone,
     date: state.date, time: state.slot, persons: state.guests,
     area: 'egal', table_type: T.suggest(state.guests),
-    world: state.act === 'kino' ? 'keramik' : state.act,
-    message: ($('lwNote').value.trim() ? $('lwNote').value.trim() + ' ' : '') + '[Widget]',
+    world: priv ? 'keramik' : (state.act === 'kino' ? 'keramik' : state.act),
+    price: priv ? 'CHF ' + fee : '',
+    message: ($('lwNote').value.trim() ? $('lwNote').value.trim() + ' ' : '') + (priv ? '[Privat-Session · Gebühr vorbezahlt] ' : '') + '[Widget]',
     lang: LoveSite.lang()
   });
+  /* Private Session: Servicegebühr direkt über Payrexx vorbezahlen */
+  if (priv && typeof LovePay !== 'undefined') {
+    const r = await LovePay.checkout({
+      amount: fee, code: state.done.id, email, back: 'reservieren',
+      purpose: 'LOVE Private Keramik-Session ' + state.done.id + ' · ' + state.guests + ' Personen'
+    });
+    if (r.ok) return; // Weiterleitung zu Payrexx läuft
+    state.done.payFailed = true;
+  }
+  submitBusy = false;
   renderCards();
 }
 

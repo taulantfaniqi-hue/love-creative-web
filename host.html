@@ -219,7 +219,7 @@ function loadClosures() {
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 const fmtDay = iso => iso ? String(iso).split('-').reverse().join('.') : '—';
 const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
-const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin' };
+const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session' };
 const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) : '—');
 const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
 const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
@@ -347,7 +347,7 @@ function bookingCard(b, withActions) {
       <b>${esc(typeLbl(b.type))} · ${esc(b.name || '—')}</b>
       <span class="host-pill ${STATUS_CLS(b.status)}">${esc(STATUS_LBL[b.status] || b.status)}</span>
     </div>
-    <p class="hcard-meta">${fmtDay(b.date)}${b.time ? ' · ' + esc(b.time) : ''}${b.persons ? ' · ' + esc(b.persons) + ' P.' : ''}${b.world ? ' · ' + esc(b.world) : ''} · ${esc(b.email || '—')}${b.phone ? ' · ' + esc(b.phone) : ''} · <span style="font-size:.78em">${esc(b.id)}</span></p>
+    <p class="hcard-meta">${fmtDay(b.date)}${b.time ? ' · ' + esc(b.time) : ''}${b.persons ? ' · ' + esc(b.persons) + ' P.' : ''}${b.world ? ' · ' + esc(b.world) : ''} · ${esc(b.email || '—')}${b.phone ? ' · ☎ ' + esc(b.phone) : ''}${(b.paid == 1 || b.paid === true) ? ' · <b>bezahlt ✓</b>' : (b.price ? ' · ' + esc(b.price) + ' offen' : '')} · <span style="font-size:.78em">${esc(b.id)}</span></p>
     ${msg ? `<p class="hcard-msg">💬 ${esc(msg)}</p>` : ''}
     ${withActions ? `<div class="hcard-actions">
       <button class="btn btn-green btn-sm" data-bact="booking_confirm" data-id="${esc(b.id)}">✓ Annehmen</button>
@@ -486,13 +486,22 @@ function render() {
 
   /* ═══ Alle Buchungen ═══ */
   } else if (chapter === 'buchungen') {
+    /* Name/Telefon notfalls aus dem Kundenkonto zur gleichen E-Mail ergänzen */
+    const kundeZu = email => d.kunden.find(k => k.email === email) || null;
+    const bName = b => b.name || (kundeZu(b.email) ? kundeZu(b.email).name : '');
+    const bPhone = b => b.phone || (kundeZu(b.email) ? (kundeZu(b.email).phone || '') : '');
     box.innerHTML = `<h3 class="host-sect">Alle Buchungen</h3>` + (d.buchungen.length ? `<div class="host-table-wrap"><table class="host-table">
-      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Ref.</th></tr></thead>
+      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Telefon</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Bezahlt</th><th>Ref.</th></tr></thead>
       <tbody>${d.buchungen.map(b => `<tr>
         <td><span class="host-pill ${STATUS_CLS(b.status)}">${esc(STATUS_LBL[b.status] || b.status)}</span></td>
-        <td>${esc(typeLbl(b.type))}</td><td><b>${esc(b.name)}</b></td><td>${esc(b.email)}</td>
+        <td>${esc(typeLbl(b.type))}</td>
+        <td><b>${esc(bName(b) || '—')}</b>${kundeZu(b.email) ? ' <span title="hat ein Kundenkonto">♥</span>' : ''}</td>
+        <td>${bPhone(b) ? `<a href="tel:${esc(bPhone(b))}">${esc(bPhone(b))}</a>` : '—'}</td>
+        <td>${esc(b.email)}</td>
         <td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.time || '—')}</td>
-        <td>${esc(b.persons || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
+        <td>${esc(b.persons || '—')}</td>
+        <td>${(b.paid == 1 || b.paid === true) ? '✓' : '—'}</td>
+        <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`);
 
   /* ═══ Kunden: Konten + CRM + Members ═══ */

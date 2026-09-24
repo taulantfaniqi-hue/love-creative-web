@@ -45,6 +45,12 @@ const OEFFNUNG = {
   5: { von: '12:00', bis: '20:00', slots: ['12:00–15:00', '15:00–18:00', '18:00–20:00'] }, // Freitag
   6: { von: '10:00', bis: '18:30', slots: ['10:00–13:00', '13:00–16:00', '16:00–18:30'] }  // Samstag
 };
+/* Geschlossene Tage (Mo/Di/Do): private Keramik-Sessions ab 6 Personen.
+   Die Servicegebühr (CHF 25 p. P.) wird online vorbezahlt; die Keramikstücke
+   zahlt die Gruppe vor Ort. Absage bis 24 h vorher: volle Rückerstattung. */
+const PRIVAT_SLOTS = ['10:00–13:00', '13:30–16:30', '17:00–20:00'];
+const PRIVAT_MIN = 6;
+const PRIVAT_GEBUEHR = 25;
 const wochentag = dateISO => new Date(dateISO + 'T12:00:00').getDay();
 /* Hat das Studio an diesem Datum offen? */
 const isOpen = dateISO => !!(dateISO && OEFFNUNG[wochentag(dateISO)]);
@@ -104,7 +110,8 @@ function occupancy(dateISO, slot, bookings) {
 }
 
 window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, KINO_AKTIV, INVENTORY, OEFFNUNG, allTables, capacity, suggest,
-  candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength };
+  candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength,
+  PRIVAT_SLOTS, PRIVAT_MIN, PRIVAT_GEBUEHR };
 
 /* ═══════════ i18n ═══════════ */
 const COMMON_EN = {
@@ -121,6 +128,7 @@ const COMMON_EN = {
   'ft.cafe': 'Café &amp; menu', 'ft.res': 'Reserve a table', 'ft.member': 'Membership', 'ft.gift': 'Gift an experience', 'ft.shop': 'Shop', 'ft.services': 'Offering &amp; services',
   'ft.keramik': 'Ceramics &amp; prices', 'ft.kinoL': 'Cinema Night', 'ft.events': 'Events',
   'err.required': 'Please fill in name and a valid e-mail address.',
+  'err.phone': 'Please add a phone number — we need it for queries about your reservation.',
   'err.email': 'Please enter a valid e-mail address.',
   'err.date': 'Please choose a date.',
   'err.persons': 'For 9 or more people please use the event planner.',
@@ -135,6 +143,7 @@ const COMMON_EN = {
 };
 const COMMON_DE = { // DE-Texte, die nur in JS vorkommen
   'err.required': 'Bitte Name und eine gültige E-Mail-Adresse angeben.',
+  'err.phone': 'Bitte gib eine Telefonnummer an — wir brauchen sie für Rückfragen zur Reservation.',
   'err.email': 'Bitte eine gültige E-Mail-Adresse angeben.',
   'err.date': 'Bitte ein Datum wählen.',
   'err.persons': 'Ab 9 Personen nutze bitte den Eventplaner.',
