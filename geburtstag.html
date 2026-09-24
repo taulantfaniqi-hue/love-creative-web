@@ -50,6 +50,8 @@ window.LOVE_EN = {
   'kb.mail':'E-mail',
   'kb.pPhone':'Mobile phone',
   'kb.msg':'Note (optional)',
+  'kb.gift':'Gift card code (optional)',
+  'kb.giftHint':'The balance of your LOVE gift card is applied automatically at payment.',
   'kb.einwH':'3 · Consent',
   'kb.eAgb':'I have read and accept the <a href="agb.html" target="_blank" rel="noopener">terms</a> including the cancellation policy.',
   'kb.eDsg':'I agree that LOVE Creative processes the information given here to run the event — in line with the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>. We delete the details 30 days after the event.',
@@ -203,6 +205,11 @@ window.LOVE_EN = {
           </div>
         </div>
 
+        <div class="field" style="margin-top:1rem"><label for="gbGift" data-i18n="kb.gift">Gutschein-Code (optional)</label>
+          <input type="text" id="gbGift" placeholder="LOVE-XXXX-XXXX" autocomplete="off" style="max-width:16rem">
+          <p class="hint" data-i18n="kb.giftHint">Das Guthaben deiner LOVE-Geschenkkarte wird bei der Zahlung automatisch angerechnet.</p>
+        </div>
+
         <div class="anm-sum" id="gbSum"></div>
 
         <div class="p-nav" style="align-items:center">
@@ -281,9 +288,9 @@ window.LOVE_EN = {
 <script src="assets/js/love-data.js?v=2af837ff"></script>
 <script src="assets/js/love-site.js?v=bbd6d0e7"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=fd71b4ab"></script>
+<script src="assets/js/love-account.js?v=d2d12a4f"></script>
 <script src="assets/js/love-pay.js?v=f8e0a896"></script>
-<script src="assets/js/love-widget.js?v=e327a40b"></script>
+<script src="assets/js/love-widget.js?v=9f5cb951"></script>
 <script>
 /* Kindergeburtstag — Buchung mit Online-Zahlung (Payrexx).
  * Preis: CHF 450 für bis zu 9 Kinder · jedes weitere Kind + CHF 45 · höchstens 20.
@@ -425,7 +432,10 @@ $('#gbForm').addEventListener('submit', async e => {
   if (!delivered) { showDone('lost', booking.id); busy = false; $('#gbSubmit').disabled = false; return; }
 
   try { localStorage.setItem('love.lastGeb', JSON.stringify({ id: booking.id, total: grand, email })); } catch (er) { }
-  const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'geburtstag', purpose: 'LOVE Kindergeburtstag ' + booking.id });
+  /* Optionale Geschenkkarte: der Server rechnet das Guthaben an (bis auf CHF 1) */
+  const giftRaw = $('#gbGift') ? $('#gbGift').value.trim().toUpperCase() : '';
+  const gift = /^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(giftRaw) ? giftRaw : '';
+  const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'geburtstag', voucher_code: gift, purpose: 'LOVE Kindergeburtstag ' + booking.id });
   if (!r.ok) { showDone('reserved', booking.id, grand); busy = false; $('#gbSubmit').disabled = false; }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
 });

@@ -137,6 +137,9 @@ const LoveAccount = (() => {
       track: 'Sendung verfolgen ↗',
       oStat: { neu: 'eingegangen', bezahlt: 'bezahlt', abholbereit: 'abholbereit', abgeholt: 'abgeholt', versendet: 'versendet', zugestellt: 'zugestellt', storniert: 'storniert' },
       vActive: 'aktiv', vOpen: 'Zahlung offen',
+      vCard: 'Karte ansehen (PDF) →',
+      vAdd: 'Geschenkkarte mit Code hinzufügen', vAddPh: 'LOVE-XXXX-XXXX', vAddBtn: 'Hinzufügen',
+      vAddOk: 'Geschenkkarte ist jetzt in deinem Konto ♥', vAddBad: 'Code nicht gefunden — bitte prüfen (Format LOVE-XXXX-XXXX).',
       user: 'Benutzername', since: 'Konto seit', logoutBtn: 'Abmelden', close: 'Schliessen',
       stat: { neu: 'eingegangen', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', offeriert: 'Offerte', storniert: 'storniert', verloren: 'storniert' },
       next: 'Weiter', changeWho: 'ändern', forgot: 'Passwort vergessen?',
@@ -188,6 +191,9 @@ const LoveAccount = (() => {
       track: 'Track shipment ↗',
       oStat: { neu: 'received', bezahlt: 'paid', abholbereit: 'ready for pick-up', abgeholt: 'picked up', versendet: 'shipped', zugestellt: 'delivered', storniert: 'cancelled' },
       vActive: 'active', vOpen: 'payment pending',
+      vCard: 'View card (PDF) →',
+      vAdd: 'Add a gift card by code', vAddPh: 'LOVE-XXXX-XXXX', vAddBtn: 'Add',
+      vAddOk: 'The gift card is now in your account ♥', vAddBad: 'Code not found — please check (format LOVE-XXXX-XXXX).',
       user: 'Username', since: 'Member since', logoutBtn: 'Sign out', close: 'Close',
       stat: { neu: 'received', 'bestätigt': 'confirmed', gewonnen: 'confirmed', offeriert: 'offer sent', storniert: 'cancelled', verloren: 'cancelled' },
       next: 'Continue', changeWho: 'change', forgot: 'Forgot password?',
@@ -356,8 +362,27 @@ const LoveAccount = (() => {
         <div id="accOrders"><p class="acc-dim">${x.noOrders}</p></div>
         <p class="acc-sub">${x.myVouchers}</p>
         <div id="accVouchers"><p class="acc-dim">${x.noVouchers}</p></div>
+        ${isCloud ? `<form id="accVClaim" style="display:flex;gap:.4rem;margin-top:.55rem" novalidate>
+          <input type="text" id="accVCode" placeholder="${x.vAddPh}" aria-label="${x.vAdd}" autocomplete="off" style="flex:1;min-width:0">
+          <button type="submit" class="btn btn-ghost btn-sm">${x.vAddBtn}</button>
+        </form>
+        <p class="acc-dim" id="accVMsg" aria-live="polite">${x.vAdd}</p>` : ''}
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
+
+      /* Geschenkkarte per Code ins Konto übernehmen (Code = Besitznachweis) */
+      const vc = document.getElementById('accVClaim');
+      if (vc) vc.addEventListener('submit', async e => {
+        e.preventDefault();
+        const msg = document.getElementById('accVMsg');
+        const code = document.getElementById('accVCode').value.trim().toUpperCase();
+        if (!/^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { msg.textContent = x.vAddBad; return; }
+        try {
+          const r = await LoveCloud.call('voucher_claim', { code }, s.token);
+          if (r.ok) { msg.textContent = x.vAddOk; renderModal(); return; }
+        } catch (er) { /* unten gemeinsame Fehlermeldung */ }
+        msg.textContent = x.vAddBad;
+      });
 
       /* Stornieren (Cloud oder lokal) */
       const wireCancel = () => body.querySelectorAll('.acc-cancel').forEach(btn => btn.addEventListener('click', async () => {
@@ -401,9 +426,12 @@ const LoveAccount = (() => {
           const box = document.getElementById('accVouchers');
           if (r.ok && box && r.vouchers.length) {
             box.innerHTML = r.vouchers.slice(0, 8).map(v => `
-              <div class="acc-card acc-booking">
-                <span><b>${esc(v.code)}</b> · CHF ${Number(v.balance).toFixed(0)} / ${Number(v.amount).toFixed(0)}</span>
-                <span class="acc-status">${(v.paid == 1) ? x.vActive : x.vOpen}</span>
+              <div class="acc-card" style="margin-bottom:.4rem">
+                <div class="acc-booking">
+                  <span><b>${esc(v.code)}</b> · CHF ${Number(v.balance).toFixed(0)} / ${Number(v.amount).toFixed(0)}</span>
+                  <span class="acc-status">${(v.paid == 1) ? x.vActive : x.vOpen}</span>
+                </div>
+                ${(v.paid == 1) ? `<p style="margin-top:.3rem"><a href="geschenk.html?card=${encodeURIComponent(v.code)}"><b>${x.vCard}</b></a></p>` : ''}
               </div>`).join('');
           }
         }).catch(() => {});
@@ -635,5 +663,11 @@ const LoveAccount = (() => {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initUI);
   else initUI();
 
-  return { register, login, logout, current, listCustomers, myBookings };
+  /* Cloud-Token der laufenden Sitzung — für Seiten, die Konto-Endpunkte direkt
+     aufrufen (z. B. Geschenkkarte ins Konto laden auf geschenk.html) */
+  function token() {
+    const s = _session();
+    return (s && s.cloud && s.token) ? s.token : '';
+  }
+  return { register, login, logout, current, listCustomers, myBookings, token };
 })();

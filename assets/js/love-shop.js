@@ -55,7 +55,12 @@ const TX = {
     payOfflineHint: 'Bezahlt wird bei der Abholung im Studio.',
     pkt: 'Rabattcode (Punkte-Gutschein aus deinem LOVE-Konto)', pktApply: 'Anwenden',
     pktOk: a => `Rabatt angewendet: −${chf(a)}`, pktBad: 'Code ungültig, nicht freigegeben oder schon eingelöst.',
-    pktRow: c => `Punkte-Gutschein ${c}`
+    pktRow: c => `Punkte-Gutschein ${c}`,
+    gift: 'Geschenkkarte (optional)', giftPh: 'LOVE-XXXX-XXXX', giftApply: 'Prüfen',
+    giftOk: (c, b) => `Geschenkkarte ${c} · Guthaben ${chf(b)} — wird beim Bezahlen angerechnet`,
+    giftBad: 'Code nicht gefunden oder noch nicht aktiviert.',
+    giftRow: c => `Geschenkkarte ${c}`,
+    giftHint: 'Das Guthaben wird bis auf CHF 1 angerechnet — abgebucht wird erst nach erfolgreicher Zahlung.'
   },
   en: {
     all: 'Everything', search: 'Search…', count: n => `${n} items`,
@@ -86,7 +91,12 @@ const TX = {
     payOfflineHint: 'You pay on pick-up at the studio.',
     pkt: 'Discount code (point voucher from your LOVE account)', pktApply: 'Apply',
     pktOk: a => `Discount applied: −${chf(a)}`, pktBad: 'Code invalid, not approved or already redeemed.',
-    pktRow: c => `Point voucher ${c}`
+    pktRow: c => `Point voucher ${c}`,
+    gift: 'Gift card (optional)', giftPh: 'LOVE-XXXX-XXXX', giftApply: 'Check',
+    giftOk: (c, b) => `Gift card ${c} · balance ${chf(b)} — applied at payment`,
+    giftBad: 'Code not found or not activated yet.',
+    giftRow: c => `Gift card ${c}`,
+    giftHint: 'The balance is applied down to CHF 1 — it is only deducted after successful payment.'
   }
 };
 const t = () => TX[en() ? 'en' : 'de'];
@@ -126,6 +136,12 @@ function setQty(sku, qty) {
 /* ═══════════ Punkte-Rabattcode aus dem Kundenkonto (PKT-…) ═══════════ */
 let pkt = null;  // {code, amount} — der Server prüft den Code und zieht den Betrag ab
 const pktOff = () => (pkt ? pkt.amount : 0);
+
+/* ═══════════ Geschenkkarte als Zahlungsmittel (LOVE-…) ═══════════
+   Der Server rechnet das Guthaben beim Erstellen der Payrexx-Zahlung an
+   (bis auf CHF 1) und belastet den Saldo erst nach dem Zahlungseingang. */
+let gift = null;  // {code, balance}
+const giftOff = total => (gift ? Math.min(gift.balance, Math.max(0, total - 1)) : 0);
 
 /* ═══════════ Member-Rabatt ═══════════ */
 let member = null;  // {id, name, discount}
@@ -298,6 +314,13 @@ function renderCheckout(s, delivery) {
         <textarea id="coAddr" rows="2" placeholder="${esc(t().addrPh)}" autocomplete="street-address"></textarea>
       </div>
       <div class="field"><label for="coNote">${esc(t().note)}</label><input id="coNote"></div>
+      <div class="field"><label for="coGift">${esc(t().gift)}</label>
+        <div style="display:flex;gap:.4rem">
+          <input id="coGift" placeholder="${esc(t().giftPh)}" autocomplete="off" style="flex:1;min-width:0" value="${gift ? esc(gift.code) : ''}">
+          <button type="button" class="btn btn-ghost btn-sm" id="coGiftApply">${esc(t().giftApply)}</button>
+        </div>
+        <p class="hint" id="coGiftMsg" aria-live="polite">${gift ? esc(t().giftOk(gift.code, gift.balance)) : esc(t().giftHint)}</p>
+      </div>
       <label class="check"><input type="checkbox" id="coAgb"><span>${LoveSite.t('agb.check')}</span></label>
     </form>`);
   /* Der Fuss bleibt bewusst schlank: Summen, Fehlermeldung, ein Knopf. Jede
@@ -308,8 +331,9 @@ function renderCheckout(s, delivery) {
       <div><span>${esc(t().sub)}</span><span>${chf(s.sub)}</span></div>
       ${s.disc ? `<div class="save"><span>${esc(t().memberOff(member.discount))}</span><span>−${chf(s.disc)}</span></div>` : ''}
       ${pkt ? `<div class="save"><span>${esc(t().pktRow(pkt.code))}</span><span>−${chf(pkt.amount)}</span></div>` : ''}
+      ${gift ? `<div class="save"><span>${esc(t().giftRow(gift.code))}</span><span>−${chf(giftOff(s.total - pktOff()))}</span></div>` : ''}
       <div><span>${esc(t().ship)}</span><span>${s.ship ? chf(s.ship) : esc(t().shipNone)}</span></div>
-      <div class="tot"><span>${esc(t().total)}</span><span>${chf(Math.max(1, s.total - pktOff()))}</span></div>
+      <div class="tot"><span>${esc(t().total)}</span><span>${chf(Math.max(1, s.total - pktOff() - giftOff(s.total - pktOff())))}</span></div>
     </div>
     <p class="form-err" id="coErr" aria-live="assertive"></p>
     <button type="submit" form="coForm" class="btn btn-rose btn-block" id="coSubmit">${esc(online ? t().pay : t().payOffline)}</button>
@@ -329,6 +353,25 @@ function renderCheckout(s, delivery) {
   }));
   /* Hier standen die Felder für Member-Nummer und Punkte-Gutschein. Beides ist
      abgeschaltet — es gibt einen Preis für alle. */
+  /* Geschenkkarte prüfen und als Zahlungsmittel vormerken */
+  const giftBtn = $('#coGiftApply');
+  if (giftBtn) giftBtn.addEventListener('click', async () => {
+    const msg = $('#coGiftMsg');
+    const code = $('#coGift').value.trim().toUpperCase();
+    if (!code) { gift = null; renderCart(); return; }
+    if (!/^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { msg.textContent = t().giftBad; return; }
+    giftBtn.disabled = true;
+    try {
+      const r = await LovePay.status(code);
+      if (r && r.ok && r.voucher && r.voucher.paid == 1 && Number(r.voucher.balance) > 0) {
+        gift = { code, balance: Number(r.voucher.balance) };
+        renderCart();
+        return;
+      }
+    } catch (e) { /* unten gemeinsame Fehlermeldung */ }
+    giftBtn.disabled = false;
+    msg.textContent = t().giftBad;
+  });
   $('#coBack').addEventListener('click', () => { checkout = false; renderCart(); });
   $('#coForm').addEventListener('submit', submitOrder);
 }
@@ -368,7 +411,8 @@ async function submitOrder(e) {
     const r = await LovePay.checkout({
       amount: o.total, code: o.id,
       purpose: 'LOVE Shop ' + o.id + ' · ' + o.items.reduce((n, i) => n + i.qty, 0) + ' Artikel',
-      email, discount_code: pkt ? pkt.code : ''
+      email, discount_code: pkt ? pkt.code : '',
+      voucher_code: gift ? gift.code : ''
     });
     if (r.ok) return;  // Weiterleitung zu Payrexx läuft
   }
@@ -379,6 +423,7 @@ async function submitOrder(e) {
 function showDone(o, wasPaid) {
   checkout = false;
   pkt = null; /* verwendeter Punkte-Code ist serverseitig eingelöst */
+  gift = null; /* Geschenkkarten-Abzug wird serverseitig verbucht */
   $('#cartTitle').textContent = t().okTitle;
   const msg = wasPaid
     ? (o.delivery === 'post' ? t().okPaidPost(esc(o.id)) : t().okPaidPickup(esc(o.id)))

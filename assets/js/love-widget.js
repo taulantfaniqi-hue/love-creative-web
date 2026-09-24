@@ -39,6 +39,7 @@ const TX = {
     eventLink: 'Zum Eventplaner →',
     formTitle: sel => `Fast geschafft — ${sel}`,
     name: 'Name', email: 'E-Mail', phone: 'Telefon (für Rückfragen)', note: 'Nachricht (optional)',
+    gift: 'Gutschein-Code (optional, z. B. LOVE-XXXX-XXXX)',
     errPhone: 'Bitte gib eine Telefonnummer an — wir brauchen sie für Rückfragen zur Reservation.',
     submit: 'Reservation anfragen',
     guestsPriv: n => `${n} Personen`,
@@ -78,6 +79,7 @@ const TX = {
     eventLink: 'Go to event planner →',
     formTitle: sel => `Almost there — ${sel}`,
     name: 'Name', email: 'E-mail', phone: 'Phone (for queries)', note: 'Message (optional)',
+    gift: 'Gift card code (optional, e.g. LOVE-XXXX-XXXX)',
     errPhone: 'Please add a phone number — we need it for queries about your reservation.',
     submit: 'Request reservation',
     guestsPriv: n => `${n} people`,
@@ -394,6 +396,7 @@ function renderForm() {
   const prevMail = (wrap.querySelector('#lwEmail') ? wrap.querySelector('#lwEmail').value : '') || (acc ? acc.email : '');
   const prevPhone = (wrap.querySelector('#lwPhone') ? wrap.querySelector('#lwPhone').value : '') || (acc ? (acc.phone || '') : '');
   const prevNote = wrap.querySelector('#lwNote') ? wrap.querySelector('#lwNote').value : '';
+  const prevGift = wrap.querySelector('#lwGift') ? wrap.querySelector('#lwGift').value : '';
   const act = actList().find(a => a.id === state.act);
   const priv = isPriv(state.date);
   const fee = T.PRIVAT_GEBUEHR * state.guests;
@@ -404,6 +407,7 @@ function renderForm() {
     <input type="email" id="lwEmail" autocomplete="email" placeholder="${x.email}" value="${prevMail.replace(/"/g, '&quot;')}">
     <input type="tel" id="lwPhone" autocomplete="tel" placeholder="${x.phone}" value="${prevPhone.replace(/"/g, '&quot;')}">
     <input type="text" id="lwNote" placeholder="${x.note}" value="${prevNote.replace(/"/g, '&quot;')}">
+    <input type="text" id="lwGift" autocomplete="off" placeholder="${x.gift}" value="${prevGift.replace(/"/g, '&quot;')}">
     ${priv ? `<p class="lw-cancel-hint" style="font-weight:600">${x.privFee(state.guests, fee)}</p>` : ''}
     <label class="check" style="margin-top:.4rem"><input type="checkbox" id="lwAgb"><span>${LoveSite.t('agb.check')}</span></label>
     <p class="lw-err" id="lwErr" aria-live="polite"></p>
@@ -447,6 +451,10 @@ async function submit(e) {
   const priv = isPriv(state.date);
   const kino = !priv && T.isKinoSlot(state.date, state.slot) && state.act === 'kino';
   const fee = T.PRIVAT_GEBUEHR * state.guests;
+  /* Optionaler Gutschein-Code: wird notiert — bei der vorbezahlten
+     Privat-Session verrechnet ihn der Server direkt mit der Gebühr. */
+  const giftRaw = $('lwGift') ? $('lwGift').value.trim().toUpperCase() : '';
+  const gift = /^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(giftRaw) ? giftRaw : '';
   submitBusy = true;
   state.done = LoveData.addBooking({
     type: priv ? 'keramik-privat' : (kino ? 'kino' : 'tisch'),
@@ -455,13 +463,14 @@ async function submit(e) {
     area: 'egal', table_type: T.suggest(state.guests),
     world: priv ? 'keramik' : (state.act === 'kino' ? 'keramik' : state.act),
     price: priv ? 'CHF ' + fee : '',
-    message: ($('lwNote').value.trim() ? $('lwNote').value.trim() + ' ' : '') + (priv ? '[Privat-Session · Gebühr vorbezahlt] ' : '') + '[Widget]',
+    message: ($('lwNote').value.trim() ? $('lwNote').value.trim() + ' ' : '') + (gift ? '[Gutschein: ' + gift + '] ' : '') + (priv ? '[Privat-Session · Gebühr vorbezahlt] ' : '') + '[Widget]',
     lang: LoveSite.lang()
   });
   /* Private Session: Servicegebühr direkt über Payrexx vorbezahlen */
   if (priv && typeof LovePay !== 'undefined') {
     const r = await LovePay.checkout({
       amount: fee, code: state.done.id, email, back: 'reservieren',
+      voucher_code: gift,
       purpose: 'LOVE Private Keramik-Session ' + state.done.id + ' · ' + state.guests + ' Personen'
     });
     if (r.ok) return; // Weiterleitung zu Payrexx läuft

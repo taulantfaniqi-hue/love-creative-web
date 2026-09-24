@@ -137,9 +137,12 @@
 
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="assets/js/love-giftcard.js?v=2cbc6f52"></script>
 <script src="assets/js/love-data.js?v=2af837ff"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=fd71b4ab"></script>
+<script src="assets/js/love-account.js?v=d2d12a4f"></script>
 <script>
 (() => {
 'use strict';
@@ -240,6 +243,7 @@ function getData() {
     pwResets: cloudData ? (cloudData.pw_resets || []) : [],
     dienste: cloudData ? (cloudData.services || []) : [],
     camps: cloudData ? (cloudData.camps || []) : [],
+    notify: cloudData ? (cloudData.notify || []) : [],
     bestellungen: cloudData ? (cloudData.orders || []) : (LoveData.listOrders ? LoveData.listOrders() : [])
   };
 }
@@ -264,7 +268,18 @@ const CHAPTERS = [
   { id: 'bestellungen', ic: '🛍️', lbl: 'Shop', badge: d => d.bestellungen.filter(o => o.status === 'neu').length },
   { id: 'gutscheine', ic: '🎁', lbl: 'Gutscheine' },
   { id: 'dienste', ic: '🎨', lbl: 'Angebote' },
+  { id: 'benachrichtigungen', ic: '🔔', lbl: 'Benachrichtigungen' },
   { id: 'eroeffnung', ic: '🎉', lbl: 'Eröffnung' }
+];
+/* Ereignis-Typen für die Benachrichtigungs-Mails (muss zum Server passen) */
+const NOTIFY_EVENTS = [
+  ['buchung', 'Neue Buchungsanfragen', 'mit Annehmen/Ablehnen-Knöpfen direkt in der Mail'],
+  ['storno', 'Stornierungen', 'Gast storniert über das Kundenkonto'],
+  ['zahlung', 'Zahlungseingänge', 'bezahlte Buchungen & Shop-Bestellungen'],
+  ['bestellung', 'Shop-Bestellungen', 'neue Bestellungen aus dem Online-Shop'],
+  ['gutschein', 'Gutschein-Käufe', 'bezahlte Geschenkkarten'],
+  ['konto', 'Kundenkonten & Freigaben', 'neue Konten, Passwort-Resets, Punkte-Einlösungen'],
+  ['mitglied', 'Member-Anmeldungen', 'neue Membership-Anmeldungen']
 ];
 function renderNav(d) {
   $('#hostNav').innerHTML = CHAPTERS.map(c => {
@@ -414,8 +429,9 @@ function render() {
           <li><b>📖 Buchungen</b> — Das komplette Archiv aller Anfragen und Buchungen.</li>
           <li><b>👥 Kunden</b> — Kundenkonten (mit Treuepunkten), CRM-Kontakte und Members.</li>
           <li><b>🛍️ Shop</b> — Bestellungen aus dem Online-Shop: bezahlt, abgeholt oder versendet markieren.</li>
-          <li><b>🎁 Gutscheine</b> — Verkaufte Geschenkkarten mit Saldo und Zahlstatus.</li>
+          <li><b>🎁 Gutscheine</b> — Verkaufte Geschenkkarten mit Saldo: an der Kasse einlösen (Barcode scannen) und die Karte als PDF nachdrucken.</li>
           <li><b>🎨 Angebote</b> — Aktivitäten fürs Reservations-Widget ein-/ausschalten und neue hinzufügen.</li>
+          <li><b>🔔 Benachrichtigungen</b> — Welche E-Mail-Adresse bekommt bei welchen Ereignissen (Buchungen, Bestellungen, Gutscheine …) sofort eine Mail — inkl. Annehmen/Ablehnen direkt aus der Buchungs-Mail.</li>
           <li><b>🎉 Eröffnung</b> — Alle «Sei bei der Eröffnung dabei»-Anmeldungen.</li>
         </ol>
       </div>`;
@@ -543,16 +559,67 @@ function render() {
   } else if (chapter === 'gutscheine') {
     const delLbl = v => v.delivery === 'post' ? '📮 Post' + (v.address ? ': ' + v.address : '')
       : v.delivery === 'pickup' ? '🏠 Abholung' : v.delivery === 'email' ? '✉️ ' + (v.recipient_email || 'E-Mail') : v.delivery === 'konto' ? '💾 Konto' : '—';
-    box.innerHTML = `<h3 class="host-sect">Gutscheine</h3>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
-      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Zustellung</th><th>Bezahlt</th><th>Status</th></tr></thead>
+    const vPaid = v => (v.paid == 1 || v.paid === true);
+    box.innerHTML = `<h3 class="host-sect">Gutschein an der Kasse einlösen</h3>
+    <div class="host-note">Barcode mit dem Scanner ins Code-Feld scannen (oder Nummer eintippen), Betrag eingeben, <b>Einlösen</b> — der Saldo wird sofort zentral abgezogen. Den Rest des Kaufs ganz normal in der SumUp-Kasse abrechnen.</div>
+    <div class="hcard"><div class="two-col">
+      <div class="field"><label for="vrCode">Gutschein-Code</label><input type="text" id="vrCode" placeholder="LOVE-XXXX-XXXX" autocomplete="off"></div>
+      <div class="field"><label for="vrAmt">Betrag (CHF)</label><input type="number" id="vrAmt" min="0.05" step="0.05" placeholder="z. B. 25"></div>
+    </div>
+    <button type="button" class="btn btn-rose btn-sm" id="vrGo">Einlösen</button>
+    <span class="hint" id="vrHint" style="margin-left:.6rem" aria-live="polite"></span></div>
+    <h3 class="host-sect">Verkaufte Gutscheine</h3>
+    <div class="host-note">🖨 <b>PDF</b> druckt die Karte mit Barcode nach — falls jemand ohne Kundenkonto den Code verliert. <b>Einlösen</b> zieht einen Betrag vom Saldo ab (Kassen-Verkauf).</div>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Zustellung</th><th>Bezahlt</th><th>Status</th><th>Aktion</th></tr></thead>
       <tbody>${d.gutscheine.map(v => `<tr>
-        <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td>CHF ${Number(v.balance).toFixed(0)}</td>
+        <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td><b>CHF ${Number(v.balance).toFixed(2)}</b></td>
         <td>${Number(v.tip || 0) ? 'CHF ' + Number(v.tip).toFixed(0) : '—'}</td>
         <td>${esc(v.buyer || '—')}</td><td>${esc(v.email || '—')}</td>
         <td style="max-width:220px">${esc(delLbl(v))}</td>
-        <td>${(v.paid == 1 || v.paid === true) ? '✓' : '—'}</td>
-        <td><span class="host-pill ${v.status === 'offen' ? 'neu' : ''}">${esc(v.status)}</span></td></tr>`).join('')}</tbody>
+        <td>${vPaid(v) ? '✓' : '—'}</td>
+        <td><span class="host-pill ${v.status === 'offen' ? 'neu' : ''}">${esc(v.status)}</span></td>
+        <td style="min-width:150px">${vPaid(v) ? `<button class="btn btn-ghost btn-sm" data-vpdf="${esc(v.code)}" data-amt="${Number(v.amount)}">🖨 PDF</button>
+          ${Number(v.balance) > 0 ? `<button class="btn btn-green btn-sm" data-vredeem="${esc(v.code)}" data-bal="${Number(v.balance)}">Einlösen</button>` : ''}` : '—'}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`);
+    /* Karte als PDF nachdrucken (gleiche Vorlage wie auf der Website) */
+    box.querySelectorAll('button[data-vpdf]').forEach(btn => btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      try { await LoveGiftcard.download({ code: btn.dataset.vpdf, amount: Number(btn.dataset.amt) }); }
+      catch (e) { alert('PDF konnte nicht erstellt werden — bitte Internetverbindung prüfen.'); }
+      btn.disabled = false;
+    }));
+    /* Einlösen: Betrag vom zentralen Saldo abziehen */
+    async function hostRedeem(code, amt) {
+      if (typeof LoveCloud === 'undefined' || !hostCreds) { alert('Cloud nicht verbunden.'); return null; }
+      try { return await LoveCloud.call('voucher_redeem_host', Object.assign({}, hostCreds, { code, amount: amt, note: 'Kasse (Host-Bereich)' })); }
+      catch (e) { return { ok: false, error: 'cloud' }; }
+    }
+    const redeemErr = { 'not-found': 'Code nicht gefunden.', 'not-paid': 'Dieser Gutschein ist noch nicht bezahlt.', 'not-enough-balance': 'Nicht genug Guthaben auf der Karte.', invalid: 'Bitte Code und Betrag prüfen.', cloud: 'Cloud-Fehler — bitte erneut versuchen.' };
+    box.querySelectorAll('button[data-vredeem]').forEach(btn => btn.addEventListener('click', async () => {
+      const inp = prompt(`Welchen Betrag einlösen? (Saldo: CHF ${Number(btn.dataset.bal).toFixed(2)})`, '');
+      if (inp === null) return;
+      const amt = Number(String(inp).replace(',', '.'));
+      if (!(amt > 0)) { alert('Bitte einen Betrag eingeben.'); return; }
+      btn.disabled = true;
+      const r = await hostRedeem(btn.dataset.vredeem, amt);
+      if (r && r.ok) { alert(`Eingelöst ✓ — neuer Saldo: CHF ${Number(r.balance).toFixed(2)}`); loadCloud(); }
+      else { alert(redeemErr[(r || {}).error] || 'Das hat nicht geklappt.'); btn.disabled = false; }
+    }));
+    /* Schnell-Einlösung oben (Scanner-Feld) */
+    const vrGo = box.querySelector('#vrGo');
+    if (vrGo) vrGo.addEventListener('click', async () => {
+      const code = box.querySelector('#vrCode').value.trim().toUpperCase();
+      const amt = Number(String(box.querySelector('#vrAmt').value).replace(',', '.'));
+      const hint = box.querySelector('#vrHint');
+      if (!/^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { hint.textContent = 'Code bitte im Format LOVE-XXXX-XXXX.'; return; }
+      if (!(amt > 0)) { hint.textContent = 'Bitte einen Betrag eingeben.'; return; }
+      vrGo.disabled = true;
+      hint.textContent = 'Wird eingelöst …';
+      const r = await hostRedeem(code, amt);
+      vrGo.disabled = false;
+      if (r && r.ok) { hint.textContent = `✓ Eingelöst — neuer Saldo: CHF ${Number(r.balance).toFixed(2)}`; loadCloud(); }
+      else hint.textContent = redeemErr[(r || {}).error] || 'Das hat nicht geklappt.';
+    });
 
   /* ═══ Angebote (Dienstleistungen) ═══ */
   } else if (chapter === 'dienste') {
@@ -618,6 +685,52 @@ function render() {
         desc_de: box.querySelector('#svcDescDe').value.trim(), desc_en: box.querySelector('#svcDescDe').value.trim(),
         price: box.querySelector('#svcPrice').value.trim(), sort: Number(box.querySelector('#svcSort').value) || 9, active: 1
       });
+    });
+
+  /* ═══ Benachrichtigungen: welche E-Mail bekommt welche Ereignisse ═══ */
+  } else if (chapter === 'benachrichtigungen') {
+    if (!cloudData) { box.innerHTML = `<p class="host-empty">Benachrichtigungen werden zentral in der Cloud verwaltet — bitte Verbindung prüfen (frisch anmelden).</p>`; return; }
+    box.innerHTML = `<h3 class="host-sect">Benachrichtigungen</h3>
+    <div class="host-note">Für alles, was auf der Website passiert (Buchungen, Bestellungen, Gutscheine, Zahlungen …), geht sofort eine Mail an die Adressen hier — pro Adresse stellst du ein, welche Ereignisse sie bekommt. In der Mail zu einer <b>neuen Buchungsanfrage</b> kannst du den Termin direkt per Knopf <b>annehmen oder ablehnen</b> — ohne den Host-Bereich zu öffnen.</div>
+    ${d.notify.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Aktiv</th><th>E-Mail</th>${NOTIFY_EVENTS.map(([, lbl]) => `<th style="font-size:.78rem">${lbl}</th>`).join('')}<th></th></tr></thead>
+      <tbody>${d.notify.map(n => {
+        const evs = String(n.events || '').split(',');
+        return `<tr data-nid="${esc(n.id)}" data-nmail="${esc(n.email)}">
+        <td><input type="checkbox" class="ntf-active" ${Number(n.active) ? 'checked' : ''}></td>
+        <td style="overflow-wrap:anywhere"><b>${esc(n.email)}</b></td>
+        ${NOTIFY_EVENTS.map(([ev, , hint]) => `<td style="text-align:center"><input type="checkbox" class="ntf-ev" data-ev="${ev}" title="${esc(hint)}" ${evs.includes(ev) ? 'checked' : ''}></td>`).join('')}
+        <td><button type="button" class="btn btn-ghost btn-sm ntf-del">Entfernen</button></td></tr>`;
+      }).join('')}</tbody>
+    </table></div>` : `<p class="host-empty">Noch keine Benachrichtigungs-Adresse hinterlegt.</p>`}
+    <div class="panel" style="margin-top:1.2rem"><div class="panel-head"><h3>Weitere E-Mail hinzufügen</h3></div><div class="panel-body">
+      <div class="field"><label for="ntfMail">E-Mail-Adresse</label><input type="email" id="ntfMail" placeholder="name@example.ch"></div>
+      <div class="field"><label>Diese Ereignisse schicken:</label>
+        ${NOTIFY_EVENTS.map(([ev, lbl, hint]) => `<label class="check" style="display:flex;gap:.45rem;margin:.25rem 0"><input type="checkbox" class="ntf-new-ev" data-ev="${ev}" checked><span><b>${lbl}</b> <span style="color:var(--ink-soft);font-size:.85em">— ${hint}</span></span></label>`).join('')}
+      </div>
+      <button type="button" class="btn btn-rose" id="ntfAdd">E-Mail hinzufügen</button>
+      <p class="hint" id="ntfHint" style="margin-top:.6rem" aria-live="polite"></p>
+    </div></div>`;
+    /* Änderungen an bestehenden Zeilen sofort speichern */
+    const saveRow = tr => {
+      const events = Array.from(tr.querySelectorAll('.ntf-ev')).filter(c => c.checked).map(c => c.dataset.ev);
+      hostCall('notify_save', { email: tr.dataset.nmail, events, active: tr.querySelector('.ntf-active').checked ? 1 : 0 });
+    };
+    box.querySelectorAll('tr[data-nid]').forEach(tr => {
+      tr.querySelectorAll('.ntf-ev, .ntf-active').forEach(cb => cb.addEventListener('change', () => saveRow(tr)));
+      tr.querySelector('.ntf-del').addEventListener('click', () => {
+        if (!confirm(`${tr.dataset.nmail} wirklich aus den Benachrichtigungen entfernen?`)) return;
+        hostCall('notify_delete', { id: tr.dataset.nid });
+      });
+    });
+    const ntfAdd = box.querySelector('#ntfAdd');
+    if (ntfAdd) ntfAdd.addEventListener('click', () => {
+      const email = box.querySelector('#ntfMail').value.trim().toLowerCase();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { box.querySelector('#ntfHint').textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.'; return; }
+      const events = Array.from(box.querySelectorAll('.ntf-new-ev')).filter(c => c.checked).map(c => c.dataset.ev);
+      if (!events.length) { box.querySelector('#ntfHint').textContent = 'Bitte mindestens ein Ereignis auswählen.'; return; }
+      ntfAdd.disabled = true;
+      hostCall('notify_save', { email, events, active: 1 });
     });
 
   /* ═══ Eröffnung ═══ */
