@@ -500,7 +500,6 @@ function pruefeCampDatum() {
 $('#cDate').addEventListener('input', pruefeCampDatum);
 $('#cTage').addEventListener('change', () => { pruefeCampDatum(); zeichneSumme(); });
 $('#cCare').addEventListener('change', zeichneSumme);
-$('#gKids').addEventListener('input', zeichneSumme);
 
 /* ═══════════ Camp: Kinder (eines oder mehrere Geschwister) ═══════════ */
 const KIND_FELDER = ['vor', 'nach', 'geb', 'essen', 'allergie', 'gesund', 'heim', 'abhol'];
