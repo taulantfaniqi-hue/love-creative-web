@@ -360,15 +360,32 @@ const LoveAccount = (() => {
         <div id="accBookings">${bookingsHtml(myBookings())}</div>
         <p class="acc-sub">${x.myOrders}</p>
         <div id="accOrders"><p class="acc-dim">${x.noOrders}</p></div>
-        <p class="acc-sub">${x.myVouchers}</p>
+        <p class="acc-sub" style="display:flex;align-items:center;gap:.5rem">
+          <span>${x.myVouchers}</span>
+          ${isCloud ? `<button type="button" id="accVPlus" aria-expanded="false" aria-label="${x.vAdd}" title="${x.vAdd}"
+            style="margin-left:auto;width:1.75rem;height:1.75rem;border-radius:50%;border:1.5px solid #E27396;background:#fff;color:#E27396;font-size:1.15rem;line-height:1;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0">+</button>` : ''}
+        </p>
         <div id="accVouchers"><p class="acc-dim">${x.noVouchers}</p></div>
-        ${isCloud ? `<form id="accVClaim" style="display:flex;gap:.4rem;margin-top:.55rem" novalidate>
+        ${isCloud ? `<form id="accVClaim" style="display:none;gap:.4rem;margin-top:.55rem" novalidate>
           <input type="text" id="accVCode" placeholder="${x.vAddPh}" aria-label="${x.vAdd}" autocomplete="off" style="flex:1;min-width:0">
           <button type="submit" class="btn btn-ghost btn-sm">${x.vAddBtn}</button>
         </form>
-        <p class="acc-dim" id="accVMsg" aria-live="polite">${x.vAdd}</p>` : ''}
+        <p class="acc-dim" id="accVMsg" aria-live="polite" style="display:none">${x.vAdd}</p>` : ''}
         <button type="button" class="btn btn-ghost btn-block" id="accLogout" style="margin-top:1rem">${x.logoutBtn}</button>`;
       document.getElementById('accLogout').addEventListener('click', () => { logout(); renderModal(); });
+
+      /* «+» klappt das Code-Feld zum Hinzufügen einer Geschenkkarte auf */
+      const vPlus = document.getElementById('accVPlus');
+      if (vPlus) vPlus.addEventListener('click', () => {
+        const form = document.getElementById('accVClaim');
+        const msg = document.getElementById('accVMsg');
+        const offen = form.style.display !== 'flex';
+        form.style.display = offen ? 'flex' : 'none';
+        msg.style.display = offen ? '' : 'none';
+        vPlus.textContent = offen ? '×' : '+';
+        vPlus.setAttribute('aria-expanded', String(offen));
+        if (offen) document.getElementById('accVCode').focus();
+      });
 
       /* Geschenkkarte per Code ins Konto übernehmen (Code = Besitznachweis) */
       const vc = document.getElementById('accVClaim');

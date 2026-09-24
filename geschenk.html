@@ -13,6 +13,32 @@
 <link rel="stylesheet" href="assets/css/love.css?v=935fb209">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
 <link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
+<style>
+/* Auftritt der Geschenkkarte nach der Zahlung: einschweben, kurz überschwingen,
+   dann ein Lichtglanz über die Karte — der Barcode ist der Star. */
+@keyframes gcReveal {
+  0%   { opacity:0; transform:translateY(38px) scale(.82) rotate(-5deg); }
+  62%  { opacity:1; transform:translateY(-7px) scale(1.03) rotate(1.4deg); }
+  100% { opacity:1; transform:none; }
+}
+@keyframes gcShine {
+  from { transform:translateX(-140%) skewX(-18deg); }
+  to   { transform:translateX(320%) skewX(-18deg); }
+}
+@keyframes gcGlow {
+  0%, 100% { box-shadow:0 14px 34px rgba(51,115,87,.22); }
+  45%      { box-shadow:0 18px 44px rgba(226,115,150,.45); }
+}
+.gc-wrap { position:relative; overflow:hidden; border-radius:18px; box-shadow:0 14px 34px rgba(51,115,87,.22); animation:gcReveal .95s cubic-bezier(.2,1.25,.4,1) both, gcGlow 1.8s ease-out .2s 1; }
+.gc-wrap img { display:block; width:100%; height:auto; }
+.gc-shine { position:absolute; top:0; bottom:0; left:0; width:42%; pointer-events:none;
+  background:linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.6) 50%, rgba(255,255,255,0) 100%);
+  transform:translateX(-140%) skewX(-18deg); animation:gcShine 1.05s ease-out .8s both; }
+@media (prefers-reduced-motion: reduce) {
+  .gc-wrap { animation:none; }
+  .gc-shine { display:none; }
+}
+</style>
 <script>
 window.LOVE_TITLES = { de: 'Verschenke ein kreatives Erlebnis — LOVE Creative Café', en: 'Gift a creative experience — LOVE Creative Café' };
 window.LOVE_DE = {
@@ -48,7 +74,7 @@ window.LOVE_DE = {
 window.LOVE_EN = {
   'gs.eyebrow':'Gift a creative experience',
   'gs.title':'Not a thing. A moment.',
-  'gs.lead':'An afternoon of painting, a ceramic date for two, or credit for whatever they fancy. Design the gift card here, pay the way you like, print it right away or pick it up at the studio. Valid for 5 years.',
+  'gs.lead':'An afternoon of painting, a ceramic date for two, or credit for whatever they fancy. Design the gift card here, pay securely online by TWINT or card — and get the card with barcode as a PDF right away. Valid for 5 years.',
   'gs.cta1':'Design a gift card',
   'gs.cta2':'How it works',
   'hw.eyebrow':'It\'s this easy',
@@ -56,7 +82,7 @@ window.LOVE_EN = {
   'hw.s1':'Choose',
   'hw.s1t':'An experience or an amount — plus a personal message and card design.',
   'hw.s2':'Pay',
-  'hw.s2t':'TWINT, card online or at the studio. We e-mail you the details right away.',
+  'hw.s2t':'Online only — securely by TWINT or card via the Payrexx payment page, done in a minute.',
   'hw.s3':'Give',
   'hw.s3t':'Print at home in a minute, pick up at the counter, or have it mailed in a gift sleeve.',
   'cf.title':'Your gift card',
@@ -85,11 +111,6 @@ window.LOVE_EN = {
   'py.for':'For',
   'py.ship':'Delivery',
   'py.how':'How would you like to pay?',
-  'py.twint':'TWINT',
-  'py.twintD':'We e-mail you the TWINT details — done in a minute',
-  'py.card':'Card online',
-  'py.cardD':'Secure payment via Payrexx (TWINT &amp; card)',
-  'py.cardSoon':'Online payment is available for gift cards (CHF 20–500)',
   'py.tip':'Tip for the team (optional)',
   'py.tip0':'No tip',
   'py.tipHint':'100% goes to the team ♥',
@@ -98,8 +119,6 @@ window.LOVE_EN = {
   'dn.acctYes':'Your purchase is saved in your customer account.',
   'dn.acctNo':'Tip: create a customer account with the same e-mail to find purchases and reservations there anytime.',
   'dn.acctBtn':'Save to my account',
-  'py.studio':'Pay at the studio',
-  'py.studioD':'Pay and pick up at the counter',
   'py.delivery':'How should the gift card arrive?',
   'py.konto':'Into your customer account',
   'py.kontoD':'Digital — printable as a PDF right away, stored in your LOVE account — free',
@@ -226,7 +245,7 @@ window.LOVE_EN = {
     <div>
       <p class="eyebrow" data-i18n="gs.eyebrow">Verschenke ein kreatives Erlebnis</p>
       <h1 data-i18n="gs.title">Kein Ding. Ein Moment.</h1>
-      <p class="lead" data-i18n="gs.lead">Ein Nachmittag Bemalen, ein Keramik-Date zu zweit oder Guthaben für alles, worauf sie Lust haben. Gestalte den Gutschein hier, bezahl wie du willst, druck ihn sofort aus oder hol ihn im Studio ab. 5 Jahre gültig.</p>
+      <p class="lead" data-i18n="gs.lead">Ein Nachmittag Bemalen, ein Keramik-Date zu zweit oder Guthaben für alles, worauf sie Lust haben. Gestalte den Gutschein hier, bezahl sicher online mit TWINT oder Karte — die Karte mit Barcode hast du sofort als PDF. 5 Jahre gültig.</p>
       <div class="hero-ctas">
         <a class="btn btn-rose" href="#gestalten" data-i18n="gs.cta1">Gutschein gestalten</a>
         <a class="btn btn-ghost" href="#ablauf" data-i18n="gs.cta2">So funktioniert's</a>
@@ -242,7 +261,7 @@ window.LOVE_EN = {
     <h2 class="sect-title" data-i18n="hw.title">In drei Schritten zum Geschenk</h2>
     <div class="steps">
       <div class="step reveal"><h3 data-i18n="hw.s1">Wählen</h3><p data-i18n="hw.s1t">Ein Erlebnis oder ein Betrag — dazu persönliche Botschaft und Kartendesign.</p></div>
-      <div class="step reveal"><h3 data-i18n="hw.s2">Bezahlen</h3><p data-i18n="hw.s2t">TWINT, Karte online oder im Studio. Die Details schicken wir dir sofort per E-Mail.</p></div>
+      <div class="step reveal"><h3 data-i18n="hw.s2">Bezahlen</h3><p data-i18n="hw.s2t">Ausschliesslich online — sicher mit TWINT oder Karte über die Payrexx-Zahlungsseite, in einer Minute erledigt.</p></div>
       <div class="step reveal"><h3 data-i18n="hw.s3">Verschenken</h3><p data-i18n="hw.s3t">In einer Minute zuhause ausdrucken, an der Theke abholen oder in der Geschenkhülle per Post.</p></div>
     </div>
   </div>
@@ -476,7 +495,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-data.js?v=2af837ff"></script>
 <script src="assets/js/love-site.js?v=bbd6d0e7"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=d2d12a4f"></script>
+<script src="assets/js/love-account.js?v=d1c8d631"></script>
 <script src="assets/js/love-pay.js?v=f8e0a896"></script>
 <script src="assets/js/love-widget.js?v=9f5cb951"></script>
 <script>
@@ -596,11 +615,25 @@ document.querySelectorAll('#shipGrid .choice').forEach(b => b.addEventListener('
 let lastVoucher = null;
 let submitBusy = false;
 
-/* Karte auf der Design-Vorlage rendern (Barcode + Nummer auf dem weissen Feld) */
+/* Karte auf der Design-Vorlage rendern (Barcode + Nummer auf dem weissen Feld) —
+   mit kleinem Auftritt: einschweben + Glanz über die Karte */
 async function showCard() {
   if (!lastVoucher || !lastVoucher.code || typeof LoveGiftcard === 'undefined') return;
-  try { await LoveGiftcard.mount($('#dnCard'), { code: lastVoucher.code, amount: lastVoucher.amount }); }
-  catch (e) { /* Vorlage nicht ladbar — der Code bleibt trotzdem sichtbar */ }
+  try {
+    const box = $('#dnCard');
+    await LoveGiftcard.mount(box, { code: lastVoucher.code, amount: lastVoucher.amount });
+    const img = box.querySelector('img');
+    if (img) {
+      const wrap = document.createElement('div');
+      wrap.className = 'gc-wrap';
+      box.insertBefore(wrap, img);
+      wrap.appendChild(img);
+      const shine = document.createElement('span');
+      shine.className = 'gc-shine';
+      shine.setAttribute('aria-hidden', 'true');
+      wrap.appendChild(shine);
+    }
+  } catch (e) { /* Vorlage nicht ladbar — der Code bleibt trotzdem sichtbar */ }
 }
 /* «In mein Kundenkonto laden» (Code = Besitznachweis) */
 function wireClaim(code) {
