@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=3aa9b8c7">
+<link rel="stylesheet" href="assets/css/love.css?v=935fb209">
 <style>
 /* ═══ Host-Bereich: modernes Kapitel-Layout, handyoptimiert ═══ */
 .host-wrap{max-width:1180px;margin:0 auto;padding:1.6rem clamp(.9rem,3vw,2.2rem) 4rem}
@@ -137,9 +137,9 @@
 
 </main>
 
-<script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-cloud.js?v=a1c36180"></script>
-<script src="assets/js/love-account.js?v=63337b48"></script>
+<script src="assets/js/love-data.js?v=2af837ff"></script>
+<script src="assets/js/love-cloud.js?v=2c94f003"></script>
+<script src="assets/js/love-account.js?v=fd71b4ab"></script>
 <script>
 (() => {
 'use strict';
@@ -178,6 +178,9 @@ $('#hostForm').addEventListener('submit', async e => {
   const hash = await sha256hex(user + ':' + pass + ':LOVE-2026');
   if (!HOST_HASHES.includes(hash)) { $('#hostErr').textContent = 'Benutzername oder Passwort falsch.'; return; }
   hostCreds = { user, pass };
+  /* Zugangsdaten überleben den Reload (nur dieser Tab) — sonst zeigt der Host
+     nach einem Neuladen stumm lokale Daten statt der zentralen Cloud-Daten. */
+  try { sessionStorage.setItem('love.host.creds.v1', JSON.stringify(hostCreds)); } catch (e) { }
   localStorage.setItem(SESSION_KEY, JSON.stringify({ exp: Date.now() + 12 * 3600 * 1000 }));
   $('#hostPass').value = '';
   show(true);
@@ -196,7 +199,12 @@ async function loadCloud() {
     else note.textContent = '○ Cloud-Anmeldung fehlgeschlagen — lokale Daten';
   } catch (e) { note.textContent = '○ Cloud-Fehler — lokale Daten'; }
 }
-$('#hostLogout').addEventListener('click', () => { localStorage.removeItem(SESSION_KEY); show(false); });
+$('#hostLogout').addEventListener('click', () => {
+  localStorage.removeItem(SESSION_KEY);
+  try { sessionStorage.removeItem('love.host.creds.v1'); } catch (e) { }
+  hostCreds = null; cloudData = null;
+  show(false);
+});
 
 /* Schliesstage aus dem Google-Kalender (für den Host-Kalender) */
 let closures = [];
@@ -754,7 +762,15 @@ $('#expBackup').addEventListener('click', () => {
   download('love-backup-' + new Date().toISOString().slice(0, 10) + '.json', JSON.stringify(dump, null, 2), 'application/json');
 });
 
+/* Sitzung wiederherstellen: OHNE Cloud-Zugangsdaten wird der Host-Bereich
+   nicht mehr angezeigt (sonst sähe man stumm nur lokale Gerätedaten) —
+   dann bitte einfach frisch anmelden. */
+if (hasSession()) {
+  try { hostCreds = JSON.parse(sessionStorage.getItem('love.host.creds.v1')) || null; } catch (e) { hostCreds = null; }
+  if (!hostCreds) localStorage.removeItem(SESSION_KEY);
+}
 show(hasSession());
+if (hostCreds) loadCloud();
 loadClosures();
 })();
 </script>
