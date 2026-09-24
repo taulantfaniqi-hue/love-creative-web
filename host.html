@@ -429,7 +429,7 @@ function render() {
           <li><b>📖 Buchungen</b> — Das komplette Archiv aller Anfragen und Buchungen.</li>
           <li><b>👥 Kunden</b> — Kundenkonten (mit Treuepunkten), CRM-Kontakte und Members.</li>
           <li><b>🛍️ Shop</b> — Bestellungen aus dem Online-Shop: bezahlt, abgeholt oder versendet markieren.</li>
-          <li><b>🎁 Gutscheine</b> — Verkaufte Geschenkkarten mit Saldo: an der Kasse einlösen (Barcode scannen) und die Karte als PDF nachdrucken.</li>
+          <li><b>🎁 Gutscheine</b> — Verkaufte Geschenkkarten mit Saldo: Barcode scannen → Saldo erscheint → Einlösen, danach denselben Betrag in der SumUp-Kasse als Zahlart «Gutschein» erfassen. Plus PDF-Nachdruck der Karte.</li>
           <li><b>🎨 Angebote</b> — Aktivitäten fürs Reservations-Widget ein-/ausschalten und neue hinzufügen.</li>
           <li><b>🔔 Benachrichtigungen</b> — Welche E-Mail-Adresse bekommt bei welchen Ereignissen (Buchungen, Bestellungen, Gutscheine …) sofort eine Mail — inkl. Annehmen/Ablehnen direkt aus der Buchungs-Mail.</li>
           <li><b>🎉 Eröffnung</b> — Alle «Sei bei der Eröffnung dabei»-Anmeldungen.</li>
@@ -560,16 +560,24 @@ function render() {
     const delLbl = v => v.delivery === 'post' ? '📮 Post' + (v.address ? ': ' + v.address : '')
       : v.delivery === 'pickup' ? '🏠 Abholung' : v.delivery === 'email' ? '✉️ ' + (v.recipient_email || 'E-Mail') : v.delivery === 'konto' ? '💾 Konto' : '—';
     const vPaid = v => (v.paid == 1 || v.paid === true);
-    box.innerHTML = `<h3 class="host-sect">Gutschein an der Kasse einlösen</h3>
-    <div class="host-note">Barcode mit dem Scanner ins Code-Feld scannen (oder Nummer eintippen), Betrag eingeben, <b>Einlösen</b> — der Saldo wird sofort zentral abgezogen. Den Rest des Kaufs ganz normal in der SumUp-Kasse abrechnen.</div>
-    <div class="hcard"><div class="two-col">
-      <div class="field"><label for="vrCode">Gutschein-Code</label><input type="text" id="vrCode" placeholder="LOVE-XXXX-XXXX" autocomplete="off"></div>
-      <div class="field"><label for="vrAmt">Betrag (CHF)</label><input type="number" id="vrAmt" min="0.05" step="0.05" placeholder="z. B. 25"></div>
+    box.innerHTML = `<h3 class="host-sect">Gutschein an der Kasse einlösen — synchron mit SumUp</h3>
+    <div class="host-note">So bleibt alles synchron: <b>1)</b> Barcode scannen (oder Code eintippen) — der Saldo erscheint sofort. <b>2)</b> Betrag <b>Einlösen</b> — Website, Kundenkonto und Host sind damit augenblicklich aktuell. <b>3)</b> In der <b>SumUp-Kasse</b> beim Bezahlen die Zahlart <b>«Gutschein»</b> wählen und denselben Code &amp; Betrag erfassen — SumUp zieht ihn vom Rechnungstotal ab, und die Einlösung steht auch auf dem Beleg und in der Buchhaltung. <span style="opacity:.75">SumUp bietet keine Schnittstelle für Gutschein-Salden — das Guthaben führt deshalb zentral die LOVE-Cloud, und SumUp prüft es nicht selbst. Immer zuerst hier scannen!</span></div>
+    <div class="hcard">
+      <div class="field"><label for="vrCode">Gutschein-Code (Barcode scannen oder eintippen)</label>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <input type="text" id="vrCode" placeholder="LOVE-XXXX-XXXX" autocomplete="off" spellcheck="false" style="flex:1;min-width:12rem;font-size:1.05rem;letter-spacing:.06em">
+          <button type="button" class="btn btn-ghost btn-sm" id="vrCheck">Saldo prüfen</button>
+        </div>
+      </div>
+      <div id="vrInfo" style="margin:.2rem 0 .8rem" aria-live="polite"></div>
+      <div class="two-col" style="align-items:end">
+        <div class="field"><label for="vrAmt">Einzulösender Betrag (CHF)</label><input type="number" id="vrAmt" min="0.05" step="0.05" placeholder="z. B. 25"></div>
+        <div class="field"><button type="button" class="btn btn-rose btn-block" id="vrGo">Einlösen</button></div>
+      </div>
+      <span class="hint" id="vrHint" aria-live="polite"></span>
     </div>
-    <button type="button" class="btn btn-rose btn-sm" id="vrGo">Einlösen</button>
-    <span class="hint" id="vrHint" style="margin-left:.6rem" aria-live="polite"></span></div>
     <h3 class="host-sect">Verkaufte Gutscheine</h3>
-    <div class="host-note">🖨 <b>PDF</b> druckt die Karte mit Barcode nach — falls jemand ohne Kundenkonto den Code verliert. <b>Einlösen</b> zieht einen Betrag vom Saldo ab (Kassen-Verkauf).</div>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
+    <div class="host-note">🖨 <b>PDF</b> druckt die Karte mit Barcode nach — falls jemand ohne Kundenkonto den Code verliert. <b>Einlösen</b> zieht einen Betrag vom Saldo ab — danach in der SumUp-Kasse die Zahlart «Gutschein» mit Code &amp; Betrag erfassen.</div>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Zustellung</th><th>Bezahlt</th><th>Status</th><th>Aktion</th></tr></thead>
       <tbody>${d.gutscheine.map(v => `<tr>
         <td><b>${esc(v.code)}</b></td><td>CHF ${Number(v.amount).toFixed(0)}</td><td><b>CHF ${Number(v.balance).toFixed(2)}</b></td>
@@ -605,20 +613,53 @@ function render() {
       if (r && r.ok) { alert(`Eingelöst ✓ — neuer Saldo: CHF ${Number(r.balance).toFixed(2)}`); loadCloud(); }
       else { alert(redeemErr[(r || {}).error] || 'Das hat nicht geklappt.'); btn.disabled = false; }
     }));
-    /* Schnell-Einlösung oben (Scanner-Feld) */
-    const vrGo = box.querySelector('#vrGo');
+    /* Schnell-Einlösung oben (Scanner-Feld): Enter vom Barcode-Scanner prüft
+       sofort den Saldo; nach dem Einlösen steht da, was in SumUp einzutragen ist. */
+    const vrCode = box.querySelector('#vrCode'), vrAmt = box.querySelector('#vrAmt'),
+          vrInfo = box.querySelector('#vrInfo'), vrGo = box.querySelector('#vrGo'),
+          vrHint = box.querySelector('#vrHint');
+    const sumupBlock = (code, amt, saldo) => `<div style="background:var(--celadon);border-radius:12px;padding:.7rem .9rem">
+        <b style="color:var(--green)">✓ CHF ${amt.toFixed(2)} eingelöst — neuer Saldo: CHF ${saldo.toFixed(2)}</b><br>
+        <span style="font-size:.88em">Jetzt in der <b>SumUp-Kasse</b> beim Bezahlen: Zahlart <b>«Gutschein»</b> wählen und <b>${esc(code)} · CHF ${amt.toFixed(2)}</b> eintragen — SumUp zieht den Betrag vom Total ab und die Einlösung steht auf dem Beleg. (Kein Gutschein-Knopf? Dann das Total um CHF ${amt.toFixed(2)} reduzieren.)</span></div>`;
+    /* Die letzte Einlösung übersteht das automatische Neuladen der Tabelle */
+    if (window.__vrLetzte) vrInfo.innerHTML = sumupBlock(window.__vrLetzte.code, window.__vrLetzte.amt, window.__vrLetzte.saldo);
+    async function vrPruefen() {
+      const code = vrCode.value.trim().toUpperCase();
+      vrCode.value = code;
+      window.__vrLetzte = null;
+      if (!/^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { vrInfo.innerHTML = '<span style="color:#B3261E">Code bitte im Format LOVE-XXXX-XXXX.</span>'; return; }
+      vrInfo.textContent = 'Saldo wird geprüft …';
+      try {
+        const r = await LoveCloud.call('voucher_status&code=' + encodeURIComponent(code));
+        if (r.ok && r.voucher) {
+          if (!(r.voucher.paid == 1)) { vrInfo.innerHTML = '<span style="color:#B3261E">⚠ Dieser Gutschein ist noch nicht bezahlt — nicht einlösbar.</span>'; return; }
+          const bal = Number(r.voucher.balance);
+          vrInfo.innerHTML = `<b style="font-size:1.35rem;color:var(--green)">Saldo: CHF ${bal.toFixed(2)}</b>
+            <span class="host-pill ${r.voucher.status === 'aktiv' ? 'ok' : ''}" style="margin-left:.4rem">${esc(r.voucher.status)}</span>`;
+          if (bal > 0) { vrAmt.focus(); vrAmt.select(); }
+          return;
+        }
+      } catch (e) { /* unten gemeinsame Fehlermeldung */ }
+      vrInfo.innerHTML = '<span style="color:#B3261E">Code nicht gefunden — bitte prüfen.</span>';
+    }
+    vrCode.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); vrPruefen(); } });
+    box.querySelector('#vrCheck').addEventListener('click', vrPruefen);
+    vrAmt.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); vrGo.click(); } });
     if (vrGo) vrGo.addEventListener('click', async () => {
-      const code = box.querySelector('#vrCode').value.trim().toUpperCase();
-      const amt = Number(String(box.querySelector('#vrAmt').value).replace(',', '.'));
-      const hint = box.querySelector('#vrHint');
-      if (!/^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { hint.textContent = 'Code bitte im Format LOVE-XXXX-XXXX.'; return; }
-      if (!(amt > 0)) { hint.textContent = 'Bitte einen Betrag eingeben.'; return; }
+      const code = vrCode.value.trim().toUpperCase();
+      const amt = Number(String(vrAmt.value).replace(',', '.'));
+      if (!/^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { vrHint.textContent = 'Code bitte im Format LOVE-XXXX-XXXX.'; return; }
+      if (!(amt > 0)) { vrHint.textContent = 'Bitte einen Betrag eingeben.'; vrAmt.focus(); return; }
       vrGo.disabled = true;
-      hint.textContent = 'Wird eingelöst …';
+      vrHint.textContent = 'Wird eingelöst …';
       const r = await hostRedeem(code, amt);
       vrGo.disabled = false;
-      if (r && r.ok) { hint.textContent = `✓ Eingelöst — neuer Saldo: CHF ${Number(r.balance).toFixed(2)}`; loadCloud(); }
-      else hint.textContent = redeemErr[(r || {}).error] || 'Das hat nicht geklappt.';
+      if (r && r.ok) {
+        vrHint.textContent = '';
+        window.__vrLetzte = { code, amt, saldo: Number(r.balance) };
+        vrInfo.innerHTML = sumupBlock(code, amt, Number(r.balance));
+        loadCloud();
+      } else vrHint.textContent = redeemErr[(r || {}).error] || 'Das hat nicht geklappt.';
     });
 
   /* ═══ Angebote (Dienstleistungen) ═══ */
