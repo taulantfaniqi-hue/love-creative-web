@@ -12,6 +12,11 @@
 'use strict';
 /* LoveData ist eine top-level const (kein window-Property) → typeof-Check */
 if (!window.LoveSite || !window.LoveTables || typeof LoveData === 'undefined') return;
+/* Das Reservations-Widget (schwebender Knopf + Bottom-Sheet) erscheint nur auf
+   der Startseite und bei Walk-in — auf allen anderen Seiten nicht
+   (Entscheid Taulant, 24.09.2026). */
+const SEITE = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+if (!['', 'index.html', 'walkin.html'].includes(SEITE)) return;
 const T = window.LoveTables;
 
 /* ═══════════ Texte (eigenes Mini-i18n, hört auf love:lang) ═══════════ */
