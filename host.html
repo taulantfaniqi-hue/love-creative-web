@@ -239,6 +239,7 @@ function getData() {
     redemptions: cloudData ? (cloudData.redemptions || []) : [],
     pwResets: cloudData ? (cloudData.pw_resets || []) : [],
     dienste: cloudData ? (cloudData.services || []) : [],
+    camps: cloudData ? (cloudData.camps || []) : [],
     bestellungen: cloudData ? (cloudData.orders || []) : (LoveData.listOrders ? LoveData.listOrders() : [])
   };
 }
@@ -575,11 +576,39 @@ function render() {
       </div>
       <button type="button" class="btn btn-rose" id="svcAdd">Dienstleistung hinzufügen</button>
       <p class="hint" style="margin-top:.6rem">Aktive Dienstleistungen erscheinen sofort als Karten im Reservations-Widget der Website.</p>
+    </div></div>
+    <h3 class="host-sect">🏕 Kidscamp: Camp-Wochen</h3>
+    <div class="host-note">Aktive Camp-Wochen erscheinen sofort in der Anmeldung auf der Kidscamp-Seite. Ein Camp beginnt immer an einem <b>Montag</b> und läuft Mo–Fr (buchbar 3–5 Tage).</div>
+    ${d.camps.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Aktiv</th><th>Camp-Woche</th><th>Start (Montag)</th></tr></thead>
+      <tbody>${d.camps.map(c => `<tr>
+        <td><input type="checkbox" class="camp-toggle" data-start="${esc(c.start)}" data-label="${esc(c.label)}" ${Number(c.active) ? 'checked' : ''}></td>
+        <td><b>${esc(c.label)}</b></td><td>${fmtDay(c.start)}</td></tr>`).join('')}</tbody>
+    </table></div>` : `<p class="host-empty">Noch keine Camp-Wochen erfasst.</p>`}
+    <div class="panel" style="margin-top:1rem"><div class="panel-head"><h3>Neue Camp-Woche</h3></div><div class="panel-body">
+      <div class="two-col">
+        <div class="field"><label for="campStart">Erster Camp-Tag (Montag)</label><input type="date" id="campStart"></div>
+        <div class="field"><label for="campLabel">Bezeichnung (optional)</label><input type="text" id="campLabel" placeholder="z. B. Sportferien: Mo 9. – Fr 13. Februar 2027"></div>
+      </div>
+      <button type="button" class="btn btn-rose" id="campAdd">Camp-Woche hinzufügen</button>
+      <p class="hint" id="campHint" style="margin-top:.6rem" aria-live="polite"></p>
     </div></div>`;
     box.querySelectorAll('.svc-toggle').forEach(cb => cb.addEventListener('change', () => {
       const s = d.dienste.find(x => x.id === cb.dataset.id);
       if (s) hostCall('service_save', { id: s.id, label_de: s.label_de, label_en: s.label_en, desc_de: s.desc_de, desc_en: s.desc_en, price: s.price, sort: s.sort, active: cb.checked ? 1 : 0 });
     }));
+    /* Camp-Wochen: aktiv/inaktiv schalten + neue Woche anlegen */
+    box.querySelectorAll('.camp-toggle').forEach(cb => cb.addEventListener('change', () => {
+      hostCall('camp_save', { start: cb.dataset.start, label: cb.dataset.label, active: cb.checked ? 1 : 0 });
+    }));
+    const campBtn = box.querySelector('#campAdd');
+    if (campBtn) campBtn.addEventListener('click', () => {
+      const start = box.querySelector('#campStart').value;
+      if (!start) { box.querySelector('#campHint').textContent = 'Bitte ein Datum wählen.'; return; }
+      if (new Date(start + 'T12:00:00').getDay() !== 1) { box.querySelector('#campHint').textContent = 'Ein Camp beginnt immer an einem Montag — bitte einen Montag wählen.'; return; }
+      campBtn.disabled = true;
+      hostCall('camp_save', { start, label: box.querySelector('#campLabel').value.trim(), active: 1 });
+    });
     const addBtn = box.querySelector('#svcAdd');
     if (addBtn) addBtn.addEventListener('click', () => {
       const de = box.querySelector('#svcDe').value.trim();

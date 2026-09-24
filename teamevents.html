@@ -109,7 +109,9 @@ window.LOVE_EN = {
   'tb.art2':'Client event',
   'tb.art3':'Christmas or year-end party',
   'tb.art4':'Farewell, anniversary, celebration',
+  'tb.art6':'Private group / family party / school class',
   'tb.art5':'Something else',
+  'tf.privat':'<b>Private groups</b> are welcome here too: family parties, club outings or school classes — from 6 people, using the same form below. Kids\' birthdays have their <a href="geburtstag.html">own page with direct booking</a>, and so does the <a href="kidscamp.html">holiday kids camp</a>.',
   'tb.persons':'Number of people',
   'tb.personsHint':'6 to 44 people. For smaller groups simply reserve a table.',
   'tb.date':'Preferred date',
@@ -168,8 +170,14 @@ window.LOVE_EN = {
             <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
           </ul>
         </li>
-        <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
-        <li><a href="teamevents.html" data-i18n="nav.team">Team-Events</a></li>
+        <li class="has-sub">
+          <a href="events.html" data-i18n="nav.events">Events</a>
+          <ul class="sub">
+            <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
+            <li><a href="geburtstag.html" data-i18n="nav.geb">Kindergeburtstag</a></li>
+            <li><a href="teamevents.html" data-i18n="nav.team">Team- &amp; Firmenevents</a></li>
+          </ul>
+        </li>
         <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
@@ -270,6 +278,7 @@ window.LOVE_EN = {
 
     </div>
     <p class="sect-lead" style="margin-top:2rem" data-i18n="tf.note">Den Preis nennen wir euch in der Offerte — abgestimmt auf Gruppengrösse, Wochentag und eure Wünsche. Ihr erhaltet sie innert 24 Stunden, kostenlos und unverbindlich.</p>
+    <p class="sect-lead" data-i18n="tf.privat">Auch <b>private Gruppen</b> sind hier richtig: Familienfest, Vereinsausflug oder Schulklasse — ab 6 Personen, mit demselben Formular unten. Kindergeburtstage haben eine <a href="geburtstag.html">eigene Seite mit Direktbuchung</a>, das Ferien-Kidscamp ebenso: <a href="kidscamp.html">zum Camp</a>.</p>
   </div>
 </section>
 
@@ -317,6 +326,7 @@ window.LOVE_EN = {
                 <option value="Kundenanlass" data-i18n="tb.art2">Kundenanlass</option>
                 <option value="Weihnachtsessen" data-i18n="tb.art3">Weihnachts- oder Jahresendessen</option>
                 <option value="Feier" data-i18n="tb.art4">Abschied, Jubiläum, Feier</option>
+                <option value="Private Gruppe" data-i18n="tb.art6">Private Gruppe / Familienfest / Schulklasse</option>
                 <option value="Anderes" data-i18n="tb.art5">Etwas anderes</option>
               </select>
             </div>
@@ -420,7 +430,7 @@ window.LOVE_EN = {
         <h4 data-i18n="ft.worlds">Entdecken</h4>
         <ul>
           <li><a href="walkin.html" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
-          <li><a href="kidscamp.html" data-i18n="ft.events">Events</a></li>
+          <li><a href="events.html" data-i18n="ft.events">Events</a></li>
           <li><a href="teamevents.html" data-i18n="ft.firmen">Team- &amp; Firmenevents</a></li>
           <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
@@ -457,7 +467,7 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=2af837ff"></script>
-<script src="assets/js/love-site.js?v=a46f981f"></script>
+<script src="assets/js/love-site.js?v=bbd6d0e7"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=fd71b4ab"></script>
 <script src="assets/js/love-pay.js?v=f8e0a896"></script>
@@ -513,7 +523,8 @@ function pruefe() {
   const x = m(), v = id => $('#' + id).value.trim(), fehlt = [], n = personen();
   if (n < GRENZE.min || n > GRENZE.max) return x.errPers;
   if (!v('teDate')) fehlt.push(x.fDatum);
-  if (!v('teFirma')) fehlt.push(x.fFirma);
+  /* Private Gruppen haben keine Firma — dort ist das Feld freiwillig */
+  if (!v('teFirma') && $('#teArt').value !== 'Private Gruppe') fehlt.push(x.fFirma);
   if (!v('teName')) fehlt.push(x.fName);
   if (!v('tePhone')) fehlt.push(x.fTel);
   if (fehlt.length) return x.errPflicht + fehlt.join(' · ');
