@@ -129,6 +129,8 @@ const COMMON_EN = {
   'ft.keramik': 'Ceramics &amp; prices', 'ft.kinoL': 'Cinema Night', 'ft.events': 'Events',
   'err.required': 'Please fill in name and a valid e-mail address.',
   'err.phone': 'Please add a phone number — we need it for queries about your reservation.',
+  'err.agb': 'Please accept the terms and conditions to continue.',
+  'agb.check': 'I have read and accept the <a href="agb.html" target="_blank" rel="noopener">terms and conditions</a>.',
   'err.email': 'Please enter a valid e-mail address.',
   'err.date': 'Please choose a date.',
   'err.persons': 'For 9 or more people please use the event planner.',
@@ -144,6 +146,8 @@ const COMMON_EN = {
 const COMMON_DE = { // DE-Texte, die nur in JS vorkommen
   'err.required': 'Bitte Name und eine gültige E-Mail-Adresse angeben.',
   'err.phone': 'Bitte gib eine Telefonnummer an — wir brauchen sie für Rückfragen zur Reservation.',
+  'err.agb': 'Bitte akzeptiere die AGB, um fortzufahren.',
+  'agb.check': 'Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB</a> gelesen und akzeptiere sie.',
   'err.email': 'Bitte eine gültige E-Mail-Adresse angeben.',
   'err.date': 'Bitte ein Datum wählen.',
   'err.persons': 'Ab 9 Personen nutze bitte den Eventplaner.',

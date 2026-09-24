@@ -298,6 +298,7 @@ function renderCheckout(s, delivery) {
         <textarea id="coAddr" rows="2" placeholder="${esc(t().addrPh)}" autocomplete="street-address"></textarea>
       </div>
       <div class="field"><label for="coNote">${esc(t().note)}</label><input id="coNote"></div>
+      <label class="check"><input type="checkbox" id="coAgb"><span>${LoveSite.t('agb.check')}</span></label>
     </form>`);
   /* Der Fuss bleibt bewusst schlank: Summen, Fehlermeldung, ein Knopf. Jede
      weitere Zeile hier nimmt dem Formular Platz — und dann füllt jemand nur
@@ -344,6 +345,7 @@ async function submitOrder(e) {
   if (!name) { err.textContent = t().errName; $('#coName').focus(); return; }
   if (!LoveSite.validEmail(email)) { err.textContent = t().errMail; $('#coMail').focus(); return; }
   if (delivery === 'post' && address.length < 8) { err.textContent = t().errAddr; $('#coAddr').focus(); return; }
+  if (!$('#coAgb').checked) { err.textContent = LoveSite.t('err.agb'); return; }
   err.textContent = '';
   busy = true; $('#coSubmit').disabled = true;
 

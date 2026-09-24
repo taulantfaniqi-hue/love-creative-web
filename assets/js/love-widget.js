@@ -400,6 +400,7 @@ function renderForm() {
     <input type="tel" id="lwPhone" autocomplete="tel" placeholder="${x.phone}" value="${prevPhone.replace(/"/g, '&quot;')}">
     <input type="text" id="lwNote" placeholder="${x.note}" value="${prevNote.replace(/"/g, '&quot;')}">
     ${priv ? `<p class="lw-cancel-hint" style="font-weight:600">${x.privFee(state.guests, fee)}</p>` : ''}
+    <label class="check" style="margin-top:.4rem"><input type="checkbox" id="lwAgb"><span>${LoveSite.t('agb.check')}</span></label>
     <p class="lw-err" id="lwErr" aria-live="polite"></p>
     <button type="submit" class="btn btn-rose btn-block">${priv ? x.submitPay(fee) : x.submit}</button>
     <p class="lw-cancel-hint">${priv ? x.priv24h : LoveSite.t('cancel.hint')}</p>
@@ -436,6 +437,7 @@ async function submit(e) {
   if (!name || !LoveSite.validEmail(email)) { $('lwErr').textContent = LoveSite.t('err.required'); return; }
   /* Telefon ist Pflicht — fürs Team bei Rückfragen zur Reservation */
   if ((phone.replace(/\D/g, '')).length < 7) { $('lwErr').textContent = x.errPhone; return; }
+  if (!$('lwAgb').checked) { $('lwErr').textContent = LoveSite.t('err.agb'); return; }
   if (slotFull(state.date, state.slot, state.guests)) { $('lwErr').textContent = LoveSite.t('err.full'); return; }
   const priv = isPriv(state.date);
   const kino = !priv && T.isKinoSlot(state.date, state.slot) && state.act === 'kino';

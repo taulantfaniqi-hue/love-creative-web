@@ -223,6 +223,7 @@ window.LOVE_EN = {
             <div class="field"><label for="rPhone" data-i18n="f.phone">Telefon</label><input type="tel" id="rPhone" autocomplete="tel" required></div>
             <div class="field"><label for="rMsg" data-i18n="f.msg">Nachricht (optional)</label><input type="text" id="rMsg" data-i18n-ph="f.msgPh" placeholder="Geburtstag, Allergien, Zusatzstunde…"></div>
           </div>
+          <label class="check"><input type="checkbox" id="rAgb"><span data-i18n="agb.check">Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB</a> gelesen und akzeptiere sie.</span></label>
           <button type="submit" class="btn btn-rose btn-block" data-i18n="f.submit">Reservation anfragen</button>
           <p class="form-err" id="resErr" aria-live="polite"></p>
         </form>
@@ -297,11 +298,11 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=2af837ff"></script>
-<script src="assets/js/love-site.js?v=452d5591"></script>
+<script src="assets/js/love-site.js?v=a46f981f"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=fd71b4ab"></script>
 <script src="assets/js/love-pay.js?v=f8e0a896"></script>
-<script src="assets/js/love-widget.js?v=b2b72c00"></script>
+<script src="assets/js/love-widget.js?v=76291ad6"></script>
 <script>
 (() => {
 'use strict';
@@ -396,6 +397,7 @@ $('#resForm').addEventListener('submit', e => {
   if (!name || !validEmail(email)) { err.textContent = t('err.required'); return; }
   /* Telefon ist Pflicht — fürs Team bei Rückfragen */
   if ($('#rPhone').value.replace(/\D/g, '').length < 7) { err.textContent = t('err.phone'); return; }
+  if (!$('#rAgb').checked) { err.textContent = t('err.agb'); return; }
   err.textContent = '';
   const kino = T.isKinoSlot(date, slot);
   const b = LoveData.addBooking({

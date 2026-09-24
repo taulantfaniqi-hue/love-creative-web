@@ -179,7 +179,7 @@ window.LOVE_EN = {
         </li>
         <li><a href="kidscamp.html" data-i18n="nav.kidsgeb">Kidscamp &amp; Geburtstage</a></li>
         <li><a href="teamevents.html" data-i18n="nav.team">Team-Events</a></li>
-        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
+        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
         <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
         <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
       </ul>
@@ -307,6 +307,7 @@ window.LOVE_EN = {
                 <div class="field"><label for="gEmail" data-i18n="py.email">Deine E-Mail</label><input type="email" id="gEmail" autocomplete="email"></div>
               </div>
               <div class="field"><label for="gPhone" data-i18n="py.phone">Telefon (optional)</label><input type="tel" id="gPhone" autocomplete="tel"></div>
+              <label class="check"><input type="checkbox" id="gAgb"><span data-i18n="agb.check">Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB</a> gelesen und akzeptiere sie.</span></label>
               <div class="p-nav">
                 <button type="button" class="btn btn-ghost" id="backTo1" data-i18n="py.back">← Zurück</button>
                 <button type="button" class="btn btn-rose" id="submitGift" data-i18n="py.submit">Weiter zur Zahlung →</button>
@@ -404,7 +405,7 @@ window.LOVE_EN = {
         <ul>
           <li><a href="index.html#preise" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
           <li><a href="index.html#events" data-i18n="ft.events">Events</a></li>
-          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
+          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
         </ul>
       </div>
@@ -440,11 +441,11 @@ window.LOVE_EN = {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="assets/js/love-data.js?v=2af837ff"></script>
-<script src="assets/js/love-site.js?v=452d5591"></script>
+<script src="assets/js/love-site.js?v=a46f981f"></script>
 <script src="assets/js/love-cloud.js?v=2c94f003"></script>
 <script src="assets/js/love-account.js?v=fd71b4ab"></script>
 <script src="assets/js/love-pay.js?v=f8e0a896"></script>
-<script src="assets/js/love-widget.js?v=b2b72c00"></script>
+<script src="assets/js/love-widget.js?v=76291ad6"></script>
 <script>
 (() => {
 'use strict';
@@ -583,6 +584,7 @@ $('#submitGift').addEventListener('click', async () => {
   const address = $('#gAddress').value.trim();
   if (state.ship === 'email' && !validEmail(recipMail)) { err.textContent = t('err.recipMail'); $('#gRecipMail').focus(); return; }
   if (state.ship === 'post' && address.length < 8) { err.textContent = t('err.address'); $('#gAddress').focus(); return; }
+  if (!$('#gAgb').checked) { err.textContent = t('err.agb'); return; }
   err.textContent = '';
   submitBusy = true;
   $('#submitGift').textContent = '…';
