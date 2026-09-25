@@ -9,8 +9,8 @@
 <link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=0448414e">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/love.css?v=1e26e691">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
 <link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script>
@@ -354,7 +354,7 @@ const $$ = s => Array.from(document.querySelectorAll(s));
 const chf = n => 'CHF ' + Number(n).toFixed(0);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const PREIS = { geburtstag: 450, gebInklKinder: 9, gebZusatzKind: 45, gebMaxKinder: 20, gebDauerMin: 150,
+const PREIS = { geburtstag: 500, gebInklKinder: 10, gebZusatzKind: 45, gebMaxKinder: 20, gebDauerMin: 150,
   /* Camp: Fixkosten pro Kind (Arbeit & Aufwand, auch bei nur einem Tag) + Tagessatz ab dem ersten Tag.
      5 Tage = 250 + 5×68 = CHF 590 — deckt sich mit dem bisherigen Wochenpreis. */
   campFix: 250, campTag: 68, randProTag: 20, campTageMin: 3, campTageMax: 5, maxKinderProAnmeldung: 4 };

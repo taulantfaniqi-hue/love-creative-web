@@ -11,7 +11,7 @@
   --line:rgba(51,115,87,.20); --line-soft:rgba(51,115,87,.10);
   --r-s:10px; --r-m:18px; --r-arch:999px 999px 14px 14px;
   --ff-display:"Playfair Display",Georgia,"Times New Roman",serif;
-  --ff-body:"Jost","Futura","Century Gothic","Segoe UI",sans-serif;
+  --ff-body:"Lexend","Jost","Segoe UI",sans-serif;   /* Standard seit 25.09.2026 — wie «So funktioniert's» */
   --ff-script:"Sacramento","Brush Script MT",cursive;
   --shadow:0 10px 30px rgba(21,84,55,.08);
 }
@@ -21,7 +21,8 @@ html{scroll-behavior:smooth}
   html{scroll-behavior:auto}
   .reveal{opacity:1!important;transform:none!important;transition:none!important}
 }
-body{font-family:var(--ff-body);font-weight:400;color:var(--ink);background:var(--cream);line-height:1.65;font-size:1.02rem}
+/* Textgrösse wie «So funktioniert's»: 16 px auf dem Handy, bis 19 px auf dem Computer */
+body{font-family:var(--ff-body);font-weight:400;color:var(--ink);background:var(--cream);line-height:1.6;font-size:clamp(1rem,.9rem + .35vw,1.1875rem)}
 /* height:auto ist nötig, seit die Bilder width- und height-Angaben im HTML tragen: Ohne sie
    gewinnt die Höhe aus dem HTML (z. B. 1680 px) über aspect-ratio, und ein 4:3-Rasterbild
    wird zum meterhohen Streifen. Bilder mit gewollt fester Höhe (Logo, Zahlungs-Logos,
@@ -129,6 +130,8 @@ html{overflow-x:clip}
   nav.main.open li:nth-child(6){animation-delay:.22s}
   nav.main.open li:nth-child(7){animation-delay:.26s}
   nav.main.open li:nth-child(8){animation-delay:.3s}
+  /* Unterpunkte folgen dem Menü: zu = unsichtbar UND nicht klickbar (vorher lagen sie unsichtbar über der Seite
+     und fingen Taps ab — z. B. «Jetzt anmelden» im Kidscamp öffnete Team-Events, 25.09.2026) */
   nav.main .sub{position:static;border:0;box-shadow:none;background:transparent;padding:.2rem 0 0 1rem;min-width:0;opacity:1;visibility:inherit;transform:none;pointer-events:inherit}
   .nav-cta{display:none}
 }
