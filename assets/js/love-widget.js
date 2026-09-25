@@ -44,11 +44,12 @@ const TX = {
     submit: 'Reservation anfragen',
     guestsPriv: n => `${n} Personen`,
     privBadge: 'Private Keramik-Session',
-    privNote: min => `An diesem Tag ist das Studio regulär geschlossen — buchbar ist eine <b>private Keramik-Session ab ${min} Personen</b>. Die Servicegebühr wird online vorbezahlt, die Keramikstücke zahlt ihr vor Ort.`,
+    privNote: min => `An diesem Tag ist das Studio regulär geschlossen — buchbar ist eine <b>private Keramik-Session ab ${min} Personen</b>. Die Servicegebühr wird online vorbezahlt, die Keramikstücke zahlt ihr vor Ort. Weil wir an diesem Tag eigens für euch öffnen, prüfen wir die Buchung persönlich und melden uns — bitte hab etwas Geduld.`,
     privFee: (n, chf) => `Servicegebühr: ${n} × CHF 25 = <b>CHF ${chf}</b> — jetzt online bezahlen`,
     priv24h: 'Absage bis 24 h vor dem Termin: volle Rückerstattung der Gebühr. Bei kurzfristigeren Buchungen oder Absagen unter 24 h gibt es keine Rückerstattung.',
     submitPay: chf => `Kostenpflichtig buchen — CHF ${chf} →`,
     privPayFail: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Anfrage ist gespeichert — wir melden uns per E-Mail mit dem Zahlungslink.',
+    okPriv: 'An diesem Tag öffnen wir eigens für euch. Unser Team prüft die Buchung persönlich und meldet sich per E-Mail — bitte hab etwas Geduld.',
     okTitle: 'Anfrage eingegangen!',
     okText: 'Du bekommst gleich eine E-Mail von uns. Bitte warte kurz, bis unser Team deine Buchung annimmt — die Bestätigung kommt ebenfalls per E-Mail.',
     okKino: 'Kino-Night: Programm und Format schicken wir dir mit der Bestätigung.',
@@ -84,11 +85,12 @@ const TX = {
     submit: 'Request reservation',
     guestsPriv: n => `${n} people`,
     privBadge: 'Private ceramic session',
-    privNote: min => `The studio is regularly closed on this day — you can book a <b>private ceramic session from ${min} people</b>. The service fee is prepaid online; you pay for the ceramic pieces on site.`,
+    privNote: min => `The studio is regularly closed on this day — you can book a <b>private ceramic session from ${min} people</b>. The service fee is prepaid online; you pay for the ceramic pieces on site. As we open specially for you on this day, we check the booking personally and get back to you — please bear with us.`,
     privFee: (n, chf) => `Service fee: ${n} × CHF 25 = <b>CHF ${chf}</b> — paid online now`,
     priv24h: 'Cancel up to 24 h before your session for a full refund of the fee. Bookings made or cancelled less than 24 h ahead are non-refundable.',
     submitPay: chf => `Book & pay — CHF ${chf} →`,
     privPayFail: 'Online payment is temporarily unavailable. Your request is saved — we will e-mail you the payment link.',
+    okPriv: 'We open specially for you on this day. Our team checks the booking personally and gets back to you by e-mail — please bear with us.',
     okTitle: 'Request received!',
     okText: 'You will get an e-mail from us right away. Please wait until our team accepts your booking — the confirmation also arrives by e-mail.',
     okKino: 'Cinema Night: we send you the programme with the confirmation.',
@@ -425,6 +427,7 @@ function renderResult() {
     <h4>${x.okTitle}</h4>
     <p>${x.okText}</p>
     ${b.payFailed ? `<p><b>${x.privPayFail}</b></p>` : ''}
+    ${b.type === 'keramik-privat' ? `<p>${x.okPriv}</p>` : ''}
     ${b.type === 'kino' ? `<p>${x.okKino}</p>` : ''}
     <p class="lw-ref">${LoveSite.t('ref.lbl')}${b.id}</p>
     <p><b>${new Date(b.date + 'T12:00:00').toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' })}</b> · ${b.time} · ${b.persons} ${x.persons}</p>

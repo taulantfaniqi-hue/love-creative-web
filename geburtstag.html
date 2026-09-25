@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=935fb209">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
-<link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
+<link rel="stylesheet" href="assets/css/love.css?v=10a76484">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
+<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script>
 window.LOVE_TITLES = { de: 'Kindergeburtstag — LOVE Creative Café, Au ZH', en: 'Kids\' birthday — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
@@ -30,7 +30,7 @@ window.LOVE_EN = {
   'kg.b3':'Colours, glaze and firing included',
   'kg.b4':'Water and syrup included',
   'kg.b5':'You are welcome to bring a cake',
-  'gb.tage':'Bookable on any day of the week — on Monday, Tuesday and Thursday we open specially for your party.',
+  'gb.tage':'Bookable on any day of the week — on Monday, Tuesday and Thursday we open specially for your party. We confirm these dates personally — we will get back to you.',
   'gb.note':'Up to 9 children are included in the price of CHF 450; each additional child is CHF 45, and up to 20 children are possible. From 11 children we add a second table.',
   'gb.andere':'Looking for something else? <a href="kidscamp.html">Holiday kids camp</a> · <a href="teamevents.html">Team &amp; corporate events</a> — all bookable events on the <a href="events.html">events page</a>.',
   'kb.eyebrow':'Booking',
@@ -57,13 +57,13 @@ window.LOVE_EN = {
   'kb.eDsg':'I agree that LOVE Creative processes the information given here to run the event — in line with the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>. We delete the details 30 days after the event.',
   'kb.eSorge':'I hold parental authority for the birthday child and make these declarations also on behalf of any other person holding parental authority.',
   'kb.optLbl':'Optional — you decide',
-  'kb.fErinnerung':'You may take photos and e-mail them to me as a keepsake.',
   'kb.fNews':'Send me the newsletter with new camps and dates.',
-  'kb.optHint':'We do not publish photos. The tick has no effect on participation — and you can withdraw the consent at any time: hello@lovecreative.ch.',
+  'kb.optHint':'Without the tick we photograph your child only unrecognisably; guest children are never photographed recognisably, as their parents have not consented. This has no effect on participation — withdraw at any time: hello@lovecreative.ch.',
   'kb.submit':'Book &amp; pay →',
   'kb.payHint':'You pay securely via Payrexx (TWINT, credit &amp; debit cards). The date is final once our team confirms it by e-mail.',
   'kb.retry':'Retry payment',
-  'kb.again':'New booking'
+  'kb.again':'New booking',
+  'kb.fFoto':'Our team may photograph the birthday child during the party — for LOVE Creative\'s internal purposes only. The photos are not published, not passed on and not sent out.'
 };
 </script>
 </head>
@@ -147,7 +147,7 @@ window.LOVE_EN = {
       </div>
       <div class="card reveal">
         <h3 data-i18n="ft.hours">Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</h3>
-        <p data-i18n="gb.tage">Buchbar an allen Wochentagen — an Montag, Dienstag und Donnerstag öffnen wir eigens für euer Fest.</p>
+        <p data-i18n="gb.tage">Buchbar an allen Wochentagen — an Montag, Dienstag und Donnerstag öffnen wir eigens für euer Fest. Diese Termine bestätigen wir persönlich — wir melden uns.</p>
         <p class="hint" data-i18n="gb.note">Bis 9 Kinder sind im Preis von CHF 450 enthalten; jedes weitere Kind kostet CHF 45, möglich sind bis 20 Kinder. Ab 11 Kindern stellen wir einen zweiten Tisch dazu.</p>
       </div>
     </div>
@@ -199,9 +199,9 @@ window.LOVE_EN = {
           <label class="check"><input type="checkbox" id="eSorge"><span data-i18n="kb.eSorge">Ich bin für das Geburtstagskind sorgeberechtigt und gebe diese Erklärungen auch im Namen einer weiteren sorgeberechtigten Person ab.</span></label>
           <div class="anm-opt">
             <p class="lbl" data-i18n="kb.optLbl">Freiwillig — du entscheidest</p>
-            <label class="check"><input type="checkbox" id="fErinnerung"><span data-i18n="kb.fErinnerung">Ihr dürft Fotos machen und sie mir als Erinnerung per E-Mail schicken.</span></label>
+            <label class="check"><input type="checkbox" id="fFoto"><span data-i18n="kb.fFoto">Unser Team darf das Geburtstagskind während des Fests fotografieren — nur für interne Zwecke von LOVE Creative. Die Fotos werden nicht veröffentlicht, nicht weitergegeben und nicht verschickt.</span></label>
             <label class="check"><input type="checkbox" id="fNews"><span data-i18n="kb.fNews">Schickt mir den Newsletter mit neuen Camps und Terminen.</span></label>
-            <p class="hint" style="margin:.4rem 0 0" data-i18n="kb.optHint">Fotos veröffentlichen wir nicht. Das Häkchen hat keinen Einfluss auf die Teilnahme — und du kannst die Einwilligung jederzeit widerrufen: hello@lovecreative.ch.</p>
+            <p class="hint" style="margin:.4rem 0 0" data-i18n="kb.optHint">Ohne Häkchen fotografieren wir dein Kind nicht erkennbar; die Gästekinder fotografieren wir grundsätzlich nicht erkennbar, weil deren Eltern nicht zugestimmt haben. Das hat keinen Einfluss auf die Teilnahme — Widerruf jederzeit: hello@lovecreative.ch.</p>
           </div>
         </div>
 
@@ -285,12 +285,12 @@ window.LOVE_EN = {
   </div>
 </footer>
 
-<script src="assets/js/love-data.js?v=2af837ff"></script>
-<script src="assets/js/love-site.js?v=bbd6d0e7"></script>
-<script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=d1c8d631"></script>
-<script src="assets/js/love-pay.js?v=f8e0a896"></script>
-<script src="assets/js/love-widget.js?v=9f5cb951"></script>
+<script src="assets/js/love-data.js?v=f962e5d3"></script>
+<script src="assets/js/love-site.js?v=4bac65b1"></script>
+<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-account.js?v=c69e9e52"></script>
+<script src="assets/js/love-pay.js?v=50578e01"></script>
+<script src="assets/js/love-widget.js?v=a9eb5cd0"></script>
 <script>
 /* Kindergeburtstag — Buchung mit Online-Zahlung (Payrexx).
  * Preis: CHF 450 für bis zu 9 Kinder · jedes weitere Kind + CHF 45 · höchstens 20.
@@ -307,7 +307,7 @@ const PREIS = { sockel: 450, inklKinder: 9, zusatzKind: 45, maxKinder: 20, dauer
 const M = {
   de: {
     startPh: 'Zuerst Datum wählen', startWahl: 'Bitte wählen',
-    zuHinweis: 'An diesem Tag haben wir regulär geschlossen — für euren Geburtstag öffnen wir gern. Wir bestätigen die Zeit per E-Mail.',
+    zuHinweis: 'An diesem Tag haben wir regulär geschlossen — für euren Geburtstag öffnen wir gern. Unser Team prüft den Termin persönlich und meldet sich per E-Mail. Bitte hab etwas Geduld — der Termin gilt erst mit unserer Bestätigung.',
     sGeb: 'Kindergeburtstag · bis 9 Kinder', sPlus: n => `${n} weitere${n === 1 ? 's' : ''} Kind${n === 1 ? '' : 'er'} × CHF ${PREIS.zusatzKind}`, sTotal: 'Total',
     errPflicht: 'Bitte füll alle Pflichtfelder aus: ', errMail: 'Bitte gib eine gültige E-Mail-Adresse an.',
     errEinw: 'Bitte bestätige die nötigen Einverständnisse — ohne sie können wir die Buchung nicht annehmen.',
@@ -321,7 +321,7 @@ const M = {
   },
   en: {
     startPh: 'Choose a date first', startWahl: 'Please choose',
-    zuHinweis: 'We are normally closed on this day — but we will gladly open for your birthday. We confirm the time by e-mail.',
+    zuHinweis: 'We are normally closed on this day — but we will gladly open for your birthday. Our team checks the date personally and gets back to you by e-mail. Please bear with us — the date is final only once we confirm it.',
     sGeb: 'Kids\' birthday · up to 9 children', sPlus: n => `${n} additional child${n === 1 ? '' : 'ren'} × CHF ${PREIS.zusatzKind}`, sTotal: 'Total',
     errPflicht: 'Please fill in all required fields: ', errMail: 'Please enter a valid e-mail address.',
     errEinw: 'Please confirm the required consents — we cannot accept the booking without them.',
@@ -394,7 +394,7 @@ function einzelheiten() {
   if ($('#gAllergy').value.trim()) z.push('— Allergien in der Gruppe: ' + $('#gAllergy').value.trim());
   z.push('— EINVERSTÄNDNIS (' + new Date().toLocaleString('de-CH') + ')');
   z.push(`   AGB/Storno: ${ja('eAgb')} · Datenbearbeitung: ${ja('eDsg')} · sorgeberechtigt: ${ja('eSorge')}`);
-  z.push(`   FOTOS — Erinnerung per E-Mail: ${ja('fErinnerung')}`);
+  z.push(`   FOTOS — intern erlaubt (Geburtstagskind): ${ja('fFoto')}`);
   z.push(`   Newsletter: ${ja('fNews')}`);
   if ($('#pMsg').value.trim()) z.push('— Bemerkung: ' + $('#pMsg').value.trim());
   return z.join('\n');
@@ -431,10 +431,11 @@ $('#gbForm').addEventListener('submit', async e => {
   if ($('#fNews').checked) LoveData.upsertContact(email, { optin: true });
   if (!delivered) { showDone('lost', booking.id); busy = false; $('#gbSubmit').disabled = false; return; }
 
-  try { localStorage.setItem('love.lastGeb', JSON.stringify({ id: booking.id, total: grand, email })); } catch (er) { }
-  /* Optionale Geschenkkarte: der Server rechnet das Guthaben an (bis auf CHF 1) */
+  /* Optionale Geschenkkarte: der Server rechnet das Guthaben an (bis auf CHF 1).
+     Der Code wird mitgespeichert, damit ein zweiter Zahlungsversuch ihn nicht verliert. */
   const giftRaw = $('#gbGift') ? $('#gbGift').value.trim().toUpperCase() : '';
   const gift = /^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(giftRaw) ? giftRaw : '';
+  try { localStorage.setItem('love.lastGeb', JSON.stringify({ id: booking.id, total: grand, email, gift })); } catch (er) { }
   const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'geburtstag', voucher_code: gift, purpose: 'LOVE Kindergeburtstag ' + booking.id });
   if (!r.ok) { showDone('reserved', booking.id, grand); busy = false; $('#gbSubmit').disabled = false; }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
@@ -455,7 +456,7 @@ zeichneSumme();
   showDone(paid ? 'paid' : 'fail', id, last && last.id === id ? last.total : 0);
   history.replaceState(null, '', location.pathname + '#buchen');
   if (fail) $('#gbRetry').addEventListener('click', () => {
-    if (last && last.id === id) LovePay.checkout({ amount: last.total, code: id, email: last.email, back: 'geburtstag', purpose: 'LOVE Kindergeburtstag ' + id });
+    if (last && last.id === id) LovePay.checkout({ amount: last.total, code: id, email: last.email, back: 'geburtstag', voucher_code: last.gift || '', purpose: 'LOVE Kindergeburtstag ' + id });
   });
 })();
 })();

@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=935fb209">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
-<link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
+<link rel="stylesheet" href="assets/css/love.css?v=10a76484">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
+<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script>
 window.LOVE_TITLES = { de: 'Tisch reservieren — LOVE Creative Café, Au ZH', en: 'Reserve a table — LOVE Creative Café, Au ZH' };
 window.LOVE_DE = {
@@ -30,7 +30,7 @@ window.LOVE_EN = {
   'how.eyebrow':'How it works',
   'how.title':'Three steps to your table',
   'how.s1':'Date &amp; time slot',
-  'how.s1t':'Wednesday and Friday: 12–3, 3–6 and 6–8 pm. Saturday and Sunday: 10–1, 1–4 and 4–6:30 pm. Closed Monday, Tuesday and Thursday — groups on request.',
+  'how.s1t':'Wednesday and Friday: 12–3, 3–6 and 6–8 pm. Saturday and Sunday: 10–1, 1–4 and 4–6:30 pm. We are regularly closed on Monday, Tuesday and Thursday. Groups of 6 or more and kids\' birthdays can still ask for these days — we check every request personally and get back to you. Please bear with us.',
   'how.s2':'Group size',
   'how.s2t':'Up to 2 people get a cosy round table for two, 3–4 a round table for four, 5–8 a long table. From 9 people, use our event planner.',
   'how.s3':'Confirmation',
@@ -150,7 +150,7 @@ window.LOVE_EN = {
     <p class="eyebrow" data-i18n="how.eyebrow">So funktioniert's</p>
     <h2 class="sect-title" data-i18n="how.title">In drei Schritten zu deinem Tisch</h2>
     <div class="steps">
-      <div class="step reveal"><h3 data-i18n="how.s1">Datum &amp; Zeitfenster</h3><p data-i18n="how.s1t">Mittwoch und Freitag: 12–15, 15–18 und 18–20 Uhr. Samstag und Sonntag: 10–13, 13–16 und 16–18:30 Uhr. Montag, Dienstag und Donnerstag haben wir geschlossen — Gruppen auf Anfrage.</p></div>
+      <div class="step reveal"><h3 data-i18n="how.s1">Datum &amp; Zeitfenster</h3><p data-i18n="how.s1t">Mittwoch und Freitag: 12–15, 15–18 und 18–20 Uhr. Samstag und Sonntag: 10–13, 13–16 und 16–18:30 Uhr. Montag, Dienstag und Donnerstag haben wir regulär geschlossen. Gruppen ab 6 Personen und Kindergeburtstage können diese Tage trotzdem anfragen — wir prüfen jede Anfrage persönlich und melden uns. Bitte hab etwas Geduld.</p></div>
       <div class="step reveal"><h3 data-i18n="how.s2">Gruppengrösse</h3><p data-i18n="how.s2t">Bis 2 Personen bekommen einen gemütlichen Rundtisch für zwei, 3–4 einen Rundtisch für vier, 5–8 einen langen Tisch. Ab 9 Personen geht's über den Eventplaner.</p></div>
       <div class="step reveal"><h3 data-i18n="how.s3">Bestätigung</h3><p data-i18n="how.s3t">Wir bestätigen per E-Mail innert 24 Stunden. Ist dein Wunschtermin schon voll, melden wir uns mit Alternativen.</p></div>
     </div>
@@ -303,12 +303,12 @@ window.LOVE_EN = {
   </div>
 </footer>
 
-<script src="assets/js/love-data.js?v=2af837ff"></script>
-<script src="assets/js/love-site.js?v=bbd6d0e7"></script>
-<script src="assets/js/love-cloud.js?v=2c94f003"></script>
-<script src="assets/js/love-account.js?v=d1c8d631"></script>
-<script src="assets/js/love-pay.js?v=f8e0a896"></script>
-<script src="assets/js/love-widget.js?v=9f5cb951"></script>
+<script src="assets/js/love-data.js?v=f962e5d3"></script>
+<script src="assets/js/love-site.js?v=4bac65b1"></script>
+<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-account.js?v=c69e9e52"></script>
+<script src="assets/js/love-pay.js?v=50578e01"></script>
+<script src="assets/js/love-widget.js?v=a9eb5cd0"></script>
 <script>
 (() => {
 'use strict';
@@ -345,8 +345,8 @@ function drawSlots() {
     slot = '';
     const en = LoveSite.lang() === 'en';
     slotGrid.innerHTML = `<p class="hint" style="grid-column:1/-1;margin:0">${en
-      ? 'Closed on Mondays, Tuesdays and Thursdays. Group reservations are possible on request — just send us your enquiry below.'
-      : 'Montag, Dienstag und Donnerstag haben wir geschlossen. Gruppenreservierungen sind auf Anfrage möglich — schick uns unten einfach deine Anfrage.'}</p>`;
+      ? 'We are regularly closed on Mondays, Tuesdays and Thursdays. Groups of 6 or more can still ask for these days — send us your enquiry below. We check it personally and get back to you; please bear with us.'
+      : 'Montag, Dienstag und Donnerstag haben wir regulär geschlossen. Gruppen ab 6 Personen können diese Tage trotzdem anfragen — schick uns unten deine Anfrage. Wir prüfen sie persönlich und melden uns; bitte hab etwas Geduld.'}</p>`;
     if ($('#kinoHint')) $('#kinoHint').classList.add('hidden');
     return;
   }
@@ -428,8 +428,8 @@ $('#resForm').addEventListener('submit', e => {
   if (!paid && !fail) return;
   const de = LoveSite.lang() !== 'en';
   const msg = paid
-    ? (de ? `Zahlung erhalten — danke! Deine private Keramik-Session (${paid}) ist eingegangen. Unser Team bestätigt dir den Termin per E-Mail.`
-          : `Payment received — thank you! Your private ceramic session (${paid}) is in. Our team will confirm the date by e-mail.`)
+    ? (de ? `Zahlung erhalten — danke! Deine private Keramik-Session (${paid}) ist eingegangen. An diesem Tag öffnen wir eigens für euch — unser Team prüft den Termin persönlich und bestätigt ihn per E-Mail. Bitte hab etwas Geduld, wir melden uns.`
+          : `Payment received — thank you! Your private ceramic session (${paid}) is in. We open specially for you on that day — our team checks the date personally and confirms it by e-mail. Please bear with us, we will get back to you.`)
     : (de ? `Die Zahlung wurde nicht abgeschlossen. Deine Anfrage (${fail}) ist gespeichert — wir melden uns per E-Mail mit dem Zahlungslink.`
           : `The payment was not completed. Your request (${fail}) is saved — we will e-mail you the payment link.`);
   const div = document.createElement('div');
