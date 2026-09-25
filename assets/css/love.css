@@ -129,7 +129,7 @@ html{overflow-x:clip}
   nav.main.open li:nth-child(6){animation-delay:.22s}
   nav.main.open li:nth-child(7){animation-delay:.26s}
   nav.main.open li:nth-child(8){animation-delay:.3s}
-  nav.main .sub{position:static;border:0;box-shadow:none;background:transparent;padding:.2rem 0 0 1rem;min-width:0;opacity:1;visibility:visible;transform:none;pointer-events:auto}
+  nav.main .sub{position:static;border:0;box-shadow:none;background:transparent;padding:.2rem 0 0 1rem;min-width:0;opacity:1;visibility:inherit;transform:none;pointer-events:inherit}
   .nav-cta{display:none}
 }
 @keyframes navItem{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
