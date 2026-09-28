@@ -197,6 +197,15 @@ const HORIZON_DAYS = 60; // so weit im Voraus kann online reserviert werden
 /* Geschlossener Wochentag (Mo/Di/Do)? Dann ist nur die private Keramik-Session
    ab 6 Personen buchbar — mit vorbezahlter Servicegebühr. */
 const isPriv = iso => !!iso && !T.isOpen(iso);
+/* Hat dieses Fenster heute schon begonnen? Dann nicht mehr anbieten. */
+function vorbei(iso, slot) {
+  if (iso !== LoveSite.todayISO()) return false;
+  const m = String(slot || '').match(/^(\d{1,2}):(\d{2})/); if (!m) return false;
+  const jetzt = new Date();
+  return +m[1] * 60 + +m[2] <= jetzt.getHours() * 60 + jetzt.getMinutes();
+}
+const fensterFuer = iso => (isPriv(iso) ? T.PRIVAT_SLOTS : T.slotsFor(iso));
+const heuteVorbei = iso => iso === LoveSite.todayISO() && fensterFuer(iso).every(s => vorbei(iso, s));
 function dateOptions() {
   const out = [];
   const base = new Date(LoveSite.todayISO() + 'T12:00:00');
@@ -205,7 +214,7 @@ function dateOptions() {
     const iso = d.toISOString().slice(0, 10);
     /* Ferien/Feiertage aus der Cloud bleiben ganz zu; geschlossene Wochentage
        (Mo, Di, Do) sind als private Keramik-Session ab 6 Personen wählbar. */
-    if (!closedDays.has(iso)) out.push(iso);
+    if (!closedDays.has(iso) && !heuteVorbei(iso)) out.push(iso);
   }
   return out.length ? out : [LoveSite.todayISO()];
 }
@@ -296,7 +305,7 @@ function renderCal() {
   for (let i = 0; i < startCol; i++) cells += '<span class="lw-cal-day lw-cal-empty"></span>';
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso);
+    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso) && !heuteVorbei(iso);
     cells += `<button type="button" class="lw-cal-day${iso === state.date ? ' sel' : ''}${iso === todayIso ? ' today' : ''}${ok && isPriv(iso) ? ' priv' : ''}" data-iso="${iso}" ${ok ? '' : 'disabled'}>${day}</button>`;
   }
   $('lwCal').innerHTML = `
@@ -333,17 +342,17 @@ function renderSlots() {
   const offen = isPriv(state.date) ? T.PRIVAT_SLOTS : T.slotsFor(state.date);
   if (!offen.length) { $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; return; }
   if (!offen.includes(state.slot)) state.slot = offen[0];
-  if (slotFull(state.date, state.slot, state.guests)) {
-    const free = offen.find(s => !slotFull(state.date, s, state.guests));
+  if (slotFull(state.date, state.slot, state.guests) || vorbei(state.date, state.slot)) {
+    const free = offen.find(s => !slotFull(state.date, s, state.guests) && !vorbei(state.date, s));
     if (free) state.slot = free;
   }
   $('lwSlot').innerHTML = offen.map(s => {
     const kino = T.isKinoSlot(state.date, s);
-    const full = slotFull(state.date, s, state.guests);
+    const full = slotFull(state.date, s, state.guests), alt = vorbei(state.date, s);
     /* Das letzte Fenster des Tages ist kürzer — das gehört hingeschrieben */
     const h = T.slotLength(s);
     const dauer = (h % 1 === 0 ? String(h) : Math.floor(h) + '½') + (LoveSite.lang() === 'en' ? ' hrs' : ' Std.');
-    return `<option value="${s}" ${state.slot === s ? 'selected' : ''} ${full ? 'disabled' : ''}>${s.split('–')[0]} · ${full ? x.full : (kino ? x.kino : dauer)}</option>`;
+    return `<option value="${s}" ${state.slot === s ? 'selected' : ''} ${full || alt ? 'disabled' : ''}>${s.split('–')[0]} · ${alt ? (LoveSite.lang() === 'en' ? 'passed' : 'vorbei') : full ? x.full : (kino ? x.kino : dauer)}</option>`;
   }).join('');
   $('lwUntil').textContent = `${x.until} ${state.slot.split('–')[1]}`;
 }
@@ -451,6 +460,7 @@ async function submit(e) {
   if ((phone.replace(/\D/g, '')).length < 7) { $('lwErr').textContent = x.errPhone; return; }
   if (!$('lwAgb').checked) { $('lwErr').textContent = LoveSite.t('err.agb'); return; }
   if (slotFull(state.date, state.slot, state.guests)) { $('lwErr').textContent = LoveSite.t('err.full'); return; }
+  if (vorbei(state.date, state.slot)) { $('lwErr').textContent = LoveSite.lang() === 'en' ? 'This time slot has already started — please choose another one.' : 'Dieses Zeitfenster hat schon begonnen — bitte wähle ein anderes.'; return; }
   const priv = isPriv(state.date);
   const kino = !priv && T.isKinoSlot(state.date, state.slot) && state.act === 'kino';
   const fee = T.PRIVAT_GEBUEHR * state.guests;

@@ -308,7 +308,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
 <script src="assets/js/love-pay.js?v=50578e01"></script>
-<script src="assets/js/love-widget.js?v=a9eb5cd0"></script>
+<script src="assets/js/love-widget.js?v=ba68d3c8"></script>
 <script>
 (() => {
 'use strict';
@@ -350,11 +350,15 @@ function drawSlots() {
     if ($('#kinoHint')) $('#kinoHint').classList.add('hidden');
     return;
   }
-  if (slot && !offen.includes(slot)) slot = '';   // Fenster gibt es an diesem Tag nicht
+  /* Heute bereits begonnene Fenster sind nicht mehr wählbar */
+  const jetztMin = new Date().getHours() * 60 + new Date().getMinutes();
+  const vorbei = s => d === todayISO() && (+s.slice(0, 2) * 60 + +s.slice(3, 5)) <= jetztMin;
+  if (slot && (!offen.includes(slot) || vorbei(slot))) slot = '';   // Fenster gibt es an diesem Tag nicht (mehr)
   slotGrid.innerHTML = offen.map(s => {
     const kino = T.isKinoSlot(d, s);
-    return `<button type="button" class="choice" data-slot="${s}" aria-pressed="${s === slot}">
-      <span class="t">${s}</span><span class="d">${kino ? 'Kino-Night ♥' : dauerText(s)}</span></button>`;
+    const alt = vorbei(s);
+    return `<button type="button" class="choice" data-slot="${s}" aria-pressed="${s === slot}"${alt ? ' disabled style="opacity:.45"' : ''}>
+      <span class="t">${s}</span><span class="d">${alt ? (LoveSite.lang() === 'en' ? 'passed' : 'vorbei') : kino ? 'Kino-Night ♥' : dauerText(s)}</span></button>`;
   }).join('');
   slotGrid.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => {
     slot = b.dataset.slot;
