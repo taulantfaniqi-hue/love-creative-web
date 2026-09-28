@@ -143,6 +143,7 @@
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
+<script src="assets/js/love-host-manager.js?v=7831bebd"></script>
 <script>
 (() => {
 'use strict';
@@ -369,9 +370,11 @@ function bookingCard(b, withActions) {
       <button class="btn btn-green btn-sm" data-bact="booking_confirm" data-id="${esc(b.id)}">✓ Annehmen</button>
       <button class="btn btn-ghost btn-sm" data-bact="booking_reject" data-id="${esc(b.id)}">Ablehnen</button>
     </div>` : ''}
+    ${withActions && typeof LoveBookingManager !== 'undefined' ? LoveBookingManager.panel(b) : ''}
   </div>`;
 }
 function wireBookingActions(box) {
+  if (typeof LoveBookingManager !== 'undefined') LoveBookingManager.wire(box);
   box.querySelectorAll('button[data-bact]').forEach(btn => btn.addEventListener('click', () => {
     if (btn.dataset.bact === 'booking_reject' && !confirm('Diese Anfrage wirklich ablehnen? Der Gast bekommt eine Absage-Mail.')) return;
     btn.disabled = true;
@@ -383,6 +386,12 @@ function wireBookingActions(box) {
 function render() {
   const d = getData();
   renderNav(d);
+  /* Booking-Manager: kennt alle Buchungen (für Kapazität/Konflikte) und sendet über den Server */
+  if (typeof LoveBookingManager !== 'undefined') LoveBookingManager.setContext({
+    bookings: d.buchungen, camps: d.camps,
+    senden: cloudData && hostCreds ? data => LoveCloud.call('booking_reply', Object.assign({}, hostCreds, data)) : null,
+    aktion: (act, id) => hostCall(act, { id })
+  });
   const box = $('#hostContent');
 
   /* ═══ Start: Übersicht + Onboarding ═══ */
@@ -447,6 +456,7 @@ function render() {
     html += pend.length ? `<div class="hcards" id="pendList">${pend.map(b => bookingCard(b, !!cloudData)).join('')}</div>`
       : `<p class="host-empty">Keine offenen Reservations-Anfragen — alles angenommen ♥</p>`;
     if (!cloudData) html += `<p class="hint" style="margin-top:.5rem">Zum Annehmen/Ablehnen wird die Cloud-Verbindung gebraucht.</p>`;
+    if (typeof LoveBookingManager !== 'undefined') html += LoveBookingManager.editor();
     /* Verlauf: zuletzt angenommene und abgelehnte Anfragen */
     const isTermin = b => b.date && !['warteliste', 'geschenk'].includes(b.type);
     const angenommen = d.buchungen.filter(b => ['bestätigt', 'gewonnen'].includes(b.status) && isTermin(b)).slice(0, 15);
@@ -686,7 +696,7 @@ function render() {
       <p class="hint" style="margin-top:.6rem">Aktive Dienstleistungen erscheinen sofort als Karten im Reservations-Widget der Website.</p>
     </div></div>
     <h3 class="host-sect">🏕 Kidscamp: Camp-Wochen</h3>
-    <div class="host-note">Aktive Camp-Wochen erscheinen sofort in der Anmeldung auf der Kidscamp-Seite. Ein Camp beginnt immer an einem <b>Montag</b> und läuft Mo–Fr (buchbar 3–5 Tage).</div>
+    <div class="host-note">Aktive Camp-Wochen erscheinen sofort in der Anmeldung auf der Kidscamp-Seite. Ein Camp beginnt immer an einem <b>Montag</b> und läuft Mo–Fr (buchbar 1–5 Tage, Geschwister: 15 % auf den Gesamtbetrag).</div>
     ${d.camps.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Aktiv</th><th>Camp-Woche</th><th>Start (Montag)</th></tr></thead>
       <tbody>${d.camps.map(c => `<tr>
