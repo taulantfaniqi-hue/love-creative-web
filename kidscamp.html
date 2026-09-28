@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ferien-Kidscamp — LOVE Creative Café, Au ZH</title>
-<meta name="description" content="Ferien-Kidscamp im LOVE Creative Café: eine Woche Keramik-Werkstatt für Kinder — Film, eigene Motive, bemalen, glasieren, Brennofen. 1 bis 5 Tage buchbar, ab CHF 150, Mittagessen inklusive.">
+<meta name="description" content="Ferien-Kidscamp im LOVE Creative Café: eine Woche Keramik-Werkstatt für Kinder — Film, eigene Motive, bemalen, glasieren, Brennofen. 2 bis 5 Tage buchbar, Mittagessen inklusive.">
 <link rel="canonical" href="https://lovecreative.ch/kidscamp.html">
 <link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,9 +38,9 @@ window.LOVE_EN = {
   'kg.d1':'Small groups, dedicated supervision',
   'kg.d2':'Allergies, diet and special needs are recorded at registration',
   'kg.d3':'Camp week confirmed by e-mail',
-  'kb.tage':'Camp days',
+  'kb.tage':'Camp days (at least 2)',
   'kb.cDate':'Camp week',
-  'kb.tageHint':'Price per child: 1 day CHF 150 · 2 days 280 · 3 days 395 · 4 days 495 · 5 days 590 — choose any days within the camp week. Registering siblings together: 15% off the total.',
+  'kb.tageHint':'Price per child: CHF 250 base fee (preparation, materials, supervision) + CHF 68 per camp day — choose 2 to 5 days within the camp week, for example Thursday and Friday.',
   'kb.eyebrow':'Registration',
   'kb.title':'Save your spot',
   'kb.lead':'Fill in the registration and pay online (TWINT or card). Our team then checks the date and confirms it by e-mail. We need the details about your child to look after them well — they stay with us.',
@@ -49,7 +49,7 @@ window.LOVE_EN = {
   'kb.care1':'9 am – 3 pm · included',
   'kb.care2':'9 am – 4:30 pm with afternoon snack · + CHF 20 per day',
   'kb.kinderH':'2 · Your child',
-  'kb.kindPlus':'+ Add a sibling · 15% off the total',
+  'kb.kindPlus':'+ Add a sibling',
   'kb.elternH':'3 · Your details',
   'kb.pName':'First and last name',
   'kb.mail':'E-mail',
@@ -191,7 +191,7 @@ window.LOVE_EN = {
               <select id="cDate"></select>
             </div>
             <div class="field">
-              <label id="cTageLbl" data-i18n="kb.tage">Camp-Tage</label>
+              <label id="cTageLbl" data-i18n="kb.tage">Camp-Tage (mindestens 2)</label>
               <div class="tage-wahl" id="cTage" role="group" aria-labelledby="cTageLbl"></div>
             </div>
           </div>
@@ -204,13 +204,13 @@ window.LOVE_EN = {
           </div>
           <p class="hint" id="cDateHint" aria-live="polite"></p>
           <p class="form-err hidden" id="cKeinCamp" aria-live="polite"></p>
-          <p class="hint" data-i18n="kb.tageHint">Preis pro Kind: 1 Tag CHF 150 · 2 Tage 280 · 3 Tage 395 · 4 Tage 495 · 5 Tage 590 — wähle beliebige Tage innerhalb der Camp-Woche. Meldest du Geschwister zusammen an, gibt es 15 % Rabatt auf den Gesamtbetrag.</p>
+          <p class="hint" data-i18n="kb.tageHint">Preis pro Kind: CHF 250 Fixkosten (Vorbereitung, Material, Betreuung) + CHF 68 pro Camp-Tag — wähle 2 bis 5 Tage innerhalb der Camp-Woche, zum Beispiel Donnerstag und Freitag.</p>
         </div>
 
         <div class="anm-block" id="blockKinder">
           <h3 data-i18n="kb.kinderH">2 · Dein Kind</h3>
           <div id="kinderListe"></div>
-          <button type="button" class="btn btn-ghost btn-sm" id="kindPlus" data-i18n="kb.kindPlus">+ Geschwister anmelden · 15 % auf alles</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="kindPlus" data-i18n="kb.kindPlus">+ Geschwister anmelden</button>
         </div>
 
         <!-- ═══ Eltern ═══ -->
@@ -339,11 +339,11 @@ window.LOVE_EN = {
 <script>
 /* Anmeldung Ferien-Kidscamp (Kindergeburtstage: geburtstag.html)
  *
- * Preis pro Kind (Stand 28.09.2026, ohne Fixkosten): 1 Tag 150 · 2 Tage 280 · 3 Tage 395 · 4 Tage 495 · 5 Tage 590
- *   Geschwister (seit 28.09.2026): ab 2 Kindern 15 % auf den Gesamtbetrag, auf ganze Franken abgerundet
+ * Preis pro Kind: CHF 250 Fixkosten + CHF 68 pro Camp-Tag — 2 Tage 386 · 3 Tage 454 · 4 Tage 522 · 5 Tage 590.
+ *   (Tagespreise 150–590 und Geschwisterrabatt am 28.09.2026 zurückgestellt; Stand in Git: Quelle 8b2fa28.)
  *   Randbetreuung bis 16:30 Uhr mit Zvieri · + CHF 20 pro Kind und Tag
  * Das Camp findet nur in der ausgeschriebenen Woche statt (09–15 Uhr, Mo–Fr). Gebucht werden
- * 1 bis 5 Tage innerhalb dieser Woche — beliebige Tage, nicht zwingend ab Montag.
+ * 2 bis 5 Tage innerhalb dieser Woche — nicht zwingend ab Montag, auch Do–Fr geht.
  * Vergangene Camp-Wochen fallen automatisch aus der Auswahl; weitere Wochen pflegt der
  * Host-Bereich (Kapitel «Angebote»).
  */
@@ -355,10 +355,10 @@ const chf = n => 'CHF ' + Number(n).toFixed(0);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const PREIS = { geburtstag: 500, gebInklKinder: 10, gebZusatzKind: 45, gebMaxKinder: 20, gebDauerMin: 150,
-  /* Camp: fester Preis pro Kind nach Anzahl gebuchter Tage (Entscheid 28.09.2026, keine Fixkosten mehr) */
-  campPreise: { 1: 150, 2: 280, 3: 395, 4: 495, 5: 590 },
-  randProTag: 20, campTageMin: 1, campTageMax: 5, maxKinderProAnmeldung: 4,
-  geschwisterRabatt: 0.15 };
+  /* Camp: Fixkosten pro Kind + Tagessatz; 5 Tage = 250 + 5 × 68 = CHF 590.
+     geschwisterRabatt: 0 = kein Rabatt (Wert z. B. 0.05 schaltet ihn wieder ein) */
+  campFix: 250, campTag: 68, randProTag: 20, campTageMin: 2, campTageMax: 5, maxKinderProAnmeldung: 4,
+  geschwisterRabatt: 0 };
 /* Ausgeschriebene Camp-Wochen (Montag als ISO-Datum). Gilt, solange der Host-Bereich
    keine eigene Liste liefert. Vergangene Wochen fallen automatisch weg. */
 const CAMP_WOCHEN = [
@@ -374,11 +374,12 @@ const M = {
     gesund: 'Was sollen wir wissen? (Medikamente, Gesundheit, Besonderes)', gesundPh: 'optional — nur was für die Betreuung wichtig ist',
     heim: 'Heimweg', heim0: 'wird abgeholt', heim1: 'darf allein nach Hause gehen',
     abhol: 'Wer darf das Kind abholen?', abholPh: 'Namen der abholberechtigten Personen',
-    tageMin: 'Bitte wähle mindestens einen Camp-Tag.',
-    sRabatt: () => 'Geschwisterrabatt 15 % auf den Gesamtbetrag',
+    tageMin: 'Bitte wähle mindestens 2 Camp-Tage.',
+    sRabatt: () => 'Geschwisterrabatt ' + Math.round(PREIS.geschwisterRabatt * 100) + ' % auf den Gesamtbetrag',
     tageListe: liste => 'Camp-Tage: ' + liste.join(' · '),
     keinCamp: 'Zurzeit ist kein Camp ausgeschrieben. Die nächsten Camp-Wochen geben wir hier bekannt — oder schreib uns an hello@lovecreative.ch.',
-    sCamp: (n, t) => `Ferien-Kidscamp · ${t} Tag${t === 1 ? '' : 'e'} · ${n} Kind${n === 1 ? '' : 'er'} × CHF ${PREIS.campPreise[t]}`,
+    sCampFix: n => `Camp-Fixkosten · ${n} Kind${n === 1 ? '' : 'er'} × CHF ${PREIS.campFix}`,
+    sCampTage: (n, t) => `Camp-Tage · ${n} Kind${n === 1 ? '' : 'er'} × ${t} Tag${t === 1 ? '' : 'e'} × CHF ${PREIS.campTag}`,
     sRand: (n, t) => `Randbetreuung bis 16:30 · ${n} Kind${n === 1 ? '' : 'er'} × ${t} Tag${t === 1 ? '' : 'e'} × CHF ${PREIS.randProTag}`, sTotal: 'Total',
     errPflicht: 'Bitte füll alle Pflichtfelder aus: ', errMail: 'Bitte gib eine gültige E-Mail-Adresse an.',
     errEinw: 'Bitte bestätige die nötigen Einverständnisse — ohne sie können wir die Anmeldung nicht annehmen.',
@@ -399,11 +400,12 @@ const M = {
     gesund: 'What should we know? (medication, health, anything special)', gesundPh: 'optional — only what matters for care',
     heim: 'Way home', heim0: 'will be picked up', heim1: 'may go home alone',
     abhol: 'Who may pick up the child?', abholPh: 'Names of the authorised persons',
-    tageMin: 'Please choose at least one camp day.',
-    sRabatt: () => 'Sibling discount 15% on the total',
+    tageMin: 'Please choose at least 2 camp days.',
+    sRabatt: () => 'Sibling discount ' + Math.round(PREIS.geschwisterRabatt * 100) + '% on the total',
     tageListe: liste => 'Camp days: ' + liste.join(' · '),
     keinCamp: 'No camp is scheduled at the moment. We announce the next camp weeks here — or write to hello@lovecreative.ch.',
-    sCamp: (n, t) => `Holiday kids camp · ${t} day${t === 1 ? '' : 's'} · ${n} child${n === 1 ? '' : 'ren'} × CHF ${PREIS.campPreise[t]}`,
+    sCampFix: n => `Camp base fee · ${n} child${n === 1 ? '' : 'ren'} × CHF ${PREIS.campFix}`,
+    sCampTage: (n, t) => `Camp days · ${n} child${n === 1 ? '' : 'ren'} × ${t} day${t === 1 ? '' : 's'} × CHF ${PREIS.campTag}`,
     sRand: (n, t) => `Extended care until 4:30 pm · ${n} child${n === 1 ? '' : 'ren'} × ${t} day${t === 1 ? '' : 's'} × CHF ${PREIS.randProTag}`, sTotal: 'Total',
     errPflicht: 'Please fill in all required fields: ', errMail: 'Please enter a valid e-mail address.',
     errEinw: 'Please confirm the required consents — we cannot accept the registration without them.',
@@ -531,23 +533,23 @@ $('#kindPlus').addEventListener('click', () => {
 });
 
 /* ═══════════ Summe ═══════════ */
-/* Pro Kind: fester Preis nach Anzahl Tagen (+ Randbetreuung).
-   Geschwister: ab 2 Kindern 15 % auf den Gesamtbetrag, auf ganze Franken abgerundet. */
+/* Pro Kind: Fixkosten + Tagessatz (+ Randbetreuung). Geschwisterrabatt nur, wenn PREIS.geschwisterRabatt > 0. */
 function proKind() {
   const t = campTage();
-  return (PREIS.campPreise[t] || 0) + ($('#cCare').value === 'lang' ? PREIS.randProTag * t : 0);
+  return PREIS.campFix + PREIS.campTag * t + ($('#cCare').value === 'lang' ? PREIS.randProTag * t : 0);
 }
 const brutto = () => proKind() * state.kinder;
 function rabatt() {
-  if (state.kinder < 2) return 0;
+  if (state.kinder < 2 || !PREIS.geschwisterRabatt) return 0;
   return brutto() - Math.floor(brutto() * (1 - PREIS.geschwisterRabatt));
 }
 function total() { return brutto() - rabatt(); }
 function zeichneSumme() {
   const x = m(), n = state.kinder, t = campTage();
-  const zeilen = [`<div><span>${esc(x.sCamp(n, t))}</span><span>${chf((PREIS.campPreise[t] || 0) * n)}</span></div>`]
+  const zeilen = [`<div><span>${esc(x.sCampFix(n))}</span><span>${chf(PREIS.campFix * n)}</span></div>`,
+     `<div><span>${esc(x.sCampTage(n, t))}</span><span>${chf(PREIS.campTag * t * n)}</span></div>`]
     .concat($('#cCare').value === 'lang' ? [`<div><span>${esc(x.sRand(n, t))}</span><span>${chf(PREIS.randProTag * t * n)}</span></div>`] : [])
-    .concat(n > 1 ? [`<div><span>${esc(x.sRabatt(n - 1))}</span><span>− ${chf(rabatt())}</span></div>`] : []);
+    .concat(rabatt() > 0 ? [`<div><span>${esc(x.sRabatt(n - 1))}</span><span>− ${chf(rabatt())}</span></div>`] : []);
   $('#kbSum').innerHTML = zeilen.join('') + `<div class="tot"><span>${esc(x.sTotal)}</span><span>${chf(total())}</span></div>`;
 }
 
@@ -578,7 +580,7 @@ function pruefe() {
    Kurzfassung bleibt im Browser der Kundin; die Einzelheiten gehen nur an den Server. */
 function kurzfassung() {
   const rand = $('#cCare').value === 'lang';
-  return `Ferien-Kidscamp · ${state.kinder} Kind(er) · ${campTage()} Tag(e): ${campTageListe().map(fmtKurz).join(', ')} (Woche ab ${$('#cDate').value}) · ${rand ? '09:00–16:30 mit Zvieri' : '09:00–15:00'}${state.kinder > 1 ? ' · Geschwisterrabatt 15 % (− CHF ' + rabatt() + ')' : ''}`;
+  return `Ferien-Kidscamp · ${state.kinder} Kind(er) · ${campTage()} Tag(e): ${campTageListe().map(fmtKurz).join(', ')} (Woche ab ${$('#cDate').value}) · ${rand ? '09:00–16:30 mit Zvieri' : '09:00–15:00'}${rabatt() > 0 ? ' · Geschwisterrabatt (− CHF ' + rabatt() + ')' : ''}`;
 }
 function einzelheiten() {
   const ja = id => ($('#' + id).checked ? 'JA' : 'nein');
