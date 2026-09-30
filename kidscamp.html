@@ -354,7 +354,7 @@ const $$ = s => Array.from(document.querySelectorAll(s));
 const chf = n => 'CHF ' + Number(n).toFixed(0);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const PREIS = { geburtstag: 500, gebInklKinder: 10, gebZusatzKind: 45, gebMaxKinder: 20, gebDauerMin: 150,
+const PREIS = { gebProKind: 45, gebMinKinder: 8, gebMaxKinder: 20, gebDauerMin: 150,
   /* Camp: fester Preis pro Kind nach Anzahl gebuchter Tage (keine Fixkosten).
      geschwisterRabatt: 0 = kein Rabatt (Wert z. B. 0.05 schaltet ihn ein) */
   campPreise: { 1: 150, 2: 280, 3: 395, 4: 495, 5: 590 },
