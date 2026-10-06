@@ -42,6 +42,8 @@
 .monet #buchen .panel{border:1.5px dashed rgba(62,142,79,.45)}
 .monet #buchen .anm-block h3{color:#3e8e4f}
 @media (prefers-reduced-motion: reduce){.mo-float{animation:none}}
+/* Handy (einspaltig): Deko liegt sonst mitten im Titel — Textbereich bleibt sauber */
+@media (max-width:900px){.mo-float,.mo-tupf{display:none}}
 </style>
 <script>
 window.LOVE_TITLES = { de: 'Claude Monet Kids — Malkurs für Kinder — LOVE Creative Café, Au ZH', en: 'Claude Monet Kids — painting course for kids — LOVE Creative Café, Au ZH' };
