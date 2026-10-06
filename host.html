@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=b513e223">
+<link rel="stylesheet" href="assets/css/love.css?v=72a8bfd2">
 <style>
 /* ═══ Host-Bereich: modernes Kapitel-Layout, handyoptimiert ═══ */
 .host-wrap{max-width:1180px;margin:0 auto;padding:1.6rem clamp(.9rem,3vw,2.2rem) 4rem}
@@ -139,11 +139,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="assets/js/love-giftcard.js?v=bd4d5ed7"></script>
-<script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-cloud.js?v=a1c36180"></script>
-<script src="assets/js/love-account.js?v=c69e9e52"></script>
-<script src="assets/js/love-host-manager.js?v=7831bebd"></script>
+<script src="assets/js/love-giftcard.js?v=2cbc6f52"></script>
+<script src="assets/js/love-data.js?v=2af837ff"></script>
+<script src="assets/js/love-cloud.js?v=2c94f003"></script>
+<script src="assets/js/love-account.js?v=d1c8d631"></script>
+<script src="assets/js/love-host-manager.js?v=8f5d4aa8"></script>
 <script>
 (() => {
 'use strict';
@@ -223,7 +223,7 @@ function loadClosures() {
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 const fmtDay = iso => iso ? String(iso).split('-').reverse().join('.') : '—';
 const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
-const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session' };
+const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session', halloween: 'Halloween Party', monetkids: 'Monet Kids' };
 const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) : '—');
 const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
 const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };

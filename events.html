@@ -10,15 +10,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=b513e223">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
-<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
+<link rel="stylesheet" href="assets/css/love.css?v=72a8bfd2">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
+<link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
 <script>
 window.LOVE_TITLES = { de: 'Events — LOVE Creative Café, Au ZH', en: 'Events — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
   'ev.eyebrow':'Events',
   'ev.title':'Celebrations and events that stay.',
   'ev.lead':'From the holiday kids camp to birthdays and team events: you get tables, colours and support — and everyone takes home a piece they made themselves. Pick a category; each one has its own page with all details and online booking.',
+  'ev.halloT':'Creative Halloween Party',
+  'ev.halloD':'31 October 2026, 4–6 pm: two hours of Halloween fun in the spookily decorated studio — come in your scariest costume!',
+  'ev.halloP':'CHF 45 per child',
+  'ev.halloC':'To the Halloween Party →',
+  'ev.monetT':'Claude Monet Kids',
+  'ev.monetD':'Painting course for kids: discover painting and drawing techniques in four lessons — 4, 11, 18 and 25 November 2026, two groups (3:45 pm / 5 pm).',
+  'ev.monetP':'CHF 180 per child (4 lessons)',
+  'ev.monetC':'To the course →',
   'ev.campT':'Holiday kids camp',
   'ev.campD':'A whole week of workshop for kids: film, own motifs, painting, glazing, kiln. Book 1 to 5 days, lunch included. Next camp: 12–16 October 2026.',
   'ev.campP':'from CHF 150 per child',
@@ -57,6 +65,8 @@ window.LOVE_EN = {
         <li class="has-sub">
           <a href="events.html" data-i18n="nav.events">Events</a>
           <ul class="sub">
+            <li><a href="halloween.html" data-i18n="nav.hallo">Halloween-Party</a></li>
+            <li><a href="monetkids.html" data-i18n="nav.monet">Claude Monet Kids</a></li>
             <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
             <li><a href="geburtstag.html" data-i18n="nav.geb">Kindergeburtstag</a></li>
             <li><a href="teamevents.html" data-i18n="nav.team">Team- &amp; Firmenevents</a></li>
@@ -93,6 +103,26 @@ window.LOVE_EN = {
 <section class="tint" id="kategorien">
   <div class="wrap">
     <div class="grid-3">
+
+      <div class="feature reveal">
+        <img src="assets/img/halloween-party.jpg" alt="Creative Halloween Party — Kinder in Kostümen im dekorierten Studio" loading="lazy" width="1601" height="1601">
+        <div class="body">
+          <h3 data-i18n="ev.halloT">Creative Halloween Party</h3>
+          <p data-i18n="ev.halloD">31. Oktober 2026, 16–18 Uhr: zwei Stunden Halloween-Spass im gruselig dekorierten Studio — komm im gruseligsten Kostüm!</p>
+          <p class="from" data-i18n="ev.halloP">CHF 45 pro Kind</p>
+          <a class="btn btn-rose btn-sm" href="halloween.html" data-i18n="ev.halloC">Zur Halloween-Party →</a>
+        </div>
+      </div>
+
+      <div class="feature reveal">
+        <img src="assets/img/monet-kids.jpg" alt="Claude Monet Kids — Malkurs für Kinder im November" loading="lazy" width="1080" height="1080">
+        <div class="body">
+          <h3 data-i18n="ev.monetT">Claude Monet Kids</h3>
+          <p data-i18n="ev.monetD">Malkurs für Kinder: In vier Lektionen verschiedene Mal- und Zeichentechniken entdecken — 4., 11., 18. und 25. November 2026, zwei Gruppen (15:45 / 17:00).</p>
+          <p class="from" data-i18n="ev.monetP">CHF 180 pro Kind (4 Lektionen)</p>
+          <a class="btn btn-rose btn-sm" href="monetkids.html" data-i18n="ev.monetC">Zum Kurs →</a>
+        </div>
+      </div>
 
       <div class="feature reveal">
         <img src="assets/img/interior-kids-bemalen.jpeg" alt="Kinder bemalen Keramik am grossen Tisch" loading="lazy" width="927" height="1647">
@@ -179,11 +209,11 @@ window.LOVE_EN = {
   </div>
 </footer>
 
-<script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-site.js?v=4bac65b1"></script>
-<script src="assets/js/love-cloud.js?v=a1c36180"></script>
-<script src="assets/js/love-account.js?v=c69e9e52"></script>
-<script src="assets/js/love-pay.js?v=50578e01"></script>
-<script src="assets/js/love-widget.js?v=ba68d3c8"></script>
+<script src="assets/js/love-data.js?v=2af837ff"></script>
+<script src="assets/js/love-site.js?v=e048592a"></script>
+<script src="assets/js/love-cloud.js?v=2c94f003"></script>
+<script src="assets/js/love-account.js?v=d1c8d631"></script>
+<script src="assets/js/love-pay.js?v=f8e0a896"></script>
+<script src="assets/js/love-widget.js?v=1e858457"></script>
 </body>
 </html>
