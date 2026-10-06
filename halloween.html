@@ -9,10 +9,40 @@
 <link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&family=Creepster&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css?v=72a8bfd2">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
 <link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
+<style>
+/* ═══ 🎃 Spooky-Look — nur für diese Seite ═══ */
+.spooky .page-hero{background:radial-gradient(1100px 520px at 78% -12%, #4a2e63 0%, #2a1b3d 45%, #1c1230 100%);position:relative;overflow:hidden}
+.spooky .page-hero .eyebrow{color:#ffab4a}
+.spooky .page-hero h1{font-family:'Creepster',cursive;font-weight:400;color:#ffab4a;letter-spacing:.05em;line-height:1.05;text-shadow:0 0 20px rgba(255,140,40,.5),0 3px 0 rgba(0,0,0,.35);font-size:clamp(2.7rem,2rem + 3.4vw,4.4rem)}
+.spooky .page-hero .lead{color:#efe6f7}
+.spooky .page-hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.6)}
+/* Flyer unbeschnitten: quadratisch statt Bogen-Zuschnitt */
+.spooky .page-hero .arch{border-radius:22px;border:1.5px solid rgba(255,171,74,.55);box-shadow:0 18px 44px rgba(0,0,0,.5)}
+.spooky .page-hero .arch img{aspect-ratio:1/1}
+/* Mond + schwebende Gesellschaft */
+.sp-mond{position:absolute;top:36px;right:5.5%;width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #fff7e0, #ffe9b0 60%, #f4cf7d);box-shadow:0 0 54px 16px rgba(255,236,170,.32);pointer-events:none}
+.sp-float{position:absolute;font-size:2rem;opacity:.9;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));animation:spFloat 6s ease-in-out infinite}
+@keyframes spFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
+/* Angebot: Nacht-Sektion */
+.spooky #angebot{background:#241736}
+.spooky #angebot .eyebrow{color:#ffab4a}
+.spooky #angebot .sect-title{color:#ffe9c9}
+.spooky #angebot .card{background:#2f2044;border:1.5px dashed rgba(255,171,74,.55)}
+.spooky #angebot .card h3{color:#ffab4a}
+.spooky #angebot .card p,.spooky #angebot .tick li{color:#e9def5}
+.spooky #angebot .tag{background:#ffab4a;color:#241736}
+.spooky #angebot .sect-lead{color:#cbbbe0}
+.spooky #angebot .sect-lead a{color:#ffab4a}
+/* Buchen: hell fürs Formular, mit Spooky-Akzenten */
+.spooky #buchen .sect-title::after{content:' 🎃'}
+.spooky #buchen .panel{border:1.5px dashed rgba(201,114,42,.5)}
+.spooky #buchen .anm-block h3{color:#b85c1e}
+@media (prefers-reduced-motion: reduce){.sp-float{animation:none}}
+</style>
 <script>
 window.LOVE_TITLES = { de: 'Creative Halloween Party — LOVE Creative Café, Au ZH', en: 'Creative Halloween Party — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
@@ -59,7 +89,7 @@ window.LOVE_EN = {
 };
 </script>
 </head>
-<body>
+<body class="spooky">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 
 <header class="site" id="top">
@@ -104,7 +134,13 @@ window.LOVE_EN = {
 
 <main id="main">
 
-<section class="page-hero pink">
+<section class="page-hero">
+  <span class="sp-mond" aria-hidden="true"></span>
+  <span class="sp-float" style="top:16%;left:4%;animation-delay:.3s" aria-hidden="true">👻</span>
+  <span class="sp-float" style="top:9%;left:37%;animation-delay:2s" aria-hidden="true">🎃</span>
+  <span class="sp-float" style="top:62%;left:45%;font-size:1.5rem;animation-delay:1.2s" aria-hidden="true">🦇</span>
+  <span class="sp-float" style="bottom:9%;left:7%;font-size:1.4rem;animation-delay:.8s" aria-hidden="true">🕷️</span>
+  <span class="sp-float" style="top:30%;right:3%;font-size:1.5rem;animation-delay:1.7s" aria-hidden="true">🕸️</span>
   <div class="wrap grid">
     <div>
       <p class="eyebrow" data-i18n="hw.eyebrow">31. Oktober 2026 · 16–18 Uhr</p>
