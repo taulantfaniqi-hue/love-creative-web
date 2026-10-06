@@ -9,14 +9,39 @@
 <link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css?v=72a8bfd2">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=a47d7d4b">
 <link rel="stylesheet" href="assets/css/love-account.css?v=36d8e9e4">
 <style>
+/* ═══ 🎨 Monet-Look — Seerosenteich in Pastell, nur für diese Seite ═══ */
+.monet .page-hero{position:relative;overflow:hidden;background:
+  radial-gradient(520px 300px at 12% 12%, rgba(167,216,174,.55) 0%, rgba(167,216,174,0) 70%),
+  radial-gradient(460px 280px at 88% 20%, rgba(244,180,202,.5) 0%, rgba(244,180,202,0) 70%),
+  radial-gradient(560px 320px at 75% 95%, rgba(158,198,228,.45) 0%, rgba(158,198,228,0) 70%),
+  radial-gradient(420px 260px at 25% 90%, rgba(246,222,170,.5) 0%, rgba(246,222,170,0) 70%),
+  linear-gradient(160deg, #f2f7ee 0%, #e8f1ea 55%, #e3edf0 100%)}
+.monet .page-hero .eyebrow{color:#3e8e4f}
+.monet .page-hero h1{font-family:'Caveat',cursive;font-weight:700;color:#3e8e4f;letter-spacing:.01em;line-height:.95;font-size:clamp(3rem,2.2rem + 3.8vw,5rem);text-shadow:0 2px 0 rgba(255,255,255,.7)}
 /* Der Kurs-Flyer ist quadratisch — unbeschnitten zeigen statt Bogen-Zuschnitt */
-.page-hero .arch{border-radius:22px}
-.page-hero .arch img{aspect-ratio:1/1}
+.monet .page-hero .arch{border-radius:22px;border:1.5px solid rgba(62,142,79,.35);box-shadow:0 18px 44px rgba(62,110,80,.25)}
+.monet .page-hero .arch img{aspect-ratio:1/1}
+/* Schwebende Mal-Gesellschaft + weiche Farbtupfer */
+.mo-float{position:absolute;font-size:1.9rem;opacity:.9;pointer-events:none;filter:drop-shadow(0 4px 8px rgba(62,110,80,.25));animation:moFloat 7s ease-in-out infinite}
+@keyframes moFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-14px) rotate(5deg)}}
+.mo-tupf{position:absolute;border-radius:50%;filter:blur(2px);opacity:.55;pointer-events:none}
+/* Angebot: heller Teich */
+.monet #angebot{background:linear-gradient(170deg, #eaf3ec 0%, #e3eef3 100%)}
+.monet #angebot .eyebrow{color:#3e8e4f}
+.monet #angebot .card{border:1.5px dashed rgba(62,142,79,.5)}
+.monet #angebot .card h3{color:#3e8e4f}
+.monet #angebot .tag{background:#3e8e4f;color:#fff}
+.monet #angebot .sect-lead a{color:#3e8e4f}
+/* Buchen: Pinsel-Akzente */
+.monet #buchen .sect-title::after{content:' 🎨'}
+.monet #buchen .panel{border:1.5px dashed rgba(62,142,79,.45)}
+.monet #buchen .anm-block h3{color:#3e8e4f}
+@media (prefers-reduced-motion: reduce){.mo-float{animation:none}}
 </style>
 <script>
 window.LOVE_TITLES = { de: 'Claude Monet Kids — Malkurs für Kinder — LOVE Creative Café, Au ZH', en: 'Claude Monet Kids — painting course for kids — LOVE Creative Café, Au ZH' };
@@ -68,7 +93,7 @@ window.LOVE_EN = {
 };
 </script>
 </head>
-<body>
+<body class="monet">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 
 <header class="site" id="top">
@@ -114,6 +139,14 @@ window.LOVE_EN = {
 <main id="main">
 
 <section class="page-hero">
+  <span class="mo-tupf" style="top:10%;left:2%;width:70px;height:70px;background:#a7d8ae" aria-hidden="true"></span>
+  <span class="mo-tupf" style="bottom:12%;right:4%;width:88px;height:88px;background:#f4b4ca" aria-hidden="true"></span>
+  <span class="mo-tupf" style="top:58%;left:44%;width:54px;height:54px;background:#9ec6e4" aria-hidden="true"></span>
+  <span class="mo-float" style="top:8%;left:36%;animation-delay:.4s" aria-hidden="true">🎨</span>
+  <span class="mo-float" style="top:7%;right:30%;font-size:1.6rem;animation-delay:1.6s" aria-hidden="true">🖌️</span>
+  <span class="mo-float" style="bottom:6%;left:40%;font-size:1.6rem;animation-delay:.9s" aria-hidden="true">🪷</span>
+  <span class="mo-float" style="top:34%;right:2.5%;font-size:1.5rem;animation-delay:2.2s" aria-hidden="true">🦋</span>
+  <span class="mo-float" style="bottom:10%;left:5%;font-size:1.5rem;animation-delay:1.1s" aria-hidden="true">🌷</span>
   <div class="wrap grid">
     <div>
       <p class="eyebrow" data-i18n="mk.eyebrow">Malkurs für Kinder · November 2026</p>
