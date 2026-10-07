@@ -223,7 +223,7 @@ function loadClosures() {
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 const fmtDay = iso => iso ? String(iso).split('-').reverse().join('.') : '—';
 const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
-const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session', halloween: 'Halloween Party', monetkids: 'Monet Kids' };
+const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session', halloween: 'Halloween Party', monetkids: 'Monet Kids', monetadults: 'Monet Adults' };
 const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) : '—');
 const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
 const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
