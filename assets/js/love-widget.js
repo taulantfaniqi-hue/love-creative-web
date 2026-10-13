@@ -54,7 +54,7 @@ const TX = {
     okText: 'Du bekommst gleich eine E-Mail von uns. Bitte warte kurz, bis unser Team deine Buchung annimmt — die Bestätigung kommt ebenfalls per E-Mail.',
     okKino: 'Kino-Night: Programm und Format schicken wir dir mit der Bestätigung.',
     okClose: 'Alles klar ♥',
-    foot: 'Alle Details & Raumplan ansehen →',
+    foot: 'Alle Details ansehen →',
     persons: 'Personen',
     acts: {
       keramik: { title: 'Keramik bemalen', desc: 'Stück aussuchen, bemalen, wir glasieren und brennen — nach rund zwei Wochen abholen.', price: 'CHF 25 Service + Stück ab CHF 7' },
@@ -95,7 +95,7 @@ const TX = {
     okText: 'You will get an e-mail from us right away. Please wait until our team accepts your booking — the confirmation also arrives by e-mail.',
     okKino: 'Cinema Night: we send you the programme with the confirmation.',
     okClose: 'All set ♥',
-    foot: 'See all details & floor plan →',
+    foot: 'See all details →',
     persons: 'people',
     acts: {
       keramik: { title: 'Paint ceramics', desc: 'Pick a piece, paint it — we glaze and fire it, ready after about two weeks.', price: 'CHF 25 service + pieces from CHF 7' },
@@ -110,8 +110,9 @@ const ACT_IMG = {
   kino: 'assets/img/studio-og.jpeg'
 };
 /* Angebote, die es im Moment nicht gibt, erscheinen nirgends — auch dann nicht, wenn die
-   Liste vom Server sie noch führt (Entscheid 21.09.2026: keine Kerzen, keine Floral Bar). */
-const NICHT_ANGEBOTEN = ['candle', 'floral'];
+   Liste vom Server sie noch führt (Entscheid 21.09.2026: keine Kerzen, keine Floral Bar;
+   13.10.2026: «Nur Café» ist nicht reservierbar). */
+const NICHT_ANGEBOTEN = ['candle', 'floral', 'cafe'];
 const tw = () => TX[LoveSite.lang()] || TX.de;
 
 /* ═══════════ Zustand ═══════════ */
@@ -240,7 +241,7 @@ function actList() {
       ? { id: s.id, title: x.acts[s.id].title, desc: x.acts[s.id].desc, price: x.acts[s.id].price }
       : { id: s.id, title: en ? (s.label_en || s.label_de) : s.label_de, desc: en ? (s.desc_en || s.desc_de) : s.desc_de, price: s.price });
   }
-  return Object.entries(x.acts).map(([id, c]) => ({ id, title: c.title, desc: c.desc, price: c.price }));
+  return Object.entries(x.acts).filter(([id]) => !NICHT_ANGEBOTEN.includes(id)).map(([id, c]) => ({ id, title: c.title, desc: c.desc, price: c.price }));
 }
 
 /* ── Tisch-Verfügbarkeit pro Datum (Cloud) ── */

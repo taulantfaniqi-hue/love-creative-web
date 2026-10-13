@@ -163,13 +163,6 @@ window.LOVE_EN = {
             <label data-i18n="f.slot">Zeitfenster</label>
             <div class="choice-grid" id="slotGrid" role="group" aria-label="Zeitfenster"></div>
           </div>
-          <div class="field">
-            <label for="rWorld" data-i18n="f.activity">Was möchtest du machen?</label>
-            <select id="rWorld">
-              <option value="keramik" data-i18n="f.act1">Keramik bemalen</option>
-              <option value="cafe" data-i18n="f.act2">Nur Café</option>
-            </select>
-          </div>
           <div class="two-col">
             <div class="field"><label for="rName" data-i18n="f.name">Name</label><input type="text" id="rName" autocomplete="name"></div>
             <div class="field"><label for="rEmail" data-i18n="f.email">E-Mail</label><input type="email" id="rEmail" autocomplete="email"></div>
@@ -257,7 +250,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
 <script src="assets/js/love-pay.js?v=50578e01"></script>
-<script src="assets/js/love-widget.js?v=ba68d3c8"></script>
+<script src="assets/js/love-widget.js?v=afd5fbae"></script>
 <script>
 (() => {
 'use strict';
@@ -337,7 +330,8 @@ $('#resForm').addEventListener('submit', e => {
   const b = LoveData.addBooking({
     type: kino ? 'kino' : 'tisch', name, email, phone: $('#rPhone').value.trim(),
     date, time: slot, persons, area, table_type: T.suggest(persons),
-    world: $('#rWorld').value, message: $('#rMsg').value.trim(), lang: LoveSite.lang()
+    world: 'keramik',   // «Nur Café» ist nicht reservierbar (13.10.2026)
+    message: $('#rMsg').value.trim(), lang: LoveSite.lang()
   });
   $('#resForm').classList.add('hidden');
   $('#resRef').textContent = t('ref.lbl') + b.id;
