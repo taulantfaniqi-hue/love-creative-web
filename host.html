@@ -974,6 +974,14 @@ $('#expKunden').addEventListener('click', () => {
 $('#expBackup').addEventListener('click', () => {
   const dump = JSON.parse(LoveData.exportJSON());
   dump.customers = LoveAccount.listCustomers();
+  /* Zentrale Cloud-Daten mitsichern (14.10.2026) — vorher enthielt das «Komplett-Backup» nur die Daten
+     dieses Geräts, ohne die echten Buchungen, Gutscheine und Bestellungen vom Server. Kundenkonten ohne Passwort-Felder. */
+  if (cloudData) {
+    dump.cloud = {
+      bookings: cloudData.bookings || [], vouchers: cloudData.vouchers || [], orders: cloudData.orders || [],
+      customers: (cloudData.customers || []).map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, points: k.points, created: k.created_at, lastLogin: k.last_login }))
+    };
+  } else dump.cloud = null;   // nicht mit der Cloud verbunden — nur Gerätedaten
   download('love-backup-' + new Date().toISOString().slice(0, 10) + '.json', JSON.stringify(dump, null, 2), 'application/json');
 });
 
