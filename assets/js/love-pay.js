@@ -52,5 +52,12 @@ const LovePay = (() => {
     } catch (e) { return { ok: false }; }
   }
 
-  return { available, checkout, status, GIFT_AMOUNTS, GIFT_MIN, GIFT_MAX };
+  /* Darf dieser Gutschein angerechnet werden? Nur bezahlt, aktiv und mit Guthaben (14.10.2026).
+     Ist die Abfrage nicht möglich, wird er nicht angerechnet. */
+  async function gutscheinOk(code) {
+    const r = await status(code);
+    return !!(r && r.ok && r.voucher && r.voucher.paid == 1 && r.voucher.status === 'aktiv' && Number(r.voucher.balance) > 0);
+  }
+
+  return { available, checkout, status, gutscheinOk, GIFT_AMOUNTS, GIFT_MIN, GIFT_MAX };
 })();

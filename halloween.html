@@ -310,7 +310,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-site.js?v=0ea1d497"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
-<script src="assets/js/love-pay.js?v=50578e01"></script>
+<script src="assets/js/love-pay.js?v=395aa58c"></script>
 <script src="assets/js/love-widget.js?v=c9489a3c"></script>
 <script>
 /* Creative Halloween Party — Anmeldung mit Online-Zahlung (Payrexx).
@@ -414,6 +414,14 @@ $('#hwForm').addEventListener('submit', async e => {
   /* Optionale Geschenkkarte: der Server rechnet das Guthaben an (bis auf CHF 1) */
   const giftRaw = $('#hwGift') ? $('#hwGift').value.trim().toUpperCase() : '';
   const gift = /^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(giftRaw) ? giftRaw : '';
+  /* Nur bezahlte, aktive Gutscheine werden angerechnet (14.10.2026) */
+  if (gift && !(await LovePay.gutscheinOk(gift))) {
+    $('#hwErr').textContent = LoveSite.lang() === 'en'
+      ? 'This voucher code is not valid (not paid or not active). Please remove it — or write to hello@lovecreative.ch.'
+      : 'Dieser Gutschein-Code ist nicht gültig (nicht bezahlt oder nicht aktiv). Bitte entfernen — oder schreib uns an hello@lovecreative.ch.';
+    $('#hwErr').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    busy = false; $('#hwSubmit').disabled = false; return;
+  }
   const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'halloween', voucher_code: gift, purpose: 'LOVE Halloween Party ' + booking.id });
   if (!r.ok) { showDone('reserved', booking.id, grand); busy = false; $('#hwSubmit').disabled = false; }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
