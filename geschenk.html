@@ -378,7 +378,7 @@ window.LOVE_EN = {
                 <p class="hint" id="dnMail" aria-live="polite" style="margin-top:.35rem"></p>
                 <p id="dnAccount" style="margin-top:.9rem;font-size:.92rem"></p>
                 <div class="hero-ctas" style="justify-content:center;margin-top:1rem">
-                  <button type="button" class="btn btn-green" id="btnPrint" data-i18n="dn.print">Als PDF herunterladen / drucken</button>
+                  <button type="button" class="btn btn-green hidden" id="btnPrint" data-i18n="dn.print">Als PDF herunterladen / drucken</button>
                   <button type="button" class="btn btn-rose hidden" id="btnClaim" data-i18n="dn.claim">In mein Kundenkonto laden</button>
                   <button type="button" class="btn btn-rose hidden" id="btnRetryPay" data-i18n="dn.retry">Zahlung erneut versuchen</button>
                   <button type="button" class="btn btn-ghost" id="btnAgain" data-i18n="dn.again">Noch einen gestalten</button>
@@ -783,6 +783,7 @@ $('#submitGift').addEventListener('click', async () => {
         if (typeof LoveData !== 'undefined') LoveData.updateVoucher(code, { paid: true, status: 'aktiv' });
         /* Karte auf der Vorlage zeigen, Konto-Übernahme anbieten, PDF-Mail nachliefern */
         if (!lastVoucher.amount) lastVoucher.amount = Number(r.voucher.amount) || 0;
+        lastVoucher.paid = true; $('#btnPrint').classList.remove('hidden');   // Karte erst nach bestätigter Zahlung
         showCard();
         wireClaim(code);
         mailPdf(code);
@@ -816,6 +817,7 @@ $('#submitGift').addEventListener('click', async () => {
     lastVoucher.amount = Number(r.voucher.amount) || 0;
     if (r.voucher.paid == 1) {
       $('#dnStatus').textContent = t('cv.balance') + ': CHF ' + Number(r.voucher.balance).toFixed(2) + ' / CHF ' + Number(r.voucher.amount).toFixed(2);
+      lastVoucher.paid = true; $('#btnPrint').classList.remove('hidden');   // Karte erst nach bestätigter Zahlung
       showCard();
       wireClaim(code);
     } else {
@@ -826,7 +828,8 @@ $('#submitGift').addEventListener('click', async () => {
   }
 })();
 $('#btnPrint').addEventListener('click', async () => {
-  if (!lastVoucher) return;
+  /* Nur eine bezahlte Karte gibt es als PDF bzw. zum Drucken */
+  if (!lastVoucher || !lastVoucher.paid) return;
   /* Bevorzugt: die Karte auf der Design-Vorlage als PDF (Barcode auf dem weissen Feld) */
   if (typeof LoveGiftcard !== 'undefined') {
     try { await LoveGiftcard.download({ code: lastVoucher.code, amount: lastVoucher.amount }); return; }
@@ -853,7 +856,7 @@ $('#btnPrint').addEventListener('click', async () => {
   window.addEventListener('afterprint', done);
   window.print();
 });
-$('#btnAgain').addEventListener('click', () => { lastVoucher = null; $('#pvCode').textContent = 'LOVE-····-····'; showStep(1); });
+$('#btnAgain').addEventListener('click', () => { lastVoucher = null; $('#btnPrint').classList.add('hidden'); $('#pvCode').textContent = 'LOVE-····-····'; showStep(1); });
 })();
 </script>
 </body>
