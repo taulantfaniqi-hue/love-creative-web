@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kino &amp; Keramik — Filmnachmittage im Oktober — LOVE Creative Café, Au ZH</title>
+<meta name="description" content="Kino &amp; Keramik im LOVE Creative Café in Au ZH: Keramik bemalen und Film schauen — 17., 18., 24. und 25. Oktober 2026, jeweils 16:30 Uhr. CHF 45 pro Person inkl. Keramikfigur — online buchen und bezahlen.">
+<link rel="canonical" href="https://lovecreative.ch/kinokeramik.html">
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Sacramento&family=Creepster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/love.css?v=c23472f5">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
+<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
+<style>
+/* ═══ 🎃 Spooky-Look — nur für diese Seite ═══ */
+.spooky .page-hero{background:radial-gradient(1100px 520px at 78% -12%, #4a2e63 0%, #2a1b3d 45%, #1c1230 100%);position:relative;overflow:hidden}
+.spooky .page-hero .eyebrow{color:#ffab4a}
+.spooky .page-hero h1{font-family:'Creepster',cursive;font-weight:400;color:#ffab4a;letter-spacing:.05em;line-height:1.05;text-shadow:0 0 20px rgba(255,140,40,.5),0 3px 0 rgba(0,0,0,.35);font-size:clamp(2.7rem,2rem + 3.4vw,4.4rem)}
+.spooky .page-hero .lead{color:#efe6f7}
+.spooky .page-hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.6)}
+/* Flyer unbeschnitten: quadratisch statt Bogen-Zuschnitt */
+.spooky .page-hero .arch{border-radius:22px;border:1.5px solid rgba(255,171,74,.55);box-shadow:0 18px 44px rgba(0,0,0,.5)}
+.spooky .page-hero .arch img{aspect-ratio:4/5}
+/* Mond + schwebende Gesellschaft */
+.sp-mond{position:absolute;top:36px;right:5.5%;width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #fff7e0, #ffe9b0 60%, #f4cf7d);box-shadow:0 0 54px 16px rgba(255,236,170,.32);pointer-events:none}
+.sp-float{position:absolute;font-size:2rem;opacity:.9;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));animation:spFloat 6s ease-in-out infinite}
+@keyframes spFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
+/* Angebot: Nacht-Sektion */
+.spooky #angebot{background:#241736}
+.spooky #angebot .eyebrow{color:#ffab4a}
+.spooky #angebot .sect-title{color:#ffe9c9}
+.spooky #angebot .card{background:#2f2044;border:1.5px dashed rgba(255,171,74,.55)}
+.spooky #angebot .card h3{color:#ffab4a}
+.spooky #angebot .card p,.spooky #angebot .tick li{color:#e9def5}
+.spooky #angebot .tag{background:#ffab4a;color:#241736}
+.spooky #angebot .sect-lead{color:#cbbbe0}
+.spooky #angebot .sect-lead a{color:#ffab4a}
+.kk-ic{font-size:2rem;margin:0 0 .3rem}
+.spooky #angebot .card p b{color:#ffe9c9}
+/* Filmnachmittag wählen */
+.kk-daten{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.kk-daten .choice .t{font-size:1rem}
+/* Buchen: hell fürs Formular, mit Spooky-Akzenten */
+.spooky #buchen .sect-title::after{content:' 🎃'}
+.spooky #buchen .panel{border:1.5px dashed rgba(201,114,42,.5)}
+.spooky #buchen .anm-block h3{color:#b85c1e}
+@media (prefers-reduced-motion: reduce){.sp-float{animation:none}}
+/* Handy (einspaltig): Deko liegt sonst mitten im Titel — Textbereich bleibt sauber */
+@media (max-width:900px){.sp-float{display:none}.sp-mond{width:58px;height:58px;top:14px;right:4%}}
+</style>
+<script>
+window.LOVE_TITLES = { de: 'Kino & Keramik — Filmnachmittage im Oktober — LOVE Creative Café, Au ZH', en: 'Movie & Pottery — film afternoons in October — LOVE Creative Café, Au ZH' };
+window.LOVE_EN = {
+  'kk.eyebrow':'October 2026 · always at 4:30 pm',
+  'kk.title':'Movie &amp; Pottery.',
+  'kk.lead':'Paint pottery, watch a movie and make lovely memories together — the perfect autumn afternoon for young and old.',
+  'kk.cta1':'Save a spot',
+  'kk.cta2':'The movies',
+  'kk.pTitle':'Our film afternoons in October',
+  'kk.f1':'Hotel Transylvania', 'kk.f2':'The Addams Family', 'kk.f3':'Hotel Transylvania 2', 'kk.f4':'Hocus Pocus',
+  'kk.d1':'Saturday, 17 October', 'kk.d2':'Sunday, 18 October', 'kk.d3':'Saturday, 24 October', 'kk.d4':'Sunday, 25 October',
+  'kk.zeit':'4:30–6:30 pm',
+  'kk.iTitle':'Good to know',
+  'kk.i1':'All movies start at 4:30 pm',
+  'kk.i2':'Pottery painting — a ceramic figure is included',
+  'kk.i3':'CHF 45 per person, paid online',
+  'kk.i4':'Reservation required — 20 spots per afternoon',
+  'kk.tag':'CHF 45 per person',
+  'kk.andere':'Looking for something else? <a href="halloween.html">Halloween Party on 31 October</a> · <a href="monetkids.html">Claude Monet Kids</a> — all bookable events on the <a href="events.html">events page</a>.',
+  'kb.eyebrow':'Registration',
+  'kb.title':'Book a film afternoon',
+  'kk.bLead':'Choose your afternoon, register yourself and your companions and pay online (TWINT or card). Once paid, your spot is reserved.',
+  'kk.datH':'1 · Your film afternoon',
+  'kb.kidsH':'2 · The participants',
+  'kb.kids':'Number of people',
+  'kb.names':'Names of the participants (for children please add their age)',
+  'kb.namesPh':'e.g. Sara, Mia (7), Noah (9)',
+  'kb.gAllergy':'Allergies (optional)',
+  'kb.gAllergyPh':'e.g. nuts, lactose',
+  'kb.elternH':'3 · Your details',
+  'kb.pName':'First and last name',
+  'kb.mail':'E-mail',
+  'kb.pPhone':'Mobile phone',
+  'kb.msg':'Note (optional)',
+  'kb.gift':'Gift card code (optional)',
+  'kb.giftHint':'The balance of your LOVE gift card is applied automatically at payment.',
+  'kb.einwH':'4 · Consent',
+  'kb.eAgb':'I have read and accept the <a href="agb.html" target="_blank" rel="noopener">terms</a> including the cancellation policy.',
+  'kb.eDsg':'I agree that LOVE Creative processes the information given here to run the event — in line with the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>. We delete the details 30 days after the event.',
+  'kb.eSorge':'If I register children: I hold parental authority for them (or have the consent of those who do) and make these declarations also on their behalf.',
+  'kb.optLbl':'Optional — you decide',
+  'kb.fNews':'Send me the newsletter with new events and dates.',
+  'kb.optHint':'The tick has no effect on participation — and you can unsubscribe at any time: hello@lovecreative.ch.',
+  'kb.submit':'Book &amp; pay →',
+  'kb.payHint':'You pay securely via Payrexx (TWINT, credit &amp; debit cards). Once paid, your spot is reserved.',
+  'kb.retry':'Retry payment',
+  'kb.again':'New registration'
+};
+</script>
+</head>
+<body class="spooky">
+<a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
+
+<header class="site" id="top">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="LOVE Creative Café — Start">
+      <img src="assets/logo/logo-love.svg" alt="" width="46" height="46">
+      <span class="brand-name">LOVE<small data-i18n="brand.sub">Creative Café</small></span>
+    </a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mainnav" data-i18n-aria="nav.menu" aria-label="Menü">☰</button>
+    <nav class="main" id="mainnav" aria-label="Hauptnavigation">
+      <ul>
+        <li class="has-sub">
+          <a href="index.html#preise" data-i18n="nav.keramik">Keramik bemalen</a>
+          <ul class="sub">
+            <li><a href="workshop.html" data-i18n="nav.workshop">Workshop</a></li>
+            <li><a href="walkin.html" data-i18n="nav.walkin">Walk-in</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="events.html" data-i18n="nav.events">Events</a>
+          <ul class="sub">
+            <li><a href="halloween.html" data-i18n="nav.hallo">Halloween-Party</a></li>
+            <li><a href="kinokeramik.html" data-i18n="nav.kinoK">Kino &amp; Keramik</a></li>
+            <li><a href="monetkids.html" data-i18n="nav.monet">Claude Monet Kids</a></li>
+            <li><a href="monetadults.html" data-i18n="nav.monetA">Claude Monet Adults</a></li>
+            <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
+            <li><a href="geburtstag.html" data-i18n="nav.geb">Kindergeburtstag</a></li>
+            <li><a href="teamevents.html" data-i18n="nav.team">Team- &amp; Firmenevents</a></li>
+          </ul>
+        </li>
+        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
+        <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
+        <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Sprache / Language">
+      <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn btn-rose nav-cta" href="reservieren.html" data-i18n="cta.reserve">Tisch reservieren</a>
+  </div>
+</header>
+<div class="sticky-cta"><a class="btn btn-rose" href="#buchen" data-i18n="hw.cta1">Platz sichern</a></div>
+
+<main id="main">
+
+<section class="page-hero">
+  <span class="sp-mond" aria-hidden="true"></span>
+  <span class="sp-float" style="top:7%;right:31%;animation-delay:.3s" aria-hidden="true">🍿</span>
+  <span class="sp-float" style="top:9%;left:37%;animation-delay:2s" aria-hidden="true">🎬</span>
+  <span class="sp-float" style="top:62%;left:45%;font-size:1.5rem;animation-delay:1.2s" aria-hidden="true">🦇</span>
+  <span class="sp-float" style="bottom:4%;left:40%;font-size:1.4rem;animation-delay:.8s" aria-hidden="true">🎨</span>
+  <span class="sp-float" style="top:30%;right:3%;font-size:1.5rem;animation-delay:1.7s" aria-hidden="true">🎃</span>
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow" data-i18n="kk.eyebrow">Oktober 2026 · jeweils 16:30 Uhr</p>
+      <h1 data-i18n="kk.title">Kino &amp; Keramik.</h1>
+      <p class="lead" data-i18n="kk.lead">Keramik bemalen, Film schauen und gemeinsam schöne Erinnerungen schaffen — der perfekte Herbstnachmittag für Gross und Klein.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-rose" href="#buchen" data-i18n="kk.cta1">Platz sichern</a>
+        <a class="btn btn-ghost" href="#angebot" data-i18n="kk.cta2">Die Filme</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="arch"><img src="assets/img/kino-keramik-oktober.jpg" alt="Flyer Kino &amp; Keramik: Hotel Transylvania 17. Oktober, The Addams Family 18. Oktober, Hotel Transylvania 2 24. Oktober, Hocus Pocus 25. Oktober, jeweils 16:30" width="1080" height="1350"></div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="angebot">
+  <div class="wrap">
+    <p class="eyebrow">🍿 Kino &amp; Keramik</p>
+    <h2 class="sect-title" data-i18n="kk.pTitle">Unsere Filmnachmittage im Oktober</h2>
+    <div class="grid-4" style="margin-bottom:1.6rem">
+      <div class="card reveal"><p class="kk-ic" aria-hidden="true">🧛</p><h3 data-i18n="kk.f1">Hotel Transylvania</h3><p><b data-i18n="kk.d1">Samstag, 17. Oktober</b><br><span data-i18n="kk.zeit">16:30–18:30 Uhr</span></p></div>
+      <div class="card reveal"><p class="kk-ic" aria-hidden="true">🖤</p><h3 data-i18n="kk.f2">Die Addams Family</h3><p><b data-i18n="kk.d2">Sonntag, 18. Oktober</b><br><span data-i18n="kk.zeit">16:30–18:30 Uhr</span></p></div>
+      <div class="card reveal"><p class="kk-ic" aria-hidden="true">🧟</p><h3 data-i18n="kk.f3">Hotel Transylvania 2</h3><p><b data-i18n="kk.d3">Samstag, 24. Oktober</b><br><span data-i18n="kk.zeit">16:30–18:30 Uhr</span></p></div>
+      <div class="card reveal"><p class="kk-ic" aria-hidden="true">🧙‍♀️</p><h3 data-i18n="kk.f4">Hocus Pocus</h3><p><b data-i18n="kk.d4">Sonntag, 25. Oktober</b><br><span data-i18n="kk.zeit">16:30–18:30 Uhr</span></p></div>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <h3 data-i18n="kk.iTitle">Gut zu wissen</h3>
+        <ul class="tick">
+          <li data-i18n="kk.i1">Alle Filme beginnen um 16:30 Uhr</li>
+          <li data-i18n="kk.i2">Keramik bemalen — eine Keramikfigur ist inklusive</li>
+          <li data-i18n="kk.i3">CHF 45 pro Person, online bezahlt</li>
+          <li data-i18n="kk.i4">Reservation erforderlich — 20 Plätze pro Nachmittag</li>
+        </ul>
+        <span class="tag" data-i18n="kk.tag">CHF 45 pro Person</span>
+      </div>
+    </div>
+    <p class="sect-lead" style="margin-top:2rem" data-i18n="kk.andere">Du suchst etwas anderes? <a href="halloween.html">Halloween Party am 31. Oktober</a> · <a href="monetkids.html">Claude Monet Kids</a> — alle buchbaren Events auf der <a href="events.html">Events-Seite</a>.</p>
+  </div>
+</section>
+
+<section id="buchen">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="kb.eyebrow">Anmeldung</p>
+    <h2 class="sect-title" data-i18n="kb.title">Filmnachmittag buchen</h2>
+    <p class="sect-lead" data-i18n="kk.bLead">Wähl deinen Nachmittag, melde dich und deine Begleitung an und bezahl online (TWINT oder Karte). Mit der Zahlung ist dein Platz reserviert.</p>
+    <div class="panel reveal"><div class="panel-body">
+      <form id="hwForm" novalidate>
+
+        <div class="anm-block">
+          <h3 data-i18n="kk.datH">1 · Dein Filmnachmittag</h3>
+          <div class="choice-grid kk-daten" id="kkDaten" role="group" aria-label="Filmnachmittag"></div>
+        </div>
+
+        <div class="anm-block">
+          <h3 data-i18n="kb.kidsH">2 · Die Teilnehmenden</h3>
+          <div class="two-col">
+            <div class="field"><label for="hKids" data-i18n="kb.kids">Anzahl Personen</label><input type="number" id="hKids" min="1" max="10" value="1" inputmode="numeric"></div>
+            <div class="field"><label for="hAllergy" data-i18n="kb.gAllergy">Allergien (optional)</label><input id="hAllergy" data-i18n-ph="kb.gAllergyPh" placeholder="z. B. Nüsse, Laktose"></div>
+          </div>
+          <div class="field"><label for="hNames" data-i18n="kb.names">Namen der Teilnehmenden (bei Kindern bitte mit Alter)</label><input id="hNames" data-i18n-ph="kb.namesPh" placeholder="z. B. Sara, Mia (7), Noah (9)" autocomplete="off"></div>
+        </div>
+
+        <div class="anm-block">
+          <h3 data-i18n="kb.elternH">3 · Deine Angaben</h3>
+          <div class="two-col">
+            <div class="field"><label for="pName" data-i18n="kb.pName">Vor- und Nachname</label><input id="pName" autocomplete="name"></div>
+            <div class="field"><label for="pMail" data-i18n="kb.mail">E-Mail</label><input id="pMail" type="email" autocomplete="email"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="pPhone" data-i18n="kb.pPhone">Mobiltelefon</label><input id="pPhone" type="tel" autocomplete="tel"></div>
+            <div class="field"><label for="pMsg" data-i18n="kb.msg">Bemerkung (optional)</label><input id="pMsg"></div>
+          </div>
+        </div>
+
+        <div class="anm-block">
+          <h3 data-i18n="kb.einwH">4 · Einverständnis</h3>
+          <label class="check"><input type="checkbox" id="eAgb"><span data-i18n="kb.eAgb">Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB</a> mit den Stornobedingungen gelesen und akzeptiere sie.</span></label>
+          <label class="check"><input type="checkbox" id="eDsg"><span data-i18n="kb.eDsg">Ich bin einverstanden, dass LOVE Creative die hier gemachten Angaben für die Durchführung bearbeitet — gemäss <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a>. Wir löschen die Angaben 30 Tage nach dem Anlass.</span></label>
+          <label class="check"><input type="checkbox" id="eSorge"><span data-i18n="kb.eSorge">Falls ich Kinder anmelde: Ich bin für sie sorgeberechtigt (oder habe das Einverständnis der Sorgeberechtigten) und gebe diese Erklärungen auch in deren Namen ab.</span></label>
+          <div class="anm-opt">
+            <p class="lbl" data-i18n="kb.optLbl">Freiwillig — du entscheidest</p>
+            <label class="check"><input type="checkbox" id="fNews"><span data-i18n="kb.fNews">Schickt mir den Newsletter mit neuen Events und Terminen.</span></label>
+            <p class="hint" style="margin:.4rem 0 0" data-i18n="kb.optHint">Das Häkchen hat keinen Einfluss auf die Teilnahme — und du kannst dich jederzeit abmelden: hello@lovecreative.ch.</p>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:1rem"><label for="hwGift" data-i18n="kb.gift">Gutschein-Code (optional)</label>
+          <input type="text" id="hwGift" placeholder="LOVE-XXXX-XXXX" autocomplete="off" style="max-width:16rem">
+          <p class="hint" data-i18n="kb.giftHint">Das Guthaben deiner LOVE-Geschenkkarte wird bei der Zahlung automatisch angerechnet.</p>
+        </div>
+
+        <div class="anm-sum" id="hwSum"></div>
+
+        <div class="p-nav" style="align-items:center">
+          <span></span>
+          <button type="submit" class="btn btn-rose" id="hwSubmit" data-i18n="kb.submit">Kostenpflichtig buchen →</button>
+        </div>
+        <p class="form-err" id="hwErr" aria-live="assertive"></p>
+        <p class="hint" style="margin-top:.6rem" data-i18n="kb.payHint">Bezahlt wird sicher über Payrexx (TWINT, Kredit- &amp; Debitkarte). Mit der Zahlung ist dein Platz reserviert.</p>
+      </form>
+
+      <div id="hwDone" class="hidden">
+        <div class="success">
+          <h3 id="hwDoneTitle"></h3>
+          <p id="hwDoneText"></p>
+          <p class="hint" id="hwDoneRef"></p>
+          <div class="hero-ctas" style="justify-content:center;margin-top:1rem">
+            <button type="button" class="btn btn-rose hidden" id="hwRetry" data-i18n="kb.retry">Zahlung erneut versuchen</button>
+            <button type="button" class="btn btn-ghost" id="hwAgain" data-i18n="kb.again">Neue Anmeldung</button>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">LOVE <small>Creative Café</small></p>
+        <p class="script-line">Made for moments that matter.</p>
+        <p data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen bald</p>
+      </div>
+      <div>
+        <h4 data-i18n="ft.worlds">Entdecken</h4>
+        <ul>
+          <li><a href="walkin.html" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
+          <li><a href="events.html" data-i18n="ft.events">Events</a></li>
+          <li><a href="teamevents.html" data-i18n="ft.firmen">Team- &amp; Firmenevents</a></li>
+          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
+          <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.visit">Besuch uns</h4>
+        <ul>
+          <li>Seestrasse 287B, 8804 Au ZH</li>
+          <li><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></li>
+          <li data-i18n="ft.hours">Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</li>
+          <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.legal">Rechtliches</h4>
+        <ul>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="datenschutz.html" data-i18n="ft.privacy">Datenschutz</a></li>
+          <li><a href="impressum.html" data-i18n="ft.imprint">Impressum</a></li>
+          <li><a href="leistungen.html" data-i18n="ft.services">Angebot &amp; Leistungen</a></li>
+          <li style="margin-top:.5rem"><a href="host.html">Host</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="year">2026</span> LOVE Creative GmbH, Wädenswil ZH</p>
+      <div class="lang-switch" role="group" aria-label="Sprache / Language">
+        <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/love-data.js?v=f962e5d3"></script>
+<script src="assets/js/love-site.js?v=0ea1d497"></script>
+<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-account.js?v=c69e9e52"></script>
+<script src="assets/js/love-pay.js?v=50578e01"></script>
+<script src="assets/js/love-widget.js?v=afd5fbae"></script>
+<script>
+/* Kino & Keramik — Filmnachmittage Oktober 2026, Anmeldung mit Online-Zahlung (Payrexx).
+ * Jeweils 16:30–18:30 Uhr · CHF 45 pro Person inkl. Keramikfigur · 20 Plätze pro Nachmittag.
+ * Die 20 Plätze prüft das Team im Host (die Website kennt die Belegung nicht). */
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const chf = n => 'CHF ' + Number(n).toFixed(0);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const FILME = [
+  { date: '2026-10-17', de: 'Hotel Transylvania', en: 'Hotel Transylvania' },
+  { date: '2026-10-18', de: 'Die Addams Family', en: 'The Addams Family' },
+  { date: '2026-10-24', de: 'Hotel Transylvania 2', en: 'Hotel Transylvania 2' },
+  { date: '2026-10-25', de: 'Hocus Pocus', en: 'Hocus Pocus' }
+];
+const EVENT = { time: '16:30–18:30', startMin: 16 * 60 + 30, proPerson: 45, maxPersonen: 10 };
+let gewaehlt = '';
+
+const M = {
+  de: {
+    sZeile: n => `Kino & Keramik · ${n} Person${n === 1 ? '' : 'en'} × CHF ${EVENT.proPerson}`, sTotal: 'Total',
+    vorbei: 'vorbei', zeit: '16:30 Uhr',
+    errDatum: 'Bitte wähl deinen Filmnachmittag.',
+    errPflicht: 'Bitte füll alle Pflichtfelder aus: ', errMail: 'Bitte gib eine gültige E-Mail-Adresse an.',
+    errEinw: 'Bitte bestätige die nötigen Einverständnisse — ohne sie können wir die Anmeldung nicht annehmen.',
+    fNames: 'Namen der Teilnehmenden', fName: 'dein Name', fTel: 'Mobiltelefon',
+    okPaid: 'Zahlung erhalten — vielen Dank! Dein Platz ist reserviert. Wir freuen uns auf euch! 🍿',
+    okFail: 'Die Zahlung wurde nicht abgeschlossen. Deine Anmeldung ist gespeichert — du kannst die Zahlung erneut versuchen.',
+    okReserved: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Anmeldung ist bei uns angekommen — wir melden uns per E-Mail mit den Zahlungsdetails.',
+    okLost: 'Deine Anmeldung konnte gerade nicht übermittelt werden. Bitte schick sie uns per E-Mail an hello@lovecreative.ch oder versuch es in ein paar Minuten noch einmal — sonst wissen wir nichts davon.',
+    titlePaid: 'Zahlung erhalten!', titleFail: 'Zahlung nicht abgeschlossen', titleReserved: 'Anmeldung angekommen', titleLost: 'Noch nicht angekommen', ref: 'Referenz: '
+  },
+  en: {
+    sZeile: n => `Movie & Pottery · ${n} ${n === 1 ? 'person' : 'people'} × CHF ${EVENT.proPerson}`, sTotal: 'Total',
+    vorbei: 'passed', zeit: '4:30 pm',
+    errDatum: 'Please choose your film afternoon.',
+    errPflicht: 'Please fill in all required fields: ', errMail: 'Please enter a valid e-mail address.',
+    errEinw: 'Please confirm the required consents — we cannot accept the registration without them.',
+    fNames: 'names of the participants', fName: 'your name', fTel: 'mobile phone',
+    okPaid: 'Payment received — thank you! Your spot is reserved. We look forward to seeing you! 🍿',
+    okFail: 'The payment was not completed. Your registration is saved — you can retry the payment.',
+    okReserved: 'Online payment is temporarily unavailable. Your registration has reached us — we will e-mail you the payment details.',
+    okLost: 'Your registration could not be transmitted just now. Please e-mail it to hello@lovecreative.ch or try again in a few minutes — otherwise we will not know about it.',
+    titlePaid: 'Payment received!', titleFail: 'Payment not completed', titleReserved: 'Registration received', titleLost: 'Not received yet', ref: 'Reference: '
+  }
+};
+const m = () => M[LoveSite.lang()] || M.de;
+
+/* Filmnachmittag wählen — vergangene (und heute bereits begonnene) Termine sind gesperrt */
+const vorbei = f => { const heute = LoveSite.todayISO(), j = new Date(); return f.date < heute || (f.date === heute && j.getHours() * 60 + j.getMinutes() >= EVENT.startMin); };
+const datumText = iso => new Date(iso + 'T12:00:00').toLocaleDateString(LoveSite.lang() === 'en' ? 'en-GB' : 'de-CH', { weekday: 'short', day: 'numeric', month: 'long' });
+function zeichneDaten() {
+  const x = m(), en = LoveSite.lang() === 'en';
+  if (gewaehlt && vorbei(FILME.find(f => f.date === gewaehlt))) gewaehlt = '';
+  $('#kkDaten').innerHTML = FILME.map(f => {
+    const alt = vorbei(f);
+    return `<button type="button" class="choice" data-date="${f.date}" aria-pressed="${f.date === gewaehlt}"${alt ? ' disabled style="opacity:.45"' : ''}>
+      <span class="t">${esc(datumText(f.date))}</span><span class="d">${alt ? x.vorbei : esc(en ? f.en : f.de) + ' · ' + x.zeit}</span></button>`;
+  }).join('');
+  $('#kkDaten').querySelectorAll('.choice:not([disabled])').forEach(b => b.addEventListener('click', () => {
+    gewaehlt = b.dataset.date;
+    $('#kkDaten').querySelectorAll('.choice').forEach(y => y.setAttribute('aria-pressed', String(y === b)));
+  }));
+}
+const film = () => FILME.find(f => f.date === gewaehlt);
+
+const kinder = () => Math.min(EVENT.maxPersonen, Math.max(1, Number($('#hKids').value) || 1));   // Anzahl Personen
+const total = () => kinder() * EVENT.proPerson;
+function zeichneSumme() {
+  const x = m();
+  $('#hwSum').innerHTML = `<div><span>${esc(x.sZeile(kinder()))}</span><span>${chf(total())}</span></div>`
+    + `<div class="tot"><span>${esc(x.sTotal)}</span><span>${chf(total())}</span></div>`;
+}
+$('#hKids').addEventListener('input', zeichneSumme);
+
+function pruefe() {
+  const x = m(), fehlt = [], v = id => $('#' + id).value.trim();
+  if (!film()) return x.errDatum;
+  if (!v('hNames')) fehlt.push(x.fNames);
+  if (!v('pName')) fehlt.push(x.fName);
+  if (!v('pPhone')) fehlt.push(x.fTel);
+  if (fehlt.length) return x.errPflicht + fehlt.join(' · ');
+  if (!LoveSite.validEmail(v('pMail'))) return x.errMail;
+  if (!['eAgb', 'eDsg', 'eSorge'].every(id => $('#' + id).checked)) return x.errEinw;
+  return '';
+}
+function einzelheiten() {
+  const ja = id => ($('#' + id).checked ? 'JA' : 'nein');
+  const z = ['— FILM: ' + film().de + ' · ' + gewaehlt.split('-').reverse().join('.') + ' · ' + EVENT.time, '— TEILNEHMENDE: ' + $('#hNames').value.trim()];
+  if ($('#hAllergy').value.trim()) z.push('— Allergien: ' + $('#hAllergy').value.trim());
+  z.push('— EINVERSTÄNDNIS (' + new Date().toLocaleString('de-CH') + ')');
+  z.push(`   AGB/Storno: ${ja('eAgb')} · Datenbearbeitung: ${ja('eDsg')} · sorgeberechtigt (falls Kinder): ${ja('eSorge')}`);
+  z.push(`   Newsletter: ${ja('fNews')}`);
+  if ($('#pMsg').value.trim()) z.push('— Bemerkung: ' + $('#pMsg').value.trim());
+  return z.join('\n');
+}
+function showDone(art, id, grand) {
+  $('#hwForm').classList.add('hidden');
+  $('#hwDone').classList.remove('hidden');
+  const x = m();
+  $('#hwDoneTitle').textContent = { paid: x.titlePaid, fail: x.titleFail, lost: x.titleLost }[art] || x.titleReserved;
+  $('#hwDoneText').textContent = { paid: x.okPaid, fail: x.okFail, lost: x.okLost }[art] || x.okReserved;
+  $('#hwDoneRef').textContent = id ? x.ref + id + (grand ? ' · ' + chf(grand) : '') : '';
+  $('#hwRetry').classList.toggle('hidden', art !== 'fail');
+  document.getElementById('buchen').scrollIntoView({ behavior: 'smooth' });
+}
+$('#hwAgain').addEventListener('click', () => { $('#hwDone').classList.add('hidden'); $('#hwForm').classList.remove('hidden'); });
+
+let busy = false;
+$('#hwForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (busy) return;
+  const fehler = pruefe();
+  $('#hwErr').textContent = fehler;
+  if (fehler) { $('#hwErr').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+  busy = true; $('#hwSubmit').disabled = true;
+
+  const grand = total(), email = $('#pMail').value.trim(), f = film();
+  const kurz = `Kino & Keramik ${gewaehlt.split('-').reverse().slice(0, 2).join('.')}. «${f.de}» · ${kinder()} Person(en): ${$('#hNames').value.trim()}`;
+  const { booking, delivered } = await LoveData.addRegistration({
+    type: 'kinokeramik', name: $('#pName').value.trim(), email, phone: $('#pPhone').value.trim(),
+    date: gewaehlt, time: EVENT.time, persons: kinder(),
+    price: 'CHF ' + grand, message: kurz, details: einzelheiten(), lang: LoveSite.lang()
+  });
+  if ($('#fNews').checked) LoveData.upsertContact(email, { optin: true });
+  if (!delivered) { showDone('lost', booking.id); busy = false; $('#hwSubmit').disabled = false; return; }
+
+  try { localStorage.setItem('love.lastKinoKeramik', JSON.stringify({ id: booking.id, total: grand, email })); } catch (er) { }
+  /* Optionale Geschenkkarte: der Server rechnet das Guthaben an (bis auf CHF 1) */
+  const giftRaw = $('#hwGift') ? $('#hwGift').value.trim().toUpperCase() : '';
+  const gift = /^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(giftRaw) ? giftRaw : '';
+  const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'kinokeramik', voucher_code: gift, purpose: 'LOVE Kino & Keramik ' + booking.id });
+  if (!r.ok) { showDone('reserved', booking.id, grand); busy = false; $('#hwSubmit').disabled = false; }
+  /* bei ok verlässt der Browser die Seite Richtung Payrexx */
+});
+
+document.addEventListener('love:lang', () => { zeichneSumme(); zeichneDaten(); });
+zeichneSumme();
+zeichneDaten();
+
+/* Rückkehr von der Payrexx-Zahlungsseite: ?paid=B-… / ?payfail=B-… */
+(() => {
+  const q = new URLSearchParams(location.search);
+  const paid = q.get('paid'), fail = q.get('payfail');
+  if (!paid && !fail) return;
+  let last = null;
+  try { last = JSON.parse(localStorage.getItem('love.lastKinoKeramik')); } catch (e) { }
+  const id = paid || fail;
+  showDone(paid ? 'paid' : 'fail', id, last && last.id === id ? last.total : 0);
+  history.replaceState(null, '', location.pathname + '#buchen');
+  if (fail) $('#hwRetry').addEventListener('click', () => {
+    if (last && last.id === id) LovePay.checkout({ amount: last.total, code: id, email: last.email, back: 'kinokeramik', purpose: 'LOVE Kino & Keramik ' + id });
+  });
+})();
+})();
+</script>
+</body>
+</html>
