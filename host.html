@@ -139,7 +139,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="assets/js/love-giftcard.js?v=bd4d5ed7"></script>
+<script src="assets/js/love-giftcard.js?v=01cb5e18"></script>
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
@@ -601,9 +601,14 @@ function render() {
           ${Number(v.balance) > 0 ? `<button class="btn btn-green btn-sm" data-vredeem="${esc(v.code)}" data-bal="${Number(v.balance)}">Einlösen</button>` : ''}` : '—'}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`);
     /* Karte als PDF nachdrucken (gleiche Vorlage wie auf der Website) */
+    /* A4-Geschenkgutschein mit den gespeicherten Angaben (Für, Von, Text, Motiv, Kaufdatum) */
+    const HOST_EX = { 'keramik-date': 'Keramik-Date für zwei', 'kino-duo': 'Kino-Night für zwei', 'kino-family': 'Family Kino-Night', 'cafe-keramik': 'Café & Keramik' };
+    const gsDaten = code => { const v = d.gutscheine.find(x => x.code === code) || { code };
+      return { code: v.code, amount: Number(v.amount) || 0, title: HOST_EX[v.kind] || '', recipient: v.recipient || '', from: v.from || v.from_name || '',
+        message: v.message || '', design: v.design || 'mimi', issued: v.created_at || v.created || v.ts || '', lang: 'de' }; };
     box.querySelectorAll('button[data-vpdf]').forEach(btn => btn.addEventListener('click', async () => {
       btn.disabled = true;
-      try { await LoveGiftcard.download({ code: btn.dataset.vpdf, amount: Number(btn.dataset.amt) }); }
+      try { await LoveGiftcard.download(gsDaten(btn.dataset.vpdf)); }
       catch (e) { alert('PDF konnte nicht erstellt werden — bitte Internetverbindung prüfen.'); }
       btn.disabled = false;
     }));
@@ -613,7 +618,7 @@ function render() {
       if (!confirm(`Karte ${btn.dataset.vmail} als PDF an ${btn.dataset.mail || 'den Käufer'} mailen?`)) return;
       btn.disabled = true;
       try {
-        const pdf = await LoveGiftcard.pdfBase64({ code: btn.dataset.vmail, amount: Number(btn.dataset.amt) });
+        const pdf = await LoveGiftcard.pdfBase64(gsDaten(btn.dataset.vmail));
         const r = await LoveCloud.call('voucher_pdf_mail', { code: btn.dataset.vmail, pdf });
         alert(r && r.ok ? 'Gesendet ✓' : 'Das hat nicht geklappt — bitte später nochmals versuchen.');
       } catch (e) { alert('Mail konnte nicht gesendet werden — bitte Internetverbindung prüfen.'); }

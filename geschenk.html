@@ -100,10 +100,14 @@ window.LOVE_EN = {
   'cf.amount':'Choose amount (CHF)',
   'cf.amountCustom':'Or your own amount (CHF 20–500):',
   'cf.for':'For (name)',
-  'cf.from':'From (name)',
-  'cf.msg':'Your message (optional)',
-  'cf.msgPh':'e.g. Happy birthday — let\'s go painting!',
-  'cf.design':'Card design',
+  'cf.from':'From (name, optional)',
+  'cf.msg':'Your text',
+  'cf.occHint':'Tap an occasion and we suggest a text. Tap again for another version. You can change everything.',
+  'cf.oGeb':'Birthday', 'cf.oHoch':'Wedding', 'cf.oPens':'Retirement', 'cf.oVal':'Valentine\'s Day', 'cf.oDanke':'Thank you', 'cf.oEinfach':'Just because',
+  'cf.kwPh':'Your own keywords, e.g. mum, farewell, holidays', 'cf.kwGo':'Suggest a text',
+  'cf.a4Hint':'Preview — your gift voucher arrives as an A4 PDF by e-mail, ready to print.',
+  'cf.msgPh':'Or write your own text …',
+  'cf.design':'Motif',
   'cf.next':'Continue to payment →',
   'py.summary':'Summary',
   'py.item':'Gift',
@@ -303,15 +307,31 @@ window.LOVE_EN = {
               </div>
               <div class="two-col">
                 <div class="field"><label for="gFor" data-i18n="cf.for">Für (Name)</label><input type="text" id="gFor" maxlength="40"></div>
-                <div class="field"><label for="gFrom" data-i18n="cf.from">Von (Name)</label><input type="text" id="gFrom" maxlength="40"></div>
+                <div class="field"><label for="gFrom" data-i18n="cf.from">Von (Name, optional)</label><input type="text" id="gFrom" maxlength="40"></div>
               </div>
-              <div class="field"><label for="gMsg" data-i18n="cf.msg">Deine Botschaft (optional)</label><input type="text" id="gMsg" maxlength="120" data-i18n-ph="cf.msgPh" placeholder="z. B. Alles Gute zum Geburtstag — auf zum Bemalen!"></div>
+              <div class="field"><label for="gMsg" data-i18n="cf.msg">Dein Text</label>
+                <p class="hint" style="margin:0 0 .5rem" data-i18n="cf.occHint">Anlass antippen — wir schlagen dir einen Text vor. Nochmals antippen für eine andere Variante. Du kannst alles frei ändern.</p>
+                <div class="chips" id="occChips" role="group" aria-label="Anlass" style="margin-bottom:.6rem">
+                  <button type="button" class="chip" data-occ="geburtstag" aria-pressed="false" data-i18n="cf.oGeb">Geburtstag</button>
+                  <button type="button" class="chip" data-occ="hochzeit" aria-pressed="false" data-i18n="cf.oHoch">Hochzeit</button>
+                  <button type="button" class="chip" data-occ="pensionierung" aria-pressed="false" data-i18n="cf.oPens">Pensionierung</button>
+                  <button type="button" class="chip" data-occ="valentinstag" aria-pressed="false" data-i18n="cf.oVal">Valentinstag</button>
+                  <button type="button" class="chip" data-occ="bemydate" aria-pressed="false">Be my date</button>
+                  <button type="button" class="chip" data-occ="danke" aria-pressed="false" data-i18n="cf.oDanke">Danke</button>
+                  <button type="button" class="chip" data-occ="einfach" aria-pressed="false" data-i18n="cf.oEinfach">Einfach so</button>
+                </div>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem">
+                  <input type="text" id="gKw" maxlength="60" style="flex:1;min-width:12rem" data-i18n-ph="cf.kwPh" placeholder="Eigene Stichwörter, z. B. Mama, Abschied, Ferien">
+                  <button type="button" class="btn btn-ghost btn-sm" id="gKwGo" data-i18n="cf.kwGo">Text vorschlagen</button>
+                </div>
+                <textarea id="gMsg" maxlength="200" rows="4" data-i18n-ph="cf.msgPh" placeholder="Oder schreib deinen eigenen Text …"></textarea></div>
               <div class="field">
-                <label data-i18n="cf.design">Kartendesign</label>
+                <label data-i18n="cf.design">Motiv</label>
                 <div class="design-picks" role="group" aria-label="Design">
                   <button type="button" data-design="mimi" style="background:var(--mimi)" aria-pressed="true" aria-label="Mimi Pink"></button>
                   <button type="button" data-design="celadon" style="background:var(--celadon)" aria-pressed="false" aria-label="Celadon"></button>
                   <button type="button" data-design="green" style="background:var(--green)" aria-pressed="false" aria-label="Dark Green"></button>
+                  <button type="button" data-design="karte" style="background:url(assets/img/giftcard.webp) 40% 30%/220% auto" aria-pressed="false" aria-label="Illustration"></button>
                 </div>
               </div>
               <div class="p-nav"><span></span><button type="button" class="btn btn-green" id="toStep2" data-i18n="cf.next">Weiter zur Zahlung →</button></div>
@@ -390,12 +410,14 @@ window.LOVE_EN = {
 
           <!-- Live-Vorschau -->
           <div style="position:sticky;top:90px">
-            <div class="gift-preview mimi" id="preview">
+            <div class="gift-preview mimi" id="preview" style="display:none">
               <span class="gp-dots" style="top:12px;right:18px"></span><span class="gp-dots" style="bottom:22px;left:14px;width:6px;height:6px"></span>
               <div class="gp-top"><div><div class="gp-kicker" data-i18n="pc.kicker">Gutschein</div><div class="gp-title" id="pvTitle">Keramik-Date für zwei</div></div><img class="gp-logo" src="assets/logo/logo-love.svg" alt="" id="pvLogo"></div>
               <div><div class="gp-value" id="pvValue">CHF 96</div><div class="gp-msg" id="pvMsg">Made for moments that matter.</div></div>
               <div class="gp-meta"><span id="pvFor"></span><span class="gp-code" id="pvCode">LOVE-····-····</span></div>
             </div>
+            <img id="a4Prev" alt="Vorschau deines Geschenkgutscheins (A4)" style="display:block;width:100%;aspect-ratio:210/297;object-fit:contain;background:var(--warmwhite);border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow)">
+            <p class="hint" style="text-align:center;margin-top:.5rem" data-i18n="cf.a4Hint">Vorschau — so kommt dein Geschenkgutschein als A4-PDF per E-Mail, zum Ausdrucken.</p>
           </div>
         </div>
       </div>
@@ -495,7 +517,7 @@ window.LOVE_EN = {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="assets/js/love-giftcard.js?v=bd4d5ed7"></script>
+<script src="assets/js/love-giftcard.js?v=01cb5e18"></script>
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
 <script src="assets/js/love-site.js?v=0ea1d497"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
@@ -544,6 +566,7 @@ function updatePreview() {
   $('#preview').className = 'gift-preview ' + state.design;
   $('#pvLogo').src = state.design === 'green' ? 'assets/logo/logo-love.svg' : 'assets/logo/logo-love.svg';
   $('#gTotal').textContent = chf(grand());
+  a4Vorschau();
 }
 document.querySelectorAll('#exGrid .choice').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('#exGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
@@ -567,6 +590,103 @@ document.querySelectorAll('.design-picks button').forEach(b => b.addEventListene
   document.querySelectorAll('.design-picks button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   state.design = b.dataset.design; updatePreview();
 }));
+/* ---------- Textvorschläge nach Anlass (Du-Form, max. 200 Zeichen) ----------
+   Anlass antippen = Vorschlag; nochmals antippen = nächste Variante. {n} = «, Name» falls «Für» ausgefüllt. */
+const TEXTE = {
+  de: {
+    geburtstag: ['Alles Liebe zum Geburtstag{n}! Such dir dein Lieblingsstück aus, mal es ganz nach deinem Geschmack – und geniess dazu einen feinen Kaffee.',
+                 'Happy Birthday{n}! Ein neues Lebensjahr verdient Farbe: Gönn dir eine kreative Auszeit bei LOVE Creative.',
+                 'Zum Geburtstag nur das Schönste: Zeit für dich, einen Pinsel in der Hand und ein Stück, das bleibt. Alles Gute{n}!'],
+    hochzeit:   ['Von Herzen alles Gute zur Hochzeit! Malt gemeinsam ein Stück, das euch an diesen besonderen Tag erinnert.',
+                 'Zwei Herzen, ein Pinsel: Gönnt euch zur Hochzeit eine kreative Zeit zu zweit – mit Kaffee und ganz viel Liebe.',
+                 'Auf euch und euren gemeinsamen Weg! Bemalt etwas Schönes für euer Zuhause – wir wünschen euch alles Glück.'],
+    pensionierung: ['Herzlichen Glückwunsch zur Pensionierung{n}! Jetzt ist endlich Zeit für Neues – wie wär\'s mit Pinsel, Farbe und einem guten Kaffee?',
+                 'Der Feierabend wird zum Dauerzustand – geniess ihn kreativ! Alles Gute für den neuen Lebensabschnitt{n}.',
+                 'Danke für all die Jahre – und auf viele bunte Momente, die jetzt kommen. Alles Gute zur Pensionierung{n}!'],
+    valentinstag: ['Für dich, weil du mein Lieblingsmensch bist. Lass uns gemeinsam etwas Schönes bemalen. ♥',
+                 'Happy Valentine\'s Day{n}! Ein Date mit Kaffee, Farbe und dir – mehr braucht es nicht.',
+                 'Mit dir wird alles bunter. Lass uns zusammen kreativ sein – ich freu mich auf dich.'],
+    bemydate:   ['Be my date? Kaffee, Keramik und wir zwei – ich freu mich auf dich.',
+                 'Ich hätte da eine Idee für unser nächstes Date: Wir bemalen Keramik und trinken Kaffee. Bist du dabei?',
+                 'Ein Date, das bleibt: du, ich und ein Pinsel. Sag einfach Ja.'],
+    danke:      ['Danke für alles{n}! Diese kreative Auszeit hast du dir mehr als verdient.',
+                 'Ein kleines Dankeschön mit viel Farbe: Such dir dein Lieblingsstück aus und geniess die Zeit.',
+                 'Weil du so viel für andere tust: Diese Auszeit ist nur für dich. Danke{n}!'],
+    einfach:    ['Einfach so – weil du mir wichtig bist. Gönn dir eine kreative Auszeit.',
+                 'Für einen schönen Moment zwischendurch: Kaffee, Farbe und ganz viel Zeit für dich.',
+                 'Mach den Moment zu deinem{n}: Such dir ein Stück aus und mal drauflos.'],
+    eigen:      ['Für dich{n} – {k}. Such dir dein Lieblingsstück aus, mal es nach deinem Geschmack und geniess dazu einen Kaffee.',
+                 '{K}: dafür gibt es diesen Gutschein{n}. Gönn dir eine kreative Auszeit mit Kaffee und Farbe.',
+                 'Ganz viel Liebe zu {k}{n}! Mach den Moment zu deinem – mit Pinsel, Farbe und einem feinen Kaffee.']
+  },
+  en: {
+    geburtstag: ['Happy birthday{n}! Pick your favourite piece, paint it your way – and enjoy a lovely coffee.',
+                 'A new year deserves colour: treat yourself to a creative break at LOVE Creative. Happy birthday{n}!'],
+    hochzeit:   ['Congratulations on your wedding! Paint a piece together that reminds you of this special day.',
+                 'Two hearts, one brush: enjoy some creative time together – with coffee and lots of love.'],
+    pensionierung: ['Congratulations on your retirement{n}! Finally time for something new – brushes, colour and a good coffee.',
+                 'Here\'s to all the colourful moments ahead. Happy retirement{n}!'],
+    valentinstag: ['For you, because you are my favourite person. Let\'s paint something beautiful together. ♥',
+                 'Happy Valentine\'s Day{n}! A date with coffee, colour and you – that\'s all it takes.'],
+    bemydate:   ['Be my date? Coffee, pottery and the two of us – can\'t wait.',
+                 'A date to remember: you, me and a paintbrush. Just say yes.'],
+    danke:      ['Thank you for everything{n}! You have more than earned this creative break.',
+                 'A little thank-you full of colour: pick your favourite piece and enjoy the time.'],
+    einfach:    ['Just because you matter to me. Treat yourself to a creative break.',
+                 'For a lovely moment in between: coffee, colour and plenty of time for you.'],
+    eigen:      ['For you{n} – {k}. Pick your favourite piece, paint it your way and enjoy a coffee.',
+                 '{K}: that\'s what this voucher is for{n}. Enjoy a creative break with coffee and colour.']
+  }
+};
+let occAktiv = '', occIdx = 0;
+function textVorschlag(occ, stichwoerter) {
+  const L = LoveSite.lang() === 'en' ? 'en' : 'de';
+  const liste = TEXTE[L][occ] || TEXTE.de[occ];
+  if (!liste) return;
+  occIdx = occ === occAktiv ? occIdx + 1 : 0; occAktiv = occ;
+  const name = $('#gFor').value.trim();
+  const kw = String(stichwoerter || '').split(/[,;]+/).map(s => s.trim()).filter(Boolean);
+  const kText = kw.length > 1 ? kw.slice(0, -1).join(', ') + (L === 'en' ? ' and ' : ' und ') + kw[kw.length - 1] : (kw[0] || '');
+  const satz = liste[occIdx % liste.length]
+    .split('{n}').join(name ? ', ' + name : '')
+    .split('{K}').join(kText.charAt(0).toUpperCase() + kText.slice(1))
+    .split('{k}').join(kText);
+  $('#gMsg').value = satz.slice(0, 200);
+  updatePreview();
+}
+document.querySelectorAll('#occChips .chip').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('#occChips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+  textVorschlag(c.dataset.occ);
+}));
+$('#gKwGo').addEventListener('click', () => {
+  const kw = $('#gKw').value.trim();
+  if (!kw) { $('#gKw').focus(); return; }
+  document.querySelectorAll('#occChips .chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
+  textVorschlag('eigen', kw);
+});
+$('#gKw').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('#gKwGo').click(); } });
+
+/* ---------- Angaben für den A4-Gutschein (Vorschau, PDF, Mail) ---------- */
+const gutscheinTitel = k => (!k || k === 'betrag') ? '' : exLabel(k)[LoveSite.lang() === 'en' ? 'en' : 'de'];
+function gutscheinDaten(v) {
+  v = v || {};
+  return {
+    code: v.code || 'LOVE-····-····', amount: v.amount != null ? v.amount : amount(),
+    title: gutscheinTitel(v.kind || state.kind), recipient: v.recipient != null ? v.recipient : $('#gFor').value.trim(),
+    from: v.from != null ? v.from : $('#gFrom').value.trim(), message: v.message != null ? v.message : $('#gMsg').value.trim(),
+    design: v.design || state.design, issued: v.issued || new Date().toISOString(), lang: LoveSite.lang()
+  };
+}
+/* Live-Vorschau des A4-Gutscheins (leicht verzögert, damit Tippen flüssig bleibt) */
+let a4Timer = null;
+function a4Vorschau() {
+  clearTimeout(a4Timer);
+  a4Timer = setTimeout(async () => {
+    if (typeof LoveGiftcard === 'undefined' || !LoveGiftcard.renderA4) return;
+    try { const c = await LoveGiftcard.renderA4(gutscheinDaten({ code: 'LOVE-····-····' })); $('#a4Prev').src = c.toDataURL('image/jpeg', 0.8); }
+    catch (e) { /* Vorschau ist Komfort */ }
+  }, 250);
+}
 document.addEventListener('love:lang', () => { updatePreview(); fillSummary(); });
 updatePreview();
 
@@ -625,7 +745,7 @@ async function showCard() {
   if (!lastVoucher || !lastVoucher.code || typeof LoveGiftcard === 'undefined') return;
   try {
     const box = $('#dnCard');
-    await LoveGiftcard.mount(box, { code: lastVoucher.code, amount: lastVoucher.amount });
+    await LoveGiftcard.mount(box, Object.assign(gutscheinDaten(lastVoucher), { a4: true }));
     const img = box.querySelector('img');
     if (img) {
       const wrap = document.createElement('div');
@@ -669,7 +789,7 @@ async function mailPdf(code) {
   const schon = (() => { try { return localStorage.getItem('love.giftMailed') === code; } catch (e) { return false; } })();
   if (schon) { $('#dnMail').textContent = '✓ ' + t('dn.mailHint'); return; }
   try {
-    const pdf = await LoveGiftcard.pdfBase64({ code: lastVoucher.code, amount: lastVoucher.amount });
+    const pdf = await LoveGiftcard.pdfBase64(gutscheinDaten(lastVoucher));
     const rm = await LoveCloud.call('voucher_pdf_mail', { code, pdf });
     if (rm && rm.ok) { $('#dnMail').textContent = '✓ ' + t('dn.mailHint'); try { localStorage.setItem('love.giftMailed', code); } catch (e) { } }
   } catch (e) { /* Mail-Nachlieferung ist Best-Effort */ }
@@ -753,7 +873,7 @@ $('#submitGift').addEventListener('click', async () => {
   if (last && last.code === code) {
     state.kind = last.kind; state.design = last.design; state.tip = last.tip || 0;
     state.ship = last.ship || 'print';
-    lastVoucher = { code: last.code, amount: last.amount, message: last.message, recipient: last.recipient, from: last.from };
+    lastVoucher = { code: last.code, amount: last.amount, message: last.message, recipient: last.recipient, from: last.from, kind: last.kind, design: last.design };
     if (last.kind === 'betrag') { $('#gAmount').value = last.amount; }
     $('#gFor').value = last.recipient || ''; $('#gFrom').value = last.from || ''; $('#gMsg').value = last.message || '';
     updatePreview();
@@ -818,6 +938,8 @@ $('#submitGift').addEventListener('click', async () => {
   const r = await LovePay.status(code);
   if (r && r.ok && r.voucher) {
     lastVoucher.amount = Number(r.voucher.amount) || 0;
+    ['recipient', 'from', 'message', 'kind', 'design'].forEach(k => { if (r.voucher[k] != null) lastVoucher[k] = r.voucher[k]; });
+    if (r.voucher.created_at) lastVoucher.issued = r.voucher.created_at;
     if (r.voucher.paid == 1) {
       $('#dnStatus').textContent = t('cv.balance') + ': CHF ' + Number(r.voucher.balance).toFixed(2) + ' / CHF ' + Number(r.voucher.amount).toFixed(2);
       lastVoucher.paid = true;   // PDF gibt es nur per E-Mail
@@ -835,7 +957,7 @@ $('#btnPrint').addEventListener('click', async () => {
   if (!lastVoucher || !lastVoucher.paid) return;
   /* Bevorzugt: die Karte auf der Design-Vorlage als PDF (Barcode auf dem weissen Feld) */
   if (typeof LoveGiftcard !== 'undefined') {
-    try { await LoveGiftcard.download({ code: lastVoucher.code, amount: lastVoucher.amount }); return; }
+    try { await LoveGiftcard.download(gutscheinDaten(lastVoucher)); return; }
     catch (e) { /* Fallback: Druckversion unten */ }
   }
   const L = LoveSite.lang();
