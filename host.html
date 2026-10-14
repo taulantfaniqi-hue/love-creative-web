@@ -228,6 +228,10 @@ const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) 
 const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
 const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
 
+/* Kurse, Events, Kidscamp und Geburtstag zählen erst mit Zahlungseingang (14.10.2026) */
+const ZAHLPFLICHT = ['geburtstag', 'halloween', 'kidscamp', 'kinokeramik', 'monetadults', 'monetkids'];
+const istBezahlt = x => x.paid == 1 || x.paid === true;
+const zahlungOffen = b => ZAHLPFLICHT.includes(b.type) && !istBezahlt(b) && !['storniert', 'abgelehnt', 'verloren'].includes(b.status);
 function getData() {
   const kunden = cloudData
     ? cloudData.customers.map(k => ({ name: k.name, email: k.email, username: k.username, phone: k.phone, points: k.points, created: k.created_at, lastLogin: k.last_login }))
@@ -237,8 +241,10 @@ function getData() {
     : LoveData.listContacts();
   return {
     kunden, kontakte,
-    buchungen: cloudData ? cloudData.bookings : LoveData.listBookings(),
-    gutscheine: cloudData ? cloudData.vouchers : LoveData.listVouchers(),
+    buchungen: (cloudData ? cloudData.bookings : LoveData.listBookings()).filter(b => !zahlungOffen(b)),
+    zahlungOffen: (cloudData ? cloudData.bookings : LoveData.listBookings()).filter(zahlungOffen),
+    gutscheine: (cloudData ? cloudData.vouchers : LoveData.listVouchers()).filter(istBezahlt),
+    gutscheineOffen: (cloudData ? cloudData.vouchers : LoveData.listVouchers()).filter(v => !istBezahlt(v)),
     members: cloudData ? cloudData.members : (LoveData.listMembers ? LoveData.listMembers() : []),
     redemptions: cloudData ? (cloudData.redemptions || []) : [],
     pwResets: cloudData ? (cloudData.pw_resets || []) : [],
@@ -247,6 +253,21 @@ function getData() {
     notify: cloudData ? (cloudData.notify || []) : [],
     bestellungen: cloudData ? (cloudData.orders || []) : (LoveData.listOrders ? LoveData.listOrders() : [])
   };
+}
+/* Getrennte Listen: angemeldet, aber nicht bezahlt — gilt nicht als Buchung bzw. Gutschein */
+function zahlungOffenListe(d) {
+  if (!d.zahlungOffen.length) return '';
+  return `<h3 class="host-sect" style="margin-top:1.6rem">Zahlung offen — keine Buchung (${d.zahlungOffen.length})</h3>
+    <div class="host-note">Diese Anmeldungen wurden <b>nicht bezahlt</b> — die Zahlung wurde abgebrochen oder Payrexx war nicht erreichbar. Sie gelten <b>nicht als Buchung</b> und erscheinen nicht in Anfragen und Kalender. Zahlt jemand nachträglich, rückt die Anmeldung automatisch zu den Buchungen.</div>
+    <div class="host-table-wrap"><table class="host-table"><thead><tr><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Pers.</th><th>Betrag</th><th>Ref.</th></tr></thead>
+    <tbody>${d.zahlungOffen.map(b => `<tr style="opacity:.75"><td>${esc(typeLbl(b.type))}</td><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.persons || '—')}</td><td>${esc(b.price || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function gutscheineOffenListe(d) {
+  if (!d.gutscheineOffen.length) return '';
+  return `<h3 class="host-sect" style="margin-top:1.6rem">Nicht bezahlt — kein gültiger Gutschein (${d.gutscheineOffen.length})</h3>
+    <div class="host-note">Bestellt, aber <b>nicht bezahlt</b>. Diese Codes sind nicht aktiv und lassen sich nicht einlösen.</div>
+    <div class="host-table-wrap"><table class="host-table"><thead><tr><th>Code</th><th>Wert</th><th>Käufer:in</th><th>E-Mail</th></tr></thead>
+    <tbody>${d.gutscheineOffen.map(v => `<tr style="opacity:.75"><td>${esc(v.code)}</td><td>CHF ${Number(v.amount).toFixed(0)}</td><td>${esc(v.buyer || '—')}</td><td>${esc(v.email || '—')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 /* Neue Reservations-Anfragen: online gebucht, warten auf Annahme */
 const pendingBookings = d => d.buchungen.filter(b => b.status === 'neu' && b.date && !['warteliste', 'geschenk'].includes(b.type));
@@ -529,7 +550,7 @@ function render() {
         <td>${esc(b.persons || '—')}</td>
         <td>${(b.paid == 1 || b.paid === true) ? '✓' : '—'}</td>
         <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
-    </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`);
+    </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`) + zahlungOffenListe(d);
 
   /* ═══ Kunden: Konten + CRM + Members ═══ */
   } else if (chapter === 'kunden') {
@@ -599,7 +620,7 @@ function render() {
         <td style="min-width:150px">${vPaid(v) ? `<button class="btn btn-ghost btn-sm" data-vpdf="${esc(v.code)}" data-amt="${Number(v.amount)}">🖨 PDF</button>
           <button class="btn btn-ghost btn-sm" data-vmail="${esc(v.code)}" data-amt="${Number(v.amount)}" data-mail="${esc(v.email || '')}">✉️ Karte mailen</button>
           ${Number(v.balance) > 0 ? `<button class="btn btn-green btn-sm" data-vredeem="${esc(v.code)}" data-bal="${Number(v.balance)}">Einlösen</button>` : ''}` : '—'}</td></tr>`).join('')}</tbody>
-    </table></div>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`);
+    </table></div>` : `<p class="host-empty">Noch keine Gutscheine verkauft.</p>`) + gutscheineOffenListe(d);
     /* Karte als PDF nachdrucken (gleiche Vorlage wie auf der Website) */
     /* A4-Geschenkgutschein mit den gespeicherten Angaben (Für, Von, Text, Motiv, Kaufdatum) */
     const HOST_EX = { 'keramik-date': 'Keramik-Date für zwei', 'kino-duo': 'Kino-Night für zwei', 'kino-family': 'Family Kino-Night', 'cafe-keramik': 'Café & Keramik' };
