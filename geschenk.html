@@ -43,7 +43,7 @@
 window.LOVE_TITLES = { de: 'Verschenke ein kreatives Erlebnis — LOVE Creative Café', en: 'Gift a creative experience — LOVE Creative Café' };
 window.LOVE_DE = {
   'dn.titlePaid':'Zahlung erhalten — vielen Dank!',
-  'dn.textPaid':'Deine Geschenkkarte ist bezahlt. Hier ist sie — mit Code und Barcode zum Einlösen.',
+  'dn.textPaid':'Deine Geschenkkarte ist bezahlt. Die Karte kommt als PDF per E-Mail zu dir — zum Ausdrucken oder Weiterleiten.',
   'dn.statusPaid':'Bezahlt — Geschenkkarte aktiv',
   'dn.statusChecking':'Zahlung wird bestätigt…',
   'dn.statusProcessing':'Zahlung eingegangen — die Bestätigung folgt in wenigen Minuten per E-Mail.',
@@ -60,13 +60,13 @@ window.LOVE_DE = {
   'dn.acctYes':'Dein Kauf ist in deinem Kundenkonto abgelegt.',
   'dn.acctNo':'Tipp: Erstell ein Kundenkonto mit derselben E-Mail — dann findest du Käufe und Reservationen jederzeit dort.',
   'dn.acctBtn':'Im Kundenkonto ablegen',
-  'dn.mailHint':'Die Karte ist zusätzlich als PDF per E-Mail zu dir unterwegs.',
+  'dn.mailHint':'Die Karte ist als PDF per E-Mail zu dir unterwegs.',
   'dn.claim':'In mein Kundenkonto laden',
   'dn.claimOk':'Die Karte liegt jetzt in deinem Kundenkonto ♥',
   'dn.claimLogin':'Melde dich zuerst in deinem Kundenkonto an (♥-Knopf oben) — dann kannst du die Karte hier übernehmen.',
   'dn.claimErr':'Das hat nicht geklappt — bitte erneut versuchen.',
   'cv.title':'Deine Geschenkkarte',
-  'cv.text':'Zeig den Barcode einfach an der Theke — oder nutz den Code in jedem Online-Checkout auf lovecreative.ch. Hier kannst du die Karte jederzeit als PDF speichern.',
+  'cv.text':'Zeig den Barcode einfach an der Theke — oder nutz den Code in jedem Online-Checkout auf lovecreative.ch. Die Karte als PDF hast du per E-Mail bekommen.',
   'cv.balance':'Guthaben',
   'cv.notpaid':'Diese Karte ist noch nicht aktiviert — die Zahlung steht noch aus.',
   'cv.notfound':'Diese Karte wurde nicht gefunden — bitte prüf den Link bzw. den Code.'
@@ -84,7 +84,7 @@ window.LOVE_EN = {
   'hw.s2':'Pay',
   'hw.s2t':'Online only — securely by TWINT or card via the Payrexx payment page, done in a minute.',
   'hw.s3':'Give',
-  'hw.s3t':'Print at home in a minute, pick up at the counter, or have it mailed in a gift sleeve.',
+  'hw.s3t':'Right after payment it arrives as a PDF by e-mail — to print or forward. Or pick it up at the counter, or have it mailed in a gift sleeve.',
   'cf.title':'Your gift card',
   'cf.sub':'Everything you choose shows up live on the card.',
   'cf.s1':'1 · Experience',
@@ -143,18 +143,18 @@ window.LOVE_EN = {
   'py.discountApply':'Apply',
   'py.discountOk':'Discount applied: − CHF 2.00',
   'py.discountBad':'Code invalid, not approved or already redeemed.',
-  'dn.mailHint':'The card is also on its way to you as a PDF by e-mail.',
+  'dn.mailHint':'The card is on its way to you as a PDF by e-mail.',
   'dn.claim':'Save to my customer account',
   'dn.claimOk':'The card is now in your customer account ♥',
   'dn.claimLogin':'Please sign in to your customer account first (♥ button above) — then you can add the card here.',
   'dn.claimErr':'That did not work — please try again.',
   'cv.title':'Your gift card',
-  'cv.text':'Show the barcode at the counter — or use the code in any online checkout on lovecreative.ch. You can save the card as a PDF here anytime.',
+  'cv.text':'Show the barcode at the counter — or use the code in any online checkout on lovecreative.ch. You received the card as a PDF by e-mail.',
   'cv.balance':'Balance',
   'cv.notpaid':'This card is not active yet — the payment is still pending.',
   'cv.notfound':'This card could not be found — please check the link or code.',
   'dn.titlePaid':'Payment received — thank you!',
-  'dn.textPaid':'Your gift card is paid. Here it is — with code and barcode.',
+  'dn.textPaid':'Your gift card is paid. The card is on its way to you as a PDF by e-mail — to print or forward.',
   'dn.statusPaid':'Paid — gift card active',
   'dn.statusChecking':'Confirming your payment…',
   'dn.statusProcessing':'Payment received — confirmation follows by e-mail in a few minutes.',
@@ -186,7 +186,7 @@ window.LOVE_EN = {
   'faq.q1':'Can the gift card be used for anything?',
   'faq.a1':'Yes — ceramics, café, workshops and events. Experience cards can also be converted to credit.',
   'faq.q2':'How do I get the card?',
-  'faq.a2':'Print it yourself right after ordering, pick it up at the studio, or have it mailed in a gift sleeve.',
+  'faq.a2':'Right after payment you receive it as a PDF by e-mail — to print yourself or forward. You can also pick it up at the studio or have it mailed in a gift sleeve.',
   'faq.q3':'Can I get cash for it?',
   'faq.a3':'No — gift cards cannot be paid out in cash, but they can be transferred to someone else.',
   'faq.q4':'What if the code gets lost?',
@@ -266,7 +266,7 @@ window.LOVE_EN = {
     <div class="steps">
       <div class="step reveal"><h3 data-i18n="hw.s1">Wählen</h3><p data-i18n="hw.s1t">Ein Erlebnis oder ein Betrag — dazu persönliche Botschaft und Kartendesign.</p></div>
       <div class="step reveal"><h3 data-i18n="hw.s2">Bezahlen</h3><p data-i18n="hw.s2t">Ausschliesslich online — sicher mit TWINT oder Karte über die Payrexx-Zahlungsseite, in einer Minute erledigt.</p></div>
-      <div class="step reveal"><h3 data-i18n="hw.s3">Verschenken</h3><p data-i18n="hw.s3t">In einer Minute zuhause ausdrucken, an der Theke abholen oder in der Geschenkhülle per Post.</p></div>
+      <div class="step reveal"><h3 data-i18n="hw.s3">Verschenken</h3><p data-i18n="hw.s3t">Gleich nach der Zahlung als PDF per E-Mail — zum Ausdrucken oder Weiterleiten. Oder an der Theke abholen oder in der Geschenkhülle per Post.</p></div>
     </div>
   </div>
 </section>
@@ -424,7 +424,7 @@ window.LOVE_EN = {
     <p class="eyebrow" data-i18n="faq.eyebrow">Gut zu wissen</p>
     <h2 class="sect-title" data-i18n="faq.title">Fragen zum Gutschein</h2>
     <details><summary data-i18n="faq.q1">Kann der Gutschein für alles eingesetzt werden?</summary><p class="a" data-i18n="faq.a1">Ja — Keramik, Café, Workshops und Events. Erlebnis-Gutscheine lassen sich auch in Guthaben umwandeln.</p></details>
-    <details><summary data-i18n="faq.q2">Wie bekomme ich die Karte?</summary><p class="a" data-i18n="faq.a2">Direkt nach der Bestellung selbst ausdrucken, im Studio abholen oder in der Geschenkhülle per Post.</p></details>
+    <details><summary data-i18n="faq.q2">Wie bekomme ich die Karte?</summary><p class="a" data-i18n="faq.a2">Gleich nach der Zahlung bekommst du sie als PDF per E-Mail — zum selbst Ausdrucken oder Weiterleiten. Du kannst sie auch im Studio abholen oder in der Geschenkhülle per Post bekommen.</p></details>
     <details><summary data-i18n="faq.q3">Gibt es Bargeld dafür?</summary><p class="a" data-i18n="faq.a3">Nein — Gutscheine werden nicht bar ausbezahlt, sind aber übertragbar.</p></details>
     <details><summary data-i18n="faq.q4">Was, wenn der Code verloren geht?</summary><p class="a" data-i18n="faq.a4">Schreib uns mit Name und E-Mail der Käuferin oder des Käufers — wir finden die Karte in unserem Ledger.</p></details>
   </div>
@@ -665,10 +665,13 @@ function wireClaim(code) {
    an die Käuferin/den Käufer — und bei E-Mail-Zustellung an die beschenkte Person) */
 async function mailPdf(code) {
   if (typeof LoveGiftcard === 'undefined' || typeof LoveCloud === 'undefined') return;
+  /* Pro Karte nur einmal mailen — auch wenn die Bestätigungsseite neu geladen wird */
+  const schon = (() => { try { return localStorage.getItem('love.giftMailed') === code; } catch (e) { return false; } })();
+  if (schon) { $('#dnMail').textContent = '✓ ' + t('dn.mailHint'); return; }
   try {
     const pdf = await LoveGiftcard.pdfBase64({ code: lastVoucher.code, amount: lastVoucher.amount });
     const rm = await LoveCloud.call('voucher_pdf_mail', { code, pdf });
-    if (rm && rm.ok) $('#dnMail').textContent = '✓ ' + t('dn.mailHint');
+    if (rm && rm.ok) { $('#dnMail').textContent = '✓ ' + t('dn.mailHint'); try { localStorage.setItem('love.giftMailed', code); } catch (e) { } }
   } catch (e) { /* Mail-Nachlieferung ist Best-Effort */ }
 }
 
@@ -783,7 +786,7 @@ $('#submitGift').addEventListener('click', async () => {
         if (typeof LoveData !== 'undefined') LoveData.updateVoucher(code, { paid: true, status: 'aktiv' });
         /* Karte auf der Vorlage zeigen, Konto-Übernahme anbieten, PDF-Mail nachliefern */
         if (!lastVoucher.amount) lastVoucher.amount = Number(r.voucher.amount) || 0;
-        lastVoucher.paid = true; $('#btnPrint').classList.remove('hidden');   // Karte erst nach bestätigter Zahlung
+        lastVoucher.paid = true;   // PDF gibt es nur per E-Mail (kein Download-Knopf mehr, 14.10.2026)
         showCard();
         wireClaim(code);
         mailPdf(code);
@@ -817,7 +820,7 @@ $('#submitGift').addEventListener('click', async () => {
     lastVoucher.amount = Number(r.voucher.amount) || 0;
     if (r.voucher.paid == 1) {
       $('#dnStatus').textContent = t('cv.balance') + ': CHF ' + Number(r.voucher.balance).toFixed(2) + ' / CHF ' + Number(r.voucher.amount).toFixed(2);
-      lastVoucher.paid = true; $('#btnPrint').classList.remove('hidden');   // Karte erst nach bestätigter Zahlung
+      lastVoucher.paid = true;   // PDF gibt es nur per E-Mail
       showCard();
       wireClaim(code);
     } else {
