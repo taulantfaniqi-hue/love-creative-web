@@ -588,7 +588,8 @@ function render() {
 
   /* ═══ Gutscheine ═══ */
   } else if (chapter === 'gutscheine') {
-    const delLbl = v => v.delivery === 'post' ? '📮 Post' + (v.address ? ': ' + v.address : '')
+    /* Seit 14.10.2026 nur noch per E-Mail: «konto» = PDF an Käufer:in, «email» = zusätzlich an die beschenkte Person */
+    const delLbl = v => v.delivery === 'konto' ? '✉️ PDF an Käufer:in' : v.delivery === 'post' ? '📮 Post' + (v.address ? ': ' + v.address : '')
       : v.delivery === 'pickup' ? '🏠 Abholung' : v.delivery === 'email' ? '✉️ ' + (v.recipient_email || 'E-Mail') : v.delivery === 'konto' ? '💾 Konto' : '—';
     const vPaid = v => (v.paid == 1 || v.paid === true);
     box.innerHTML = `<h3 class="host-sect">Gutschein an der Kasse einlösen — synchron mit SumUp</h3>

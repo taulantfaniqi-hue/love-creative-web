@@ -84,7 +84,7 @@ window.LOVE_EN = {
   'hw.s2':'Pay',
   'hw.s2t':'Online only — securely by TWINT or card via the Payrexx payment page, done in a minute.',
   'hw.s3':'Give',
-  'hw.s3t':'Right after payment it arrives as a PDF by e-mail — to print or forward. Or pick it up at the counter, or have it mailed in a gift sleeve.',
+  'hw.s3t':'Right after payment it arrives as a PDF by e-mail — to print or forward.',
   'cf.title':'Buy a gift voucher',
   'cf.sub':'Pick a voucher, pay, done — personalised if you like.',
   'cf.indiv':'✎ Personalise', 'cf.indivZu':'Hide personalisation', 'cf.indivHint':'Name, personal text and motif — optional.',
@@ -124,7 +124,8 @@ window.LOVE_EN = {
   'dn.acctYes':'Your purchase is saved in your customer account.',
   'dn.acctNo':'Tip: create a customer account with the same e-mail to find purchases and reservations there anytime.',
   'dn.acctBtn':'Save to my account',
-  'py.delivery':'How should the gift voucher arrive?',
+  'py.delivery':'How the voucher arrives',
+  'py.mailOnly':'By e-mail as an A4 PDF — right after payment, to print or forward.',
   'py.konto':'Into your customer account',
   'py.kontoD':'Digital — printable as a PDF right away, stored in your LOVE account — free',
   'py.pickup':'Pick up at the café',
@@ -133,8 +134,8 @@ window.LOVE_EN = {
   'py.mailoptD':'The recipient gets an e-mail and finds the voucher in their customer account — free',
   'py.post':'By post to your home',
   'py.postD':'Gift sleeve, 2–3 working days — CHF 5 shipping & service fee',
-  'py.recipMail':'Recipient\'s e-mail',
-  'py.recipMailHint':'The voucher is sent only after successful payment.',
+  'py.recipMail':'Send it straight to the recipient? (optional)',
+  'py.recipMailHint':'Leave empty and the voucher comes only to you. Sent only after successful payment.',
   'py.address':'Shipping address',
   'err.recipMail':'Please enter a valid e-mail for the recipient.',
   'err.address':'We need the shipping address for postal delivery.',
@@ -191,7 +192,7 @@ window.LOVE_EN = {
   'faq.q1':'Can the gift voucher be used for anything?',
   'faq.a1':'Yes — ceramics, café, workshops and events. Experience cards can also be converted to credit.',
   'faq.q2':'How do I get the voucher?',
-  'faq.a2':'Right after payment you receive it as a PDF by e-mail — to print yourself or forward. You can also pick it up at the studio or have it mailed in a gift sleeve.',
+  'faq.a2':'Right after payment you receive it as an A4 PDF by e-mail — to print yourself or forward. If you like, we also send it straight to the recipient.',
   'faq.q3':'Can I get cash for it?',
   'faq.a3':'No — gift vouchers cannot be paid out in cash, but they can be transferred to someone else.',
   'faq.q4':'What if the code gets lost?',
@@ -271,7 +272,7 @@ window.LOVE_EN = {
     <div class="steps">
       <div class="step reveal"><h3 data-i18n="hw.s1">Wählen</h3><p data-i18n="hw.s1t">Ein Erlebnis oder ein Betrag — auf Wunsch mit Name, persönlichem Text und Motiv.</p></div>
       <div class="step reveal"><h3 data-i18n="hw.s2">Bezahlen</h3><p data-i18n="hw.s2t">Ausschliesslich online — sicher mit TWINT oder Karte über die Payrexx-Zahlungsseite, in einer Minute erledigt.</p></div>
-      <div class="step reveal"><h3 data-i18n="hw.s3">Verschenken</h3><p data-i18n="hw.s3t">Gleich nach der Zahlung als PDF per E-Mail — zum Ausdrucken oder Weiterleiten. Oder an der Theke abholen oder in der Geschenkhülle per Post.</p></div>
+      <div class="step reveal"><h3 data-i18n="hw.s3">Verschenken</h3><p data-i18n="hw.s3t">Gleich nach der Zahlung als PDF per E-Mail — zum Ausdrucken oder Weiterleiten.</p></div>
     </div>
   </div>
 </section>
@@ -350,22 +351,13 @@ window.LOVE_EN = {
                 <dl><dt data-i18n="py.item">Geschenk</dt><dd id="sItem"></dd><dt data-i18n="py.value">Wert</dt><dd id="sValue"></dd><dt data-i18n="py.for">Für</dt><dd id="sFor"></dd><dt data-i18n="py.ship">Zustellung</dt><dd id="sShip"></dd><dt data-i18n="py.tipLbl">Trinkgeld</dt><dd id="sTip">—</dd><dt data-i18n="py.total">Total</dt><dd id="sTotal"></dd></dl>
               </div>
               <div class="field">
-                <label data-i18n="py.delivery">Wie soll der Gutschein ankommen?</label>
-                <div class="pay-opts" id="shipGrid" role="group" aria-label="Zustellung">
-                  <button type="button" class="choice" data-ship="konto" data-fee="0" aria-pressed="true"><span class="t" data-i18n="py.konto">In dein Kundenkonto</span><span class="d" data-i18n="py.kontoD">Digital — sofort als PDF druckbar, liegt in deinem LOVE-Konto — gratis</span></button>
-                  <button type="button" class="choice" data-ship="pickup" data-fee="0" aria-pressed="false"><span class="t" data-i18n="py.pickup">Abholen im Café</span><span class="d" data-i18n="py.pickupD">In der Geschenkhülle an der Seestrasse 287B, 8804 Au ZH — gratis</span></button>
-                  <button type="button" class="choice" data-ship="email" data-fee="0" aria-pressed="false"><span class="t" data-i18n="py.mailopt">An eine E-Mail verschenken</span><span class="d" data-i18n="py.mailoptD">Die beschenkte Person bekommt eine Mail und findet den Gutschein in ihrem Kundenkonto — gratis</span></button>
-                  <button type="button" class="choice" data-ship="post" data-fee="5" aria-pressed="false"><span class="t" data-i18n="py.post">Per Post nach Hause</span><span class="d" data-i18n="py.postD">Geschenkhülle, 2–3 Werktage — CHF 5 Versand &amp; Servicegebühr</span></button>
-                </div>
+                <label data-i18n="py.delivery">So kommt der Gutschein an</label>
+                <p class="hint" style="margin:0" data-i18n="py.mailOnly">Per E-Mail als A4-PDF — gleich nach der Zahlung, zum Ausdrucken oder Weiterleiten.</p>
               </div>
-              <div class="field hidden" id="shipEmailWrap">
-                <label for="gRecipMail" data-i18n="py.recipMail">E-Mail der beschenkten Person</label>
+              <div class="field" id="shipEmailWrap">
+                <label for="gRecipMail" data-i18n="py.recipMail">Direkt an die beschenkte Person senden? (optional)</label>
                 <input type="email" id="gRecipMail" autocomplete="off" placeholder="name@example.ch">
-                <p class="hint" data-i18n="py.recipMailHint">Der Gutschein wird erst nach erfolgreicher Zahlung verschickt.</p>
-              </div>
-              <div class="field hidden" id="shipPostWrap">
-                <label for="gAddress" data-i18n="py.address">Versandadresse</label>
-                <textarea id="gAddress" rows="2" placeholder="Name, Strasse Nr., PLZ Ort" autocomplete="street-address"></textarea>
+                <p class="hint" data-i18n="py.recipMailHint">Leer lassen, dann kommt der Gutschein nur an dich. Versand erst nach erfolgreicher Zahlung.</p>
               </div>
               <div class="field">
                 <label data-i18n="py.tip">Trinkgeld fürs Team (optional)</label>
@@ -448,7 +440,7 @@ window.LOVE_EN = {
     <p class="eyebrow" data-i18n="faq.eyebrow">Gut zu wissen</p>
     <h2 class="sect-title" data-i18n="faq.title">Fragen zum Gutschein</h2>
     <details><summary data-i18n="faq.q1">Kann der Gutschein für alles eingesetzt werden?</summary><p class="a" data-i18n="faq.a1">Ja — Keramik, Café, Workshops und Events. Erlebnis-Gutscheine lassen sich auch in Guthaben umwandeln.</p></details>
-    <details><summary data-i18n="faq.q2">Wie bekomme ich den Gutschein?</summary><p class="a" data-i18n="faq.a2">Gleich nach der Zahlung bekommst du sie als PDF per E-Mail — zum selbst Ausdrucken oder Weiterleiten. Du kannst sie auch im Studio abholen oder in der Geschenkhülle per Post bekommen.</p></details>
+    <details><summary data-i18n="faq.q2">Wie bekomme ich den Gutschein?</summary><p class="a" data-i18n="faq.a2">Gleich nach der Zahlung bekommst du ihn als A4-PDF per E-Mail — zum selbst Ausdrucken oder Weiterleiten. Auf Wunsch schicken wir ihn auch direkt an die beschenkte Person.</p></details>
     <details><summary data-i18n="faq.q3">Gibt es Bargeld dafür?</summary><p class="a" data-i18n="faq.a3">Nein — Gutscheine werden nicht bar ausbezahlt, sind aber übertragbar.</p></details>
     <details><summary data-i18n="faq.q4">Was, wenn der Code verloren geht?</summary><p class="a" data-i18n="faq.a4">Schreib uns mit Name und E-Mail der Käuferin oder des Käufers — wir finden den Gutschein in unserem Ledger.</p></details>
   </div>
@@ -544,10 +536,10 @@ const EX_LABEL = {
   'betrag':       { de: 'Wunschbetrag', en: 'Your own amount' }
 };
 const SHIP_LABEL = {
-  konto:  { de: 'In dein Kundenkonto (digital)', en: 'Into your customer account (digital)' },
+  konto:  { de: 'Per E-Mail an dich (PDF)', en: 'By e-mail to you (PDF)' },
   print:  { de: 'In dein Kundenkonto (digital)', en: 'Into your customer account (digital)' }, // alte gespeicherte Bestellungen
   pickup: { de: 'Abholung: Seestrasse 287B, Au', en: 'Pick-up: Seestrasse 287B, Au' },
-  email:  { de: 'Per E-Mail an die beschenkte Person', en: 'By e-mail to the recipient' },
+  email:  { de: 'Per E-Mail an dich und die beschenkte Person (PDF)', en: 'By e-mail to you and the recipient (PDF)' },
   post:   { de: 'Per Post (+CHF 5)', en: 'By post (+CHF 5)' }
 };
 const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'konto', fee: 0, tip: 0, discount: 0, discountCode: '' };
@@ -728,8 +720,6 @@ function pickShip(s) {
     if (on) state.fee = Number(x.dataset.fee);
   });
   /* Zusatzfelder je nach Zustellart */
-  $('#shipEmailWrap').classList.toggle('hidden', s !== 'email');
-  $('#shipPostWrap').classList.toggle('hidden', s !== 'post');
   fillSummary(); updatePreview();
 }
 $('#toStep2').addEventListener('click', () => {
@@ -772,6 +762,7 @@ async function showCard() {
 /* «In mein Kundenkonto laden» (Code = Besitznachweis) */
 function wireClaim(code) {
   const btn = $('#btnClaim');
+  return;   // kein Kundenkonto mehr für Gutscheine (14.10.2026)
   btn.classList.remove('hidden');
   btn.onclick = async () => {
     const msg = $('#dnClaimMsg');
@@ -806,6 +797,7 @@ async function mailPdf(code) {
 }
 
 function fillAccountHint(email) {
+  $('#dnAccount').innerHTML = ''; return;   // kein Kundenkonto mehr für Gutscheine (14.10.2026)
   const acc = (typeof LoveAccount !== 'undefined' && LoveAccount.current()) || null;
   const dn = $('#dnAccount');
   if (acc && email && acc.email === email.toLowerCase()) {
@@ -823,9 +815,10 @@ $('#submitGift').addEventListener('click', async () => {
   const buyer = $('#gBuyer').value.trim(), email = $('#gEmail').value.trim();
   if (!buyer || !validEmail(email)) { err.textContent = t('err.required'); return; }
   const recipMail = $('#gRecipMail').value.trim().toLowerCase();
-  const address = $('#gAddress').value.trim();
-  if (state.ship === 'email' && !validEmail(recipMail)) { err.textContent = t('err.recipMail'); $('#gRecipMail').focus(); return; }
-  if (state.ship === 'post' && address.length < 8) { err.textContent = t('err.address'); $('#gAddress').focus(); return; }
+  const address = '';   // kein Postversand mehr
+  /* Nur noch per E-Mail: an den Käufer, auf Wunsch zusätzlich an die beschenkte Person */
+  if (recipMail && !validEmail(recipMail)) { err.textContent = t('err.recipMail'); $('#gRecipMail').focus(); return; }
+  state.ship = recipMail ? 'email' : 'konto'; state.fee = 0;
   if (!$('#gAgb').checked) { err.textContent = t('err.agb'); return; }
   err.textContent = '';
   submitBusy = true;
