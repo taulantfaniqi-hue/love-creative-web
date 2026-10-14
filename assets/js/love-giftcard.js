@@ -124,8 +124,7 @@ const LoveGiftcard = (() => {
   const MOTIVE = {
     mimi:    { bg: '#FFDBE5', panel: '#FFFFFF', ink: '#2C3A31', head: '#337357', accent: '#E27396', line: '#EA9AB2' },
     celadon: { bg: '#FFF0F4', panel: '#FFFFFF', ink: '#2C3A31', head: '#337357', accent: '#337357', line: '#C9DCCF' },
-    green:   { bg: '#337357', panel: '#FBF7F1', ink: '#2C3A31', head: '#337357', accent: '#E27396', line: '#6D9F71' },
-    karte:   { bg: '#FFF0F4', panel: '#FFFFFF', ink: '#2C3A31', head: '#337357', accent: '#E27396', line: '#EA9AB2', bild: true }
+    green:   { bg: '#337357', panel: '#FBF7F1', ink: '#2C3A31', head: '#337357', accent: '#E27396', line: '#6D9F71' }   // «Illustration» entfällt (14.10.2026)
   };
   const TXT = {
     de: { kicker: 'GESCHENKGUTSCHEIN', fuer: 'für', von: 'von', wert: 'Wert', gueltig: 'Gültig bis',
