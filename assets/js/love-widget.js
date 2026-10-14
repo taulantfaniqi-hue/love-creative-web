@@ -385,11 +385,7 @@ function renderCards() {
   const esc = s => String(s || '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
   box.innerHTML = privHtml + acts.map(a => `
     <button type="button" class="lw-card" data-act="${esc(a.id)}" aria-pressed="${state.act === a.id}">
-      <span class="lw-imgwrap">
-        ${a.id === 'kino' ? `<span class="lw-kino-flag">${x.kino}</span>` : ''}
-        <img src="${ACT_IMG[a.id] || 'assets/img/platzhalter.svg'}" alt="" loading="lazy">
-        <span class="lw-price">${esc(a.price)}</span>
-      </span>
+      <!-- Ohne Foto und ohne Preis (Taulant 14.10.2026: Regal-Bild weg, Preise stehen nur im Preis-Abschnitt) -->
       <h4>${esc(a.title)}</h4><p>${esc(a.desc)}</p>
     </button>`).join('');
   box.querySelectorAll('.lw-card').forEach(b => b.addEventListener('click', () => {
