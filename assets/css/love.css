@@ -420,6 +420,11 @@ html{overflow-x:clip}
 
 /* Auswahl-Karten (Erlebnis / Slot / Tarif) */
 .choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin-bottom:1rem}
+/* Startzeiten der Reservation (alle 30 Min.): kleine Knöpfe, viele pro Zeile */
+.choice-grid.start-grid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:.45rem;margin-bottom:.6rem}
+.start-grid .choice{padding:.55rem .3rem;text-align:center}
+.start-grid .choice .t{font-size:1.02rem}
+.start-grid .choice .d{font-size:.74rem}
 .choice{border:1.5px solid var(--line);background:#fff;border-radius:var(--r-m);padding:1rem 1rem 1.1rem;cursor:pointer;text-align:left;font-family:var(--ff-body);color:var(--ink);transition:border-color .15s,box-shadow .15s}
 .choice:hover{border-color:var(--amaranth)}
 .choice[aria-pressed="true"]{border-color:var(--rose);box-shadow:0 0 0 2px var(--mimi)}

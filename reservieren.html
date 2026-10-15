@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=c23472f5">
+<link rel="stylesheet" href="assets/css/love.css?v=4b8649aa">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
 <link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script>
@@ -49,7 +49,7 @@ window.LOVE_EN = {
   'f.title':'Your reservation',
   'f.sub':'Fill in — we take care of the rest.',
   'f.date':'Date',
-  'f.slot':'Time slot',
+  'f.slot':'Start time',
   'f.persons':'Number of people',
   'f.personsHint':'1–8 people at a table. From 9: event planner.',
   'f.area':'Preferred area',
@@ -161,8 +161,9 @@ window.LOVE_EN = {
             <div class="field"><label for="rPersons" data-i18n="f.persons">Anzahl Personen</label><input type="number" id="rPersons" min="1" max="8" value="2"><p class="hint" data-i18n="f.personsHint">1–8 Personen am Tisch. Ab 9: Eventplaner.</p><p id="eventLinkWrap" class="hint hidden"><span data-i18n="f.tEvent">Ab 9 Personen planen wir mit euch ein Event — mit Verpflegung und eigenem Zeitplan.</span> <a href="index.html#eventplaner" data-i18n="f.eventLink">Zum Eventplaner →</a></p></div>
           </div>
           <div class="field">
-            <label data-i18n="f.slot">Zeitfenster</label>
-            <div class="choice-grid" id="slotGrid" role="group" aria-label="Zeitfenster"></div>
+            <label data-i18n="f.slot">Startzeit</label>
+            <div class="choice-grid start-grid" id="slotGrid" role="group" aria-label="Startzeit"></div>
+            <p class="hint hidden" id="slotHint" style="background:var(--mimi);border-radius:10px;padding:.6rem .85rem;color:var(--green)"></p>
           </div>
           <div class="two-col">
             <div class="field"><label for="rName" data-i18n="f.name">Name</label><input type="text" id="rName" autocomplete="name"></div>
@@ -247,11 +248,11 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-site.js?v=0ea1d497"></script>
+<script src="assets/js/love-site.js?v=5ca6c7bf"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
 <script src="assets/js/love-pay.js?v=395aa58c"></script>
-<script src="assets/js/love-widget.js?v=c9489a3c"></script>
+<script src="assets/js/love-widget.js?v=2421eb57"></script>
 <script>
 (() => {
 'use strict';
@@ -270,6 +271,14 @@ function dauerText(s) {
   const zahl = h % 1 === 0 ? String(h) : String(Math.floor(h)) + '½';
   return zahl + (en ? (h === 1 ? ' hour' : ' hours') : ' Stunden');
 }
+/* Kürzer als 3 Stunden, weil wir schliessen? Dann sagen — und dass es so eingeplant ist. */
+function zeigeSchluss() {
+  const zu = slot ? T.schliesstVorher($('#rDate').value, slot) : '', el = $('#slotHint');
+  el.textContent = zu ? (LoveSite.lang() === 'en'
+    ? `We close at ${zu} on this day — your table is reserved until then (${dauerText(slot)}). This is already taken into account.`
+    : `Wir schliessen an diesem Tag um ${zu} Uhr — dein Tisch ist bis dann reserviert (${dauerText(slot)}). Das ist bei deiner Reservation berücksichtigt.`) : '';
+  el.classList.toggle('hidden', !zu);
+}
 function drawSlots() {
   const d = $('#rDate').value;
   const offen = T.slotsFor(d);
@@ -281,6 +290,7 @@ function drawSlots() {
       ? 'We are regularly closed on Mondays, Tuesdays and Thursdays. Groups of 6 or more can still ask for these days — send us your enquiry below. We check it personally and get back to you; please bear with us.'
       : 'Montag, Dienstag und Donnerstag haben wir regulär geschlossen. Gruppen ab 6 Personen können diese Tage trotzdem anfragen — schick uns unten deine Anfrage. Wir prüfen sie persönlich und melden uns; bitte hab etwas Geduld.'}</p>`;
     if ($('#kinoHint')) $('#kinoHint').classList.add('hidden');
+    zeigeSchluss();
     return;
   }
   /* Heute bereits begonnene Fenster sind nicht mehr wählbar */
@@ -290,12 +300,15 @@ function drawSlots() {
   slotGrid.innerHTML = offen.map(s => {
     const kino = T.isKinoSlot(d, s);
     const alt = vorbei(s);
+    const [von, bis] = s.split('–'), en = LoveSite.lang() === 'en';
     return `<button type="button" class="choice" data-slot="${s}" aria-pressed="${s === slot}"${alt ? ' disabled style="opacity:.45"' : ''}>
-      <span class="t">${s}</span><span class="d">${alt ? (LoveSite.lang() === 'en' ? 'passed' : 'vorbei') : kino ? 'Kino-Night ♥' : dauerText(s)}</span></button>`;
+      <span class="t">${von}</span><span class="d">${alt ? (en ? 'passed' : 'vorbei') : kino ? 'Kino-Night ♥' : (en ? 'until ' : 'bis ') + bis}</span></button>`;
   }).join('');
+  zeigeSchluss();
   slotGrid.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => {
     slot = b.dataset.slot;
     slotGrid.querySelectorAll('.choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    zeigeSchluss();
     if ($('#kinoHint')) $('#kinoHint').classList.toggle('hidden', !T.isKinoSlot($('#rDate').value, slot));
   }));
   if ($('#kinoHint')) $('#kinoHint').classList.toggle('hidden', !T.isKinoSlot(d, slot));

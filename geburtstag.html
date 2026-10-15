@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=c23472f5">
+<link rel="stylesheet" href="assets/css/love.css?v=4b8649aa">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
 <link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script>
@@ -292,11 +292,11 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-site.js?v=0ea1d497"></script>
+<script src="assets/js/love-site.js?v=5ca6c7bf"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
 <script src="assets/js/love-pay.js?v=395aa58c"></script>
-<script src="assets/js/love-widget.js?v=c9489a3c"></script>
+<script src="assets/js/love-widget.js?v=2421eb57"></script>
 <script>
 /* Kindergeburtstag — Buchung mit Online-Zahlung (Payrexx).
  * Preis (seit 30.09.2026): CHF 45 pro Kind · Mindestpreis für 8 Kinder (CHF 360) · höchstens 20.
@@ -350,7 +350,7 @@ const zuMin = s => { const [h, mi] = s.split(':').map(Number); return h * 60 + m
 const zuText = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
 function startzeiten(dateISO) {
   if (!dateISO) return [];
-  const tag = LoveTables.OEFFNUNG[new Date(dateISO + 'T12:00:00').getDay()];
+  const tag = LoveTables.tagInfo(dateISO);
   const von = tag ? zuMin(tag.von) : 600, bis = tag ? zuMin(tag.bis) : 1170;
   const out = [];
   for (let t = von; t + PREIS.dauerMin <= bis; t += 30) out.push(zuText(t) + '–' + zuText(t + PREIS.dauerMin));

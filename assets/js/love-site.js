@@ -30,20 +30,34 @@ const ROOMS = [
     { id: 'OG-R4', kind: 'rund2', seats: 2, label: { de: 'Rundtisch 4 (2 P.)', en: 'Round table 4 (2 p.)' } }
   ]}
 ];
-/* ═══════════ Öffnungszeiten und Zeitfenster ═══════════
+/* ═══════════ Öffnungszeiten und Startzeiten ═══════════
    Montag, Dienstag und Donnerstag bleibt das Studio zu — an diesen Tagen sind
-   nur Gruppenreservierungen auf Anfrage möglich. An den offenen Tagen gilt das
-   Drei-Stunden-Raster; das letzte Fenster ist kürzer, damit die Öffnungszeit
-   ohne Lücke aufgeht (Mi/Fr bis 20 Uhr, Sa/So bis 18:30 Uhr).
+   nur private Sessions auf Anfrage möglich (ausser an Sonderöffnungen, s. unten).
+   Startzeiten (seit 13.10.2026): jede halbe Stunde, der Tisch gilt 3 Stunden;
+   gegen Ladenschluss entsprechend kürzer. Letzte Startzeit 1½ Stunden vor Schluss.
+   Ein Fenster heisst weiterhin «Start–Ende», z. B. «13:30–16:30» oder «18:30–20:00».
    Wochentage nach JavaScript: 0 = Sonntag … 6 = Samstag. */
+const DAUER_MIN = 180, RASTER_MIN = 30, LETZTER_START_VOR_SCHLUSS_MIN = 90;
+const zuMin = s => { const m = String(s || '').match(/^(\d{1,2}):(\d{2})/); return m ? +m[1] * 60 + +m[2] : null; };
+const zuZeit = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+function startfenster(von, bis) {
+  const a = zuMin(von), z = zuMin(bis), out = [];
+  for (let t = a; t <= z - LETZTER_START_VOR_SCHLUSS_MIN; t += RASTER_MIN) out.push(zuZeit(t) + '–' + zuZeit(Math.min(t + DAUER_MIN, z)));
+  return out;
+}
 const OEFFNUNG = {
-  0: { von: '10:00', bis: '18:30', slots: ['10:00–13:00', '13:00–16:00', '16:00–18:30'] }, // Sonntag
-  1: null,                                                                                  // Montag  — geschlossen
-  2: null,                                                                                  // Dienstag — geschlossen
-  3: { von: '12:00', bis: '20:00', slots: ['12:00–15:00', '15:00–18:00', '18:00–20:00'] }, // Mittwoch
-  4: null,                                                                                  // Donnerstag — geschlossen
-  5: { von: '12:00', bis: '20:00', slots: ['12:00–15:00', '15:00–18:00', '18:00–20:00'] }, // Freitag
-  6: { von: '10:00', bis: '18:30', slots: ['10:00–13:00', '13:00–16:00', '16:00–18:30'] }  // Samstag
+  0: { von: '10:00', bis: '18:30' }, // Sonntag
+  1: null,                           // Montag  — geschlossen
+  2: null,                           // Dienstag — geschlossen
+  3: { von: '12:00', bis: '20:00' }, // Mittwoch
+  4: null,                           // Donnerstag — geschlossen
+  5: { von: '12:00', bis: '20:00' }, // Freitag
+  6: { von: '10:00', bis: '18:30' }  // Samstag
+};
+Object.values(OEFFNUNG).forEach(t => { if (t) t.slots = startfenster(t.von, t.bis); });
+/* Sonderöffnungen: an einem sonst geschlossenen Tag offen — Datum → Öffnungszeit.
+   Beispiel: '2026-10-15': { von: '12:00', bis: '20:00' }. Vergangene Einträge schaden nicht. */
+const SONDEROEFFNUNG = {
 };
 /* Geschlossene Tage (Mo/Di/Do): private Keramik-Sessions ab 6 Personen.
    Die Servicegebühr (CHF 25 p. P.) wird online vorbezahlt; die Keramikstücke
@@ -52,10 +66,22 @@ const PRIVAT_SLOTS = ['10:00–13:00', '13:30–16:30', '17:00–20:00'];
 const PRIVAT_MIN = 6;
 const PRIVAT_GEBUEHR = 25;
 const wochentag = dateISO => new Date(dateISO + 'T12:00:00').getDay();
+/* Öffnungszeit an diesem Datum: Sonderöffnung vor Wochentag; null = geschlossen */
+const tagInfo = dateISO => (dateISO ? (SONDEROEFFNUNG[dateISO] || OEFFNUNG[wochentag(dateISO)] || null) : null);
 /* Hat das Studio an diesem Datum offen? */
-const isOpen = dateISO => !!(dateISO && OEFFNUNG[wochentag(dateISO)]);
-/* Die Zeitfenster dieses Tages — an geschlossenen Tagen eine leere Liste */
-const slotsFor = dateISO => (dateISO && OEFFNUNG[wochentag(dateISO)] ? OEFFNUNG[wochentag(dateISO)].slots : []);
+const isOpen = dateISO => !!tagInfo(dateISO);
+/* Die Startzeiten dieses Tages — an geschlossenen Tagen eine leere Liste */
+const slotsFor = dateISO => { const t = tagInfo(dateISO); return t ? startfenster(t.von, t.bis) : []; };
+/* Beginn und Ende eines Fensters in Minuten — für Überschneidungen */
+function intervall(slot) {
+  const m = String(slot || '').match(/(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/);
+  return m ? [+m[1] * 60 + +m[2], +m[3] * 60 + +m[4]] : [null, null];
+}
+/* Ist dieses Fenster kürzer als 3 Stunden, weil wir schliessen? Dann die Schliesszeit, sonst '' */
+function schliesstVorher(dateISO, slot) {
+  const t = tagInfo(dateISO), [a, z] = intervall(slot);
+  return t && a != null && z - a < DAUER_MIN && z === zuMin(t.bis) ? t.bis : '';
+}
 /* Wie lange dauert dieses Fenster? Für die Beschriftung («3 Stunden» / «2½ Stunden») */
 function slotLength(slot) {
   const m = String(slot).match(/(\d{2}):(\d{2})[–-](\d{2}):(\d{2})/);
@@ -109,8 +135,8 @@ function occupancy(dateISO, slot, bookings) {
   return { byTable, seats, unassigned, all: live };
 }
 
-window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, KINO_AKTIV, INVENTORY, OEFFNUNG, allTables, capacity, suggest,
-  candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength,
+window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, KINO_AKTIV, INVENTORY, OEFFNUNG, SONDEROEFFNUNG, allTables, capacity, suggest,
+  candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength, tagInfo, intervall, schliesstVorher,
   PRIVAT_SLOTS, PRIVAT_MIN, PRIVAT_GEBUEHR };
 
 /* ═══════════ i18n ═══════════ */

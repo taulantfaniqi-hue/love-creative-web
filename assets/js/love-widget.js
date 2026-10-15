@@ -149,6 +149,7 @@ document.body.insertAdjacentHTML('beforeend', `
       <select id="lwSlot"></select>
       <span class="lw-until" id="lwUntil"></span><span class="lw-chev" aria-hidden="true">▼</span>
     </label>
+    <p class="hidden" id="lwCloseNote" style="margin:.1rem 0 0;padding:.55rem .8rem;border-radius:10px;background:#fff;color:var(--green,#337357);font-size:.82rem;line-height:1.4"></p>
   </div>
   <div class="lw-divider" id="lwDivider"></div>
   <div class="lw-scroll">
@@ -252,14 +253,21 @@ function loadAvailability(date) {
     if (r.ok) { availCache[date] = r; renderSlots(); renderCards(); }
   }).catch(() => {});
 }
+/* Voll, wenn während der gewünschten Zeit irgendwann alle Tische dieses Typs belegt sind.
+   Seit den freien Startzeiten (13.10.2026) zählen alle Buchungen, die sich zeitlich überschneiden. */
 function slotFull(date, slot, guests) {
   const kind = T.suggest(guests);
   if (!kind || kind === 'event') return false;
   const a = availCache[date];
   if (!a) return false;
-  const booked = (a.booked && a.booked[slot] && a.booked[slot][kind]) || 0;
   const inv = (a.inventory && a.inventory[kind]) || T.INVENTORY[kind] || 99;
-  return booked >= inv;
+  const [s, e] = T.intervall(slot);
+  if (s == null) return ((a.booked && a.booked[slot] && a.booked[slot][kind]) || 0) >= inv;
+  const belegt = Object.entries(a.booked || {}).map(([k, v]) => [...T.intervall(k), (v && v[kind]) || 0])
+    .filter(([bs, be, n]) => n && bs != null && bs < e && be > s);
+  const punkte = [s, ...belegt.map(b => b[0]).filter(p => p > s)];
+  const spitze = Math.max(0, ...punkte.map(p => belegt.filter(([bs, be]) => bs <= p && p < be).reduce((x, b) => x + b[2], 0)));
+  return spitze >= inv;
 }
 
 function renderStatic() {
@@ -341,7 +349,7 @@ function renderSlots() {
   /* Die Fenster hängen am Wochentag — Mi/Fr ab 12 Uhr, Sa/So ab 10 Uhr;
      an geschlossenen Tagen gelten die Fenster der privaten Session. */
   const offen = isPriv(state.date) ? T.PRIVAT_SLOTS : T.slotsFor(state.date);
-  if (!offen.length) { $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; return; }
+  if (!offen.length) { $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; $('lwCloseNote').classList.add('hidden'); return; }
   if (!offen.includes(state.slot)) state.slot = offen[0];
   if (slotFull(state.date, state.slot, state.guests) || vorbei(state.date, state.slot)) {
     const free = offen.find(s => !slotFull(state.date, s, state.guests) && !vorbei(state.date, s));
@@ -356,6 +364,12 @@ function renderSlots() {
     return `<option value="${s}" ${state.slot === s ? 'selected' : ''} ${full || alt ? 'disabled' : ''}>${s.split('–')[0]} · ${alt ? (LoveSite.lang() === 'en' ? 'passed' : 'vorbei') : full ? x.full : (kino ? x.kino : dauer)}</option>`;
   }).join('');
   $('lwUntil').textContent = `${x.until} ${state.slot.split('–')[1]}`;
+  /* Kürzer als 3 Stunden, weil wir schliessen? Dann sagen — und dass es so eingeplant ist. */
+  const zu = isPriv(state.date) ? '' : T.schliesstVorher(state.date, state.slot);
+  $('lwCloseNote').textContent = zu ? (LoveSite.lang() === 'en'
+    ? `We close at ${zu} on this day — your table is reserved until then. This is already taken into account.`
+    : `Wir schliessen an diesem Tag um ${zu} Uhr — dein Tisch ist bis dann reserviert. Das ist bei deiner Reservation berücksichtigt.`) : '';
+  $('lwCloseNote').classList.toggle('hidden', !zu);
 }
 function renderCards() {
   const x = tw();
