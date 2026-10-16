@@ -299,7 +299,7 @@ window.LOVE_EN = {
                   <button type="button" class="choice" data-kind="betrag" data-price="100" aria-pressed="false"><span class="t" data-i18n="ex.amount">Wertgutschein</span><span class="d" data-i18n="ex.amountD">CHF 20–500, einlösbar für alles bei LOVE — online per Karte zahlbar</span><span class="p">CHF …</span></button>
                 </div>
               </div>
-              <div class="field hidden" id="amountWrap">
+              <div class="field" id="amountWrap">
                 <label data-i18n="cf.amount">Betrag wählen (CHF)</label>
                 <!-- Schnellwahl-Chips aus LovePay.GIFT_AMOUNTS … -->
                 <div class="amount-chips" id="amountChips"></div>
@@ -544,7 +544,9 @@ const SHIP_LABEL = {
 };
 const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'konto', fee: 0, tip: 0, discount: 0, discountCode: '' };
 
-function amount() { return state.kind === 'betrag' ? (Number($('#gAmount').value) || 0) : state.price; }
+/* Betrag ist bei allen Varianten frei wählbar (16.10.2026) — die Variante setzt nur einen Vorschlag */
+function amount() { return Number($('#gAmount').value) || 0; }
+function chipsSync() { document.querySelectorAll('#amountChips .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.amount === $('#gAmount').value))); }
 /* Robust gegen unbekannte Werte (z. B. alte gespeicherte Bestellungen) */
 const exLabel = k => EX_LABEL[k] || EX_LABEL['betrag'];
 const shipLabel = s => SHIP_LABEL[s] || SHIP_LABEL['konto'];
@@ -565,7 +567,7 @@ function updatePreview() {
 document.querySelectorAll('#exGrid .choice').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('#exGrid .choice').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   state.kind = b.dataset.kind; state.price = Number(b.dataset.price);
-  $('#amountWrap').classList.toggle('hidden', state.kind !== 'betrag');
+  $('#gAmount').value = state.price; chipsSync();
   updatePreview();
 }));
 /* Geschenkkarten-Betrag: Schnellwahl-Chips ODER individueller Betrag (CHF 20–500) */
@@ -690,6 +692,7 @@ $('#btnIndiv').addEventListener('click', () => {
   if (!zu) $('#gFor').focus();
 });
 document.addEventListener('love:lang', () => { updatePreview(); fillSummary(); });
+$('#gAmount').value = state.price; chipsSync();   // Start: Vorschlag der vorgewählten Variante
 updatePreview();
 
 /* Schritte */
@@ -723,10 +726,8 @@ function pickShip(s) {
   fillSummary(); updatePreview();
 }
 $('#toStep2').addEventListener('click', () => {
-  if (state.kind === 'betrag') {
-    const a = amount();
-    if (!(a >= LovePay.GIFT_MIN && a <= LovePay.GIFT_MAX)) { alert(t('err.amount')); return; }
-  }
+  const a = amount();
+  if (!(a >= LovePay.GIFT_MIN && a <= LovePay.GIFT_MAX)) { alert(t('err.amount')); return; }
   fillSummary(); showStep(2); $('#gestalten').scrollIntoView({ behavior: 'smooth' });
 });
 $('#backTo1').addEventListener('click', () => showStep(1));
