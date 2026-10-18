@@ -608,6 +608,34 @@ function render() {
       </div>
       <span class="hint" id="vrHint" aria-live="polite"></span>
     </div>
+    <h3 class="host-sect">Gutschein ausstellen — bereits bezahlt</h3>
+    <div class="host-note">Für Gutscheine, die im Laden bezahlt wurden (SumUp-Kasse, bar, TWINT-QR). Der Gutschein wird als <b>bezahlt</b> angelegt, und die Käufer:in bekommt das A4-PDF per E-Mail — genau wie nach einem Online-Kauf.</div>
+    <button type="button" class="btn btn-rose" id="gaOpen">🎁 Gutschein ausstellen</button>
+    <div class="hcard" id="gaForm" hidden style="margin-top:.8rem">
+      <div class="two-col">
+        <div class="field"><label for="gaAmt">Betrag (CHF)</label><input type="number" id="gaAmt" min="20" max="500" step="5" value="50"></div>
+        <div class="field"><label for="gaPay">Bezahlt mit</label><select id="gaPay"><option>SumUp-Kasse</option><option>Bar</option><option>TWINT (QR im Laden)</option><option>Überweisung</option></select></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label for="gaBeleg">Beleg-Nr. (freiwillig)</label><input type="text" id="gaBeleg" maxlength="40" placeholder="z. B. M3GARK4B-79"></div>
+        <div class="field"><label for="gaDatum">Bezahlt am</label><input type="date" id="gaDatum"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label for="gaBuyer">Käufer:in (Name)</label><input type="text" id="gaBuyer" maxlength="80" autocomplete="off"></div>
+        <div class="field"><label for="gaMail">E-Mail Käufer:in — bekommt das PDF</label><input type="email" id="gaMail" maxlength="120" autocomplete="off"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label for="gaFuer">Für (freiwillig)</label><input type="text" id="gaFuer" maxlength="60"></div>
+        <div class="field"><label for="gaVon">Von (freiwillig)</label><input type="text" id="gaVon" maxlength="60"></div>
+      </div>
+      <div class="field"><label for="gaText">Text auf dem Gutschein (freiwillig)</label><textarea id="gaText" maxlength="200" rows="2"></textarea></div>
+      <div class="field"><label for="gaMotiv">Motiv</label><select id="gaMotiv"><option value="mimi">Rosé</option><option value="celadon">Zart</option><option value="green">Grün</option></select></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button type="button" class="btn btn-ghost btn-sm" id="gaPrev">👁 PDF-Vorschau</button>
+        <button type="button" class="btn btn-rose" id="gaGo">Ausstellen &amp; PDF mailen</button>
+      </div>
+      <span class="hint" id="gaHint" aria-live="polite"></span>
+    </div>
     <h3 class="host-sect">Verkaufte Gutscheine</h3>
     <div class="host-note">🖨 <b>PDF</b> druckt die Karte mit Barcode nach. <b>✉️ Karte mailen</b> schickt sie dem Kunden nochmals als PDF — falls die Mail nach der Zahlung nicht angekommen ist. <b>Einlösen</b> zieht einen Betrag vom Saldo ab — danach in der SumUp-Kasse die Zahlart «Gutschein» mit Code &amp; Betrag erfassen.</div>` + (d.gutscheine.length ? `<div class="host-table-wrap"><table class="host-table">
       <thead><tr><th>Code</th><th>Wert</th><th>Saldo</th><th>Trinkgeld</th><th>Käufer:in</th><th>E-Mail</th><th>Zustellung</th><th>Bezahlt</th><th>Status</th><th>Aktion</th></tr></thead>
@@ -693,6 +721,47 @@ function render() {
     }
     vrCode.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); vrPruefen(); } });
     box.querySelector('#vrCheck').addEventListener('click', vrPruefen);
+    /* Gutschein ausstellen (bereits im Laden bezahlt) — Server-Aktion voucher_add_host (server/voucher_add_host.php) */
+    const ga = id => box.querySelector('#' + id);
+    ga('gaDatum').value = new Date().toISOString().slice(0, 10);
+    ga('gaOpen').addEventListener('click', () => { ga('gaForm').hidden = !ga('gaForm').hidden; if (!ga('gaForm').hidden) ga('gaAmt').focus(); });
+    const gaCode = () => { const z = () => Math.random().toString(36).slice(2, 6).toUpperCase().padEnd(4, 'X'); return 'LOVE-' + z() + '-' + z(); };
+    const gaDaten = code => ({ code, amount: Number(ga('gaAmt').value) || 0, title: '', recipient: ga('gaFuer').value.trim(), from: ga('gaVon').value.trim(),
+      message: ga('gaText').value.trim(), design: ga('gaMotiv').value, issued: ga('gaDatum').value || new Date().toISOString().slice(0, 10), lang: 'de' });
+    ga('gaPrev').addEventListener('click', async () => {
+      try { await LoveGiftcard.download(gaDaten('LOVE-MUST-ER00')); } catch (e) { alert('Vorschau konnte nicht erstellt werden.'); }
+    });
+    ga('gaGo').addEventListener('click', async () => {
+      const hint = ga('gaHint'), amt = Number(ga('gaAmt').value), buyer = ga('gaBuyer').value.trim(), mail = ga('gaMail').value.trim().toLowerCase();
+      hint.style.color = '#B3261E';
+      if (!(amt >= 20 && amt <= 500)) { hint.textContent = 'Betrag bitte zwischen CHF 20 und 500.'; return; }
+      if (!buyer) { hint.textContent = 'Bitte den Namen der Käufer:in eintragen.'; return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { hint.textContent = 'Bitte eine gültige E-Mail-Adresse eintragen.'; return; }
+      if (typeof LoveCloud === 'undefined' || !hostCreds) { hint.textContent = 'Cloud nicht verbunden — bitte neu anmelden.'; return; }
+      const pay = ga('gaPay').value + (ga('gaBeleg').value.trim() ? ' · Beleg ' + ga('gaBeleg').value.trim() : '') + ' · ' + ga('gaDatum').value;
+      if (!confirm(`Gutschein über CHF ${amt.toFixed(0)} für ${buyer} als BEZAHLT ausstellen (${pay}) und das PDF an ${mail} mailen?`)) return;
+      ga('gaGo').disabled = true; hint.style.color = ''; hint.textContent = 'Gutschein wird ausgestellt …';
+      let r;
+      try { r = await LoveCloud.call('voucher_add_host', Object.assign({}, hostCreds, { code: gaCode(), amount: amt, buyer, email: mail,
+        recipient: ga('gaFuer').value.trim(), from: ga('gaVon').value.trim(), message: ga('gaText').value.trim(), design: ga('gaMotiv').value,
+        kind: 'betrag', delivery: 'konto', payment: pay })); }
+      catch (e) { r = { ok: false, error: 'cloud' }; }
+      if (!r || !r.ok || !r.code) {
+        ga('gaGo').disabled = false; hint.style.color = '#B3261E';
+        hint.textContent = (r && r.error) === 'unknown-action'
+          ? 'Der Server kennt diese Funktion noch nicht — die Erweiterung «voucher_add_host» muss einmalig auf dem Server eingespielt werden. Es wurde nichts angelegt.'
+          : (r && r.error) === 'auth' ? 'Anmeldung abgelaufen — bitte neu anmelden. Es wurde nichts angelegt.'
+          : 'Das hat nicht geklappt (' + esc((r && r.error) || 'Fehler') + ') — es wurde nichts angelegt.';
+        return;
+      }
+      /* Gutschein steht als bezahlt in der Cloud → A4-PDF an die Käufer:in (gleicher Weg wie nach der Online-Zahlung) */
+      hint.textContent = 'Gutschein ' + r.code + ' angelegt — PDF wird gemailt …';
+      let gemailt = false;
+      try { const pdf = await LoveGiftcard.pdfBase64(gaDaten(r.code)); const m = await LoveCloud.call('voucher_pdf_mail', { code: r.code, pdf }); gemailt = !!(m && m.ok); } catch (e) { }
+      alert(gemailt ? `Gutschein ${r.code} über CHF ${amt.toFixed(0)} ist ausgestellt und als PDF an ${mail} gemailt ✓`
+        : `Gutschein ${r.code} ist ausgestellt ✓ — aber die Mail ging nicht raus. Bitte in der Liste unten «✉️ Karte mailen» drücken.`);
+      loadCloud();
+    });
     vrAmt.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); vrGo.click(); } });
     if (vrGo) vrGo.addEventListener('click', async () => {
       const code = vrCode.value.trim().toUpperCase();
