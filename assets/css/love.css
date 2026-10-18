@@ -145,6 +145,8 @@ html{overflow-x:clip}
 @media (max-width:1310px){
   .sticky-cta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:rgba(251,247,241,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line-soft)}
   .sticky-cta .btn{width:100%}
+  .sticky-cta{transition:transform .25s ease}
+  .sticky-cta.aus{transform:translateY(110%);pointer-events:none}   /* ausgeblendet, solange das Formular sichtbar ist */
   body{padding-bottom:4.4rem}
 }
 
@@ -384,6 +386,18 @@ html{overflow-x:clip}
 .field .hint{margin-top:.3rem}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+/* Gutschein-Seite: Handy kompakt (18.10.2026) */
+@media (max-width:640px){
+  #gestalten .panel-head{padding:.9rem 1.1rem;flex-wrap:nowrap;align-items:center}
+  #gestalten .panel-head p{font-size:.82rem!important;line-height:1.35}
+  #gestalten .live-price{padding:.4rem .7rem;white-space:nowrap}
+  #gestalten .live-price b{font-size:1.1rem}
+  #gestalten .p-steps{flex-wrap:nowrap;gap:.35rem;margin-bottom:1.1rem}
+  #gestalten .p-step-pill{padding:.3rem .65rem;font-size:.78rem;white-space:nowrap}
+  #gestalten .choice-grid{gap:.55rem}
+  #gestalten .choice{padding:.7rem .9rem .75rem}
+  #gestalten input,#gestalten select,#gestalten textarea{font-size:16px}   /* iPhone zoomt sonst beim Antippen */
+}
 /* Gutschein-Seite: Formular | Vorschau — auf dem Handy untereinander */
 .two-col.gs-split{grid-template-columns:1.1fr .9fr}
 @media (max-width:640px){.two-col,.three-col{grid-template-columns:1fr}}
