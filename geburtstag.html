@@ -295,7 +295,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-site.js?v=5ca6c7bf"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
-<script src="assets/js/love-pay.js?v=395aa58c"></script>
+<script src="assets/js/love-pay.js?v=c35e4fcd"></script>
 <script src="assets/js/love-widget.js?v=2421eb57"></script>
 <script>
 /* Kindergeburtstag — Buchung mit Online-Zahlung (Payrexx).
@@ -320,7 +320,7 @@ const M = {
     errKinder: 'Ein Kindergeburtstag ist für höchstens 20 Kinder möglich. Für grössere Gruppen planen wir gern etwas Eigenes — schreib uns an hello@lovecreative.ch.',
     fDatum: 'Datum', fStart: 'Beginn', fGebKind: 'Name des Geburtstagskinds', fName: 'dein Name', fTel: 'Mobiltelefon',
     okPaid: 'Zahlung erhalten — vielen Dank! Unser Team bestätigt dir den Termin per E-Mail.',
-    okFail: 'Die Zahlung wurde nicht abgeschlossen. Deine Buchung ist gespeichert — du kannst die Zahlung erneut versuchen.',
+    okFail: 'Die Zahlung wurde nicht abgeschlossen — es ist nichts gebucht und nichts belastet. Du kannst es gleich nochmals versuchen.',
     okReserved: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Buchung ist bei uns angekommen — wir melden uns per E-Mail mit den Zahlungsdetails.',
     okLost: 'Deine Buchung konnte gerade nicht übermittelt werden. Bitte schick sie uns per E-Mail an hello@lovecreative.ch oder versuch es in ein paar Minuten noch einmal — sonst wissen wir nichts davon.',
     titlePaid: 'Zahlung erhalten!', titleFail: 'Zahlung nicht abgeschlossen', titleReserved: 'Buchung angekommen', titleLost: 'Noch nicht angekommen', ref: 'Referenz: '
@@ -335,7 +335,7 @@ const M = {
     errKinder: 'A kids\' birthday is possible for up to 20 children. For larger groups we will gladly plan something of its own — write to hello@lovecreative.ch.',
     fDatum: 'date', fStart: 'start time', fGebKind: 'name of the birthday child', fName: 'your name', fTel: 'mobile phone',
     okPaid: 'Payment received — thank you! Our team will confirm the date by e-mail.',
-    okFail: 'The payment was not completed. Your booking is saved — you can retry the payment.',
+    okFail: 'The payment was not completed — nothing has been booked or charged. You can try again right away.',
     okReserved: 'Online payment is temporarily unavailable. Your booking has reached us — we will e-mail you the payment details.',
     okLost: 'Your booking could not be transmitted just now. Please e-mail it to hello@lovecreative.ch or try again in a few minutes — otherwise we will not know about it.',
     titlePaid: 'Payment received!', titleFail: 'Payment not completed', titleReserved: 'Booking received', titleLost: 'Not received yet', ref: 'Reference: '
@@ -440,16 +440,17 @@ $('#gbForm').addEventListener('submit', async e => {
   const giftRaw = $('#gbGift') ? $('#gbGift').value.trim().toUpperCase() : '';
   const gift = /^LOVE-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(giftRaw) ? giftRaw : '';
   /* Nur bezahlte, aktive Gutscheine werden angerechnet (14.10.2026) */
-  if (gift && !(await LovePay.gutscheinOk(gift))) {
+  if (gift && !(await LovePay.gutscheinOk(gift, grand))) {
     $('#gbErr').textContent = LoveSite.lang() === 'en'
-      ? 'This voucher code is not valid (not paid or not active). Please remove it — or write to hello@lovecreative.ch.'
-      : 'Dieser Gutschein-Code ist nicht gültig (nicht bezahlt oder nicht aktiv). Bitte entfernen — oder schreib uns an hello@lovecreative.ch.';
+      ? 'This voucher code cannot be used here — it is not paid or not active, or higher than the amount (vouchers are redeemed in full only). Please remove it or write to hello@lovecreative.ch.'
+      : 'Dieser Gutschein-Code kann hier nicht eingelöst werden — er ist nicht bezahlt bzw. nicht aktiv, oder höher als der Betrag (Gutscheine werden nur als Ganzes eingelöst). Bitte entfernen oder schreib uns an hello@lovecreative.ch.';
     $('#gbErr').scrollIntoView({ behavior: 'smooth', block: 'center' });
     busy = false; $('#gbSubmit').disabled = false; return;
   }
   try { localStorage.setItem('love.lastGeb', JSON.stringify({ id: booking.id, total: grand, email, gift })); } catch (er) { }
   const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'geburtstag', voucher_code: gift, purpose: 'LOVE Kindergeburtstag ' + booking.id });
-  if (!r.ok) { showDone('reserved', booking.id, grand); busy = false; $('#gbSubmit').disabled = false; }
+  /* Keine Reservation: Zahlung nicht möglich → nichts gebucht, Meldung im Formular (18.10.2026) */
+  if (!r.ok) { $('#gbErr').textContent = LoveSite.lang() === 'en' ? 'Online payment is not possible right now — nothing has been booked or charged. Please try again later or write to hello@lovecreative.ch.' : 'Die Online-Zahlung ist im Moment nicht möglich — es wurde nichts gebucht und nichts belastet. Bitte versuch es später nochmals oder schreib uns an hello@lovecreative.ch.'; $('#gbErr').scrollIntoView({ behavior: 'smooth', block: 'center' }); busy = false; $('#gbSubmit').disabled = false; }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
 });
 

@@ -48,7 +48,7 @@ window.LOVE_DE = {
   'dn.statusChecking':'Zahlung wird bestätigt…',
   'dn.statusProcessing':'Zahlung eingegangen — die Bestätigung folgt in wenigen Minuten per E-Mail.',
   'dn.titleFail':'Zahlung nicht abgeschlossen',
-  'dn.textFail':'Die Zahlung wurde abgebrochen oder abgelehnt. Dein Gutschein ist reserviert — du kannst die Zahlung erneut versuchen.',
+  'dn.textFail':'Die Zahlung wurde abgebrochen oder abgelehnt — es ist nichts gekauft und nichts belastet. Du kannst es gleich nochmals versuchen.',
   'dn.titleReserved':'Bestellung reserviert',
   'dn.textReserved':'Die Online-Zahlung ist gerade nicht erreichbar. Dein Gutschein ist reserviert — wir melden uns per E-Mail mit den Zahlungsdetails.',
   'dn.statusReserved':'Status: reserviert — aktiv nach Zahlungseingang',
@@ -165,7 +165,7 @@ window.LOVE_EN = {
   'dn.statusChecking':'Confirming your payment…',
   'dn.statusProcessing':'Payment received — confirmation follows by e-mail in a few minutes.',
   'dn.titleFail':'Payment not completed',
-  'dn.textFail':'The payment was cancelled or declined. Your gift voucher is reserved — you can retry the payment.',
+  'dn.textFail':'The payment was cancelled or declined — nothing has been bought or charged. You can try again right away.',
   'dn.titleReserved':'Order reserved',
   'dn.textReserved':'Online payment is temporarily unavailable. Your gift voucher is reserved — we will e-mail you the payment details.',
   'dn.statusReserved':'Status: reserved — active after payment',
@@ -180,8 +180,8 @@ window.LOVE_EN = {
   'rd.title':'How the gift is used',
   'rd.s1':'Reserve',
   'rd.s1t':'Mention the code when reserving a table or show it at the counter.',
-  'rd.s2':'Use partially',
-  'rd.s2t':'Only part of it used? The remaining balance stays on the code.',
+  'rd.s2':'All at once',
+  'rd.s2t':'The voucher is redeemed in full — all or nothing, no partial redemption.',
   'rd.s3':'2 years',
   'rd.s3t':'Valid for two years from purchase — no rush.',
   'rd.balance':'Check your balance',
@@ -198,7 +198,7 @@ window.LOVE_EN = {
   'faq.q4':'What if the code gets lost?',
   'faq.a4':'Write to us with the buyer\'s name and e-mail — we\'ll find the voucher in our ledger.',
   'pc.kicker':'Gift voucher',
-  'pc.redeem':'Redeem: mention the code when reserving at lovecreative.ch or show it at the counter · valid 2 years · partial redemption possible',
+  'pc.redeem':'Redeem: mention the code when reserving at lovecreative.ch or show it at the counter · valid 2 years · redeemable in full only',
   'pc.where':'LOVE Creative Café · Seestrasse 287B · 8804 Au ZH · Wed &amp; Fri 12–20 · Sat &amp; Sun 10–18:30'
 };
 </script>
@@ -429,7 +429,7 @@ window.LOVE_EN = {
     <h2 class="sect-title" data-i18n="rd.title">So wird das Geschenk genutzt</h2>
     <div class="steps">
       <div class="step reveal"><h3 data-i18n="rd.s1">Reservieren</h3><p data-i18n="rd.s1t">Code bei der Tischreservation angeben oder an der Theke zeigen.</p></div>
-      <div class="step reveal"><h3 data-i18n="rd.s2">Teilweise nutzen</h3><p data-i18n="rd.s2t">Nur einen Teil gebraucht? Das Restguthaben bleibt auf dem Code.</p></div>
+      <div class="step reveal"><h3 data-i18n="rd.s2">Auf einmal einlösen</h3><p data-i18n="rd.s2t">Der Gutschein wird als Ganzes eingelöst — ganz oder gar nicht, keine Teileinlösung.</p></div>
       <div class="step reveal"><h3 data-i18n="rd.s3">2 Jahre</h3><p data-i18n="rd.s3t">Zwei Jahre ab Kauf gültig — kein Stress.</p></div>
     </div>
   </div>
@@ -458,7 +458,7 @@ window.LOVE_EN = {
   <div style="max-width:16cm;margin:0 auto .6cm;background:#fff;border-radius:12px;padding:.4cm;text-align:center">
     <svg id="ppBarcode"></svg>
   </div>
-  <p style="max-width:16cm;margin:0 auto;font-size:.85rem;color:#2C3A31;text-align:center" data-i18n="pc.redeem">Einlösen: Code bei der Reservation auf lovecreative.ch angeben oder an der Theke zeigen · 2 Jahre gültig · Teileinlösung möglich</p>
+  <p style="max-width:16cm;margin:0 auto;font-size:.85rem;color:#2C3A31;text-align:center" data-i18n="pc.redeem">Einlösen: Code bei der Reservation auf lovecreative.ch angeben oder an der Theke zeigen · 2 Jahre gültig · nur als Ganzes einlösbar</p>
   <p style="max-width:16cm;margin:.4rem auto 0;font-size:.8rem;color:#56685D;text-align:center" data-i18n="pc.where">LOVE Creative Café · Seestrasse 287B · 8804 Au ZH · Mi &amp; Fr 12–20 · Sa &amp; So 10–18:30</p>
 </div>
 
@@ -511,12 +511,12 @@ window.LOVE_EN = {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="assets/js/love-giftcard.js?v=12b0549c"></script>
+<script src="assets/js/love-giftcard.js?v=babbd4eb"></script>
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
 <script src="assets/js/love-site.js?v=5ca6c7bf"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
-<script src="assets/js/love-pay.js?v=395aa58c"></script>
+<script src="assets/js/love-pay.js?v=c35e4fcd"></script>
 <script src="assets/js/love-widget.js?v=2421eb57"></script>
 <script>
 (() => {
@@ -854,14 +854,12 @@ $('#submitGift').addEventListener('click', async () => {
     email, discount_code: state.discountCode
   });
   if (!r.ok) {
-    /* Zahlung gerade nicht möglich → Bestellung bleibt reserviert */
+    /* Keine Reservation (18.10.2026): Zahlung nicht möglich → nichts gekauft, Meldung im Formular, kein Code */
     submitBusy = false;
     $('#submitGift').textContent = t('py.submit');
-    $('#dnTitle').textContent = t('dn.titleReserved');
-    $('#dnText').textContent = t('dn.textReserved');
-    $('#dnStatus').textContent = t('dn.statusReserved');
-    fillAccountHint(email);
-    showStep(3);
+    lastVoucher = null;
+    err.textContent = LoveSite.lang() === 'en' ? 'Online payment is not possible right now — nothing has been bought or charged. Please try again later or write to hello@lovecreative.ch.' : 'Die Online-Zahlung ist im Moment nicht möglich — es wurde nichts gekauft und nichts belastet. Bitte versuch es später nochmals oder schreib uns an hello@lovecreative.ch.';
+    err.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
 });
@@ -890,7 +888,8 @@ $('#submitGift').addEventListener('click', async () => {
   if (failCode) {
     $('#dnTitle').textContent = t('dn.titleFail');
     $('#dnText').textContent = t('dn.textFail');
-    $('#dnStatus').textContent = t('dn.statusReserved');
+    $('#dnStatus').textContent = '';
+    $('#gCode').textContent = '';   // ohne Zahlung kein Gutschein-Code
     const retry = $('#btnRetryPay');
     retry.classList.remove('hidden');
     retry.addEventListener('click', () => {

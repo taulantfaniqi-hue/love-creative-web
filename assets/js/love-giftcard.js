@@ -129,10 +129,10 @@ const LoveGiftcard = (() => {
   const TXT = {
     de: { kicker: 'GESCHENKGUTSCHEIN', fuer: 'für', von: 'von', wert: 'Wert', gueltig: 'Gültig bis',
           einloesen: 'Einlösbar im LOVE Creative Café, Seestrasse 287B, 8804 Au ZH — oder mit dem Code online auf lovecreative.ch',
-          bed: 'Keine Barauszahlung · kein Storno · Restguthaben bleibt bis zum Ablaufdatum gültig', fallback: 'Wertgutschein' },
+          bed: 'Keine Barauszahlung · kein Storno · nur als Ganzes einlösbar', fallback: 'Wertgutschein' },
     en: { kicker: 'GIFT VOUCHER', fuer: 'for', von: 'from', wert: 'Value', gueltig: 'Valid until',
           einloesen: 'Redeemable at LOVE Creative Café, Seestrasse 287B, 8804 Au ZH — or online with the code at lovecreative.ch',
-          bed: 'No cash payout · no cancellation · remaining balance stays valid until expiry', fallback: 'Gift voucher' }
+          bed: 'No cash payout · no cancellation · redeemable in full only', fallback: 'Gift voucher' }
   };
   let _logo = null;
   function loadLogo() {

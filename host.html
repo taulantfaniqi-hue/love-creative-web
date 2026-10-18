@@ -139,7 +139,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="assets/js/love-giftcard.js?v=12b0549c"></script>
+<script src="assets/js/love-giftcard.js?v=babbd4eb"></script>
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
@@ -603,7 +603,7 @@ function render() {
       </div>
       <div id="vrInfo" style="margin:.2rem 0 .8rem" aria-live="polite"></div>
       <div class="two-col" style="align-items:end">
-        <div class="field"><label for="vrAmt">Einzulösender Betrag (CHF)</label><input type="number" id="vrAmt" min="0.05" step="0.05" placeholder="z. B. 25"></div>
+        <div class="field"><label for="vrAmt">Einzulösender Betrag (CHF) — immer der ganze Gutschein</label><input type="number" id="vrAmt" min="0.05" step="0.05" placeholder="z. B. 25"></div>
         <div class="field"><button type="button" class="btn btn-rose btn-block" id="vrGo">Einlösen</button></div>
       </div>
       <span class="hint" id="vrHint" aria-live="polite"></span>
@@ -654,10 +654,9 @@ function render() {
     }
     const redeemErr = { 'not-found': 'Code nicht gefunden.', 'not-paid': 'Dieser Gutschein ist noch nicht bezahlt.', 'not-enough-balance': 'Nicht genug Guthaben auf der Karte.', invalid: 'Bitte Code und Betrag prüfen.', cloud: 'Cloud-Fehler — bitte erneut versuchen.' };
     box.querySelectorAll('button[data-vredeem]').forEach(btn => btn.addEventListener('click', async () => {
-      const inp = prompt(`Welchen Betrag einlösen? (Saldo: CHF ${Number(btn.dataset.bal).toFixed(2)})`, '');
-      if (inp === null) return;
-      const amt = Number(String(inp).replace(',', '.'));
-      if (!(amt > 0)) { alert('Bitte einen Betrag eingeben.'); return; }
+      /* Nur ganz oder gar nicht (18.10.2026): immer der ganze Saldo */
+      const amt = Number(btn.dataset.bal);
+      if (!confirm(`Gutschein ${btn.dataset.vredeem} ganz einlösen (CHF ${amt.toFixed(2)})? Eine Teileinlösung ist nicht möglich.`)) return;
       btn.disabled = true;
       const r = await hostRedeem(btn.dataset.vredeem, amt);
       if (r && r.ok) { alert(`Eingelöst ✓ — neuer Saldo: CHF ${Number(r.balance).toFixed(2)}`); loadCloud(); }
@@ -686,7 +685,7 @@ function render() {
           const bal = Number(r.voucher.balance);
           vrInfo.innerHTML = `<b style="font-size:1.35rem;color:var(--green)">Saldo: CHF ${bal.toFixed(2)}</b>
             <span class="host-pill ${r.voucher.status === 'aktiv' ? 'ok' : ''}" style="margin-left:.4rem">${esc(r.voucher.status)}</span>`;
-          if (bal > 0) { vrAmt.focus(); vrAmt.select(); }
+          if (bal > 0) { vrAmt.value = bal.toFixed(2); vrAmt.readOnly = true; vrGo.focus(); }   // ganz oder gar nicht
           return;
         }
       } catch (e) { /* unten gemeinsame Fehlermeldung */ }
