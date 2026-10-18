@@ -16,7 +16,7 @@ const LovePay = (() => {
 
   /* Schnellwahl-Beträge für Geschenkkarten (CHF); daneben ist jeder
      individuelle Betrag zwischen MIN und MAX erlaubt. */
-  const GIFT_AMOUNTS = [20, 30, 40, 50, 60, 70, 80, 100, 150, 200, 300, 400, 500];
+  const GIFT_AMOUNTS = [30, 50, 100, 150, 200, 300];   // runde Schnellwahl (18.10.2026); frei wählbar CHF 20–500
   const GIFT_MIN = 20;
   const GIFT_MAX = 500;
 

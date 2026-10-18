@@ -277,7 +277,7 @@ window.LOVE_EN = {
 <section class="tint" id="gestalten">
   <div class="wrap">
     <div class="panel reveal">
-      <div class="panel-head"><div><h3 data-i18n="cf.title">Gutschein kaufen</h3><p style="color:var(--celadon);font-size:.9rem;margin-top:.2rem" data-i18n="cf.sub">Gutschein wählen, bezahlen, fertig — auf Wunsch individuell gestaltet.</p></div><div class="live-price"><b id="gTotal">CHF 96</b></div></div>
+      <div class="panel-head"><div><h3 data-i18n="cf.title">Gutschein kaufen</h3><p style="color:var(--celadon);font-size:.9rem;margin-top:.2rem" data-i18n="cf.sub">Gutschein wählen, bezahlen, fertig — auf Wunsch individuell gestaltet.</p></div><div class="live-price"><b id="gTotal">CHF 100</b></div></div>
       <div class="panel-body">
         <div class="p-steps" aria-hidden="true">
           <span class="p-step-pill active" id="pill1"><span data-i18n="cf.s1">1 · Gutschein</span></span>
@@ -291,9 +291,9 @@ window.LOVE_EN = {
               <div class="field">
                 <label data-i18n="cf.pick">Was schenkst du?</label>
                 <div class="choice-grid" id="exGrid" role="group" aria-label="Erlebnis">
-                  <button type="button" class="choice" data-kind="keramik-date" data-price="96" aria-pressed="true"><span class="t" data-i18n="ex.date">Keramik-Date für zwei</span><span class="d" data-i18n="ex.dateD">Zwei Stücke Mittel inkl. Studiozeit, Glasur und Brand</span><span class="p">CHF 96</span></button>
-                  <button type="button" class="choice" data-kind="cafe-keramik" data-price="50" aria-pressed="false"><span class="t" data-i18n="ex.cafe">Café &amp; Keramik</span><span class="d" data-i18n="ex.cafeD">Guthaben für ein kleines Stück und etwas von der Theke</span><span class="p">CHF 50</span></button>
-                  <button type="button" class="choice" data-kind="betrag" data-price="100" aria-pressed="false"><span class="t" data-i18n="ex.amount">Wertgutschein</span><span class="d" data-i18n="ex.amountD">CHF 20–500, einlösbar für alles bei LOVE — online per Karte zahlbar</span><span class="p">CHF …</span></button>
+                  <button type="button" class="choice" data-kind="keramik-date" data-price="100" aria-pressed="true"><span class="t" data-i18n="ex.date">Keramik-Date für zwei</span><span class="d" data-i18n="ex.dateD">Zwei Stücke Mittel inkl. Studiozeit, Glasur und Brand</span></button>
+                  <button type="button" class="choice" data-kind="cafe-keramik" data-price="50" aria-pressed="false"><span class="t" data-i18n="ex.cafe">Café &amp; Keramik</span><span class="d" data-i18n="ex.cafeD">Guthaben für ein kleines Stück und etwas von der Theke</span></button>
+                  <button type="button" class="choice" data-kind="betrag" data-price="100" aria-pressed="false"><span class="t" data-i18n="ex.amount">Wertgutschein</span><span class="d" data-i18n="ex.amountD">CHF 20–500, einlösbar für alles bei LOVE — online per Karte zahlbar</span></button>
                 </div>
               </div>
               <div class="field" id="amountWrap">
@@ -306,7 +306,7 @@ window.LOVE_EN = {
               </div>
               <div class="field" style="margin-top:.4rem">
                 <button type="button" class="btn btn-ghost btn-sm" id="btnIndiv" aria-expanded="false" aria-controls="indivWrap" data-i18n="cf.indiv">✎ Individuell gestalten</button>
-                <span class="hint" style="margin-left:.5rem" data-i18n="cf.indivHint">Name, persönlicher Text und Motiv — freiwillig.</span>
+                <span class="hint" style="display:block;margin-top:.45rem" data-i18n="cf.indivHint">Name, persönlicher Text und Motiv — freiwillig.</span>
               </div>
               <div id="indivWrap" class="hidden">
               <div class="two-col">
@@ -394,7 +394,7 @@ window.LOVE_EN = {
             <div class="gift-preview mimi" id="preview" style="display:none">
               <span class="gp-dots" style="top:12px;right:18px"></span><span class="gp-dots" style="bottom:22px;left:14px;width:6px;height:6px"></span>
               <div class="gp-top"><div><div class="gp-kicker" data-i18n="pc.kicker">Gutschein</div><div class="gp-title" id="pvTitle">Keramik-Date für zwei</div></div><img class="gp-logo" src="assets/logo/logo-love.svg" alt="" id="pvLogo"></div>
-              <div><div class="gp-value" id="pvValue">CHF 96</div><div class="gp-msg" id="pvMsg">Made for moments that matter.</div></div>
+              <div><div class="gp-value" id="pvValue">CHF 100</div><div class="gp-msg" id="pvMsg">Made for moments that matter.</div></div>
               <div class="gp-meta"><span id="pvFor"></span><span class="gp-code" id="pvCode">LOVE-····-····</span></div>
             </div>
             <img id="a4Prev" alt="Vorschau deines Geschenkgutscheins (A4)" style="display:block;width:100%;aspect-ratio:210/297;object-fit:contain;background:var(--warmwhite);border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow)">
@@ -499,7 +499,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-site.js?v=5ca6c7bf"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
-<script src="assets/js/love-pay.js?v=c35e4fcd"></script>
+<script src="assets/js/love-pay.js?v=67a0bb98"></script>
 <script src="assets/js/love-widget.js?v=2421eb57"></script>
 <script>
 (() => {
@@ -525,7 +525,7 @@ const SHIP_LABEL = {
   email:  { de: 'Per E-Mail an dich und die beschenkte Person (PDF)', en: 'By e-mail to you and the recipient (PDF)' },
   post:   { de: 'Per Post (+CHF 5)', en: 'By post (+CHF 5)' }
 };
-const state = { kind: 'keramik-date', price: 96, design: 'mimi', pay: 'twint', ship: 'konto', fee: 0, tip: 0, discount: 0, discountCode: '' };
+const state = { kind: 'keramik-date', price: 100, design: 'mimi', pay: 'twint', ship: 'konto', fee: 0, tip: 0, discount: 0, discountCode: '' };
 
 /* Betrag ist bei allen Varianten frei wählbar (16.10.2026) — die Variante setzt nur einen Vorschlag */
 function amount() { return Number($('#gAmount').value) || 0; }
