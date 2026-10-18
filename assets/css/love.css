@@ -384,7 +384,10 @@ html{overflow-x:clip}
 .field .hint{margin-top:.3rem}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+/* Gutschein-Seite: Formular | Vorschau — auf dem Handy untereinander */
+.two-col.gs-split{grid-template-columns:1.1fr .9fr}
 @media (max-width:640px){.two-col,.three-col{grid-template-columns:1fr}}
+@media (max-width:640px){.two-col.gs-split{grid-template-columns:1fr}}
 .check{display:flex;gap:.6rem;align-items:flex-start;font-size:.93rem;margin-bottom:.6rem}
 .check input{width:auto;margin-top:.28rem;accent-color:var(--rose)}
 /* Eigene Häkchen-Kästchen (29.09.2026): Das iPhone zeichnet Standard-Kästchen nur 12 px gross und grau —

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css?v=effbfde2">
+<link rel="stylesheet" href="assets/css/love.css?v=3d5c8b06">
 <link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
 <link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <style>
@@ -103,11 +103,8 @@ window.LOVE_EN = {
   'cf.for':'For (name)',
   'cf.from':'From (name, optional)',
   'cf.msg':'Your text',
-  'cf.occHint':'Tap an occasion and we suggest a text. Tap again for another version. You can change everything.',
-  'cf.oGeb':'Birthday', 'cf.oHoch':'Wedding', 'cf.oPens':'Retirement', 'cf.oVal':'Valentine\'s Day', 'cf.oDanke':'Thank you', 'cf.oEinfach':'Just because',
-  'cf.kwPh':'Your own keywords, e.g. mum, farewell, holidays', 'cf.kwGo':'Suggest a text',
   'cf.a4Hint':'Preview — your gift voucher arrives as an A4 PDF by e-mail, ready to print.',
-  'cf.msgPh':'Or write your own text …',
+  'cf.msgPh':'Write your personal text here (optional) …',
   'cf.design':'Motif',
   'cf.next':'Continue to payment →',
   'py.summary':'Summary',
@@ -287,7 +284,7 @@ window.LOVE_EN = {
           <span class="p-step-pill" id="pill2"><span data-i18n="cf.s2">2 · Zahlung</span></span>
           <span class="p-step-pill" id="pill3"><span data-i18n="cf.s3">3 · Fertig</span></span>
         </div>
-        <div class="two-col" style="grid-template-columns:1.1fr .9fr;align-items:start">
+        <div class="two-col gs-split" style="align-items:start">
           <div>
             <!-- Schritt 1 -->
             <div id="step1">
@@ -317,21 +314,7 @@ window.LOVE_EN = {
                 <div class="field"><label for="gFrom" data-i18n="cf.from">Von (Name, optional)</label><input type="text" id="gFrom" maxlength="40"></div>
               </div>
               <div class="field"><label for="gMsg" data-i18n="cf.msg">Dein Text</label>
-                <p class="hint" style="margin:0 0 .5rem" data-i18n="cf.occHint">Anlass antippen — wir schlagen dir einen Text vor. Nochmals antippen für eine andere Variante. Du kannst alles frei ändern.</p>
-                <div class="chips" id="occChips" role="group" aria-label="Anlass" style="margin-bottom:.6rem">
-                  <button type="button" class="chip" data-occ="geburtstag" aria-pressed="false" data-i18n="cf.oGeb">Geburtstag</button>
-                  <button type="button" class="chip" data-occ="hochzeit" aria-pressed="false" data-i18n="cf.oHoch">Hochzeit</button>
-                  <button type="button" class="chip" data-occ="pensionierung" aria-pressed="false" data-i18n="cf.oPens">Pensionierung</button>
-                  <button type="button" class="chip" data-occ="valentinstag" aria-pressed="false" data-i18n="cf.oVal">Valentinstag</button>
-                  <button type="button" class="chip" data-occ="bemydate" aria-pressed="false">Be my date</button>
-                  <button type="button" class="chip" data-occ="danke" aria-pressed="false" data-i18n="cf.oDanke">Danke</button>
-                  <button type="button" class="chip" data-occ="einfach" aria-pressed="false" data-i18n="cf.oEinfach">Einfach so</button>
-                </div>
-                <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem">
-                  <input type="text" id="gKw" maxlength="60" style="flex:1;min-width:12rem" data-i18n-ph="cf.kwPh" placeholder="Eigene Stichwörter, z. B. Mama, Abschied, Ferien">
-                  <button type="button" class="btn btn-ghost btn-sm" id="gKwGo" data-i18n="cf.kwGo">Text vorschlagen</button>
-                </div>
-                <textarea id="gMsg" maxlength="200" rows="4" data-i18n-ph="cf.msgPh" placeholder="Oder schreib deinen eigenen Text …"></textarea></div>
+                <textarea id="gMsg" maxlength="200" rows="4" data-i18n-ph="cf.msgPh" placeholder="Schreib hier deinen persönlichen Text (freiwillig) …"></textarea></div>
               <div class="field">
                 <label data-i18n="cf.design">Motiv</label>
                 <div class="design-picks" role="group" aria-label="Design">
@@ -586,82 +569,6 @@ document.querySelectorAll('.design-picks button').forEach(b => b.addEventListene
   document.querySelectorAll('.design-picks button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   state.design = b.dataset.design; updatePreview();
 }));
-/* ---------- Textvorschläge nach Anlass (Du-Form, max. 200 Zeichen) ----------
-   Anlass antippen = Vorschlag; nochmals antippen = nächste Variante. {n} = «, Name» falls «Für» ausgefüllt. */
-const TEXTE = {
-  de: {
-    geburtstag: ['Alles Liebe zum Geburtstag{n}! Such dir dein Lieblingsstück aus, mal es ganz nach deinem Geschmack – und geniess dazu einen feinen Kaffee.',
-                 'Happy Birthday{n}! Ein neues Lebensjahr verdient Farbe: Gönn dir eine kreative Auszeit bei LOVE Creative.',
-                 'Zum Geburtstag nur das Schönste: Zeit für dich, einen Pinsel in der Hand und ein Stück, das bleibt. Alles Gute{n}!'],
-    hochzeit:   ['Von Herzen alles Gute zur Hochzeit! Malt gemeinsam ein Stück, das euch an diesen besonderen Tag erinnert.',
-                 'Zwei Herzen, ein Pinsel: Gönnt euch zur Hochzeit eine kreative Zeit zu zweit – mit Kaffee und ganz viel Liebe.',
-                 'Auf euch und euren gemeinsamen Weg! Bemalt etwas Schönes für euer Zuhause – wir wünschen euch alles Glück.'],
-    pensionierung: ['Herzlichen Glückwunsch zur Pensionierung{n}! Jetzt ist endlich Zeit für Neues – wie wär\'s mit Pinsel, Farbe und einem guten Kaffee?',
-                 'Der Feierabend wird zum Dauerzustand – geniess ihn kreativ! Alles Gute für den neuen Lebensabschnitt{n}.',
-                 'Danke für all die Jahre – und auf viele bunte Momente, die jetzt kommen. Alles Gute zur Pensionierung{n}!'],
-    valentinstag: ['Für dich, weil du mein Lieblingsmensch bist. Lass uns gemeinsam etwas Schönes bemalen. ♥',
-                 'Happy Valentine\'s Day{n}! Ein Date mit Kaffee, Farbe und dir – mehr braucht es nicht.',
-                 'Mit dir wird alles bunter. Lass uns zusammen kreativ sein – ich freu mich auf dich.'],
-    bemydate:   ['Be my date? Kaffee, Keramik und wir zwei – ich freu mich auf dich.',
-                 'Ich hätte da eine Idee für unser nächstes Date: Wir bemalen Keramik und trinken Kaffee. Bist du dabei?',
-                 'Ein Date, das bleibt: du, ich und ein Pinsel. Sag einfach Ja.'],
-    danke:      ['Danke für alles{n}! Diese kreative Auszeit hast du dir mehr als verdient.',
-                 'Ein kleines Dankeschön mit viel Farbe: Such dir dein Lieblingsstück aus und geniess die Zeit.',
-                 'Weil du so viel für andere tust: Diese Auszeit ist nur für dich. Danke{n}!'],
-    einfach:    ['Einfach so – weil du mir wichtig bist. Gönn dir eine kreative Auszeit.',
-                 'Für einen schönen Moment zwischendurch: Kaffee, Farbe und ganz viel Zeit für dich.',
-                 'Mach den Moment zu deinem{n}: Such dir ein Stück aus und mal drauflos.'],
-    eigen:      ['Für dich{n} – {k}. Such dir dein Lieblingsstück aus, mal es nach deinem Geschmack und geniess dazu einen Kaffee.',
-                 '{K}: dafür gibt es diesen Gutschein{n}. Gönn dir eine kreative Auszeit mit Kaffee und Farbe.',
-                 'Ganz viel Liebe zu {k}{n}! Mach den Moment zu deinem – mit Pinsel, Farbe und einem feinen Kaffee.']
-  },
-  en: {
-    geburtstag: ['Happy birthday{n}! Pick your favourite piece, paint it your way – and enjoy a lovely coffee.',
-                 'A new year deserves colour: treat yourself to a creative break at LOVE Creative. Happy birthday{n}!'],
-    hochzeit:   ['Congratulations on your wedding! Paint a piece together that reminds you of this special day.',
-                 'Two hearts, one brush: enjoy some creative time together – with coffee and lots of love.'],
-    pensionierung: ['Congratulations on your retirement{n}! Finally time for something new – brushes, colour and a good coffee.',
-                 'Here\'s to all the colourful moments ahead. Happy retirement{n}!'],
-    valentinstag: ['For you, because you are my favourite person. Let\'s paint something beautiful together. ♥',
-                 'Happy Valentine\'s Day{n}! A date with coffee, colour and you – that\'s all it takes.'],
-    bemydate:   ['Be my date? Coffee, pottery and the two of us – can\'t wait.',
-                 'A date to remember: you, me and a paintbrush. Just say yes.'],
-    danke:      ['Thank you for everything{n}! You have more than earned this creative break.',
-                 'A little thank-you full of colour: pick your favourite piece and enjoy the time.'],
-    einfach:    ['Just because you matter to me. Treat yourself to a creative break.',
-                 'For a lovely moment in between: coffee, colour and plenty of time for you.'],
-    eigen:      ['For you{n} – {k}. Pick your favourite piece, paint it your way and enjoy a coffee.',
-                 '{K}: that\'s what this voucher is for{n}. Enjoy a creative break with coffee and colour.']
-  }
-};
-let occAktiv = '', occIdx = 0;
-function textVorschlag(occ, stichwoerter) {
-  const L = LoveSite.lang() === 'en' ? 'en' : 'de';
-  const liste = TEXTE[L][occ] || TEXTE.de[occ];
-  if (!liste) return;
-  occIdx = occ === occAktiv ? occIdx + 1 : 0; occAktiv = occ;
-  const name = $('#gFor').value.trim();
-  const kw = String(stichwoerter || '').split(/[,;]+/).map(s => s.trim()).filter(Boolean);
-  const kText = kw.length > 1 ? kw.slice(0, -1).join(', ') + (L === 'en' ? ' and ' : ' und ') + kw[kw.length - 1] : (kw[0] || '');
-  const satz = liste[occIdx % liste.length]
-    .split('{n}').join(name ? ', ' + name : '')
-    .split('{K}').join(kText.charAt(0).toUpperCase() + kText.slice(1))
-    .split('{k}').join(kText);
-  $('#gMsg').value = satz.slice(0, 200);
-  updatePreview();
-}
-document.querySelectorAll('#occChips .chip').forEach(c => c.addEventListener('click', () => {
-  document.querySelectorAll('#occChips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
-  textVorschlag(c.dataset.occ);
-}));
-$('#gKwGo').addEventListener('click', () => {
-  const kw = $('#gKw').value.trim();
-  if (!kw) { $('#gKw').focus(); return; }
-  document.querySelectorAll('#occChips .chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
-  textVorschlag('eigen', kw);
-});
-$('#gKw').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('#gKwGo').click(); } });
-
 /* ---------- Angaben für den A4-Gutschein (Vorschau, PDF, Mail) ---------- */
 const gutscheinTitel = k => (!k || k === 'betrag') ? '' : exLabel(k)[LoveSite.lang() === 'en' ? 'en' : 'de'];
 function gutscheinDaten(v) {
