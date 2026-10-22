@@ -578,3 +578,15 @@ footer.site a:hover{color:var(--rose);text-decoration:underline}
 .foot-bottom .lang-switch{border-color:rgba(51,115,87,.3)}
 .foot-bottom .lang-btn{color:var(--ink-soft)}
 .foot-bottom .lang-btn[aria-pressed="true"]{background:var(--green);color:#fff}
+
+/* Mobile header refinement: larger brand, menu at the right edge. */
+@media(max-width:640px){
+  header.site .nav-in{min-height:72px}
+  header.site .brand{gap:.5rem;margin-right:0}
+  header.site .brand img{width:52px;height:52px;flex:none}
+  header.site .brand-name{font-size:1.2rem}
+  header.site .brand-name small{font-size:.64rem}
+  header.site .nav-in > .acc-btn{order:2;margin-left:auto;flex:none}
+  header.site .nav-in > .burger{order:3;margin-left:0;flex:none;display:grid}
+  header.site nav.main{inset:73px 0 auto 0;max-height:calc(100vh - 73px);max-height:calc(100dvh - 73px)}
+}

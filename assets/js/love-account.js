@@ -241,6 +241,9 @@ const LoveAccount = (() => {
        22.09.2026 eine zweite (fürs Handy). Ohne «:scope >» fand querySelector jene zuerst — sie ist
        kein direktes Kind der Kopfzeile, insertBefore scheiterte, und der Knopf fehlte ganz. */
     navIn.insertBefore(btn, navIn.querySelector(':scope > .lang-switch'));
+    // Match mobile visual order with keyboard focus order; keep the existing button/listeners.
+    const menuButton = navIn.querySelector(':scope > .burger');
+    if (menuButton) btn.after(menuButton);
 
     document.body.insertAdjacentHTML('beforeend', `
       <div class="acc-backdrop" id="accBackdrop"></div>
