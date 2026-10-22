@@ -41,6 +41,11 @@
 <script>
 window.LOVE_TITLES = { de: 'LOVE Creative Café — Keramik bemalen am Zürichsee, Au ZH', en: 'LOVE Creative Café — Paint ceramics by Lake Zurich, Au ZH' };
 window.LOVE_EN = {
+  'homeHours.title':'Opening hours',
+  'homeHours.wed':'Wednesday: 14:00–20:00',
+  'homeHours.fri':'Friday: 15:00–21:00',
+  'homeHours.sat':'Saturday: 13:00–21:00',
+  'homeHours.sun':'Sunday: 13:00–18:00',
   'kx.title':'🍿 Movie &amp; Pottery — film afternoons',
   'kx.text':'17, 18, 24 and 25 October, always at 4:30 pm: paint pottery and watch a movie together.',
   'kx.cta':'Save a spot →',
@@ -187,9 +192,18 @@ window.LOVE_EN = {
   'ev.ask':'Enquire →',
   'pl.tDate':'Date night (for two)',
   'oz.eyebrow':'Opening hours',
-  'oz.note':'On the days we are closed, we open for groups of 6 or more on request — <a href="teamevents.html">companies</a>, <a href="geburtstag.html">birthdays</a> or <a href="#eventplaner">private events</a>. We confirm these dates personally — please bear with us, we will get back to you.'
+  'oz.note':'Bookings outside our regular opening hours are possible for groups of up to 6 people.'
 };
 </script>
+<style>
+.home-hours{padding:1.15rem 0;background:var(--celadon);border-bottom:1px solid var(--line)}
+.home-hours-grid{display:grid;grid-template-columns:auto 1fr;gap:.6rem 2rem;align-items:center}
+.home-hours h2{font-size:1.45rem}
+.home-hours ul{display:flex;flex-wrap:wrap;gap:.35rem 1.5rem;list-style:none;font-size:.95rem}
+.home-hours li{white-space:nowrap}
+.home-hours p{grid-column:1/-1;font-size:.9rem;color:var(--ink-soft)}
+@media(max-width:640px){.home-hours-grid{grid-template-columns:1fr;gap:.65rem}.home-hours ul{display:grid;grid-template-columns:1fr;gap:.2rem}.home-hours h2{font-size:1.35rem}}
+</style>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
@@ -237,6 +251,19 @@ window.LOVE_EN = {
 <div class="sticky-cta"><a class="btn btn-rose" href="reservieren.html" data-i18n="cta.reserve3">Tisch reservieren</a></div>
 
 <main id="main">
+<section class="home-hours" aria-labelledby="home-hours-title">
+  <div class="wrap home-hours-grid">
+    <h2 id="home-hours-title" data-i18n="homeHours.title">Öffnungszeiten</h2>
+    <ul>
+      <li data-i18n="homeHours.wed">Mittwoch: 14:00–20:00 Uhr</li>
+      <li data-i18n="homeHours.fri">Freitag: 15:00–21:00 Uhr</li>
+      <li data-i18n="homeHours.sat">Samstag: 13:00–21:00 Uhr</li>
+      <li data-i18n="homeHours.sun">Sonntag: 13:00–18:00 Uhr</li>
+    </ul>
+    <p data-i18n="oz.note">Buchungen ausserhalb unserer regulären Öffnungszeiten sind für Gruppen bis zu 6 Personen möglich.</p>
+  </div>
+</section>
+
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap hero-grid">
@@ -299,7 +326,7 @@ window.LOVE_EN = {
         <p class="hours-status" id="hoursStatus" aria-live="polite"></p>
       </div>
       <table class="hours-table" id="hoursTable" aria-label="Öffnungszeiten"></table>
-      <p class="hours-note" data-i18n="oz.note">An den geschlossenen Tagen öffnen wir für Gruppen ab 6 Personen auf Anfrage — <a href="teamevents.html">Firmen</a>, <a href="geburtstag.html">Geburtstage</a> oder <a href="#eventplaner">private Anlässe</a>. Solche Termine bestätigen wir persönlich — bitte hab etwas Geduld, wir melden uns.</p>
+      <p class="hours-note" data-i18n="oz.note">Buchungen ausserhalb unserer regulären Öffnungszeiten sind für Gruppen bis zu 6 Personen möglich.</p>
     </div>
   </div>
 </section>
