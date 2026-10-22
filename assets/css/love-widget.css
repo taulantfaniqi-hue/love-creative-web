@@ -39,7 +39,9 @@ body.lw-open .sticky-cta{display:none !important}
 .lw-sheet{
   position:fixed;right:1rem;bottom:0;z-index:130;
   width:min(420px,calc(100vw - 2rem));
-  max-height:min(88vh,760px);
+  max-height:min(88vh,760px); /* fallback for older browsers */
+  max-height:min(88vh,calc(100dvh - env(safe-area-inset-top) - 1rem),760px);
+  overflow:hidden;
   display:flex;flex-direction:column;
   background:var(--mimi);
   border-radius:22px 22px 0 0;
@@ -55,11 +57,12 @@ body.lw-open .sticky-cta{display:none !important}
   .lw-backdrop{transition:none}
 }
 @media (max-width:640px){
-  .lw-sheet{right:0;width:100vw;max-height:92vh;border-radius:22px 22px 0 0}
+  .lw-sheet{right:0;width:100vw;max-height:92vh;max-height:calc(100dvh - env(safe-area-inset-top) - .75rem);border-radius:22px 22px 0 0}
 }
 
 /* ── Kopf ── */
 .lw-head{
+  flex-shrink:0;
   display:flex;align-items:center;justify-content:space-between;gap:1rem;
   padding:1rem 1.15rem .55rem;
 }
@@ -73,7 +76,7 @@ body.lw-open .sticky-cta{display:none !important}
 .lw-close:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
 
 /* ── Auswahl-Zeilen (Gäste / Datum / Zeit) ── */
-.lw-rows{padding:0 .8rem;display:grid;gap:.45rem}
+.lw-rows{padding:0 .8rem;display:grid;gap:.45rem;flex-shrink:0;max-height:60vh;max-height:min(60dvh,calc(100dvh - 11rem));overflow-y:auto;overscroll-behavior:contain}
 .lw-row{
   position:relative;display:flex;align-items:center;gap:.7rem;
   background:rgba(255,255,255,.62);border:1px solid rgba(226,115,150,.28);
@@ -141,7 +144,7 @@ body.lw-open .sticky-cta{display:none !important}
 }
 
 /* ── Scrollbereich mit Karten ── */
-.lw-scroll{overflow-y:auto;padding:.7rem .9rem 1rem;flex:1;overscroll-behavior:contain}
+.lw-scroll{min-height:0;overflow-y:auto;padding:.7rem .9rem 1rem;flex:1;overscroll-behavior:contain}
 .lw-cards{display:grid;gap:.9rem}
 .lw-card{
   background:#fff;border:2px solid transparent;border-radius:18px;overflow:hidden;
@@ -209,6 +212,7 @@ body.lw-open .sticky-cta{display:none !important}
 
 /* ── Fusszeile ── */
 .lw-foot{
+  flex-shrink:0;
   padding:.65rem 1.15rem calc(.75rem + env(safe-area-inset-bottom));
   text-align:center;font-size:.8rem;color:var(--ink-soft);
   border-top:1px solid rgba(226,115,150,.28);background:rgba(255,255,255,.5);

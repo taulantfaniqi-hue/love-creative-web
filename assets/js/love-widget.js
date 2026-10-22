@@ -405,7 +405,9 @@ function renderCards() {
   box.querySelectorAll('.lw-card').forEach(b => b.addEventListener('click', () => {
     state.act = b.dataset.act;
     renderCards(); renderForm();
-    $('lwFormWrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Scroll only the inner panel: Safari must not pan the page/visual viewport.
+    const sc = sheet.querySelector('.lw-scroll'), form = $('lwFormWrap');
+    if (sc && form) sc.scrollTo({ top: Math.max(0, sc.scrollTop + form.getBoundingClientRect().top - sc.getBoundingClientRect().top), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }));
   renderForm();
 }
@@ -517,6 +519,9 @@ function openSheet() {
   launcher.classList.add('lw-hidden');
   document.body.classList.add('lw-open');
   launcher.setAttribute('aria-expanded', 'true');
+  // Reopening always exposes the guests/date/time controls and the first card.
+  sheet.querySelector('.lw-scroll').scrollTop = 0;
+  sheet.querySelector('.lw-rows').scrollTop = 0;
   $('lwClose').focus({ preventScroll: true });
 }
 function closeSheet() {

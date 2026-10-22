@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css?v=ea1a78f3">
-<link rel="stylesheet" href="assets/css/love-widget.css?v=29b30178">
+<link rel="stylesheet" href="assets/css/love-widget.css?v=ae429c92">
 <link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <script type="application/ld+json">
 {
@@ -196,13 +196,14 @@ window.LOVE_EN = {
 };
 </script>
 <style>
-.home-hours{padding:1.15rem 0;background:var(--celadon);border-bottom:1px solid var(--line)}
-.home-hours-grid{display:grid;grid-template-columns:auto 1fr;gap:.6rem 2rem;align-items:center}
-.home-hours h2{font-size:1.45rem}
-.home-hours ul{display:flex;flex-wrap:wrap;gap:.35rem 1.5rem;list-style:none;font-size:.95rem}
+.home-hours{padding:1.15rem 0;background:transparent}
+.home-hours-card.hero-badge{max-width:100%;margin-bottom:0;white-space:normal}
+.home-hours-content{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1.25rem;align-items:center;min-width:0}
+.home-hours h2{font:inherit;color:inherit;line-height:inherit}
+.home-hours ul{display:flex;flex-wrap:wrap;gap:.2rem 1.25rem;list-style:none}
 .home-hours li{white-space:nowrap}
-.home-hours p{grid-column:1/-1;font-size:.9rem;color:var(--ink-soft)}
-@media(max-width:640px){.home-hours-grid{grid-template-columns:1fr;gap:.65rem}.home-hours ul{display:grid;grid-template-columns:1fr;gap:.2rem}.home-hours h2{font-size:1.35rem}}
+.home-hours p{grid-column:1/-1;font:inherit;color:inherit;letter-spacing:inherit}
+@media(max-width:640px){.home-hours-card.hero-badge{border-radius:24px;align-items:flex-start;padding:.8rem 1.1rem}.home-hours-card .dot{margin-top:.45rem}.home-hours-content{grid-template-columns:1fr;gap:.45rem}.home-hours ul{display:grid;grid-template-columns:1fr;gap:.2rem}.home-hours li{white-space:normal}}
 </style>
 </head>
 <body>
@@ -252,7 +253,9 @@ window.LOVE_EN = {
 
 <main id="main">
 <section class="home-hours" aria-labelledby="home-hours-title">
-  <div class="wrap home-hours-grid">
+  <div class="wrap">
+    <div class="hero-badge home-hours-card"><span class="dot" aria-hidden="true"></span>
+    <div class="home-hours-content">
     <h2 id="home-hours-title" data-i18n="homeHours.title">Öffnungszeiten</h2>
     <ul>
       <li data-i18n="homeHours.wed">Mittwoch: 14:00–20:00 Uhr</li>
@@ -261,6 +264,8 @@ window.LOVE_EN = {
       <li data-i18n="homeHours.sun">Sonntag: 13:00–18:00 Uhr</li>
     </ul>
     <p data-i18n="oz.note">Buchungen ausserhalb unserer regulären Öffnungszeiten sind für Gruppen bis zu 6 Personen möglich.</p>
+  </div>
+    </div>
   </div>
 </section>
 
@@ -647,7 +652,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=c69e9e52"></script>
 <script src="assets/js/love-pay.js?v=67a0bb98"></script>
-<script src="assets/js/love-widget.js?v=118e9049"></script>
+<script src="assets/js/love-widget.js?v=35595a37"></script>
 <script>
 (() => {
 'use strict';
