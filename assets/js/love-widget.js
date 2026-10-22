@@ -12,11 +12,12 @@
 'use strict';
 /* LoveData ist eine top-level const (kein window-Property) → typeof-Check */
 if (!window.LoveSite || !window.LoveTables || typeof LoveData === 'undefined') return;
-/* Das Reservations-Widget (schwebender Knopf + Bottom-Sheet) erscheint nur auf
-   der Startseite und bei Walk-in — auf allen anderen Seiten nicht
-   (Entscheid Taulant, 24.09.2026). */
+/* A single table-booking flow across public pages. Dedicated event/course
+   destinations are never intercepted. Keep native URLs as a fallback. */
 const SEITE = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-if (!['', 'index.html', 'walkin.html'].includes(SEITE)) return;
+if (!['index.html','walkin.html','reservieren.html','geschenk.html','workshop.html','events.html','kidscamp.html','geburtstag.html','teamevents.html','halloween.html','kinokeramik.html','monetkids.html','monetadults.html','shop.html','agb.html','datenschutz.html','impressum.html','leistungen.html','host.html'].includes(SEITE)) return;
+const IS_RESERVATION = SEITE === 'reservieren.html';
+const SHOW_LAUNCHER = ['', 'index.html', 'walkin.html', 'reservieren.html'].includes(SEITE);
 const T = window.LoveTables;
 
 /* ═══════════ Texte (eigenes Mini-i18n, hört auf love:lang) ═══════════ */
@@ -156,11 +157,12 @@ document.body.insertAdjacentHTML('beforeend', `
     <div class="lw-cards" id="lwCards"></div>
     <div id="lwFormWrap"></div>
   </div>
-  <div class="lw-foot"><a href="reservieren.html#formular" id="lwFootLink"></a></div>
+  <div class="lw-foot"><a href="reservieren.html#infos" id="lwFootLink" data-reservation-info></a></div>
 </div>`);
 
 const $ = id => document.getElementById(id);
 const sheet = $('lwSheet'), backdrop = $('lwBackdrop'), launcher = $('lwLauncher');
+if (!SHOW_LAUNCHER) launcher.style.display = 'none';
 
 /* ═══════════ Render ═══════════ */
 function fmtDate(iso) {
@@ -533,21 +535,41 @@ function closeSheet() {
 }
 launcher.addEventListener('click', openSheet);
 
-/* Auf schmalen Bildschirmen ist der schwebende Knopf ausgeblendet (love-widget.css)
-   und die Leiste am unteren Rand ist der einzige Reservations-Knopf. Sie öffnet
-   dann dasselbe Fenster, statt die Seite zu wechseln — ein Tippen weniger.
-   Auf der Reservationsseite selbst zeigt die Leiste auf «#formular» und bleibt
-   damit unberührt: dort führt sie weiterhin direkt zum Formular. */
-document.querySelectorAll('.sticky-cta a[href*="reservieren.html"]').forEach(a => {
-  a.addEventListener('click', e => {
-    if (getComputedStyle(launcher).display !== 'none') return;   // breiter Bildschirm: Link lassen
-    e.preventDefault();
-    openSheet();
-  });
+/* Use the selected pink dialog from every ordinary table CTA, at every
+   viewport. Modified clicks and real links remain available as fallbacks. */
+function isTableReservationLink(a) {
+  if (!a || a.hasAttribute('download') || a.hasAttribute('data-reservation-info') ||
+      (a.target && a.target !== '_self') || a.id === 'lwFootLink') return false;
+  let url;
+  try { url = new URL(a.href, location.href); } catch (_) { return false; }
+  if (url.origin !== location.origin) return false;
+  return url.pathname === '/reservieren.html' &&
+    (!url.hash || url.hash === '#formular');
+}
+document.addEventListener('click', e => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest && e.target.closest('a[href]');
+  if (!isTableReservationLink(a)) return;
+  e.preventDefault();
+  openSheet();
 });
+$('lwFootLink').addEventListener('click', closeSheet);
 $('lwClose').addEventListener('click', closeSheet);
 backdrop.addEventListener('click', closeSheet);
-addEventListener('keydown', e => { if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet(); });
+addEventListener('keydown', e => {
+  if (!sheet.classList.contains('open')) return;
+  if (e.key === 'Escape') { closeSheet(); return; }
+  if (e.key !== 'Tab') return;
+  const items = Array.from(sheet.querySelectorAll('a[href],button,input,select,textarea,[tabindex="0"]'))
+    .filter(el => !el.disabled && el.getClientRects().length);
+  const first = items[0], last = items[items.length - 1];
+  if (!first) return;
+  if (e.shiftKey && (document.activeElement === first || !sheet.contains(document.activeElement))) {
+    e.preventDefault(); last.focus();
+  } else if (!e.shiftKey && (document.activeElement === last || !sheet.contains(document.activeElement))) {
+    e.preventDefault(); first.focus();
+  }
+});
 
 /* ═══════════ Eingaben ═══════════ */
 const scrollTop = () => { const sc = sheet.querySelector('.lw-scroll'); if (sc) sc.scrollTop = 0; };
@@ -562,6 +584,20 @@ $('lwSlot').addEventListener('change', e => { state.slot = e.target.value; rende
 document.addEventListener('love:lang', () => { renderAll(); if (state.done) renderResult(); });
 
 renderAll();
+/* Progressive enhancement: the old page remains a fallback only if the shared
+   widget cannot initialize. Never replace existing booking/payment data. */
+if (IS_RESERVATION) {
+  const oldForm = document.querySelector('#formular .panel');
+  const launch = $('reservationLaunch');
+  if (oldForm && launch) {
+    oldForm.hidden = true;
+    oldForm.style.display = 'none';
+    launch.hidden = false;
+    launch.classList.remove('hidden');
+  }
+  const q = new URLSearchParams(location.search);
+  if (!q.has('paid') && !q.has('payfail') && (!location.hash || location.hash === '#formular')) openSheet();
+}
 loadClosures();
 loadServices();
 loadAvailability(state.date);
@@ -572,3 +608,4 @@ document.addEventListener('love:cloud', e => {
   loadAvailability(state.date);
 });
 })();
+

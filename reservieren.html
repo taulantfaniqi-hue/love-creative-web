@@ -27,6 +27,8 @@ window.LOVE_EN = {
   'rs.lead':'Three hours just for you — coffee, colour and good conversation. Choose date, time slot and group size; we confirm your table by e-mail within 24 hours. No prepayment needed.',
   'rs.cta1':'Reserve now',
   'rs.cta2':'How it works',
+  'rs.open':'Open reservation',
+  'rs.shared':'Choose your guests, date and time in our reservation window.',
   'how.eyebrow':'How it works',
   'how.title':'Three steps to your table',
   'how.s1':'Date &amp; time slot',
@@ -134,7 +136,7 @@ window.LOVE_EN = {
 
 <main id="main">
 
-<section class="page-hero">
+<section class="page-hero" id="infos">
   <div class="wrap grid">
     <div>
       <p class="eyebrow" data-i18n="rs.eyebrow">Reservation</p>
@@ -149,6 +151,10 @@ window.LOVE_EN = {
 </section>
 
 <section id="formular">
+  <div class="wrap wrap-narrow hidden" id="reservationLaunch" hidden>
+    <p data-i18n="rs.shared">Wähle Gäste, Datum und Zeit in unserem Reservationsfenster.</p>
+    <a class="btn btn-rose" href="#formular" data-i18n="rs.open" aria-haspopup="dialog">Reservation öffnen</a>
+  </div>
   <div class="wrap wrap-narrow">
     <div class="panel reveal">
       <div class="panel-head">
@@ -252,7 +258,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=d3e7e9a8"></script>
 <script src="assets/js/love-pay.js?v=67a0bb98"></script>
-<script src="assets/js/love-widget.js?v=35595a37"></script>
+<script src="assets/js/love-widget.js?v=abf09d7a"></script>
 <script>
 (() => {
 'use strict';
