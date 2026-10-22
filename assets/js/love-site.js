@@ -65,9 +65,34 @@ const SONDEROEFFNUNG = {
 const PRIVAT_SLOTS = ['10:00–13:00', '13:30–16:30', '17:00–20:00'];
 const PRIVAT_MIN = 6;
 const PRIVAT_GEBUEHR = 25;
+/* Gesetzliche Feiertage Kanton Zürich: neun Tage, keine lokalen optionalen
+   Feiertage (insbesondere nicht der 2. Januar). Datum ist ein Zürcher Kalendertag.
+   Quelle: zh.ch, Arbeits-/Ruhezeiten → Feiertage, geprüft 22.10.2026.
+   Bewegliche Feiertage nach gregorianischem Ostersonntag, UTC vermeidet DST. */
+const holidayCache = new Map();
+function holidaysForYear(year) {
+  if (holidayCache.has(year)) return holidayCache.get(year);
+  const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+  const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = (h + l - 7 * m + 114) % 31 + 1;
+  const easter = Date.UTC(year, month - 1, day);
+  const days = new Set(['01-01', '05-01', '08-01', '12-25', '12-26'].map(md => `${year}-${md}`));
+  [-2, 1, 39, 50].forEach(offset => days.add(new Date(easter + offset * 864e5).toISOString().slice(0, 10)));
+  holidayCache.set(year, days);
+  return days;
+}
+function isHoliday(dateISO) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateISO || ''))) return false;
+  const year = Number(dateISO.slice(0, 4));
+  return year >= 1583 && holidaysForYear(year).has(dateISO);
+}
 const wochentag = dateISO => new Date(dateISO + 'T12:00:00').getDay();
 /* Öffnungszeit an diesem Datum: Sonderöffnung vor Wochentag; null = geschlossen */
-const tagInfo = dateISO => (dateISO ? (SONDEROEFFNUNG[dateISO] || OEFFNUNG[wochentag(dateISO)] || null) : null);
+const tagInfo = dateISO => (dateISO && !isHoliday(dateISO) ? (SONDEROEFFNUNG[dateISO] || OEFFNUNG[wochentag(dateISO)] || null) : null);
 /* Hat das Studio an diesem Datum offen? */
 const isOpen = dateISO => !!tagInfo(dateISO);
 /* Die Startzeiten dieses Tages — an geschlossenen Tagen eine leere Liste */
@@ -136,7 +161,7 @@ function occupancy(dateISO, slot, bookings) {
 }
 
 window.LoveTables = { ROOMS, SLOTS, KINO_SLOT, KINO_AKTIV, INVENTORY, OEFFNUNG, SONDEROEFFNUNG, allTables, capacity, suggest,
-  candidates, isKinoSlot, occupancy, isOpen, slotsFor, slotLength, tagInfo, intervall, schliesstVorher,
+  candidates, isKinoSlot, occupancy, isHoliday, isOpen, slotsFor, slotLength, tagInfo, intervall, schliesstVorher,
   PRIVAT_SLOTS, PRIVAT_MIN, PRIVAT_GEBUEHR };
 
 /* ═══════════ i18n ═══════════ */
@@ -144,7 +169,7 @@ const COMMON_EN = {
   'skip': 'Skip to content',
   'brand.sub': 'Creative Café',
   'nav.menu': 'Menu',
-  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.camp': 'Holiday kids camp', 'nav.geb': 'Kids\' birthday', 'nav.team': 'Team &amp; corporate events', 'nav.hallo': 'Halloween Party', 'nav.kinoK': 'Movie &amp; Pottery', 'nav.monet': 'Claude Monet Kids', 'nav.monetA': 'Claude Monet Adults', 'ft.firmen': 'Team &amp; corporate events', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
+  'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.camp': 'Holiday kids camp', 'nav.geb': 'Birthday', 'nav.team': 'Team &amp; corporate events', 'nav.hallo': 'Halloween Party', 'nav.kinoK': 'Movie &amp; Pottery', 'nav.monet': 'Claude Monet Kids', 'nav.monetA': 'Claude Monet Adults', 'ft.firmen': 'Team &amp; corporate events', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
   'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact', 'nav.shop': 'Shop',
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
@@ -191,6 +216,8 @@ const DE = Object.assign({}, COMMON_DE, window.LOVE_DE || {});
 document.querySelectorAll('[data-i18n]').forEach(el => { DE[el.dataset.i18n] = el.innerHTML; });
 document.querySelectorAll('[data-i18n-ph]').forEach(el => { DE[el.dataset.i18nPh] = el.placeholder; });
 document.querySelectorAll('[data-i18n-aria]').forEach(el => { DE[el.dataset.i18nAria] = el.getAttribute('aria-label'); });
+// Canonical birthday navigation label also covers older page templates.
+DE['nav.geb'] = 'Geburtstag';
 const EN = Object.assign({}, COMMON_EN, window.LOVE_EN || {});
 const I18N = { de: DE, en: EN };
 let lang = localStorage.getItem('love.lang') || 'de';

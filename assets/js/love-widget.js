@@ -198,7 +198,7 @@ function loadClosures() {
 const HORIZON_DAYS = 60; // so weit im Voraus kann online reserviert werden
 /* Geschlossener Wochentag (Mo/Di/Do)? Dann ist nur die private Keramik-Session
    ab 6 Personen buchbar — mit vorbezahlter Servicegebühr. */
-const isPriv = iso => !!iso && !T.isOpen(iso);
+const isPriv = iso => !!iso && !T.isHoliday(iso) && !closedDays.has(iso) && !T.isOpen(iso);
 /* Hat dieses Fenster heute schon begonnen? Dann nicht mehr anbieten. */
 function vorbei(iso, slot) {
   if (iso !== LoveSite.todayISO()) return false;
@@ -206,7 +206,7 @@ function vorbei(iso, slot) {
   const jetzt = new Date();
   return +m[1] * 60 + +m[2] <= jetzt.getHours() * 60 + jetzt.getMinutes();
 }
-const fensterFuer = iso => (isPriv(iso) ? T.PRIVAT_SLOTS : T.slotsFor(iso));
+const fensterFuer = iso => (T.isHoliday(iso) || closedDays.has(iso) ? [] : isPriv(iso) ? T.PRIVAT_SLOTS : T.slotsFor(iso));
 const heuteVorbei = iso => iso === LoveSite.todayISO() && fensterFuer(iso).every(s => vorbei(iso, s));
 function dateOptions() {
   const out = [];
@@ -216,7 +216,7 @@ function dateOptions() {
     const iso = d.toISOString().slice(0, 10);
     /* Ferien/Feiertage aus der Cloud bleiben ganz zu; geschlossene Wochentage
        (Mo, Di, Do) sind als private Keramik-Session ab 6 Personen wählbar. */
-    if (!closedDays.has(iso) && !heuteVorbei(iso)) out.push(iso);
+    if (!T.isHoliday(iso) && !closedDays.has(iso) && !heuteVorbei(iso)) out.push(iso);
   }
   return out.length ? out : [LoveSite.todayISO()];
 }
@@ -314,7 +314,7 @@ function renderCal() {
   for (let i = 0; i < startCol; i++) cells += '<span class="lw-cal-day lw-cal-empty"></span>';
   for (let day = 1; day <= daysInMonth; day++) {
     const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const ok = iso >= todayIso && iso <= maxIso && !closedDays.has(iso) && !heuteVorbei(iso);
+    const ok = iso >= todayIso && iso <= maxIso && !T.isHoliday(iso) && !closedDays.has(iso) && !heuteVorbei(iso);
     cells += `<button type="button" class="lw-cal-day${iso === state.date ? ' sel' : ''}${iso === todayIso ? ' today' : ''}${ok && isPriv(iso) ? ' priv' : ''}" data-iso="${iso}" ${ok ? '' : 'disabled'}>${day}</button>`;
   }
   $('lwCal').innerHTML = `
@@ -348,8 +348,8 @@ function renderSlots() {
   const x = tw();
   /* Die Fenster hängen am Wochentag — Mi/Fr ab 12 Uhr, Sa/So ab 10 Uhr;
      an geschlossenen Tagen gelten die Fenster der privaten Session. */
-  const offen = isPriv(state.date) ? T.PRIVAT_SLOTS : T.slotsFor(state.date);
-  if (!offen.length) { $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; $('lwCloseNote').classList.add('hidden'); return; }
+  const offen = fensterFuer(state.date);
+  if (!offen.length) { state.slot = ''; $('lwSlot').innerHTML = ''; $('lwUntil').textContent = ''; $('lwCloseNote').classList.add('hidden'); return; }
   if (!offen.includes(state.slot)) state.slot = offen[0];
   if (slotFull(state.date, state.slot, state.guests) || vorbei(state.date, state.slot)) {
     const free = offen.find(s => !slotFull(state.date, s, state.guests) && !vorbei(state.date, s));
@@ -464,6 +464,7 @@ async function submit(e) {
   e.preventDefault();
   if (submitBusy) return;
   const x = tw();
+  if (!selectable(state.date) || !fensterFuer(state.date).includes(state.slot)) { $('lwErr').textContent = LoveSite.lang() === 'en' ? 'This date or time is not available — please choose another.' : 'Dieses Datum oder Zeitfenster ist nicht verfügbar — bitte wähle ein anderes.'; return; }
   const name = $('lwName').value.trim(), email = $('lwEmail').value.trim();
   const phone = $('lwPhone').value.trim();
   if (!name || !LoveSite.validEmail(email)) { $('lwErr').textContent = LoveSite.t('err.required'); return; }
