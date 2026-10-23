@@ -1,0 +1,17 @@
+/* LOVE Creative — additive special enquiry styling. No ordinary booking rule changes. */
+.ls-toggle{flex:none;align-self:flex-start;margin:.2rem 1.15rem .8rem;padding:.55rem .8rem;border:1px solid #337357;border-radius:999px;background:rgba(255,255,255,.65);color:#245c43;font:600 .88rem var(--ff-body,sans-serif);cursor:pointer}
+.ls-toggle:focus-visible,.ls-pane :focus-visible{outline:3px solid #337357;outline-offset:3px}
+.lw-special-active>.lw-rows,.lw-special-active>#lwDivider,.lw-special-active>.lw-foot,.lw-special-active>.lw-scroll>#lwCards,.lw-special-active>.lw-scroll>#lwFormWrap{display:none!important}
+.ls-pane{padding:.15rem 1.15rem 1.3rem;color:#263f32;font:400 .88rem/1.45 var(--ff-body,sans-serif)}
+.ls-pane[hidden],.ls-pane [hidden]{display:none!important}
+.ls-pane h2{font:600 1.65rem/1.15 Georgia,serif;margin:.1rem 0 .6rem;color:#245c43}
+.ls-intro{margin:.1rem 0 .75rem}.ls-hours{background:rgba(255,255,255,.62);border-radius:12px;padding:.75rem;font-size:.8rem;margin:0 0 1rem}
+.ls-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.65rem}
+.ls-field{display:flex;flex-direction:column;gap:.3rem;margin:0 0 .8rem;font-size:.8rem;font-weight:600;min-width:0}
+.ls-field input,.ls-field textarea{display:block;box-sizing:border-box;width:100%;min-width:0;border:1px solid rgba(51,115,87,.25);border-radius:9px;padding:.65rem .6rem;background:#fff;color:#263f32;font:400 16px/1.2 var(--ff-body,sans-serif)}
+.ls-field textarea{resize:vertical}.ls-field input::placeholder{font-size:.8rem;color:#6b766f}
+.ls-consent{display:flex;gap:.55rem;align-items:flex-start;font-size:.75rem;line-height:1.5;margin:.2rem 0 .9rem}.ls-consent input{margin:.2rem 0 0;flex:none;accent-color:#337357}.ls-consent a{color:#245c43}
+.ls-disclaimer{font-size:.77rem;line-height:1.5;margin:.6rem 0 1rem}.ls-error{font-size:.8rem;color:#9d273f;font-weight:600}.ls-error:empty,.ls-hint:empty{display:none}
+.ls-hint{font-size:.75rem;margin:-.35rem 0 .8rem}.ls-submit{width:100%;border:0;border-radius:999px;background:#a94467;color:#fff;padding:.85rem 1rem;font:600 .95rem var(--ff-body,sans-serif);cursor:pointer}.ls-submit:disabled{opacity:.65;cursor:wait}
+#ls-result{padding:.8rem 0}#ls-result h3{font:600 1.4rem Georgia,serif}
+@media(max-width:360px){.ls-grid{grid-template-columns:1fr}}
