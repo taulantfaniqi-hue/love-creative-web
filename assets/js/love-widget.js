@@ -15,7 +15,7 @@ if (!window.LoveSite || !window.LoveTables || typeof LoveData === 'undefined') r
 /* A single table-booking flow across public pages. Dedicated event/course
    destinations are never intercepted. Keep native URLs as a fallback. */
 const SEITE = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-if (!['index.html','walkin.html','reservieren.html','geschenk.html','workshop.html','shop.html','agb.html','datenschutz.html','impressum.html','leistungen.html','host.html'].includes(SEITE)) return;
+if (!['so-funktionierts.html','index.html','walkin.html','reservieren.html','geschenk.html','workshop.html','shop.html','agb.html','datenschutz.html','impressum.html','leistungen.html','host.html'].includes(SEITE)) return;
 const IS_RESERVATION = SEITE === 'reservieren.html';
 const SHOW_LAUNCHER = ['', 'index.html', 'walkin.html', 'reservieren.html'].includes(SEITE);
 const T = window.LoveTables;
