@@ -43,10 +43,8 @@
 window.LOVE_TITLES = { de: 'LOVE Creative Café — Keramik bemalen am Zürichsee, Au ZH', en: 'LOVE Creative Café — Paint ceramics by Lake Zurich, Au ZH' };
 window.LOVE_EN = {
   'homeHours.title':'Opening hours',
-  'homeHours.wed':'Wednesday: 14:00–20:00',
-  'homeHours.fri':'Friday: 15:00–21:00',
-  'homeHours.sat':'Saturday: 13:00–21:00',
-  'homeHours.sun':'Sunday: 13:00–18:00',
+  'homeHours.row1':'Wed 14:00–20:00 · Fri 15:00–21:00',
+  'homeHours.row2':'Sat 13:00–21:00 · Sun 13:00–18:00',
   'kx.title':'🍿 Movie &amp; Pottery — film afternoons',
   'kx.text':'17, 18, 24 and 25 October, always at 4:30 pm: paint pottery and watch a movie together.',
   'kx.cta':'Save a spot →',
@@ -202,7 +200,7 @@ window.LOVE_EN = {
 .home-hours-card.hero-badge{max-width:100%;margin-bottom:0;white-space:normal}
 .home-hours-content{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1.25rem;align-items:center;min-width:0}
 .home-hours h2{font:inherit;color:inherit;line-height:inherit}
-.home-hours ul{display:flex;flex-wrap:wrap;gap:.2rem 1.25rem;list-style:none}
+.home-hours ul{display:grid;grid-template-columns:1fr;gap:.2rem;list-style:none}
 .home-hours li{white-space:nowrap}
 .home-hours p{grid-column:1/-1;font:inherit;color:inherit;letter-spacing:inherit}
 .home-hours p[data-i18n="oz.note"],.hours-note[data-i18n="oz.note"]{color:#91465f;font-weight:400}
@@ -260,10 +258,8 @@ window.LOVE_EN = {
     <div class="home-hours-content">
     <h2 id="home-hours-title" data-i18n="homeHours.title">Öffnungszeiten</h2>
     <ul>
-      <li data-i18n="homeHours.wed">Mittwoch: 14:00–20:00 Uhr</li>
-      <li data-i18n="homeHours.fri">Freitag: 15:00–21:00 Uhr</li>
-      <li data-i18n="homeHours.sat">Samstag: 13:00–21:00 Uhr</li>
-      <li data-i18n="homeHours.sun">Sonntag: 13:00–18:00 Uhr</li>
+      <li data-i18n="homeHours.row1">Mi 14:00–20:00 · Fr 15:00–21:00</li>
+      <li data-i18n="homeHours.row2">Sa 13:00–21:00 · So 13:00–18:00</li>
     </ul>
     <p data-i18n="oz.note">Buchungen ausserhalb unserer regulären Öffnungszeiten sind für Gruppen ab 6 Personen möglich.</p>
   </div>
