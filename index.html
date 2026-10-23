@@ -206,6 +206,14 @@ window.LOVE_EN = {
 .home-hours p[data-i18n="oz.note"],.hours-note[data-i18n="oz.note"]{color:#91465f;font-weight:400}
 @media(max-width:640px){.home-hours-card.hero-badge{border-radius:24px;align-items:flex-start;padding:.8rem 1.1rem}.home-hours-card .dot{margin-top:.45rem}.home-hours-content{grid-template-columns:1fr;gap:.45rem}.home-hours ul{display:grid;grid-template-columns:1fr;gap:.2rem}.home-hours li{white-space:normal}}
 </style>
+<style id="homepage-how-styles">#ablauf{padding:0}
+
+.how-hero{padding:80px 24px;text-align:center;background:#fff}
+.how-hero h2{font-family:var(--ff-display,'Playfair Display',serif);font-size:56px;font-weight:700;line-height:1.15;color:var(--green,#337357);margin:0 auto 24px}.how-hero h2 em{font-style:normal}.how-hero p{font-family:var(--ff-body,'Lexend',sans-serif);max-width:640px;margin:auto;color:#56685D;font-size:19px;line-height:28px}
+.how-step{padding:60px 24px;background:#E3EFE5}.how-step:nth-child(even){background:#FFDBE5}.how-inner{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:70px}.how-step:nth-child(even) .how-inner{flex-direction:row-reverse}.how-photo{width:340px;height:400px;object-fit:contain;display:block;flex-shrink:0}.how-copy{width:460px;text-align:left}.how-copy h2{font-family:var(--ff-body,'Lexend',sans-serif);font-size:14px;letter-spacing:.1em;line-height:1.4;text-transform:uppercase;font-weight:600;color:#337357;margin:0 0 14px}.how-copy h3{font-family:var(--ff-display,'Playfair Display',serif);font-size:35px;line-height:1.2;font-weight:700;margin:0 0 18px;color:#337357}.how-copy p{font-family:var(--ff-body,'Lexend',sans-serif);font-weight:400;font-size:19px;line-height:28px;color:#065436;margin:0}.how-final{text-align:center;padding:80px 24px;background:#fff}.how-final h2{font-family:var(--ff-display,'Playfair Display',serif);color:#337357;font-size:42px;line-height:1.15;font-weight:700;margin:0 auto 30px}.how-final a:focus-visible{outline:3px solid #E27396;outline-offset:5px}
+@media(max-width:700px){.how-hero{padding:56px 24px}.how-hero h2{font-size:42px;line-height:1.1}.how-hero p{font-size:16px;line-height:1.6}.how-step{padding:40px 24px}.how-inner,.how-step:nth-child(even) .how-inner{flex-direction:column;gap:26px}.how-photo{width:100%;max-width:300px;height:280px}.how-copy{width:100%;max-width:345px;text-align:center}.how-copy h2{font-size:13px;margin-bottom:10px}.how-copy h3{font-size:24px;margin-bottom:16px}.how-copy p{font-size:16px;line-height:1.6;max-width:300px;margin:auto}.how-final{padding:56px 24px}.how-final h2{font-size:32px}}
+</style>
+<script>Object.assign(window.LOVE_EN, {"how.title":"<em>How it</em> works","how.intro":"Your favourite piece, your colours, your moment. Here’s how to make pottery your own at LOVE.","how.final":"Ready for your creative moment?","how.reserve":"Reserve a table","how.step1":"Step 1","how.h1":"Reserve a table","how.t1":"Choose your preferred date and group size. Come on your own or bring someone along — we look forward to welcoming you.","how.step2":"Step 2","how.h2":"Choose your favourite piece","how.t2":"Browse our shelves and choose the pottery you’d like to make your own. A cup, a bowl or a plate — pick the piece that feels right for you.","how.step3":"Step 3","how.h3":"Make it colourful","how.t3":"Bring your ideas to life. Colours and tools are ready for you, and our team can help you get started. No experience needed — just the wish to create something of your own.","how.step4":"Step 4","how.h4":"Leave it with us","how.t4":"Leave your painted piece at the studio. We take care of glazing and firing while you look forward to seeing your finished creation.","how.step5":"Step 5","how.h5":"Collect your creation","how.t5":"Your ceramic will be ready to collect in about two weeks.","nav.howto":"How it works"});</script>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
@@ -334,52 +342,7 @@ window.LOVE_EN = {
   </div>
 </section>
 
-<section id="ablauf">
-  <div class="wrap">
-    <p class="eyebrow" data-i18n="steps.eyebrow">Keramik bemalen</p>
-    <img class="howto-logo" src="assets/img/howto-logo.svg" alt="" width="88" height="88">
-    <h2 class="sect-title" data-i18n="steps.title">So funktioniert's</h2>
-    <div class="howto">
-
-      <div class="howto-row reveal">
-        <div class="howto-num">1</div>
-        <div>
-          <h3 data-i18n="steps.s1">Keramik aussuchen</h3>
-          <p data-i18n="steps.s1t">Stöbere in unseren Regalen und wähl das Stück, das du bemalen möchtest.</p>
-        </div>
-        <div class="howto-artbox"><img class="howto-art" src="assets/img/howto-1.svg" alt="" loading="lazy"></div>
-      </div>
-
-      <div class="howto-row reveal">
-        <div class="howto-num">2</div>
-        <div>
-          <h3 data-i18n="steps.s2">Dein Design malen</h3>
-          <p data-i18n="steps.s2t">Lass dir Zeit und gestalte deine Keramik — bis zu zwei Stunden.</p>
-        </div>
-        <div class="howto-artbox"><img class="howto-art" src="assets/img/howto-2.svg" alt="" loading="lazy"></div>
-      </div>
-
-      <div class="howto-row reveal">
-        <div class="howto-num">3</div>
-        <div>
-          <h3 data-i18n="steps.s3">Zum Brennen dalassen</h3>
-          <p data-i18n="steps.s3t">Wir glasieren und brennen dein Stück, damit es robust und lebensmittelecht wird.</p>
-        </div>
-        <div class="howto-artbox"><img class="howto-art" src="assets/img/howto-3.svg" alt="" loading="lazy"></div>
-      </div>
-
-      <div class="howto-row reveal">
-        <div class="howto-num">4</div>
-        <div>
-          <h3 data-i18n="steps.s4">Dein Werk abholen</h3>
-          <p data-i18n="steps.s4t">Rund zwei Wochen später holst du deine fertige Keramik ab.</p>
-        </div>
-        <div class="howto-artbox"><img class="howto-art" src="assets/img/howto-4.svg" alt="" loading="lazy"></div>
-      </div>
-
-    </div>
-  </div>
-</section>
+<section id="ablauf" aria-labelledby="home-how-title"><div class="how-hero"><h2 id="home-how-title" data-i18n="how.title">So funktioniert’s</h2><p data-i18n="how.intro">Dein Lieblingsstück, deine Farben, dein Moment. So entsteht bei LOVE deine ganz persönliche Keramik.</p></div><div class="how-steps"><section class="how-step" aria-labelledby="step1"><div class="how-inner"><img class="how-photo" src="assets/img/how-step-1-20261023-together.webp" alt="Illustration einer Frau und eines Mannes, die gemeinsam am rosa Tisch Keramik bemalen" data-alt-de="Illustration einer Frau und eines Mannes, die gemeinsam am rosa Tisch Keramik bemalen" data-alt-en="Illustration of a woman and a man painting pottery together at a pink table" width="340" height="430" loading="lazy"><div class="how-copy"><h2 id="step1" data-i18n="how.step1">Schritt 1</h2><h3 data-i18n="how.h1">Tisch reservieren</h3><p data-i18n="how.t1">Wähle deinen Wunschtermin und die Anzahl Personen. Ob allein oder gemeinsam: Wir freuen uns auf deinen Besuch.</p></div></div></section><section class="how-step" aria-labelledby="step2"><div class="how-inner"><img class="how-photo" src="assets/img/how-step-2-20261023-soft.webp" alt="Illustration eines rosa Regals mit bunten Keramikstücken" data-alt-de="Illustration eines rosa Regals mit bunten Keramikstücken" data-alt-en="Illustration of a pink shelf with colourful pottery" width="340" height="430" loading="lazy"><div class="how-copy"><h2 id="step2" data-i18n="how.step2">Schritt 2</h2><h3 data-i18n="how.h2">Lieblingsstück aussuchen</h3><p data-i18n="how.t2">Stöbere in unseren Regalen und such dir die Keramik aus, die du gestalten möchtest. Ob Tasse, Schale oder Teller — du entscheidest, was zu dir passt.</p></div></div></section><section class="how-step" aria-labelledby="step3"><div class="how-inner"><img class="how-photo" src="assets/img/how-step-3-20261023-soft.webp" alt="Illustration: Eine Hand malt Blumen auf eine Tasse" data-alt-de="Illustration: Eine Hand malt Blumen auf eine Tasse" data-alt-en="Illustration of a hand painting flowers on a mug" width="340" height="430" loading="lazy"><div class="how-copy"><h2 id="step3" data-i18n="how.step3">Schritt 3</h2><h3 data-i18n="how.h3">Mit Farben gestalten</h3><p data-i18n="how.t3">Lass deinen Ideen freien Lauf. Farben und Werkzeuge stehen bereit; unser Team hilft dir beim Einstieg. Du brauchst keine Erfahrung — nur Lust, etwas Eigenes zu gestalten.</p></div></div></section><section class="how-step" aria-labelledby="step4"><div class="how-inner"><img class="how-photo" src="assets/img/how-step-4-20261023-soft.webp" alt="Illustration eines violetten Keramikbrennofens" data-alt-de="Illustration eines violetten Keramikbrennofens" data-alt-en="Illustration of a purple pottery kiln" width="340" height="430" loading="lazy"><div class="how-copy"><h2 id="step4" data-i18n="how.step4">Schritt 4</h2><h3 data-i18n="how.h4">Zum Brennen dalassen</h3><p data-i18n="how.t4">Dein bemaltes Stück bleibt bei uns. Wir kümmern uns um die Glasur und den Brand, während du dich schon auf dein fertiges Lieblingsstück freuen kannst.</p></div></div></section><section class="how-step" aria-labelledby="step5"><div class="how-inner"><img class="how-photo" src="assets/img/how-step-5-20261023-soft.webp" alt="Illustration einer blau gestreiften Tasse mit rosa Henkel" data-alt-de="Illustration einer blau gestreiften Tasse mit rosa Henkel" data-alt-en="Illustration of a blue striped mug with a pink handle" width="340" height="430" loading="lazy"><div class="how-copy"><h2 id="step5" data-i18n="how.step5">Schritt 5</h2><h3 data-i18n="how.h5">Dein Werk abholen</h3><p data-i18n="how.t5">Nach etwa zwei Wochen ist deine Keramik bereit zur Abholung.</p></div></div></section></div></section>
 
 <section class="prices" id="preise">
   <div class="wrap">
@@ -723,6 +686,16 @@ $('#wlForm').addEventListener('submit', e => {
 });
 })();
 </script>
+<script>
+(() => {
+  const updatePhotoAlts = () => document.querySelectorAll('.how-photo[data-alt-en]').forEach(img => {
+    img.alt = window.LoveSite && LoveSite.lang() === 'en' ? img.dataset.altEn : img.dataset.altDe;
+  });
+  document.addEventListener('love:lang', updatePhotoAlts);
+  updatePhotoAlts();
+})();
+</script>
 </body>
 </html>
+
 
