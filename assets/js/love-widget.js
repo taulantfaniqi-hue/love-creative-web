@@ -1,7 +1,7 @@
 /* LOVE Creative — Reservations-Widget (Bottom-Sheet)
  *
  * Rollt sich von unten auf: Gäste → Datum → Zeitfenster wählen, darunter
- * erscheinen die passenden Erlebnisse als Karten (Guestplan-Prinzip).
+ * erscheint direkt das Kontaktformular für Keramik-Tischreservationen.
  * Bucht über LoveData.addBooking → landet wie das grosse Formular im CRM.
  *
  * Einbindung (nach love-data.js und love-site.js):
@@ -35,7 +35,7 @@ const TX = {
     full: 'ausgebucht',
     monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
     weekdays: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
-    divider: 'Verfügbar für deine Auswahl',
+    divider: 'Tisch reservieren · Keramik bemalen',
     eventNote: 'Ab 9 Personen planen wir mit euch ein Event — mit Verpflegung und eigenem Zeitplan.',
     eventLink: 'Zum Eventplaner →',
     formTitle: sel => `Fast geschafft — ${sel}`,
@@ -55,7 +55,6 @@ const TX = {
     okText: 'Du bekommst gleich eine E-Mail von uns. Bitte warte kurz, bis unser Team deine Buchung annimmt — die Bestätigung kommt ebenfalls per E-Mail.',
     okKino: 'Kino-Night: Programm und Format schicken wir dir mit der Bestätigung.',
     okClose: 'Alles klar ♥',
-    foot: 'Alle Details ansehen →',
     persons: 'Personen',
     acts: {
       keramik: { title: 'Keramik bemalen', desc: 'Stück aussuchen, bemalen, wir glasieren und brennen — nach rund zwei Wochen abholen.', price: 'CHF 25 Service + Stück ab CHF 7' },
@@ -76,7 +75,7 @@ const TX = {
     full: 'fully booked',
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     weekdays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-    divider: 'Available for your selection',
+    divider: 'Reserve a table · Pottery painting',
     eventNote: 'From 9 people we plan an event with you — with catering and your own timing.',
     eventLink: 'Go to event planner →',
     formTitle: sel => `Almost there — ${sel}`,
@@ -96,7 +95,6 @@ const TX = {
     okText: 'You will get an e-mail from us right away. Please wait until our team accepts your booking — the confirmation also arrives by e-mail.',
     okKino: 'Cinema Night: we send you the programme with the confirmation.',
     okClose: 'All set ♥',
-    foot: 'See all details →',
     persons: 'people',
     acts: {
       keramik: { title: 'Paint ceramics', desc: 'Pick a piece, paint it — we glaze and fire it, ready after about two weeks.', price: 'CHF 25 service + pieces from CHF 7' },
@@ -121,7 +119,7 @@ const state = {
   guests: 2,
   date: LoveSite.todayISO(),
   slot: T.slotsFor(LoveSite.todayISO())[0] || '',
-  act: null,       // gewählte Aktivität
+  act: 'keramik',  // allgemeine Tischreservationen sind immer Keramik
   done: null       // Buchung nach Erfolg
 };
 
@@ -157,7 +155,6 @@ document.body.insertAdjacentHTML('beforeend', `
     <div class="lw-cards" id="lwCards"></div>
     <div id="lwFormWrap"></div>
   </div>
-  <div class="lw-foot"><a href="reservieren.html#infos" id="lwFootLink" data-reservation-info></a></div>
 </div>`);
 
 const $ = id => document.getElementById(id);
@@ -278,7 +275,6 @@ function renderStatic() {
   $('lwTitle').textContent = x.script;
   $('lwClose').setAttribute('aria-label', x.close);
   $('lwDivider').textContent = x.divider;
-  $('lwFootLink').textContent = x.foot;
 }
 function renderGuests() {
   const x = tw();
@@ -387,30 +383,12 @@ function renderCards() {
     $('lwFormWrap').innerHTML = '';
     return;
   }
-  const kino = T.isKinoSlot(state.date, state.slot);
-  let acts = actList();
-  acts = kino ? [...acts.filter(a => a.id === 'kino'), ...acts.filter(a => a.id !== 'kino')]
-              : acts.filter(a => a.id !== 'kino');
-  /* Geschlossener Tag: nur Keramik als private Session, mit klarem Hinweis */
-  let privHtml = '';
-  if (isPriv(state.date)) {
-    acts = acts.filter(a => a.id === 'keramik');
-    if (!state.act) state.act = 'keramik';
-    privHtml = `<div class="lw-event-note" style="text-align:left"><b>🎨 ${x.privBadge}</b><br>${x.privNote(T.PRIVAT_MIN)}<br><span style="font-size:.85em">${x.priv24h}</span></div>`;
-  }
-  const esc = s => String(s || '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
-  box.innerHTML = privHtml + acts.map(a => `
-    <button type="button" class="lw-card" data-act="${esc(a.id)}" aria-pressed="${state.act === a.id}">
-      <!-- Ohne Foto und ohne Preis (Taulant 14.10.2026: Regal-Bild weg, Preise stehen nur im Preis-Abschnitt) -->
-      <h4>${esc(a.title)}</h4><p>${esc(a.desc)}</p>
-    </button>`).join('');
-  box.querySelectorAll('.lw-card').forEach(b => b.addEventListener('click', () => {
-    state.act = b.dataset.act;
-    renderCards(); renderForm();
-    // Scroll only the inner panel: Safari must not pan the page/visual viewport.
-    const sc = sheet.querySelector('.lw-scroll'), form = $('lwFormWrap');
-    if (sc && form) sc.scrollTo({ top: Math.max(0, sc.scrollTop + form.getBoundingClientRect().top - sc.getBoundingClientRect().top), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  }));
+  // General table reservations go straight to pottery contact details.
+  // Dedicated cinema, course and birthday flows remain on their own pages.
+  state.act = 'keramik';
+  box.innerHTML = isPriv(state.date)
+    ? `<div class="lw-event-note" style="text-align:left"><b>🎨 ${x.privBadge}</b><br>${x.privNote(T.PRIVAT_MIN)}<br><span style="font-size:.85em">${x.priv24h}</span></div>`
+    : '';
   renderForm();
 }
 function renderForm() {
@@ -513,7 +491,7 @@ async function submit(e) {
 let lastFocus = null;
 function openSheet() {
   lastFocus = document.activeElement;
-  if (state.done) { state.done = null; state.act = null; }
+  if (state.done) { state.done = null; state.act = 'keramik'; }
   state.date = dateOptions().includes(state.date) ? state.date : dateOptions()[0];
   loadAvailability(state.date);
   renderAll();
@@ -539,7 +517,7 @@ launcher.addEventListener('click', openSheet);
    viewport. Modified clicks and real links remain available as fallbacks. */
 function isTableReservationLink(a) {
   if (!a || a.hasAttribute('download') || a.hasAttribute('data-reservation-info') ||
-      (a.target && a.target !== '_self') || a.id === 'lwFootLink') return false;
+      (a.target && a.target !== '_self')) return false;
   let url;
   try { url = new URL(a.href, location.href); } catch (_) { return false; }
   if (url.origin !== location.origin) return false;
@@ -553,7 +531,6 @@ document.addEventListener('click', e => {
   e.preventDefault();
   openSheet();
 });
-$('lwFootLink').addEventListener('click', closeSheet);
 $('lwClose').addEventListener('click', closeSheet);
 backdrop.addEventListener('click', closeSheet);
 addEventListener('keydown', e => {
@@ -608,4 +585,3 @@ document.addEventListener('love:cloud', e => {
   loadAvailability(state.date);
 });
 })();
-
