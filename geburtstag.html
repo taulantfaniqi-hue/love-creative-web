@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Geburtstag — LOVE Creative Café, Au ZH</title>
-<meta name="description" content="Geburtstag im LOVE Creative Café: 2½ Stunden, eigener festlich vorbereiteter Tisch. CHF 45 pro malende Person, Mindestpreis für 8 Personen, bis 20 Personen möglich — online buchen und bezahlen.">
+<meta name="description" content="Geburtstag im LOVE Creative Café: 2½ Stunden, eigener festlich vorbereiteter Tisch. Paket S CHF 35 oder Paket M CHF 45 pro Person, Mindestpreis für 6 Personen, bis 20 Personen möglich — online buchen und bezahlen.">
 <link rel="canonical" href="https://lovecreative.ch/geburtstag.html">
 <link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +16,27 @@
 <script>
 window.LOVE_TITLES = { de: 'Geburtstag — LOVE Creative Café, Au ZH', en: 'Birthday — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
+  'sTitle':'Package S',
+  'mTitle':'Package M',
+  'perChild':'per child',
+  'sBody':'One ceramic figure of your choice in sizes XXS to S.',
+  'mBody':'One ceramic figure of your choice in sizes XXS to M.',
+  'sMin':'Minimum CHF 210 for 6 participants · Each additional participant CHF 35',
+  'mMin':'Minimum CHF 270 for 6 participants · Each additional participant CHF 45',
+  'both':'Included in both packages',
+
+  'gb.packages':'Choose your package',
+  'gb.packageS':'Package S · XXS–S',
+  'gb.packageM':'Package M · XXS–M',
+  'gb.priceS':'CHF 35 per person · Minimum CHF 210 for 6 participants. Each additional participant CHF 35.',
+  'gb.priceM':'CHF 45 per person · Minimum CHF 270 for 6 participants. Each additional participant CHF 45.',
+  'gb.packageStep':'1 · Choose package S or M',
+  'gb.packageLabel':'Birthday package',
+  'gb.packagePh':'Please choose S or M',
+  'gb.optionS':'S · Figures XXS–S · CHF 35 per person',
+  'gb.optionM':'M · Figures XXS–M · CHF 45 per person',
+  'gb.packageHint':'Minimum price for 6 participants: S CHF 210 / M CHF 270. Each additional participant: S CHF 35 / M CHF 45.',
+
   'gb.eyebrow':'Birthday',
   'gb.title':'A party that stays.',
   'gb.lead':'Two and a half hours, a table just for you. Paint your own ceramic pieces together — we glaze and fire them. Your keepsakes are ready to collect about two weeks later.',
@@ -23,12 +44,12 @@ window.LOVE_EN = {
   'gb.cta2':'What is included',
   'kg.bTitle':'Birthday',
   'kg.bText':'Two and a half hours, a table just for you. Paint your own ceramic pieces together — we glaze and fire them.',
-  'kg.b1':'CHF 45 per painting participant, minimum price for 8 participants — your own table',
+  'kg.b1':'Minimum price for 6 participants — your own table',
   'kg.b6':'Festive table setting',
   'kg.b1b':'Up to 20 participants possible',
   'kg.from':'from',
   'kg.proKind':'per painting participant',
-  'kg.b2':'One piece per painting participant of their choice, up to size M: mug, bowl or pendant',
+  'kg.b2':'One ceramic figure per participant: sizes XXS–S for package S or XXS–M for package M',
   'kg.b3':'Colours, glaze and firing included — ready to collect after about 2 weeks',
   'kg.b4':'Syrup is included for children.',
   'kg.b5':'You are welcome to bring a cake',
@@ -39,27 +60,23 @@ window.LOVE_EN = {
   'kb.eyebrow':'Booking',
   'kb.title':'Book the party',
   'gb.bLead':'Fill in the booking and pay online (TWINT or card). Our team then checks the date and confirms it by e-mail.',
-  'kb.gebH':'1 · The party',
+  'kb.gebH':'2 · The party',
   'kb.date':'Preferred date',
   'kb.start':'Start',
   'kb.startPh':'Choose a date first',
   'kb.gChild':'Name of the birthday person',
-  'kb.ageGroup':'Birthday person: under 18 or adult?',
-  'kb.ageGroupPh':'Please choose',
-  'kb.minor':'Under 18',
-  'kb.adult':'Adult (18 or older)',
   'kb.gAge':'Turning how old? (optional)',
   'kb.kids':'Number of painting participants (up to 20)',
   'kb.gAllergy':'Allergies in the group (optional)',
   'kb.gAllergyPh':'e.g. nuts, lactose',
-  'kb.elternH':'2 · Your details',
+  'kb.elternH':'3 · Your details',
   'kb.pName':'First and last name',
   'kb.mail':'E-mail',
   'kb.pPhone':'Mobile phone',
   'kb.msg':'Note (optional)',
   'kb.gift':'Gift card code (optional)',
   'kb.giftHint':'The balance of your LOVE gift card is applied automatically at payment.',
-  'kb.einwH':'3 · Consent',
+  'kb.einwH':'4 · Consent',
   'kb.eAgb':'I have read and accept the <a href="agb.html" target="_blank" rel="noopener">terms</a> including the cancellation policy.',
   'kb.eDsg':'I agree that LOVE Creative processes the information given here to run the event — in line with the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>. We delete the details 30 days after the event.',
   'kb.eSorge':'For a birthday person under 18: I hold parental authority and make these declarations also on behalf of any other person holding parental authority.',
@@ -73,6 +90,7 @@ window.LOVE_EN = {
   'kb.fFoto':'I allow photos of the birthday person during the party — as the birthday person myself or as their parent or legal guardian. For LOVE Creative\'s internal purposes only; no publication, sharing or sending.'
 };
 </script>
+<style>.package-options{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:30px 0 44px}.package{display:flex;flex-direction:column;gap:17px;background:#fffaf5;border:2px solid #d7dcd5;border-radius:20px;padding:30px;text-align:left;cursor:pointer;color:var(--ink);font-family:var(--ff-body);font-size:15px;transition:background .15s,border-color .15s}.package[aria-pressed=true]{border-color:#337357;background:#edf4ed;box-shadow:0 8px 24px #33735712}.package-top{display:flex;justify-content:space-between;font-size:25px;font-family:var(--ff-display);color:#337357}.selection{visibility:hidden}.package[aria-pressed=true] .selection{visibility:visible}.package strong{font-family:var(--ff-display);font-size:36px;font-weight:600}.package small{font-family:var(--ff-body);font-size:14px;font-weight:400}.size{align-self:flex-start;border-radius:30px;background:#f3dfdf;padding:5px 15px;color:#754357;font-size:14px}.package-min{border-top:1px solid #d7dcd5;padding-top:18px;font-size:13px;color:#5b685e}.both{margin-bottom:22px}button.package:focus-visible{outline:3px solid #a34767;outline-offset:4px}@media(max-width:700px){.package-options{grid-template-columns:1fr;gap:18px}.package{padding:25px}.package strong{font-size:32px}}</style>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
@@ -141,15 +159,18 @@ window.LOVE_EN = {
   <div class="wrap">
     <p class="eyebrow" data-i18n="kb.eyebrow">Anmeldung</p>
     <h2 class="sect-title" data-i18n="kg.bTitle">Geburtstag</h2>
+    <div class="package-options" role="group" aria-label="Paket / Package">
+<button type="button" class="package" data-package="S" aria-pressed="false"><span class="package-top"><span data-i18n="sTitle">Paket S</span><span class="selection" aria-hidden="true">✓</span></span><strong>CHF 35 <small data-i18n="perChild">pro Kind</small></strong><span class="size">XXS–S</span><span data-i18n="sBody">Eine Keramikfigur nach Wahl in den Grössen XXS bis S.</span><span class="package-min" data-i18n="sMin">Mindestpreis CHF 210 für 6 Personen · Jede weitere Person CHF 35</span></button>
+<button type="button" class="package" data-package="M" aria-pressed="false"><span class="package-top"><span data-i18n="mTitle">Paket M</span><span class="selection" aria-hidden="true">✓</span></span><strong>CHF 45 <small data-i18n="perChild">pro Kind</small></strong><span class="size">XXS–M</span><span data-i18n="mBody">Eine Keramikfigur nach Wahl in den Grössen XXS bis M.</span><span class="package-min" data-i18n="mMin">Mindestpreis CHF 270 für 6 Personen · Jede weitere Person CHF 45</span></button></div><h3 class="both" data-i18n="both">In beiden Paketen inklusive</h3>
     <div class="grid-3">
       <div class="card reveal">
         <h3 data-i18n="kg.bTitle">Geburtstag</h3>
         <p data-i18n="kg.bText">Zweieinhalb Stunden, ein eigener Tisch nur für euch. Ihr bemalt eure eigenen Keramikstücke — wir glasieren und brennen sie.</p>
         <ul class="tick">
-          <li data-i18n="kg.b1">CHF 45 pro malende Person, Mindestpreis für 8 Personen — eigener Tisch</li>
+          <li data-i18n="kg.b1">Mindestpreis für 6 Personen — eigener Tisch</li>
           <li data-i18n="kg.b6">Festliche Tischvorbereitung</li>
           <li data-i18n="kg.b1b">Bis 20 Personen möglich</li>
-          <li data-i18n="kg.b2">Pro malende Person ein Stück nach Wahl bis maximal Grösse M: Tasse, Schale oder Anhänger</li>
+          <li data-i18n="kg.b2">Pro Person eine Keramikfigur nach Wahl: Paket S in den Grössen XXS–S, Paket M in den Grössen XXS–M</li>
           <li data-i18n="kg.b3">Farben, Glasur und Brand inklusive — abholbereit nach rund 2 Wochen</li>
           <li data-i18n="kg.b4">Für Kinder ist Sirup inbegriffen.</li>
           <li data-i18n="kg.b5">Kuchen dürft ihr mitbringen</li>
@@ -172,9 +193,14 @@ window.LOVE_EN = {
     <p class="sect-lead" data-i18n="gb.bLead">Füll die Buchung aus und bezahl online (TWINT oder Karte). Danach prüft unser Team den Termin und bestätigt ihn per E-Mail.</p>
     <div class="panel reveal"><div class="panel-body">
       <form id="gbForm" novalidate>
+        <div class="anm-block">
+          <h3 data-i18n="gb.packageStep">1 · Paket S oder M wählen</h3>
+          <div class="field"><label for="gPackage" data-i18n="gb.packageLabel">Geburtstagspaket</label><select id="gPackage" required><option value="" data-i18n="gb.packagePh">Bitte S oder M wählen</option><option value="S" data-i18n="gb.optionS">S · Figuren XXS–S · CHF 35 pro Person</option><option value="M" data-i18n="gb.optionM">M · Figuren XXS–M · CHF 45 pro Person</option></select></div>
+          <p class="hint" data-i18n="gb.packageHint">Mindestpreis für 6 Personen: S CHF 210 / M CHF 270. Jede weitere Person: S CHF 35 / M CHF 45.</p>
+        </div>
 
         <div class="anm-block">
-          <h3 data-i18n="kb.gebH">1 · Das Fest</h3>
+          <h3 data-i18n="kb.gebH">2 · Das Fest</h3>
           <div class="two-col">
             <div class="field"><label for="gDate" data-i18n="kb.date">Wunschdatum</label><input type="date" id="gDate"></div>
             <div class="field"><label for="gStart" data-i18n="kb.start">Beginn</label><select id="gStart"><option value="" data-i18n="kb.startPh">Zuerst Datum wählen</option></select></div>
@@ -184,15 +210,14 @@ window.LOVE_EN = {
             <div class="field"><label for="gChild" data-i18n="kb.gChild">Name der Geburtstagsperson</label><input id="gChild" autocomplete="off"></div>
             <div class="field"><label for="gAge" data-i18n="kb.gAge">Wird wie alt? (optional)</label><input type="number" id="gAge" min="0" inputmode="numeric"></div>
           </div>
-          <div class="field"><label for="gMinor" data-i18n="kb.ageGroup">Geburtstagsperson: minderjährig oder erwachsen?</label><select id="gMinor"><option value="" data-i18n="kb.ageGroupPh">Bitte wählen</option><option value="yes" data-i18n="kb.minor">Unter 18 Jahren</option><option value="no" data-i18n="kb.adult">Erwachsen (ab 18 Jahren)</option></select></div>
           <div class="two-col">
-            <div class="field"><label for="gKids" data-i18n="kb.kids">Anzahl malende Personen (bis 20)</label><input type="number" id="gKids" min="1" max="20" value="8" inputmode="numeric"></div>
+            <div class="field"><label for="gKids" data-i18n="kb.kids">Anzahl malende Personen (bis 20)</label><input type="number" id="gKids" min="1" max="20" value="6" inputmode="numeric"></div>
             <div class="field"><label for="gAllergy" data-i18n="kb.gAllergy">Allergien in der Gruppe (optional)</label><input id="gAllergy" data-i18n-ph="kb.gAllergyPh" placeholder="z. B. Nüsse, Laktose"></div>
           </div>
         </div>
 
         <div class="anm-block">
-          <h3 data-i18n="kb.elternH">2 · Deine Angaben</h3>
+          <h3 data-i18n="kb.elternH">3 · Deine Angaben</h3>
           <div class="two-col">
             <div class="field"><label for="pName" data-i18n="kb.pName">Vor- und Nachname</label><input id="pName" autocomplete="name"></div>
             <div class="field"><label for="pMail" data-i18n="kb.mail">E-Mail</label><input id="pMail" type="email" autocomplete="email"></div>
@@ -204,7 +229,7 @@ window.LOVE_EN = {
         </div>
 
         <div class="anm-block">
-          <h3 data-i18n="kb.einwH">3 · Einverständnis</h3>
+          <h3 data-i18n="kb.einwH">4 · Einverständnis</h3>
           <label class="check"><input type="checkbox" id="eAgb"><span data-i18n="kb.eAgb">Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB</a> mit den Stornobedingungen gelesen und akzeptiere sie.</span></label>
           <label class="check"><input type="checkbox" id="eDsg"><span data-i18n="kb.eDsg">Ich bin einverstanden, dass LOVE Creative die hier gemachten Angaben für die Durchführung bearbeitet — gemäss <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a>. Wir löschen die Angaben 30 Tage nach dem Anlass.</span></label>
           <label class="check"><input type="checkbox" id="eSorge"><span data-i18n="kb.eSorge">Bei einer minderjährigen Geburtstagsperson: Ich bin sorgeberechtigt und gebe diese Erklärungen auch im Namen einer weiteren sorgeberechtigten Person ab.</span></label>
@@ -304,7 +329,7 @@ window.LOVE_EN = {
 <script src="assets/js/love-widget.js?v=0efa0c46"></script>
 <script>
 /* Geburtstag — Buchung mit Online-Zahlung (Payrexx).
- * Preis (bestätigt 22.10.2026): CHF 45 pro malende Person · Mindestpreis für 8 Personen (CHF 360) · höchstens 20.
+ * Pakete (bestätigt 26.10.2026): S CHF 35 / M CHF 45 pro Person · Mindestpreis für 6 Personen (CHF 210 / CHF 270) · höchstens 20.
  * Der Mindestpreis ist Absicht: Der Tisch ist für die Zeit blockiert, auch wenn nur fünf Personen kommen. */
 (() => {
 'use strict';
@@ -312,22 +337,25 @@ const $ = s => document.querySelector(s);
 const chf = n => 'CHF ' + Number(n).toFixed(0);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const PREIS = { proKind: 45, minKinder: 8, maxKinder: 20, dauerMin: 150 };
+const PREIS = { pakete: { S: 35, M: 45 }, minKinder: 6, maxKinder: 20, dauerMin: 150 };
+const paket = () => ['S', 'M'].includes($('#gPackage').value) ? $('#gPackage').value : '';
+const preisProPerson = () => PREIS.pakete[paket()] || 0;
 
 const M = {
   de: {
+    invalidPackage: 'Bitte wähle Paket S oder M.',
     holiday: 'An gesetzlichen Feiertagen im Kanton Zürich sind keine Buchungen möglich. Bitte wähle ein anderes Datum.',
     invalidSlot: 'Bitte wähle einen gültigen Termin.',
-    invalidAge: 'Bitte prüfe das Alter und die Auswahl minderjährig/erwachsen.',
+    invalidAge: 'Bitte prüfe das Alter.',
     invalidCount: 'Bitte gib eine ganze Anzahl malender Personen zwischen 1 und 20 an.',
     startPh: 'Zuerst Datum wählen', startWahl: 'Bitte wählen',
     zuHinweis: 'An diesem Tag haben wir regulär geschlossen — für euren Geburtstag öffnen wir gern. Unser Team prüft den Termin persönlich und meldet sich per E-Mail. Bitte hab etwas Geduld — der Termin gilt erst mit unserer Bestätigung.',
-    sGeb: n => `Geburtstag · ${n} Person${n === 1 ? '' : 'en'} × CHF ${PREIS.proKind}`,
-    sMin: n => `Geburtstag · ${n} Person${n === 1 ? '' : 'en'} — Mindestpreis für ${PREIS.minKinder} Personen`, sTotal: 'Total',
+    sGeb: n => `Geburtstag · Paket ${paket()} · ${n} Person${n === 1 ? '' : 'en'} × CHF ${preisProPerson()}`,
+    sMin: n => `Geburtstag · Paket ${paket()} · ${n} Person${n === 1 ? '' : 'en'} — Mindestpreis für ${PREIS.minKinder} Personen`, sTotal: 'Total',
     errPflicht: 'Bitte füll alle Pflichtfelder aus: ', errMail: 'Bitte gib eine gültige E-Mail-Adresse an.',
     errEinw: 'Bitte bestätige die nötigen Einverständnisse — ohne sie können wir die Buchung nicht annehmen.',
     errKinder: 'Ein Geburtstag ist für höchstens 20 Personen möglich. Für grössere Gruppen planen wir gern etwas Eigenes — schreib uns an hello@lovecreative.ch.',
-    fAgeGroup: 'minderjährig oder erwachsen', fDatum: 'Datum', fStart: 'Beginn', fGebKind: 'Name der Geburtstagsperson', fName: 'dein Name', fTel: 'Mobiltelefon',
+    fDatum: 'Datum', fStart: 'Beginn', fGebKind: 'Name der Geburtstagsperson', fName: 'dein Name', fTel: 'Mobiltelefon',
     okPaid: 'Zahlung erhalten — vielen Dank! Unser Team bestätigt dir den Termin per E-Mail.',
     okFail: 'Die Zahlung wurde nicht abgeschlossen — es ist nichts gebucht und nichts belastet. Du kannst es gleich nochmals versuchen.',
     okReserved: 'Die Online-Zahlung ist gerade nicht erreichbar. Deine Buchung ist bei uns angekommen — wir melden uns per E-Mail mit den Zahlungsdetails.',
@@ -335,18 +363,19 @@ const M = {
     titlePaid: 'Zahlung erhalten!', titleFail: 'Zahlung nicht abgeschlossen', titleReserved: 'Buchung angekommen', titleLost: 'Noch nicht angekommen', ref: 'Referenz: '
   },
   en: {
+    invalidPackage: 'Please choose package S or M.',
     holiday: 'Bookings are closed on statutory public holidays in the Canton of Zurich. Please choose another date.',
     invalidSlot: 'Please choose a valid session.',
-    invalidAge: 'Please check the age and the under-18/adult selection.',
+    invalidAge: 'Please check the age.',
     invalidCount: 'Please enter a whole number of painting participants from 1 to 20.',
     startPh: 'Choose a date first', startWahl: 'Please choose',
     zuHinweis: 'We are normally closed on this day — but we will gladly open for your birthday. Our team checks the date personally and gets back to you by e-mail. Please bear with us — the date is final only once we confirm it.',
-    sGeb: n => `Birthday · ${n} participant${n === 1 ? '' : 's'} × CHF ${PREIS.proKind}`,
-    sMin: n => `Birthday · ${n} participant${n === 1 ? '' : 's'} — minimum price for ${PREIS.minKinder} participants`, sTotal: 'Total',
+    sGeb: n => `Birthday · Package ${paket()} · ${n} participant${n === 1 ? '' : 's'} × CHF ${preisProPerson()}`,
+    sMin: n => `Birthday · Package ${paket()} · ${n} participant${n === 1 ? '' : 's'} — minimum price for ${PREIS.minKinder} participants`, sTotal: 'Total',
     errPflicht: 'Please fill in all required fields: ', errMail: 'Please enter a valid e-mail address.',
     errEinw: 'Please confirm the required consents — we cannot accept the booking without them.',
     errKinder: 'A birthday is possible for up to 20 participants. For larger groups we will gladly plan something of its own — write to hello@lovecreative.ch.',
-    fAgeGroup: 'under 18 or adult', fDatum: 'date', fStart: 'start time', fGebKind: 'name of the birthday person', fName: 'your name', fTel: 'mobile phone',
+    fDatum: 'date', fStart: 'start time', fGebKind: 'name of the birthday person', fName: 'your name', fTel: 'mobile phone',
     okPaid: 'Payment received — thank you! Our team will confirm the date by e-mail.',
     okFail: 'The payment was not completed — nothing has been booked or charged. You can try again right away.',
     okReserved: 'Online payment is temporarily unavailable. Your booking has reached us — we will e-mail you the payment details.',
@@ -379,40 +408,38 @@ function zeichneStart() {
 }
 $('#gDate').addEventListener('input', () => { zeichneStart(); zeichneSumme(); });
 $('#gKids').addEventListener('input', zeichneSumme);
+const packageCards = [...document.querySelectorAll('[data-package]')];
+function syncPackageCards() { packageCards.forEach(card => card.setAttribute('aria-pressed', String(card.dataset.package === paket()))); }
+$('#gPackage').addEventListener('change', () => { zeichneSumme(); syncPackageCards(); });
+packageCards.forEach(card => card.addEventListener('click', () => { $('#gPackage').value = card.dataset.package; zeichneSumme(); syncPackageCards(); }));
+syncPackageCards();
 (() => { const d = new Date(Date.now() + 864e5); $('#gDate').min = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); })();
 
 /* ═══════════ Summe ═══════════ */
 const anzahlKinder = () => Math.min(PREIS.maxKinder, Math.max(1, Number($('#gKids').value) || 1));
-/* CHF 45 pro malende Person; unter 8 Personen gilt der Mindestpreis für 8 */
-const total = () => Math.max(PREIS.minKinder, anzahlKinder()) * PREIS.proKind;
+/* Paket S CHF 35 / M CHF 45; Mindestpreis für 6 Personen. */
+const total = () => Math.max(PREIS.minKinder, anzahlKinder()) * preisProPerson();
 function zeichneSumme() {
   const x = m(), n = anzahlKinder();
+  if (!paket()) { $('#gbSum').textContent = x.invalidPackage; return; }
   $('#gbSum').innerHTML = `<div><span>${esc(n < PREIS.minKinder ? x.sMin(n) : x.sGeb(n))}</span><span>${chf(total())}</span></div>`
     + `<div class="tot"><span>${esc(x.sTotal)}</span><span>${chf(total())}</span></div>`;
 }
 
 /* ═══════════ Prüfen & Absenden ═══════════ */
 function requiredConsents() {
-  return $('#gMinor').value === 'no' ? ['eAgb', 'eDsg'] : ['eAgb', 'eDsg', 'eSorge'];
+  return ['eAgb', 'eDsg', 'eSorge'];
 }
-function zeichneSorge() {
-  const erwachsen = $('#gMinor').value === 'no';
-  $('#eSorge').closest('label').classList.toggle('hidden', erwachsen);
-  $('#eSorge').disabled = erwachsen;
-  if (erwachsen) $('#eSorge').checked = false;
-}
-$('#gMinor').addEventListener('change', zeichneSorge);
-zeichneSorge();
 function pruefe() {
   const x = m(), fehlt = [], v = id => $('#' + id).value.trim();
+  if (!paket()) return x.invalidPackage;
   if (!v('gDate')) fehlt.push(x.fDatum);
   if (LoveTables.isHoliday(v('gDate'))) return x.holiday;
   if (v('gStart') && !startzeiten(v('gDate')).includes(v('gStart'))) return x.invalidSlot;
   if (!v('gStart')) fehlt.push(x.fStart);
   if (!v('gChild')) fehlt.push(x.fGebKind);
-  if (!['yes', 'no'].includes(v('gMinor'))) fehlt.push(x.fAgeGroup);
   const age = v('gAge') === '' ? null : Number(v('gAge'));
-  if (age !== null && (!Number.isInteger(age) || age < 0 || (v('gMinor') === 'yes' && age >= 18) || (v('gMinor') === 'no' && age < 18))) return x.invalidAge;
+  if (age !== null && (!Number.isInteger(age) || age < 0)) return x.invalidAge;
   const count = Number(v('gKids'));
   if (!Number.isInteger(count) || count < 1) return x.invalidCount;
   if ((Number(v('gKids')) || 0) > PREIS.maxKinder) return x.errKinder;
@@ -425,10 +452,10 @@ function pruefe() {
 }
 function einzelheiten() {
   const ja = id => ($('#' + id).checked ? 'JA' : 'nein');
-  const z = [];
+  const z = [`— Paket ${paket()} · Figuren XXS–${paket()} · CHF ${preisProPerson()} pro Person · Mindestpreis für ${PREIS.minKinder} Personen`];
   if ($('#gAllergy').value.trim()) z.push('— Allergien in der Gruppe: ' + $('#gAllergy').value.trim());
   z.push('— EINVERSTÄNDNIS (' + new Date().toLocaleString('de-CH') + ')');
-  z.push(`   AGB/Storno: ${ja('eAgb')} · Datenbearbeitung: ${ja('eDsg')} · Geburtstagsperson minderjährig: ${$('#gMinor').value === 'yes' ? 'JA' : 'nein'} · sorgeberechtigt: ${$('#gMinor').value === 'no' ? 'nicht erforderlich (erwachsen)' : ja('eSorge')}`);
+  z.push(`   AGB/Storno: ${ja('eAgb')} · Datenbearbeitung: ${ja('eDsg')} · Bedingte Erklärung zur Sorgeberechtigung: ${ja('eSorge')}`);
   z.push(`   FOTOS — intern erlaubt (Geburtstagsperson): ${ja('fFoto')}`);
   z.push(`   Newsletter: ${ja('fNews')}`);
   if ($('#pMsg').value.trim()) z.push('— Bemerkung: ' + $('#pMsg').value.trim());
@@ -456,10 +483,10 @@ $('#gbForm').addEventListener('submit', async e => {
   if (requiredConsents().some(id => !document.getElementById(id).checked)) { $('#gbErr').textContent = m().errEinw; return; }
   busy = true; $('#gbSubmit').disabled = true;
 
-  const grand = total(), email = $('#pMail').value.trim();
-  const kurz = `Geburtstag · ${$('#gChild').value.trim()}${$('#gAge').value ? ' wird ' + $('#gAge').value : ''} · ${Number($('#gKids').value) || 0} Personen · ${$('#gStart').value}`;
+  const selectedPackage = paket(), grand = total(), email = $('#pMail').value.trim();
+  const kurz = `Geburtstag · Paket ${selectedPackage} · ${$('#gChild').value.trim()}${$('#gAge').value ? ' wird ' + $('#gAge').value : ''} · ${Number($('#gKids').value) || 0} Personen · ${$('#gStart').value}`;
   const { booking, delivered } = await LoveData.addRegistration({
-    type: 'geburtstag', name: $('#pName').value.trim(), email, phone: $('#pPhone').value.trim(),
+    type: 'geburtstag', plan: 'birthday-package-' + selectedPackage, name: $('#pName').value.trim(), email, phone: $('#pPhone').value.trim(),
     date: $('#gDate').value, time: $('#gStart').value, persons: Number($('#gKids').value) || 0,
     price: 'CHF ' + grand, message: kurz, details: einzelheiten(), lang: LoveSite.lang()
   });
@@ -478,8 +505,8 @@ $('#gbForm').addEventListener('submit', async e => {
     $('#gbErr').scrollIntoView({ behavior: 'smooth', block: 'center' });
     busy = false; $('#gbSubmit').disabled = false; return;
   }
-  try { localStorage.setItem('love.lastGeb', JSON.stringify({ id: booking.id, total: grand, email, gift })); } catch (er) { }
-  const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'geburtstag', voucher_code: gift, purpose: 'LOVE Geburtstag ' + booking.id });
+  try { localStorage.setItem('love.lastGeb', JSON.stringify({ id: booking.id, total: grand, email, gift, package: selectedPackage })); } catch (er) { }
+  const r = await LovePay.checkout({ amount: grand, code: booking.id, email, back: 'geburtstag', voucher_code: gift, purpose: 'LOVE Geburtstag Paket ' + selectedPackage + ' ' + booking.id });
   /* Keine Reservation: Zahlung nicht möglich → nichts gebucht, Meldung im Formular (18.10.2026) */
   if (!r.ok) { $('#gbErr').textContent = LoveSite.lang() === 'en' ? 'Online payment is not possible right now — nothing has been booked or charged. Please try again later or write to hello@lovecreative.ch.' : 'Die Online-Zahlung ist im Moment nicht möglich — es wurde nichts gebucht und nichts belastet. Bitte versuch es später nochmals oder schreib uns an hello@lovecreative.ch.'; $('#gbErr').scrollIntoView({ behavior: 'smooth', block: 'center' }); busy = false; $('#gbSubmit').disabled = false; }
   /* bei ok verlässt der Browser die Seite Richtung Payrexx */
@@ -500,10 +527,11 @@ zeichneSumme();
   showDone(paid ? 'paid' : 'fail', id, last && last.id === id ? last.total : 0);
   history.replaceState(null, '', location.pathname + '#buchen');
   if (fail) $('#gbRetry').addEventListener('click', () => {
-    if (last && last.id === id) LovePay.checkout({ amount: last.total, code: id, email: last.email, back: 'geburtstag', voucher_code: last.gift || '', purpose: 'LOVE Geburtstag ' + id });
+    if (last && last.id === id) LovePay.checkout({ amount: last.total, code: id, email: last.email, back: 'geburtstag', voucher_code: last.gift || '', purpose: 'LOVE Geburtstag ' + (last.package ? 'Paket ' + last.package + ' ' : '') + id });
   });
 })();
 })();
 </script>
 </body>
 </html>
+
