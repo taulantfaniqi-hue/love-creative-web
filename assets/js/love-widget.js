@@ -116,7 +116,7 @@ const tw = () => TX[LoveSite.lang()] || TX.de;
 
 /* ═══════════ Zustand ═══════════ */
 const state = {
-  guests: 2,
+  guests: 1,
   date: LoveSite.todayISO(),
   slot: T.slotsFor(LoveSite.todayISO())[0] || '',
   act: 'keramik',  // allgemeine Tischreservationen sind immer Keramik
@@ -189,7 +189,7 @@ function loadClosures() {
       }
     });
     if (closedDays.size) {
-      if (closedDays.has(state.date)) state.date = dateOptions()[0];
+      if (closedDays.has(state.date)) state.date = defaultDate();
       renderDates(); renderSlots(); renderCards();
     }
   }).catch(() => {});
@@ -219,6 +219,7 @@ function dateOptions() {
   }
   return out.length ? out : [LoveSite.todayISO()];
 }
+function defaultDate() { return dateOptions().find(iso => !isPriv(iso)) || dateOptions()[0]; }
 function selectable(iso) { return dateOptions().includes(iso); }
 
 /* ── Dienstleistungen aus der Cloud (im Host-Bereich verwaltbar) ── */
@@ -276,9 +277,14 @@ function renderStatic() {
   $('lwClose').setAttribute('aria-label', x.close);
   $('lwDivider').textContent = x.divider;
 }
+// Keep the ordinary group size when visiting a private-session date.
+let ordinaryGuests = state.guests;
+let guestsWerePrivate = false;
 function renderGuests() {
   const x = tw();
   if (isPriv(state.date)) {
+    if (!guestsWerePrivate) ordinaryGuests = state.guests;
+    guestsWerePrivate = true;
     /* Privat-Session: ab 6 Personen (bis 8 am langen Tisch; grössere Gruppen → Eventplaner) */
     if (state.guests < T.PRIVAT_MIN) state.guests = T.PRIVAT_MIN;
     $('lwGuests').innerHTML =
@@ -286,6 +292,8 @@ function renderGuests() {
       `<option value="9" ${state.guests >= 9 ? 'selected' : ''}>${x.guestsEvent}</option>`;
     return;
   }
+  if (guestsWerePrivate) state.guests = ordinaryGuests;
+  guestsWerePrivate = false;
   $('lwGuests').innerHTML =
     Array.from({ length: 8 }, (_, i) => `<option value="${i + 1}" ${state.guests === i + 1 ? 'selected' : ''}>${x.guests(i + 1)}</option>`).join('') +
     `<option value="9" ${state.guests >= 9 ? 'selected' : ''}>${x.guestsEvent}</option>`;
@@ -343,6 +351,8 @@ function toggleCal(open) {
 }
 
 function renderSlots() {
+  // Date changes must also switch between ordinary (1+) and private (6+) guests.
+  renderGuests();
   const x = tw();
   /* Die Fenster hängen am Wochentag — Mi/Fr ab 12 Uhr, Sa/So ab 10 Uhr;
      an geschlossenen Tagen gelten die Fenster der privaten Session. */
@@ -438,7 +448,7 @@ function renderResult() {
   $('lwDone').addEventListener('click', closeSheet);
   if (b.type === 'kino' && typeof LovePay !== 'undefined') LovePay.mountButton($('lwFormWrap').querySelector('.lw-success'), 'kino', { email: b.email, name: b.name });
 }
-function renderAll() { renderStatic(); renderGuests(); renderDates(); renderSlots(); renderCards(); }
+function renderAll() { renderStatic(); renderDates(); renderSlots(); renderCards(); }
 
 /* ═══════════ Absenden ═══════════ */
 let submitBusy = false;
@@ -492,7 +502,7 @@ let lastFocus = null;
 function openSheet() {
   lastFocus = document.activeElement;
   if (state.done) { state.done = null; state.act = 'keramik'; }
-  state.date = dateOptions().includes(state.date) ? state.date : dateOptions()[0];
+  state.date = dateOptions().includes(state.date) ? state.date : defaultDate();
   loadAvailability(state.date);
   renderAll();
   sheet.classList.add('open'); backdrop.classList.add('open');
@@ -560,6 +570,9 @@ $('lwSlot').addEventListener('change', e => { state.slot = e.target.value; rende
 /* Sprache gewechselt → alles neu beschriften */
 document.addEventListener('love:lang', () => { renderAll(); if (state.done) renderResult(); });
 
+// Ordinary table booking starts on the next available regular opening day,
+// rather than inheriting the private minimum when today is a closed weekday.
+state.date = defaultDate();
 renderAll();
 /* Progressive enhancement: the old page remains a fallback only if the shared
    widget cannot initialize. Never replace existing booking/payment data. */
@@ -585,3 +598,4 @@ document.addEventListener('love:cloud', e => {
   loadAvailability(state.date);
 });
 })();
+
