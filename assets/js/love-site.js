@@ -171,7 +171,7 @@ const COMMON_EN = {
   'nav.menu': 'Menu',
   'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.camp': 'Holiday kids camp', 'nav.geb': 'Birthday', 'nav.team': 'Team &amp; corporate events', 'nav.hallo': 'Halloween Party', 'nav.kinoK': 'Movie &amp; Pottery', 'nav.monet': 'Claude Monet Kids', 'nav.monetA': 'Claude Monet Adults', 'ft.firmen': 'Team &amp; corporate events', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
   'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact', 'nav.shop': 'Shop',
-  'nav.howto': 'How it works',
+  'nav.howto': 'How it works', 'nav.prices': 'Price and service',
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
   'ft.social': 'Instagram · TikTok · Pinterest — profiles coming soon',
@@ -212,6 +212,18 @@ const COMMON_DE = { // DE-Texte, die nur in JS vorkommen
   'err.choice': 'Bitte zuerst eine Auswahl treffen.',
   'ref.lbl': 'Referenz: '
 };
+
+// Keep the new ceramics price page in the shared Keramik submenu.
+(() => {
+  const keramik = document.querySelector('#mainnav [data-i18n="nav.keramik"]');
+  const parent = keramik && keramik.closest('li');
+  const submenu = parent && parent.querySelector('ul.sub');
+  if (!submenu || submenu.querySelector('a[href="preise-leistungen.html"]')) return;
+  const item = document.createElement('li');
+  const link = document.createElement('a');
+  link.href = 'preise-leistungen.html'; link.dataset.i18n = 'nav.prices';
+  link.textContent = 'Preis und Leistung'; item.appendChild(link); submenu.appendChild(item);
+})();
 
 const DE = Object.assign({}, COMMON_DE, window.LOVE_DE || {});
 document.querySelectorAll('[data-i18n]').forEach(el => { DE[el.dataset.i18n] = el.innerHTML; });
@@ -327,3 +339,4 @@ const y = document.getElementById('year'); if (y) y.textContent = new Date().get
 
 window.LoveSite = { t, applyLang, lang: () => lang, validEmail, todayISO, chf };
 })();
+
