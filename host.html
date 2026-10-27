@@ -257,10 +257,81 @@ function getData() {
 /* Getrennte Listen: angemeldet, aber nicht bezahlt — gilt nicht als Buchung bzw. Gutschein */
 function zahlungOffenListe(d) {
   if (!d.zahlungOffen.length) return '';
+  const gesendet = b => { const m = /\[Zahlungslink[^\]]*gesendet ([^\]]+)\]\s*$/.exec(String(b.message || '')); return m ? m[1] : ''; };
   return `<h3 class="host-sect" style="margin-top:1.6rem">Zahlung offen — keine Buchung (${d.zahlungOffen.length})</h3>
-    <div class="host-note">Diese Anmeldungen wurden <b>nicht bezahlt</b> — die Zahlung wurde abgebrochen oder Payrexx war nicht erreichbar. Sie gelten <b>nicht als Buchung</b> und erscheinen nicht in Anfragen und Kalender. Zahlt jemand nachträglich, rückt die Anmeldung automatisch zu den Buchungen.</div>
-    <div class="host-table-wrap"><table class="host-table"><thead><tr><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Pers.</th><th>Betrag</th><th>Ref.</th></tr></thead>
-    <tbody>${d.zahlungOffen.map(b => `<tr style="opacity:.75"><td>${esc(typeLbl(b.type))}</td><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.persons || '—')}</td><td>${esc(b.price || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody></table></div>`;
+    <div class="host-note">Diese Anmeldungen wurden <b>nicht bezahlt</b> — die Zahlung wurde abgebrochen oder Payrexx war nicht erreichbar. Sie gelten <b>nicht als Buchung</b> und erscheinen nicht in Anfragen und Kalender. Zahlt jemand nachträglich, rückt die Anmeldung automatisch zu den Buchungen — bis dahin bleibt sie hier stehen. Mit <b>💳 Zahlungslink</b> schickst du der Kundin oder dem Kunden per E-Mail einen frischen Payrexx-Link (Text und Betrag anpassbar).</div>
+    <div class="host-table-wrap"><table class="host-table"><thead><tr><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Pers.</th><th>Betrag</th><th>Ref.</th><th>Aktion</th></tr></thead>
+    <tbody>${d.zahlungOffen.map(b => `<tr style="opacity:.85"><td>${esc(typeLbl(b.type))}</td><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.persons || '—')}</td><td>${esc(b.price || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td>
+      <td style="min-width:9.5rem">${b.email ? `<button type="button" class="btn btn-rose btn-sm" data-paylink="${esc(b.id)}">💳 Zahlungslink</button>` : '—'}${gesendet(b) ? `<br><span class="hint" style="font-size:.74rem">✓ gesendet ${esc(gesendet(b))}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>
+    <div class="hcard" id="plBox" hidden style="margin-top:.9rem;border-left:4px solid var(--rose)">
+      <div class="hcard-top"><b>💳 Zahlungslink per E-Mail senden</b><span class="hcard-meta" id="plWer"></span></div>
+      <div class="two-col" style="margin-top:.6rem">
+        <div class="field"><label for="plAmt">Betrag (CHF) — anpassbar</label><input type="number" id="plAmt" min="1" step="0.05"></div>
+        <div class="field"><label for="plBetreff">Betreff</label><input type="text" id="plBetreff"></div>
+      </div>
+      <div class="field"><label for="plText">Nachricht (der Bezahl-Knopf mit dem frischen Payrexx-Link wird automatisch angehängt)</label><textarea id="plText" rows="8"></textarea></div>
+      <div class="hcard-actions">
+        <button type="button" class="btn btn-rose btn-sm" id="plGo">Jetzt senden</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="plAbbr">Abbrechen</button>
+      </div>
+      <p class="hint" id="plHint" aria-live="polite" style="margin-top:.4rem"></p>
+    </div>`;
+}
+/* 💳 Zahlungslink-Formular: vorausgefüllt aus der Anmeldung, Betrag & Text anpassbar.
+   Der Eintrag bleibt in der Liste — erst eine echte Zahlung macht daraus eine Buchung. */
+function wirePaylinks(box, d) {
+  const plBox = box.querySelector('#plBox');
+  if (!plBox) return;
+  let aktiv = null;
+  const vorlage = b => {
+    const vorname = String(b.name || '').trim().split(' ')[0] || 'liebe Kundin, lieber Kunde';
+    const datum = b.date ? fmtDay(b.date) : '';
+    const betrag = String(b.price || '').replace(/[^0-9.]/g, '') || '0';
+    return {
+      betreff: `Deine Anmeldung ${typeLbl(b.type)}${datum ? ' am ' + datum : ''} — Zahlung noch offen`,
+      text: `Hallo ${vorname}\n\nvielen Dank für deine Anmeldung (${typeLbl(b.type)}${datum ? ', ' + datum : ''}${b.time ? ', ' + b.time + ' Uhr' : ''}).\n\nDie Online-Zahlung wurde leider nicht abgeschlossen — dein Platz ist darum noch nicht gesichert. Über den Knopf unten kannst du die Zahlung von CHF ${betrag} bequem nachholen (TWINT, Kredit- oder Debitkarte). Sobald sie bei uns eingeht, bestätigen wir dir den Termin per E-Mail.\n\nFalls etwas nicht stimmt oder du Fragen hast, antworte einfach auf diese Mail.\n\nHerzliche Grüsse\nDein LOVE-Team`
+    };
+  };
+  box.querySelectorAll('button[data-paylink]').forEach(btn => btn.addEventListener('click', () => {
+    const b = d.zahlungOffen.find(x => x.id === btn.dataset.paylink);
+    if (!b) return;
+    aktiv = b;
+    const v = vorlage(b);
+    box.querySelector('#plWer').textContent = `${b.name || '—'} · ${b.email} · Ref. ${b.id}`;
+    box.querySelector('#plAmt').value = String(b.price || '').replace(/[^0-9.]/g, '') || '';
+    box.querySelector('#plBetreff').value = v.betreff;
+    box.querySelector('#plText').value = v.text;
+    box.querySelector('#plHint').textContent = '';
+    plBox.hidden = false;
+    plBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }));
+  box.querySelector('#plAbbr').addEventListener('click', () => { plBox.hidden = true; aktiv = null; });
+  box.querySelector('#plGo').addEventListener('click', async () => {
+    if (!aktiv) return;
+    const hint = box.querySelector('#plHint');
+    const amt = Number(String(box.querySelector('#plAmt').value).replace(',', '.'));
+    const betreff = box.querySelector('#plBetreff').value.trim();
+    const text = box.querySelector('#plText').value.trim();
+    if (!(amt >= 1)) { hint.textContent = 'Bitte einen Betrag ab CHF 1 eingeben.'; return; }
+    if (!betreff || !text) { hint.textContent = 'Bitte Betreff und Nachricht ausfüllen.'; return; }
+    if (typeof LoveCloud === 'undefined' || !hostCreds) { hint.textContent = 'Cloud nicht verbunden — bitte neu anmelden.'; return; }
+    if (!confirm(`Zahlungslink über CHF ${amt.toFixed(2)} jetzt an ${aktiv.email} senden?`)) return;
+    const go = box.querySelector('#plGo');
+    go.disabled = true;
+    hint.textContent = 'Zahlungslink wird erstellt und gesendet …';
+    let r;
+    try { r = await LoveCloud.call('booking_paylink', Object.assign({}, hostCreds, { id: aktiv.id, amount: amt, subject: betreff, text })); }
+    catch (e) { r = { ok: false, error: 'cloud' }; }
+    go.disabled = false;
+    if (r && r.ok) {
+      hint.textContent = `✓ Zahlungslink über CHF ${amt.toFixed(2)} an ${aktiv.email} gesendet — die Anmeldung bleibt hier stehen, bis die Zahlung eingeht.`;
+      loadCloud();
+      return;
+    }
+    hint.textContent = (r && r.error) === 'unknown-action'
+      ? 'Der Server kennt diese Funktion noch nicht — die Erweiterung «booking_paylink» muss einmalig auf dem Server eingespielt werden.'
+      : 'Senden fehlgeschlagen (' + esc((r && r.error) || 'Fehler') + ') — es wurde nichts verschickt.';
+  });
 }
 function gutscheineOffenListe(d) {
   if (!d.gutscheineOffen.length) return '';
@@ -551,6 +622,7 @@ function render() {
         <td>${(b.paid == 1 || b.paid === true) ? '✓' : '—'}</td>
         <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`) + zahlungOffenListe(d);
+    wirePaylinks(box, d);
 
   /* ═══ Kunden: Konten + CRM + Members ═══ */
   } else if (chapter === 'kunden') {
