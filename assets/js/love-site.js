@@ -170,7 +170,7 @@ const COMMON_EN = {
   'brand.sub': 'Creative Café',
   'nav.menu': 'Menu',
   'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.camp': 'Holiday kids camp', 'nav.geb': 'Birthday', 'nav.team': 'Team &amp; corporate events', 'nav.hallo': 'Halloween Party', 'nav.kinoK': 'Movie &amp; Pottery', 'nav.monet': 'Claude Monet Kids', 'nav.monetA': 'Claude Monet Adults', 'ft.firmen': 'Team &amp; corporate events', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
-  'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact', 'nav.shop': 'Shop',
+  'nav.events': 'Events', 'nav.pilates': 'Pilates &amp; Pottery', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact', 'nav.shop': 'Shop',
   'nav.howto': 'How it works', 'nav.prices': 'Price and service',
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
