@@ -229,7 +229,7 @@ const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewo
 const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
 
 /* Kurse, Events, Kidscamp und Geburtstag zählen erst mit Zahlungseingang (14.10.2026) */
-const ZAHLPFLICHT = ['geburtstag', 'halloween', 'kidscamp', 'kinokeramik', 'monetadults', 'monetkids'];
+const ZAHLPFLICHT = ['geburtstag', 'halloween', 'kidscamp', 'kinokeramik', 'monetadults', 'monetkids', 'pilates'];
 const istBezahlt = x => x.paid == 1 || x.paid === true;
 const zahlungOffen = b => ZAHLPFLICHT.includes(b.type) && !istBezahlt(b) && !['storniert', 'abgelehnt', 'verloren'].includes(b.status);
 function getData() {
@@ -448,6 +448,25 @@ function wireOrderActions(box) {
   }));
 }
 
+/* ✉️ Status der Bestätigungs-Mail: wann gesendet, wann vom Gast geöffnet
+   (Öffnung über den Zählpixel in der Mail — manche Mail-Programme blockieren
+   Bilder, dann bleibt «noch nicht geöffnet», obwohl die Mail gelesen wurde). */
+function mailStatusZeile(b) {
+  if (!['bestätigt', 'gewonnen'].includes(b.status) || !b.email) return '';
+  const dt = s => { const d = new Date(String(s).replace(' ', 'T')); return isNaN(d) ? '' : d.toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' }); };
+  const knopf = cloudData ? ` <button type="button" class="btn btn-ghost btn-sm" data-remail="${esc(b.id)}" data-mail="${esc(b.email)}" style="font-size:.72rem;padding:.1rem .5rem;margin-left:.3rem">✉ erneut senden</button>` : '';
+  if (!b.confirm_mail_at) {
+    return `<p class="hcard-meta" style="margin-top:.4rem">✉️ Bestätigungs-Mail: <b style="color:#B3261E">kein Versand-Nachweis</b>${knopf}</p>`;
+  }
+  return `<p class="hcard-meta" style="margin-top:.4rem">✉️ Bestätigungs-Mail: <b style="color:var(--green)">✓ gesendet ${dt(b.confirm_mail_at)}</b> · ${b.confirm_mail_opened_at ? `<b style="color:var(--green)">👁 geöffnet ${dt(b.confirm_mail_opened_at)}</b>` : '👁 noch nicht geöffnet'}${knopf}</p>`;
+}
+function wireRemail(box) {
+  box.querySelectorAll('button[data-remail]').forEach(btn => btn.addEventListener('click', () => {
+    if (!confirm('Die Buchungsbestätigung jetzt (nochmals) an ' + btn.dataset.mail + ' senden?')) return;
+    btn.disabled = true;
+    hostCall('booking_confirm_mail', { id: btn.dataset.remail });
+  }));
+}
 /* Karte einer Buchung (Anfragen & Termine) */
 function bookingCard(b, withActions, withStorno) {
   const msg = String(b.message || '').replace(/\s*\[Widget\]$/, '').trim();
@@ -457,6 +476,7 @@ function bookingCard(b, withActions, withStorno) {
       <span class="host-pill ${STATUS_CLS(b.status)}">${esc(STATUS_LBL[b.status] || b.status)}</span>
     </div>
     <p class="hcard-meta">${fmtDay(b.date)}${b.time ? ' · ' + esc(b.time) : ''}${b.persons ? ' · ' + esc(b.persons) + ' P.' : ''}${b.world ? ' · ' + esc(b.world) : ''} · ${esc(b.email || '—')}${b.phone ? ' · ☎ ' + esc(b.phone) : ''}${(b.paid == 1 || b.paid === true) ? ' · <b>bezahlt ✓</b>' : (b.price ? ' · ' + esc(b.price) + ' offen' : '')} · <span style="font-size:.78em">${esc(b.id)}</span></p>
+    ${mailStatusZeile(b)}
     ${msg ? `<p class="hcard-msg">💬 ${esc(msg)}</p>` : ''}
     ${withActions ? `<div class="hcard-actions">
       <button class="btn btn-green btn-sm" data-bact="booking_confirm" data-id="${esc(b.id)}">✓ Annehmen</button>
@@ -640,6 +660,7 @@ function render() {
         </ol>
       </div>`;
     box.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => { chapter = el.dataset.go; render(); }));
+    wireRemail(box);
 
   /* ═══ Anfragen: Reservationen annehmen + Kundenanfragen ═══ */
   } else if (chapter === 'anfragen') {
@@ -685,6 +706,7 @@ function render() {
     box.innerHTML = html;
     wireBookingActions(box);
     wireHostActions(box);
+    wireRemail(box);
 
   /* ═══ Interner Kalender: alle angenommenen Termine ═══ */
   } else if (chapter === 'termine') {
@@ -701,6 +723,7 @@ function render() {
       box.innerHTML = `<h3 class="host-sect">Interner Kalender</h3><p class="hint" style="margin-bottom:.8rem">Alle angenommenen Termine, nach Tag gruppiert. Mit <b>✕ Stornieren…</b> sagst du einen Termin ab — mit anpassbarer Absage-Mail und auf Wunsch einer (Teil-)Rückerstattung über Payrexx.</p>` + Object.keys(groups).map(iso =>
         `<p class="hday">${dayLbl(iso)}</p><div class="hcards">${groups[iso].map(b => bookingCard(b, false, !!cloudData)).join('')}</div>`).join('') + stornoPanel();
       wireStorno(box, d);
+      wireRemail(box);
     }
 
   /* ═══ Kundenkalender (Google-synchron) ═══ */
@@ -725,16 +748,11 @@ function render() {
         <td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.time || '—')}</td>
         <td>${esc(b.persons || '—')}</td>
         <td>${(b.paid == 1 || b.paid === true) ? '✓' : '—'}</td>
-        <td style="min-width:7.5rem">${b.confirm_mail_at ? '✓ ' + fmtTs(b.confirm_mail_at) : (['bestätigt', 'gewonnen'].includes(b.status) ? '<span style="color:#B3261E">—</span>' : '—')}${['bestätigt', 'gewonnen'].includes(b.status) && b.email && cloudData ? `<br><button type="button" class="btn btn-ghost btn-sm" data-remail="${esc(b.id)}" data-mail="${esc(b.email)}" style="font-size:.72rem;padding:.15rem .5rem;margin-top:.15rem">✉ erneut senden</button>` : ''}</td>
+        <td style="min-width:7.5rem">${b.confirm_mail_at ? '✓ ' + fmtTs(b.confirm_mail_at) + (b.confirm_mail_opened_at ? '<br>👁 geöffnet' : '<br><span style="color:var(--ink-soft)">nicht geöffnet</span>') : (['bestätigt', 'gewonnen'].includes(b.status) ? '<span style="color:#B3261E">—</span>' : '—')}${['bestätigt', 'gewonnen'].includes(b.status) && b.email && cloudData ? `<br><button type="button" class="btn btn-ghost btn-sm" data-remail="${esc(b.id)}" data-mail="${esc(b.email)}" style="font-size:.72rem;padding:.15rem .5rem;margin-top:.15rem">✉ erneut senden</button>` : ''}</td>
         <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`) + zahlungOffenListe(d);
     wirePaylinks(box, d);
-    /* Bestätigungs-Mail erneut senden */
-    box.querySelectorAll('button[data-remail]').forEach(btn => btn.addEventListener('click', () => {
-      if (!confirm('Die Buchungsbestätigung jetzt (nochmals) an ' + btn.dataset.mail + ' senden?')) return;
-      btn.disabled = true;
-      hostCall('booking_confirm_mail', { id: btn.dataset.remail });
-    }));
+    wireRemail(box);
 
   /* ═══ Kunden: Konten + CRM + Members ═══ */
   } else if (chapter === 'kunden') {
