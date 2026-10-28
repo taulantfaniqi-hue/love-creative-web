@@ -713,8 +713,9 @@ function render() {
     const kundeZu = email => d.kunden.find(k => k.email === email) || null;
     const bName = b => b.name || (kundeZu(b.email) ? kundeZu(b.email).name : '');
     const bPhone = b => b.phone || (kundeZu(b.email) ? (kundeZu(b.email).phone || '') : '');
-    box.innerHTML = `<h3 class="host-sect">Alle Buchungen</h3>` + (d.buchungen.length ? `<div class="host-table-wrap"><table class="host-table">
-      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Telefon</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Bezahlt</th><th>Ref.</th></tr></thead>
+    box.innerHTML = `<h3 class="host-sect">Alle Buchungen</h3>
+      <div class="host-note">✉️ <b>Best.-Mail</b> zeigt, wann die Bestätigungs-Mail erfolgreich an den Gast rausging — mit <b>erneut senden</b> schickst du sie nochmals (z. B. wenn sie im Spam gelandet ist oder fehlte).</div>` + (d.buchungen.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Telefon</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Bezahlt</th><th>Best.-Mail</th><th>Ref.</th></tr></thead>
       <tbody>${d.buchungen.map(b => `<tr>
         <td><span class="host-pill ${STATUS_CLS(b.status)}">${esc(STATUS_LBL[b.status] || b.status)}</span></td>
         <td>${esc(typeLbl(b.type))}</td>
@@ -724,9 +725,16 @@ function render() {
         <td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.time || '—')}</td>
         <td>${esc(b.persons || '—')}</td>
         <td>${(b.paid == 1 || b.paid === true) ? '✓' : '—'}</td>
+        <td style="min-width:7.5rem">${b.confirm_mail_at ? '✓ ' + fmtTs(b.confirm_mail_at) : (['bestätigt', 'gewonnen'].includes(b.status) ? '<span style="color:#B3261E">—</span>' : '—')}${['bestätigt', 'gewonnen'].includes(b.status) && b.email && cloudData ? `<br><button type="button" class="btn btn-ghost btn-sm" data-remail="${esc(b.id)}" data-mail="${esc(b.email)}" style="font-size:.72rem;padding:.15rem .5rem;margin-top:.15rem">✉ erneut senden</button>` : ''}</td>
         <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`) + zahlungOffenListe(d);
     wirePaylinks(box, d);
+    /* Bestätigungs-Mail erneut senden */
+    box.querySelectorAll('button[data-remail]').forEach(btn => btn.addEventListener('click', () => {
+      if (!confirm('Die Buchungsbestätigung jetzt (nochmals) an ' + btn.dataset.mail + ' senden?')) return;
+      btn.disabled = true;
+      hostCall('booking_confirm_mail', { id: btn.dataset.remail });
+    }));
 
   /* ═══ Kunden: Konten + CRM + Members ═══ */
   } else if (chapter === 'kunden') {
