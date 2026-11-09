@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Besuchsablauf (Testseite) — LOVE Creative Café</title>
+<!-- Interne Testseite: Anmeldung an der Station, Besuchsseite, Abrechnung, Abholung. Alles simuliert, keine Daten verlassen das Gerät. Nirgends verlinkt. -->
+<link rel="icon" type="image/svg+xml" href="assets/logo/logo-love.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lexend:wght@300;400;500;600;700&family=Jost:wght@600;700&display=swap" rel="stylesheet">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* Layout: drei Rollen (Station, Handy, Theke) als Umschalter; darunter ein Demo-Leitfaden, dann die jeweilige Ansicht. */
+/* Marke von lovecreative.ch (love.css): Grün #337357, Rosa #FFDBE5 / #EA9AB2 / #E27396, Cream #FBF7F1, Playfair Display + Lexend. Bewusst nur das helle Markenbild. */
+:root{
+  --bg:#FBF7F1; --surface:#FFFFFF; --ink:#2C3A31; --muted:#56685D; --line:rgba(51,115,87,.20);
+  --terra:#E27396; --terra-soft:#FFDBE5; --sage:#337357; --sage-soft:#FFF0F4;
+  --blush:#FFDBE5; --rose:#C2476D; --on-accent:#FFFFFF;
+  --display:"Playfair Display",Georgia,"Times New Roman",serif;
+  --body:"Lexend","Jost","Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:2rem} h2{font-size:1.6rem} h3{font-size:1.25rem}
+p{margin:0}
+.muted{color:var(--muted)} .small{font-size:.85rem}
+.num{font-variant-numeric:tabular-nums}
+
+.top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:60px;height:60px;flex:none}
+h1,h2,h3{color:var(--sage)}
+.roles{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;flex-wrap:wrap}
+.roles button{border:0;background:transparent;color:var(--ink);font:inherit;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer}
+.roles button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.guide{background:var(--sage-soft);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.steps{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface)}
+.steps li::before{content:counter(s) " "}
+.steps li.done{color:var(--sage);border-color:var(--sage)}
+.steps li.now{background:var(--sage);color:var(--bg);border-color:var(--sage)}
+.guide-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.guide-row p{flex:1 1 260px;min-width:0;font-weight:600}
+
+button{font-family:inherit}
+.btn{border:1.5px solid transparent;background:var(--terra);color:var(--on-accent);font:inherit;font-weight:600;letter-spacing:.04em;padding:12px 24px;border-radius:999px;cursor:pointer;min-height:46px}
+.btn.ghost{color:var(--sage);border-color:var(--sage)}
+.roles button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--sage);border-color:var(--sage);color:#fff}
+.bignr,.timer b{color:var(--sage)}
+.btn.wide{width:100%}
+.btn.ghost{background:transparent}
+.btn.sage{background:var(--sage);color:#fff}
+.btn.sm{padding:6px 14px;min-height:36px;font-size:.88rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,a:focus-visible,label:focus-within{outline:2.5px solid var(--rose);outline-offset:2px}
+.link{background:none;border:0;padding:0;color:var(--terra);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;text-align:left}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field>span{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;min-height:46px}
+.check{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--terra);flex:none}
+.err{color:var(--rose);font-weight:700}
+.pill{display:inline-block;font-size:.75rem;font-weight:800;padding:2px 9px;border-radius:999px;background:var(--sage-soft);color:var(--sage);white-space:nowrap}
+.pill.warn{background:var(--blush);color:var(--rose)}
+.pill.neutral{background:var(--terra-soft);color:var(--terra)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-weight:700;padding:8px 13px;border-radius:10px;cursor:pointer;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.2rem;font-weight:800;cursor:pointer}
+.stepper button:disabled{opacity:.4;cursor:not-allowed}
+.stepper b{min-width:1.5ch;text-align:center;font-size:1.15rem}
+.list{display:flex;flex-direction:column}
+.item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item>div{min-width:0}
+.sum{display:flex;justify-content:space-between;gap:12px;padding:6px 0}
+.sum.total{border-top:1.5px solid var(--ink);margin-top:6px;padding-top:12px;font-weight:800;font-size:1.15rem}
+
+/* Station */
+.station{max-width:720px;margin:0 auto;width:100%}
+.welcome{text-align:center;align-items:center}
+.bignr{font-family:var(--display);font-size:4rem;font-weight:700;line-height:1;color:var(--terra)}
+
+/* Handy */
+.phone{max-width:400px;width:100%;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:30px;overflow:hidden;display:flex;flex-direction:column;min-height:640px}
+.phone-top{display:flex;gap:4px;padding:10px;background:var(--bg);border-bottom:1px solid var(--line)}
+.phone-top button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:800;padding:8px;border-radius:10px;cursor:pointer}
+.phone-top button[aria-pressed="true"]{background:var(--surface);color:var(--ink)}
+.phone-body{flex:1;padding:20px 18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.phone-nav{display:flex;border-top:1px solid var(--line);background:var(--bg)}
+.phone-nav button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:.78rem;font-weight:800;padding:12px 2px;cursor:pointer;border-top:3px solid transparent}
+.phone-nav button[aria-pressed="true"]{color:var(--terra);border-top-color:var(--terra)}
+.bubble{background:var(--sage-soft);border-radius:16px 16px 16px 4px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;max-width:92%}
+.bubble time{font-size:.72rem;color:var(--muted)}
+.timer{background:var(--terra-soft);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.timer b{font-family:var(--display);font-size:1.7rem;color:var(--terra)}
+ol.todo{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
+ul.note{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.tech{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:2px}
+.tech:first-of-type{border-top:0;padding-top:0}
+.mat{width:100%;border-radius:12px;display:block;background:var(--bg);border:1px solid var(--line)}
+.thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--terra-soft);flex:none;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--terra);font-size:1.05rem}
+.result{background:var(--sage-soft);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.result.warn{background:var(--blush)}
+.pulse{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--terra-soft),var(--terra),var(--terra-soft));background-size:200% 100%;animation:pulse 1s linear infinite}
+@keyframes pulse{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.timeline li{display:flex;gap:10px;align-items:center;color:var(--muted);font-weight:700}
+.timeline li::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid var(--line);flex:none}
+.timeline li.done{color:var(--ink)} .timeline li.done::before{background:var(--sage);border-color:var(--sage)}
+.timeline li.now{color:var(--terra)} .timeline li.now::before{border-color:var(--terra)}
+.filelabel{display:block;text-align:center;border:1.5px dashed var(--line);border-radius:12px;padding:12px;font-weight:800;cursor:pointer}
+.filelabel input{position:absolute;opacity:0;width:1px;height:1px}
+
+/* Theke */
+.theke{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.full{grid-column:1/-1}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{text-align:left;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:6px 8px 6px 0}
+td{padding:9px 8px 9px 0;border-top:1px solid var(--line);vertical-align:middle}
+td.r,th.r{text-align:right;padding-right:0}
+.foot{font-size:.85rem;color:var(--muted);max-width:70ch}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="LOVE Creative Café">
+        <circle cx="100" cy="100" r="96.5" fill="#FFDBE5" stroke="#E27396" stroke-width="3"/>
+        <g fill="#337357" font-family="Jost, Futura, 'Arial Black', Arial, sans-serif" font-weight="700">
+          <text x="100" y="88" text-anchor="middle" font-size="58" letter-spacing="4">LO</text>
+          <text x="100" y="140" text-anchor="middle" font-size="58" letter-spacing="4">VE</text>
+        </g>
+        <circle cx="29" cy="100" r="6.5" fill="#E27396"/>
+        <circle cx="171" cy="100" r="6.5" fill="#E27396"/>
+        <defs><path id="cc-arc" d="M 34 128 A 72 72 0 0 0 166 128" fill="none"/></defs>
+        <text fill="#337357" font-family="Jost, Futura, Arial, sans-serif" font-weight="600" font-size="14.5" letter-spacing="3.2"><textPath href="#cc-arc" startOffset="50%" text-anchor="middle">CREATIVE CAFÉ</textPath></text>
+      </svg>
+      <div>
+        <h1>Besuchsablauf</h1>
+        <p class="muted small">Klickbarer Prototyp · SMS, Zahlung und Foto-Erkennung sind simuliert</p>
+      </div>
+    </div>
+    <div class="roles" role="group" aria-label="Ansicht wählen" id="roles"></div>
+  </header>
+  <section class="guide" id="guide" aria-live="polite"></section>
+  <main id="view"></main>
+  <p class="foot">Von lovecreative.ch übernommen: Stückpreise XXS bis XXL, Servicegebühr, Familientarif. Die Reservation läuft über die Website und ist hier nicht Teil des Ablaufs. Getränkepreise stammen aus dem Website-Entwurf. Abholung während der Öffnungszeiten gemäss AGB. Zuschlag nach drei Stunden: CHF 10 pro Person je angefangene 30 Minuten. <button class="link" data-act="reset">Demo zurücksetzen</button></p>
+</div>
+
+<script>
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const chf = n => 'CHF ' + n.toFixed(2);
+const WD = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const fmtDay = d => WD[d.getDay()] + ' ' + d.getDate() + '.' + (d.getMonth()+1) + '.';
+function days(n, from, ok){ const out=[]; const d=new Date(); d.setDate(d.getDate()+from);
+  while(out.length<n){ if(ok(d.getDay())) out.push(new Date(d)); d.setDate(d.getDate()+1); } return out; }
+const nowTime = () => { const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
+const pers = n => n + (n===1 ? ' Person' : ' Personen');
+const hm = m => Math.floor(m/60)+' h '+String(m%60).padStart(2,'0')+' min';
+
+const BASE = 25, FAMILY = 35, HOURS = 3, SUR = 10, SUR_MIN = 30, GROUP = 6;
+const SIZES = [{k:'XXS',p:7},{k:'XS',p:10},{k:'S',p:18},{k:'M',p:25},{k:'L',p:30},{k:'XL',p:35},{k:'XXL',p:45}];
+const DESK = 'SumUp an der Theke';
+const sizeByKey = k => SIZES.find(s => s.k === k);
+const DEMO = [
+  {id:'mag',name:'Magnet',size:'XXS',dim:'4 cm breit',conf:95},
+  {id:'esp',name:'Espressotasse',size:'XS',dim:'6.5 cm hoch',conf:96},
+  {id:'bech',name:'Becher',size:'S',dim:'10.5 cm hoch',conf:94},
+  {id:'teller',name:'Teller',size:'M',dim:'Ø 21 cm',conf:97},
+  {id:'vase',name:'Vase',size:'L',dim:'24 cm hoch',conf:68},
+  {id:'topf',name:'Pflanztopf',size:'XL',dim:'Ø 26 cm',conf:92}
+];
+const DRINKS = [
+  {id:'esp',n:'Espresso',p:3.5},{id:'cap',n:'Cappuccino',p:4.5},{id:'lat',n:'Latte Macchiato',p:5},
+  {id:'mat',n:'Matcha Latte',p:5.5},{id:'chai',n:'Chai Latte',p:5},{id:'lim',n:'Hausgemachte Limonade',p:5},{id:'tee',n:'Eistee',p:4.5}
+];
+const TECH = [
+  ['Schwammtupfen','Farbe mit einem feuchten Schwamm auftupfen. Gibt weiche Verläufe und ist ideal für Hintergründe.'],
+  ['Abkleben','Linien oder Formen mit Klebeband abdecken, darüber malen, Band vor dem Abgeben abziehen.'],
+  ['Punkte mit dem Pinselstiel','Stielende in die Farbe tauchen und aufsetzen. So werden die Punkte gleichmässig rund.'],
+  ['Sgraffito','Zwei Farbschichten übereinander, dann mit dem Holzstäbchen ein Muster in die obere Schicht kratzen.'],
+  ['Seifenblasen','Farbe mit Wasser und Spülmittel aufschäumen und die Blasen auf dem Stück platzen lassen.'],
+  ['Schablonen','Schablone fest andrücken und die Farbe von aussen nach innen tupfen, nicht streichen.']
+];
+/* Reservationen kommen von der Website und sind beim Eintreffen bereits bestätigt */
+const TODAY = [
+  {first:'Mira',last:'Keller',phone:'079 555 01 23',persons:2,time:'14:00'},
+  {first:'Noah',last:'Brunner',phone:'078 555 04 56',persons:3,time:'15:30'}
+];
+/* Abholung laut AGB während der Öffnungszeiten */
+const OPENH = {3:'14–20 Uhr',5:'15–21 Uhr',6:'13–21 Uhr',0:'13–18 Uhr'};
+const isPick = w => w in OPENH;
+const slotText = d => fmtDay(d)+' · '+OPENH[d.getDay()];
+const PICK_SLOTS = days(4,15,isPick).map(slotText);
+
+const fresh = () => ({
+  role:'station', ptab:'sms', page:'start',
+  form:{first:'Mira', last:'Keller', phone:'079 555 01 23', agb:false, sms:false, family:false},
+  persons:2, resPick:0, visit:null, err:'',
+  extra:0, warned:false, sms:[], cart:{}, orders:[], pieces:[], scan:null, payOpen:false, paid:null,
+  fired:false, pickSlot:0, pickup:null
+});
+let S = fresh();
+
+const elapsedMin = () => ((S.paid ? S.paid.at : Date.now()) - S.visit.start)/60000 + S.extra;
+const overMin = () => Math.max(0, Math.ceil(elapsedMin() - HOURS*60));
+const surcharge = () => Math.ceil(overMin()/SUR_MIN) * SUR * S.visit.persons;
+const baseFee = () => S.visit.family ? FAMILY : S.visit.persons*BASE;
+const drinkTotal = () => S.orders.reduce((a,o)=>a+o.total,0);
+const pieceTotal = () => S.pieces.reduce((a,p)=>a+sizeByKey(p.size).p,0);
+const total = () => S.visit ? baseFee() + surcharge() + pieceTotal() + drinkTotal() : 0;
+const needsReview = () => S.pieces.some(p=>p.status==='review');
+function sms(text, link){ S.sms.push({text, link, time:nowTime()}); }
+
+function stage(){
+  if(!S.visit) return 1;
+  if(S.pickup) return 7;
+  if(S.fired) return 6;
+  if(S.paid) return 5;
+  if(needsReview()) return 3;
+  if(S.pieces.length) return 4;
+  return 2;
+}
+const GUIDE = [
+  ['Die Kundin reserviert auf dem Handy. Ohne Reservation geht es direkt an die Station, dort melden sich alle Gäste an.','kundin','Zum Handy'],
+  ['Die Kundin kommt ins Studio. Reserviert hat sie vorher über die Website, oder sie kommt spontan. Alle melden sich an der Station an und akzeptieren die AGB.','station','Zur Station'],
+  ['Sie öffnet den Link aus der SMS, bestellt Getränke und erfasst ihre Stücke per Foto.','kundin','Zum Handy'],
+  ['Das System ist bei einem Stück unsicher. Das Team bestätigt die Grösse an der Theke.','theke','Zur Theke'],
+  ['Die Stücke sind erfasst. Die Kundin bezahlt auf dem Handy.','kundin','Zum Handy'],
+  ['Zwei Wochen später meldet das Team die Ofenladung mit einem Tipp als fertig.','theke','Zur Theke'],
+  ['Die Kundin hat eine SMS erhalten und wählt ihren Abholtag innerhalb der Öffnungszeiten.','kundin','Zum Handy'],
+  ['Der Ablauf ist durch. Der Abholtermin steht an der Theke in der Liste.','theke','Zur Theke']
+];
+const STEP_OF = [0,0,1,1,2,3,4,5];
+
+function renderChrome(){
+  document.getElementById('roles').innerHTML = [['station','Station'],['kundin','Handy der Kundin'],['theke','Theke']]
+    .map(([k,l])=>`<button data-act="role" data-arg="${k}" aria-pressed="${S.role===k}">${l}</button>`).join('');
+  const st = stage(), cur = STEP_OF[st];
+  const g = GUIDE[st];
+  const names = ['Anmeldung','Malen','Bezahlen','Brennen','Abholen'];
+  document.getElementById('guide').innerHTML =
+    `<ol class="steps">${names.map((n,i)=>`<li class="${i<cur?'done':i===cur?'now':''}">${n}</li>`).join('')}</ol>
+     <div class="guide-row"><p>${g[0]}</p>${S.role!==g[1]?`<button class="btn sage sm" data-act="role" data-arg="${g[1]}">${g[2]}</button>`:''}</div>`;
+}
+const stepper = () => `<div class="stepper"><button data-act="pers" data-arg="-1" aria-label="Eine Person weniger">−</button><b class="num">${S.persons}</b><button data-act="pers" data-arg="1" aria-label="Eine Person mehr">+</button></div>`;
+
+/* ---------- Station ---------- */
+function viewStation(){
+  if(S.visit) return `<div class="station"><div class="panel welcome">
+    <p class="muted">Willkommen, ${esc(S.visit.first)}</p>
+    <div class="bignr">${S.visit.nr}</div>
+    <h2>Das ist eure Besuchsnummer</h2>
+    <p>Schreibt sie mit dem Unterglasurstift auf den Boden jedes Stücks. Die SMS mit eurem Link ist unterwegs an ${esc(S.visit.phone)}.</p>
+    <p class="muted small">${pers(S.visit.persons)} · ${HOURS} Stunden Malzeit ab ${S.visit.time} Uhr</p>
+  </div></div>`;
+  const f = S.form;
+  return `<div class="station"><div class="panel">
+    <div><h2>Anmeldung</h2><p class="muted">Alle Gäste melden sich hier an, mit oder ohne Reservation. Eine Person meldet den ganzen Tisch an.</p></div>
+    <div class="field"><span>Habt ihr reserviert? (Beispiele von heute)</span><div class="chips">
+      ${TODAY.map((r,i)=>`<button class="chip" data-act="pickRes" data-arg="${i}" aria-pressed="${S.resPick===i}">${r.first} ${r.last} · ${r.time} · ${pers(r.persons)}</button>`).join('')}
+      <button class="chip" data-act="pickRes" data-arg="-1" aria-pressed="${S.resPick===-1}">Ohne Reservation</button></div></div>
+    <p class="small muted">${S.resPick>=0?'Eure Angaben aus der Reservation sind übernommen. Bitte prüfen und ergänzen.':'Spontan da? Dann bitte hier alles ausfüllen.'}</p>
+    <div class="grid2">
+      <label class="field"><span>Vorname</span><input type="text" id="st-first" data-bind="first" value="${esc(f.first)}" autocomplete="off"></label>
+      <label class="field"><span>Nachname</span><input type="text" id="st-last" data-bind="last" value="${esc(f.last)}" autocomplete="off"></label>
+      <label class="field"><span>Handynummer</span><input type="tel" id="st-phone" data-bind="phone" value="${esc(f.phone)}" autocomplete="off"></label>
+      <div class="field"><span>Personen</span>${stepper()}</div>
+    </div>
+    <div class="stack">
+      <label class="check"><input type="checkbox" id="st-family" data-check="family" ${f.family?'checked':''}><span>Familientarif: eine erwachsene Person mit bis zu zwei Kindern unter 6 Jahren (CHF ${FAMILY} statt CHF ${BASE} pro Person).</span></label>
+      <label class="check"><input type="checkbox" id="st-agb" data-check="agb" ${f.agb?'checked':''}><span>Ich akzeptiere die AGB von LOVE Creative. Kinder melde ich als erziehungsberechtigte Person an.</span></label>
+      <label class="check"><input type="checkbox" id="st-sms" data-check="sms" ${f.sms?'checked':''}><span>Ich bin einverstanden, dass ihr mir SMS zu diesem Besuch schickt (Link, Quittung, Abholung).</span></label>
+    </div>
+    ${S.err?`<p class="err" role="alert">${S.err}</p>`:''}
+    <button class="btn wide" data-act="checkin">Anmelden</button>
+    <p class="small muted">Servicegebühr CHF ${BASE} pro Person für ${HOURS} Stunden, dazu der Stückpreis von CHF 7 (XXS) bis CHF 45 (XXL). Mit der Anmeldung beginnt die Malzeit. Danach CHF ${SUR} pro Person je angefangene ${SUR_MIN} Minuten.</p>
+  </div></div>`;
+}
+
+/* ---------- Handy ---------- */
+function viewPhone(){
+  const top = `<div class="phone-top"><button data-act="ptab" data-arg="sms" aria-pressed="${S.ptab==='sms'}">SMS${S.sms.length?' ('+S.sms.length+')':''}</button><button data-act="ptab" data-arg="seite" aria-pressed="${S.ptab==='seite'}">Besuchsseite</button></div>`;
+  let body, nav = '';
+  if(S.ptab==='sms'){
+    body = S.sms.length ? S.sms.map(m=>`<div class="bubble"><span>${esc(m.text)}</span>${m.link?`<button class="link" data-act="open" data-arg="${m.link}">lovecreative.ch/b/b47</button>`:''}<time>LOVE Creative · ${m.time}</time></div>`).join('')
+      : `<p class="muted">Noch keine SMS. Die erste kommt direkt nach der Anmeldung an der Station.</p>`;
+  } else if(!S.visit){
+    body = `<h2>Besuchsseite</h2><p class="muted">Sie öffnet sich über den Link in der SMS, sobald die Anmeldung an der Station abgeschlossen ist.</p>`;
+  } else {
+    const pages = {start:pageStart, tech:pageTech, drinks:pageDrinks, pieces:pagePieces, pay:pagePay};
+    body = pages[S.page]();
+    nav = `<nav class="phone-nav">${[['start','Start'],['tech','Techniken'],['drinks','Getränke'],['pieces','Stücke'],['pay',S.paid?'Abholung':'Zahlen']]
+      .map(([k,l])=>`<button data-act="page" data-arg="${k}" aria-pressed="${S.page===k}">${l}</button>`).join('')}</nav>`;
+  }
+  return `<div class="phone">${top}<div class="phone-body">${body}</div>${nav}</div>`;
+}
+function timerText(){
+  const left = Math.ceil(HOURS*60 - elapsedMin());
+  return left > 0 ? hm(left) : '+ ' + hm(overMin());
+}
+function pageStart(){
+  const over = overMin() > 0;
+  return `<div><p class="muted small">Besuch ${S.visit.nr} · Anmeldung ${S.visit.time} Uhr</p><h2>Hallo ${esc(S.visit.first)}, los geht's</h2></div>
+    <div class="timer"><span>${over?'Verlängerung läuft':'Malzeit übrig'}</span><b class="num" id="timer">${timerText()}</b></div>
+    <p class="small muted">${over?`Zuschlag bisher: ${chf(surcharge())}. `:''}Nach ${HOURS} Stunden kostet jede angefangene halbe Stunde CHF ${SUR} pro Person. ${S.paid?'':`<button class="link" data-act="ff">Demo: 55 Minuten vorspulen</button>`}</p>
+    <h3>So gehst du vor</h3>
+    <ol class="todo">
+      <li>Rohling im Regal aussuchen.</li>
+      <li>Mit dem feuchten Schwamm abwischen, damit die Farbe hält.</li>
+      <li>Mit Bleistift vorzeichnen. Die Striche verbrennen im Ofen.</li>
+      <li>Drei Schichten auftragen, wenn die Farbe deckend werden soll.</li>
+      <li>Besuchsnummer <b>${S.visit.nr}</b> mit dem Unterglasurstift auf den Boden schreiben.</li>
+      <li>Stück auf die Fotomatte stellen und unter «Stücke» fotografieren.</li>
+    </ol>
+    <h3>Das solltest du wissen</h3>
+    <ul class="note">
+      <li>Die Farben sehen jetzt blass aus und werden nach dem Brand kräftig.</li>
+      <li>Den Boden nicht bemalen, sonst klebt das Stück im Ofen fest.</li>
+      <li>Dicke Farbkleckse können abplatzen. Lieber dünn und mehrmals.</li>
+      <li>Glasieren und Brennen übernehmen wir. Abholen kannst du in etwa zwei Wochen.</li>
+    </ul>`;
+}
+function pageTech(){
+  return `<h2>Maltechniken</h2>${TECH.map(t=>`<div class="tech"><h3>${t[0]}</h3><p>${t[1]}</p><p class="small muted">Kurzvideo folgt</p></div>`).join('')}`;
+}
+function pageDrinks(){
+  const n = Object.values(S.cart).reduce((a,b)=>a+b,0);
+  const sum = DRINKS.reduce((a,d)=>a+(S.cart[d.id]||0)*d.p,0);
+  return `<div><h2>Getränke</h2><p class="muted small">Wir bringen sie an euren Tisch. Bezahlt wird am Schluss zusammen.</p></div>
+    <div class="list">${DRINKS.map(d=>`<div class="item"><div><b>${d.n}</b><div class="small muted num">${chf(d.p)}</div></div>
+      <div class="stepper"><button data-act="drink" data-arg="${d.id}:-1" aria-label="${d.n} weniger" ${S.cart[d.id]?'':'disabled'}>−</button><b class="num">${S.cart[d.id]||0}</b><button data-act="drink" data-arg="${d.id}:1" aria-label="${d.n} mehr">+</button></div></div>`).join('')}</div>
+    <button class="btn wide" data-act="order" ${n&&!S.paid?'':'disabled'}>${S.paid?'Besuch ist bereits bezahlt':n?`${n} ${n===1?'Getränk':'Getränke'} bestellen · ${chf(sum)}`:'Getränke auswählen'}</button>
+    ${S.orders.length?`<h3>Bestellt</h3><div class="list">${S.orders.map(o=>`<div class="item"><div>${esc(o.text)}</div><span class="pill ${o.served?'':'neutral'}">${o.served?'Serviert':'In Zubereitung'}</span></div>`).join('')}</div>`:''}`;
+}
+const MAT = `<svg class="mat" viewBox="0 0 320 190" role="img" aria-label="Fotomatte mit Zentimeterraster und einem Becher darauf">
+  <defs><pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="var(--line)" stroke-width="1"/></pattern></defs>
+  <rect x="20" y="15" width="280" height="160" fill="url(#g)" stroke="var(--muted)" stroke-width="1.5"/>
+  <g fill="var(--ink)"><rect x="20" y="15" width="16" height="16"/><rect x="284" y="15" width="16" height="16"/><rect x="20" y="159" width="16" height="16"/><rect x="284" y="159" width="16" height="16"/></g>
+  <path d="M128 60h64l-6 84a8 8 0 0 1-8 7h-36a8 8 0 0 1-8-7z" fill="var(--terra-soft)" stroke="var(--terra)" stroke-width="2"/>
+  <path d="M191 78c22-2 24 34-4 36" fill="none" stroke="var(--terra)" stroke-width="2"/>
+  <path d="M112 60v91M107 60h10M107 151h10" stroke="var(--sage)" stroke-width="2" fill="none"/>
+  <text x="104" y="110" text-anchor="end" font-size="12" font-weight="700" fill="var(--sage)" font-family="Nunito,sans-serif">cm</text>
+</svg>`;
+function resultCard(d){
+  const s = sizeByKey(d.size), low = d.conf < 80;
+  return `<div class="result ${low?'warn':''}"><b>${d.name} · Grösse ${s.k}</b>
+    <span class="num">Gemessen auf der Matte: ${d.dim}</span>
+    <span class="num">Stückpreis ${chf(s.p)} · Sicherheit ${d.conf} %</span>
+    ${low?`<span>Das Stück könnte auch eine Grösse grösser sein. Das Team schaut kurz drauf, du musst nichts tun.</span>`:''}</div>`;
+}
+function pagePieces(){
+  if(S.scan){
+    const sc = S.scan;
+    if(sc.step==='pick') return `<h2>Stück fotografieren</h2>${MAT}
+      <p>Stell das Stück mitten auf die Matte, sodass alle vier Eckmarken im Bild sind. Die Matte ist der Massstab.</p>
+      <label class="filelabel">${sc.photo?'Foto ersetzen':'Kamera öffnen'}<input type="file" id="photo" accept="image/*" capture="environment"></label>
+      ${sc.photo?`<img src="${sc.photo}" alt="Dein Foto" style="border-radius:12px">`:''}
+      <div class="field"><span>Nur in der Demo: Was liegt auf der Matte?</span><div class="chips">${DEMO.map(d=>`<button class="chip" data-act="scanPick" data-arg="${d.id}">${d.name}</button>`).join('')}</div></div>
+      <button class="btn ghost wide" data-act="scanCancel">Abbrechen</button>`;
+    const d = DEMO.find(x=>x.id===sc.id);
+    if(sc.step==='analyzing') return `<h2>Bild wird ausgewertet</h2><div class="pulse"></div><p class="muted">Eckmarken finden, Stück vermessen, mit dem Sortiment abgleichen.</p>`;
+    const low = d.conf < 80;
+    return `<h2>Ergebnis</h2>${resultCard(d)}
+      <button class="btn wide" data-act="scanAdd" data-arg="${low?'review':'ok'}">${low?'Hinzufügen und prüfen lassen':'Stimmt, hinzufügen'}</button>
+      ${low?'':`<button class="btn ghost wide" data-act="scanAdd" data-arg="review">Stimmt nicht, Team fragen</button>`}
+      <button class="link" data-act="scanCancel">Abbrechen</button>`;
+  }
+  return `<div><h2>Meine Stücke</h2><p class="muted small">Jedes bemalte Stück einmal fotografieren. Daraus ergibt sich der Preis.</p></div>
+    ${S.pieces.length?`<div class="list">${S.pieces.map((p,i)=>`<div class="item"><div class="row" style="flex-wrap:nowrap">
+      ${p.photo?`<img class="thumb" src="${p.photo}" alt="">`:`<div class="thumb">${p.size}</div>`}
+      <div><b>${p.name}</b><div class="small muted num">${S.visit.nr}-${i+1} · Grösse ${p.size} · ${chf(sizeByKey(p.size).p)}</div>
+      ${p.status==='review'?'<span class="pill warn">Team prüft</span>':'<span class="pill">Erfasst</span>'}</div></div>
+      ${S.paid?'':`<button class="link small" data-act="pieceDel" data-arg="${i}">Entfernen</button>`}</div>`).join('')}</div>`
+      :`<p class="muted">Noch kein Stück erfasst.</p>`}
+    ${S.paid?'':`<button class="btn wide" data-act="scanStart">${S.pieces.length?'Weiteres Stück fotografieren':'Stück fotografieren'}</button>`}
+    ${S.pieces.length&&!S.paid?`<button class="btn ghost wide" data-act="page" data-arg="pay">Weiter zur Abrechnung</button>`:''}`;
+}
+function billRows(){
+  const v = S.visit, sur = surcharge();
+  return `<div class="sum"><span>${v.family?'Familientarif':`Servicegebühr ${v.persons} × ${chf(BASE)}`}</span><span class="num">${chf(baseFee())}</span></div>
+    ${sur?`<div class="sum"><span>Verlängerung ${overMin()} min (${v.persons} × ${Math.ceil(overMin()/SUR_MIN)} × ${chf(SUR)})</span><span class="num">${chf(sur)}</span></div>`:''}
+    ${S.pieces.map(p=>`<div class="sum"><span>${p.name}, Grösse ${p.size}</span><span class="num">${chf(sizeByKey(p.size).p)}</span></div>`).join('')}
+    ${S.orders.map(o=>`<div class="sum"><span>${esc(o.text)}</span><span class="num">${chf(o.total)}</span></div>`).join('')}
+    <div class="sum total"><span>Total inkl. MwSt</span><span class="num">${chf(total())}</span></div>`;
+}
+function pagePay(){
+  if(S.paid){
+    const tl = [['Bezahlt',true],['Glasieren und Brennen',S.fired],['Abholbereit',S.fired],['Abholfenster gewählt',!!S.pickup]];
+    const firstOpen = tl.findIndex(t=>!t[1]);
+    let extra;
+    if(S.pickup) extra = `<div class="result"><b>Abholung ${S.pickup}</b><span>Nenn an der Theke einfach die Nummer ${S.visit.nr}.</span></div>`;
+    else if(S.fired) extra = `<h3>Abholfenster wählen</h3>
+      <p class="small muted">Abholen kannst du während der Öffnungszeiten. Wähl deinen Tag, dann legen wir dein Stück bereit. Wir bewahren es drei Monate auf.</p>
+      <div class="chips">${PICK_SLOTS.map((t,i)=>`<button class="chip" data-act="pickSlot" data-arg="${i}" aria-pressed="${S.pickSlot===i}">${t}</button>`).join('')}</div>
+      <button class="btn wide" data-act="pickup">Abholung bestätigen</button>`;
+    else extra = `<p class="muted">Wir glasieren und brennen deine Stücke. Sobald sie fertig sind, bekommst du eine SMS. Das dauert etwa zwei Wochen.</p>`;
+    return `<h2>${S.fired?'Deine Keramik ist fertig':'Danke für deinen Besuch'}</h2>
+      <ul class="timeline">${tl.map((t,i)=>`<li class="${t[1]?'done':i===firstOpen?'now':''}">${t[0]}</li>`).join('')}</ul>${extra}
+      <p class="small muted num">Bezahlt: ${chf(S.paid.amount)} mit ${S.paid.method}</p>`;
+  }
+  if(S.payOpen) return `<div><p class="muted small">Payrexx (simuliert)</p><h2 class="num">${chf(total())}</h2></div>
+    <p>Im echten System öffnet sich hier die Zahlungsseite von Payrexx. Die Bestätigung kommt automatisch zurück.</p>
+    <button class="btn wide" data-act="payDo" data-arg="TWINT">Mit TWINT bezahlen</button>
+    <button class="btn ghost wide" data-act="payDo" data-arg="Karte">Mit Karte bezahlen</button>
+    <button class="link" data-act="payClose">Zurück</button>`;
+  const block = !S.pieces.length ? 'Erfasse zuerst mindestens ein Stück.' : needsReview() ? 'Ein Stück wird noch vom Team geprüft. Danach kannst du bezahlen.' : '';
+  return `<h2>Abrechnung</h2><div>${billRows()}</div>
+    <p class="small muted">Mit der Zahlung endet die Malzeit. Lieber mit Karte am Gerät zahlen? Nenn an der Theke die Nummer ${S.visit.nr}.</p>
+    ${block?`<p class="err">${block}</p>`:''}
+    <button class="btn wide" data-act="payOpen" ${block?'disabled':''}>Jetzt bezahlen</button>
+    ${!S.pieces.length?`<button class="btn ghost wide" data-act="page" data-arg="pieces">Stück erfassen</button>`:''}`;
+}
+
+/* ---------- Theke ---------- */
+function viewTheke(){
+  const open = S.orders.filter(o=>!o.served);
+  const rev = S.pieces.map((p,i)=>({p,i})).filter(x=>x.p.status==='review');
+  const v = S.visit;
+  const timeCell = v ? (S.paid ? `<span class="pill">Bezahlt · ${S.paid.method===DESK?'SumUp':'Payrexx'}</span>` : overMin()>0 ? `<span class="pill warn">+${overMin()} min</span>` : '<span class="pill neutral">Malt</span>') : '';
+  const liveRow = v ? `<tr><td class="num"><b>${v.nr}</b></td><td>${esc(v.first)} ${esc(v.last)}</td><td class="num">${v.persons}</td><td class="num">${v.time}</td><td>${timeCell}</td><td class="r num">${chf(S.paid?S.paid.amount:total())}</td></tr>` : '';
+  const kilnOwn = S.paid ? `<div class="item"><div><b>${v.nr}</b> · ${esc(v.first)} ${esc(v.last)}<div class="small muted">${S.pieces.map(p=>p.name+' '+p.size).join(', ')}</div></div>${S.fired?'<span class="pill">SMS gesendet</span>':'<span class="pill neutral">Im Ofen</span>'}</div>` : '';
+  const deskBlock = !v || S.paid ? '' : !S.pieces.length ? 'Noch kein Stück erfasst.' : rev.length ? 'Zuerst die Grösse oben bestätigen.' : '';
+  const kasse = v && !S.paid ? `<section class="panel full"><div class="row between"><h2>Zahlung an der Theke</h2><span class="num"><b>${v.nr}</b> · ${chf(total())}</span></div>
+      <p class="muted">Für Gäste, die nicht am Handy zahlen. Betrag am SumUp-Gerät kassieren, dann hier bestätigen. Der Besuch wird wie bei Payrexx abgeschlossen und die Quittung geht per SMS raus.</p>
+      ${deskBlock?`<p class="err">${deskBlock}</p>`:''}
+      <div><button class="btn sage" data-act="payDo" data-arg="${DESK}" ${deskBlock?'disabled':''}>An der Theke bezahlt (SumUp)</button></div></section>` : '';
+  return `<div class="theke">
+    <section class="panel"><div class="row between"><h2>Getränke</h2><span class="pill ${open.length?'warn':''}">${open.length} offen</span></div>
+      ${S.orders.length?`<div class="list">${S.orders.map((o,i)=>`<div class="item"><div><b>Tisch ${v.table}</b> · ${v.nr}<div class="small">${esc(o.text)}</div><div class="small muted num">${o.time}</div></div>${o.served?'<span class="pill">Serviert</span>':`<button class="btn sm" data-act="served" data-arg="${i}">Serviert</button>`}</div>`).join('')}</div>`
+      :'<p class="muted">Keine Bestellungen. Sie erscheinen hier, sobald jemand am Tisch bestellt.</p>'}
+    </section>
+    <section class="panel"><div class="row between"><h2>Grösse prüfen</h2><span class="pill ${rev.length?'warn':''}">${rev.length} offen</span></div>
+      ${rev.length?rev.map(({p,i})=>`<div class="stack"><div><b>${v.nr}-${i+1} · ${p.name}</b><div class="small muted num">Gemessen: ${p.dim} · Vorschlag ${p.size} · Sicherheit ${p.conf} %</div></div>
+        <div class="chips">${SIZES.map(s=>`<button class="chip" data-act="review" data-arg="${i}:${s.k}">${s.k} · ${s.p}.–</button>`).join('')}</div></div>`).join('')
+      :'<p class="muted">Nichts zu prüfen. Hier landen nur Stücke, bei denen das System unsicher ist oder die Kundin widerspricht.</p>'}
+    </section>
+    ${kasse}
+    <section class="panel full"><h2>Besuche heute</h2><div class="tablewrap"><table>
+      <tr><th>Nr.</th><th>Name</th><th>Pers.</th><th>Check-in</th><th>Status</th><th class="r">Betrag</th></tr>
+      ${liveRow}
+      <tr><td class="num"><b>A15</b></td><td>Familie Roth <span class="small muted">(Beispiel)</span></td><td class="num">4</td><td class="num">14:05</td><td><span class="pill warn">+20 min</span></td><td class="r num">${chf(196)}</td></tr>
+      <tr><td class="num"><b>A12</b></td><td>Lena B. <span class="small muted">(Beispiel)</span></td><td class="num">1</td><td class="num">13:10</td><td><span class="pill">Bezahlt</span></td><td class="r num">${chf(54.5)}</td></tr>
+    </table></div></section>
+    <section class="panel"><h2>Brennofen</h2>
+      <div class="list">${kilnOwn}
+        <div class="item"><div><b>A12</b> · Lena B. <span class="small muted">(Beispiel)</span><div class="small muted">Teller M</div></div>${S.fired?'<span class="pill">SMS gesendet</span>':'<span class="pill neutral">Im Ofen</span>'}</div>
+        <div class="item"><div><b>A09</b> · Jonas M. <span class="small muted">(Beispiel)</span><div class="small muted">Becher S, Becher S</div></div>${S.fired?'<span class="pill">SMS gesendet</span>':'<span class="pill neutral">Im Ofen</span>'}</div>
+      </div>
+      <button class="btn wide" data-act="kiln" ${S.fired?'disabled':''}>${S.fired?'Ofenladung gemeldet':'Ofenladung fertig melden'}</button>
+      <p class="small muted">Ein Tipp schickt allen Kundinnen dieser Ladung die Abhol-SMS.</p>
+    </section>
+    <section class="panel"><h2>Abholungen</h2>
+      <div class="list">${S.pickup?`<div class="item"><div><b>${v.nr}</b> · ${esc(v.first)} ${esc(v.last)}<div class="small muted">${S.pieces.length} ${S.pieces.length===1?'Stück':'Stücke'}</div></div><span class="num small">${S.pickup}</span></div>`:''}
+        <div class="item"><div><b>A03</b> · Sara W. <span class="small muted">(Beispiel)</span><div class="small muted">2 Stücke</div></div><span class="num small">${slotText(days(1,1,isPick)[0])}</span></div>
+      </div>
+    </section>
+  </div>`;
+}
+
+function render(){
+  renderChrome();
+  document.getElementById('view').innerHTML = S.role==='station' ? viewStation() : S.role==='theke' ? viewTheke() : viewPhone();
+}
+
+const ACT = {
+  role(a){ S.role=a; S.err=''; },
+  ptab(a){ S.ptab=a; },
+  page(a){ S.page=a; S.scan=null; S.payOpen=false; },
+  open(a){ S.ptab='seite'; if(S.visit){ S.page=a; } },
+  pers(a){ S.persons=Math.min(20,Math.max(1,S.persons+Number(a))); },
+  pickRes(a){ const i=Number(a), r=TODAY[i]; S.resPick=i; S.err='';
+    Object.assign(S.form, r ? {first:r.first,last:r.last,phone:r.phone} : {first:'',last:'',phone:''}); S.persons = r ? r.persons : 1; },
+  checkin(){
+    const f=S.form;
+    if(!f.first.trim()||!f.last.trim()||!f.phone.trim()){ S.err='Bitte Vorname, Nachname und Handynummer ausfüllen.'; return; }
+    if(!f.agb){ S.err='Bitte die AGB akzeptieren.'; return; }
+    if(!f.sms){ S.err='Ohne SMS-Einwilligung können wir euch den Link nicht schicken. Bitte ankreuzen oder an der Theke melden.'; return; }
+    S.err=''; S.visit={nr:'B47',first:f.first.trim(),last:f.last.trim(),phone:f.phone.trim(),persons:S.persons,family:f.family,table:4,start:Date.now(),time:nowTime()};
+    S.page='start'; S.ptab='sms';
+    sms(`Willkommen bei LOVE Creative, ${S.visit.first}! Eure Besuchsnummer ist ${S.visit.nr}, eure ${HOURS} Stunden Malzeit laufen ab ${S.visit.time} Uhr. Erste Schritte, Getränke und Bezahlen:`,'start');
+  },
+  ff(){
+    S.extra+=55;
+    if(!S.warned && elapsedMin()>=HOURS*60-15){ S.warned=true;
+      sms(`Noch 15 Minuten Malzeit. Danach kostet jede angefangene halbe Stunde CHF ${SUR} pro Person. Stücke erfassen und bezahlen:`,'pay'); }
+  },
+  drink(a){ const [id,d]=a.split(':'); S.cart[id]=Math.max(0,(S.cart[id]||0)+Number(d)); },
+  order(){
+    const items=DRINKS.filter(d=>S.cart[d.id]); if(!items.length) return;
+    S.orders.push({text:items.map(d=>S.cart[d.id]+' × '+d.n).join(', '),total:items.reduce((a,d)=>a+S.cart[d.id]*d.p,0),served:false,time:nowTime()});
+    S.cart={};
+  },
+  served(a){ S.orders[Number(a)].served=true; },
+  scanStart(){ S.scan={step:'pick',photo:null}; },
+  scanCancel(){ S.scan=null; },
+  scanPick(a){ S.scan={step:'analyzing',id:a,photo:S.scan.photo}; setTimeout(()=>{ if(S.scan&&S.scan.step==='analyzing'){ S.scan.step='result'; render(); } },1100); },
+  scanAdd(a){ const d=DEMO.find(x=>x.id===S.scan.id); S.pieces.push({name:d.name,dim:d.dim,conf:d.conf,size:d.size,status:a,photo:S.scan.photo}); S.scan=null; },
+  pieceDel(a){ S.pieces.splice(Number(a),1); },
+  review(a){ const [i,k]=a.split(':'); const p=S.pieces[Number(i)]; p.size=k; p.status='ok'; },
+  payOpen(){ S.payOpen=true; }, payClose(){ S.payOpen=false; },
+  payDo(a){ const amount=total(); S.paid={amount,method:a,at:Date.now()}; S.payOpen=false;
+    sms(`Danke, ${S.visit.first}! ${chf(amount)} mit ${a} bezahlt. Wir glasieren und brennen eure Stücke und melden uns in etwa zwei Wochen.`); },
+  kiln(){ S.fired=true; if(S.paid) sms(`Eure Keramik ist fertig gebrannt. Wählt hier euer Abholfenster:`,'pay'); },
+  pickSlot(a){ S.pickSlot=Number(a); },
+  pickup(){ S.pickup=PICK_SLOTS[S.pickSlot]; sms(`Abholung bestätigt: ${S.pickup}. Nennt an der Theke die Nummer ${S.visit.nr}. Wir freuen uns!`); },
+  reset(){ S=fresh(); }
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if(!b || b.disabled) return;
+  ACT[b.dataset.act](b.dataset.arg); render();
+});
+document.addEventListener('input', e => { const k=e.target.dataset.bind; if(k) S.form[k]=e.target.value; });
+document.addEventListener('change', e => {
+  const c=e.target.dataset.check;
+  if(c){ S.form[c]=e.target.checked; return; }
+  if(e.target.id==='photo' && e.target.files[0] && S.scan){ S.scan.photo=URL.createObjectURL(e.target.files[0]); render(); }
+});
+setInterval(()=>{ const t=document.getElementById('timer'); if(t&&S.visit) t.textContent=timerText(); },30000);
+render();
+</script>
+</body>
+</html>
