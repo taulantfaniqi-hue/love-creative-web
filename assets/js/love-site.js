@@ -182,6 +182,8 @@ document.querySelectorAll('header.site .sub').forEach(menu => {
     li.appendChild(a); menu.insertBefore(li, movie.closest('li'));
   }
   const camp = menu.querySelector('[data-i18n="nav.camp"]')?.closest('li');
+  const pilates = Array.from(menu.querySelectorAll('a')).find(a => /(?:^|\/)pilates-paint\.html(?:[?#]|$)/.test(a.getAttribute('href') || ''))?.closest('li');
+  if (pilates) menu.appendChild(pilates);
   if (camp) menu.appendChild(camp);
 });
 
@@ -361,6 +363,7 @@ const y = document.getElementById('year'); if (y) y.textContent = new Date().get
 
 window.LoveSite = { t, applyLang, lang: () => lang, validEmail, todayISO, chf };
 })();
+
 
 
 
