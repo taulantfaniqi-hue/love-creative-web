@@ -16,7 +16,7 @@
 <script>
 window.LOVE_TITLES = { de: 'Events — LOVE Creative Café, Au ZH', en: 'Events — LOVE Creative Café, Au ZH' };
 window.LOVE_EN = {
-  'ev.ornT':'Paint your own Christmas ornaments',
+  'ev.ornT':'Christmas baubles &amp; tree decorations',
   'ev.ornD':'14 or 20 November 2026, 6:30–8:30 pm. CHF 89 per person including three ornaments of your choice, a hot drink, a cinnamon roll and service fee. 20 places per evening.',
   'ev.ornC':'Choose your evening →',
   'ev.pilatesT':'Pilates &amp; Pottery',
@@ -26,10 +26,6 @@ window.LOVE_EN = {
   'ev.eyebrow':'Events',
   'ev.title':'Celebrations and events that stay.',
   'ev.lead':'From the holiday kids camp to birthdays and team events: you get tables, colours and support — and everyone takes home a piece they made themselves. Pick a category; each one has its own page with all details and online booking.',
-  'ev.kinoT':'Movie &amp; Pottery',
-  'ev.kinoD':'Film afternoons in October (17, 18, 24, 25), always at 4:30 pm: paint pottery and watch Hotel Transylvania, The Addams Family or Hocus Pocus.',
-  'ev.kinoP':'CHF 45 per person',
-  'ev.kinoC':'To the film afternoons →',
   'ev.halloT':'Movie &amp; Pottery',
   'ev.halloD':'13 and 28 November and 5 and 11 December, always at 6:30 pm. CHF 55 including the service fee, one ceramic piece up to size M and one drink.',
   'ev.halloP':'CHF 55 per person',
@@ -79,14 +75,15 @@ window.LOVE_EN = {
         <li class="has-sub">
           <a href="events.html" data-i18n="nav.events">Events</a>
           <ul class="sub">
-            <li><a href="halloween.html" data-i18n="nav.hallo">Kinoabende</a></li>
-            <li><a href="kinokeramik.html" data-i18n="nav.kinoK">Kino &amp; Keramik</a></li>
+            <li><a href="weihnachtsornamente.html" style="white-space:normal" data-i18n="nav.ornaments">Weihnachtskugeln &amp; Baumschmuck</a></li>
+            <li><a href="kino-keramik-bemalen.html" style="white-space:normal" data-i18n="nav.hallo">Kino &amp; Keramik bemalen</a></li>
             <li><a href="monetkids.html" data-i18n="nav.monet">Claude Monet Kids</a></li>
             <li><a href="monetadults.html" data-i18n="nav.monetA">Claude Monet Adults</a></li>
-            <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
             <li><a href="geburtstag.html" data-i18n="nav.geb">Geburtstag</a></li>
             <li><a href="pilates-paint.html" data-i18n="nav.pilates">Pilates &amp; Keramik</a></li>
             <li><a href="teamevents.html" data-i18n="nav.team">Team- &amp; Firmenevents</a></li>
+          
+            <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
           </ul>
         </li>
         <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
@@ -123,7 +120,7 @@ window.LOVE_EN = {
       <div class="feature reveal">
         <img src="assets/img/weihnachtsornamente.jpeg" alt="Paint your own Christmas ornaments — LOVE Creative Café" loading="lazy" width="1080" height="1350" style="aspect-ratio:4/5;object-fit:contain">
         <div class="body">
-          <h3 data-i18n="ev.ornT">Weihnachtsornamente bemalen</h3>
+          <h3 data-i18n="ev.ornT">Weihnachtskugeln &amp; Baumschmuck</h3>
           <p data-i18n="ev.ornD">14. oder 20. November 2026, 18:30–20:30 Uhr. CHF 89 pro Person inklusive drei Ornamenten deiner Wahl, Heissgetränk, Zimtschnecke und Servicegebühr. 20 Plätze pro Abend.</p>
           <a class="btn btn-rose btn-sm" href="weihnachtsornamente.html" data-i18n="ev.ornC">Zum Weihnachtsabend →</a>
         </div>
@@ -131,20 +128,11 @@ window.LOVE_EN = {
 
 
       <div class="feature reveal">
-        <img src="assets/img/kino-keramik-oktober.jpg" alt="Flyer Kino &amp; Keramik — Filmnachmittage im Oktober" loading="lazy" width="1080" height="1350" style="aspect-ratio:4/5">
-        <div class="body">
-          <h3 data-i18n="ev.kinoT">Kino &amp; Keramik</h3>
-          <p data-i18n="ev.kinoD">Filmnachmittage im Oktober (17., 18., 24., 25.), jeweils 16:30 Uhr: Keramik bemalen und Hotel Transylvania, Die Addams Family oder Hocus Pocus schauen.</p>
-          <a class="btn btn-rose btn-sm" href="kinokeramik.html" data-i18n="ev.kinoC">Zu den Filmnachmittagen →</a>
-        </div>
-      </div>
-
-      <div class="feature reveal">
         <img src="assets/img/kino-keramik-winter-2026.jpeg" alt="Kino &amp; Keramik bemalen: 13. und 28. November sowie 5. und 11. Dezember, jeweils 18:30 Uhr" loading="lazy" width="1080" height="1350" style="aspect-ratio:4/5">
         <div class="body">
           <h3 data-i18n="ev.halloT">Kino &amp; Keramik bemalen</h3>
           <p data-i18n="ev.halloD">13. und 28. November sowie 5. und 11. Dezember, jeweils 18:30 Uhr. CHF 55 inklusive Servicegebühr, einem Keramikstück bis Grösse M und einem Getränk.</p>
-          <a class="btn btn-rose btn-sm" href="halloween.html" data-i18n="ev.halloC">Film wählen &amp; buchen →</a>
+          <a class="btn btn-rose btn-sm" href="kino-keramik-bemalen.html" data-i18n="ev.halloC">Film wählen &amp; buchen →</a>
         </div>
       </div>
 
@@ -252,13 +240,14 @@ window.LOVE_EN = {
 </footer>
 
 <script src="assets/js/love-data.js?v=f962e5d3"></script>
-<script src="assets/js/love-site.js?v=c43135e1"></script>
+<script src="assets/js/love-site.js?v=2b24547483c2"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=d3e7e9a8"></script>
 <script src="assets/js/love-pay.js?v=67a0bb98"></script>
 <script src="assets/js/love-widget.js?v=0efa0c46"></script>
 </body>
 </html>
+
 
 
 

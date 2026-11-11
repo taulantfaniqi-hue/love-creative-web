@@ -3,6 +3,7 @@ window.LOVE_EN={
  'movie.eyebrow':'Four cosy film evenings', 'movie.title':'Movie & pottery painting',
  'movie.intro':'Paint pottery, watch a film and enjoy a cosy evening at LOVE Creative Café.',
  'movie.capacity':'20 places per evening','movie.perPerson':'per person','movie.includes':'Includes the service fee, one ceramic piece of your choice up to size M and one drink.',
+ 'movie.bookingTitle':'Movie &amp; pottery painting',
  'movie.book':'Choose a film & book','movie.release':'Online booking will open soon.',
  'movie.notice':'Pay securely with Payrexx (TWINT or card). Your places are booked only after payment is confirmed.',
  'movie.date':'Film & date · 6:30 pm (Swiss time)','movie.people':'Number of people','movie.name':'Full name','movie.email':'Email','movie.phone':'Mobile phone',
@@ -13,3 +14,4 @@ window.LOVE_EN={
  'movie.dates':'13 & 28 November / 5 & 11 December 2026','movie.time':'Starts at 6:30 pm',
  'nav.hallo':'Movie evenings'
 };
+
