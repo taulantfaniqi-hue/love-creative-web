@@ -1,9 +1,10 @@
 window.LOVE_TITLES={de:'Weihnachtskugeln & Baumschmuck — LOVE Creative Café',en:'Christmas baubles & tree decorations — LOVE Creative Café'};
 window.LOVE_EN={
+ 'ct.lake':'right by Lake Zurich',
  'orn.eyebrow':'A creative Christmas evening',
  'orn.title':'Christmas baubles &amp; tree decorations',
  'orn.bookingTitle':'Christmas baubles &amp; tree decorations',
- 'orn.intro':'Paint three ornaments of your choice and enjoy a cosy evening at LOVE Creative Café.',
+ 'orn.intro':'Paint three Christmas ornaments of your choice and enjoy a cosy, creative evening at LOVE Creative Café.',
  'orn.capacity':'20 places per evening','orn.perPerson':'per person',
  'orn.includes':'Includes three ornaments of your choice, a hot drink, a cinnamon roll and service fee.',
  'orn.book':'Choose a date & book','orn.release':'Online booking will open soon.',
@@ -14,4 +15,5 @@ window.LOVE_EN={
  'orn.pay':'Pay now →','orn.resume':'Resume payment →','orn.check':'Check payment status',
  'orn.new':'Start a new booking'
 };
+
 

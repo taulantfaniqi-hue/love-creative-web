@@ -42,6 +42,7 @@ async function status(){
  if(adapter.reference())result.textContent+=' '+adapter.reference();
  newBooking.hidden=!(paid||r.expired===true);
  resume.hidden=paid||r.expired===true||['storniert','abgelehnt','verloren','cancelled','expired','failed'].includes(r.status);
+ return paid;
  }catch(e){showError(e.message);}finally{statusBusy=false;check.disabled=false;}
 }
 document.getElementById('release-note').hidden=adapter.enabled;
@@ -65,6 +66,20 @@ newBooking.addEventListener('click',async()=>{
 });
 document.addEventListener('love:lang',()=>{update();if(d.open&&adapter.hasToken())status();});
 const q=new URLSearchParams(location.search);
-if(q.has('paid')||q.has('payfail')||q.has('cancel')||adapter.hasPending()){d.showModal();if(adapter.hasPending())status();else result.textContent=say('Die Zahlung kann in diesem Browser nicht geprüft werden. Bitte prüfe deine Bestätigungs-E-Mail oder kontaktiere uns.','Payment cannot be verified in this browser. Please check your confirmation email or contact us.');}
+// Returning from payment is handled once. An unpaid saved checkout never
+// interrupts a later visit; the booking button still provides safe resume/status.
+if(q.has('paid')||q.has('payfail')||q.has('cancel')){
+ const url=new URL(location.href);
+ for(const key of ['paid','payfail','cancel'])url.searchParams.delete(key);
+ history.replaceState(null,'',url.href);
+ if(q.has('paid')&&adapter.hasToken()&&q.get('paid')===adapter.reference()){
+   status().then(paid=>{if(paid===true&&!d.open)d.showModal();});
+ }
+}
+// Safari may restore the already-open dialog from its back/forward cache.
+window.addEventListener('pageshow',event=>{
+ if(event.persisted&&adapter.hasPending()&&d.open)d.close();
+});
 update();
 })();
+

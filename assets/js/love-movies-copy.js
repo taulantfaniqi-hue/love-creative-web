@@ -1,5 +1,6 @@
 window.LOVE_TITLES={de:'Kino & Keramik bemalen | LOVE Creative Café',en:'Movie & Pottery Painting | LOVE Creative Café'};
 window.LOVE_EN={
+ 'ct.lake':'right by Lake Zurich',
  'movie.eyebrow':'Four cosy film evenings', 'movie.title':'Movie & pottery painting',
  'movie.intro':'Paint pottery, watch a film and enjoy a cosy evening at LOVE Creative Café.',
  'movie.capacity':'20 places per evening','movie.perPerson':'per person','movie.includes':'Includes the service fee, one ceramic piece of your choice up to size M and one drink.',
@@ -14,4 +15,5 @@ window.LOVE_EN={
  'movie.dates':'13 & 28 November / 5 & 11 December 2026','movie.time':'Starts at 6:30 pm',
  'nav.hallo':'Movie evenings'
 };
+
 
