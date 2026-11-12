@@ -6,7 +6,7 @@ window.LOVE_EN={
  'orn.bookingTitle':'Christmas baubles &amp; tree decorations',
  'orn.intro':'Paint three Christmas ornaments of your choice and enjoy a cosy, creative evening at LOVE Creative Café.',
  'orn.capacity':'20 places per evening','orn.perPerson':'per person',
- 'orn.includes':'Includes three ornaments of your choice, a hot drink, a cinnamon roll and service fee.',
+ 'orn.includesTitle':'Included in the price','orn.includesItems':'3 Christmas ornaments of your choice','orn.includesDrink':'1 drink of your choice','orn.includesRoll':'1 cinnamon roll','orn.includesService':'Service fee',
  'orn.book':'Choose a date & book','orn.release':'Online booking will open soon.',
  'orn.notice':'Pay securely with Payrexx. Your places are booked only after payment is confirmed.',
  'orn.date':'Date · 6:30–8:30 pm (Swiss time)','orn.people':'Number of people','orn.name':'Full name','orn.email':'Email','orn.phone':'Mobile phone',
@@ -15,5 +15,6 @@ window.LOVE_EN={
  'orn.pay':'Pay now →','orn.resume':'Resume payment →','orn.check':'Check payment status',
  'orn.new':'Start a new booking'
 };
+
 
 

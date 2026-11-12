@@ -18,3 +18,7 @@
 .checkout-fields select{display:block;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:white;font:inherit}
 #purchase-fields{border:0;padding:0;margin:0;min-width:0}#availability{margin:0;font-size:13px}
 #purchase-submit:disabled{opacity:.55;cursor:not-allowed}.checkout-consent a{text-decoration:underline}
+
+
+/* Clear, inclusive CHF 89 workshop bundle. */
+.price-includes{margin:16px 0;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--mimi)}.price-includes h2{font-family:var(--ff-body);font-size:1.05rem;line-height:1.4;color:var(--green);margin:0;font-weight:600}.price-includes ul{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}.price-includes li{display:flex;align-items:baseline;gap:10px;font-size:15px;line-height:1.5}.price-includes li::before{content:"✓";color:var(--green);font-weight:600}
