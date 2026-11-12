@@ -38,20 +38,31 @@
     </div>
     <a class="btn btn-rose nav-cta" href="reservieren.html" data-i18n="cta.reserve">Tisch reservieren</a>
   </div>
-</header><main id="main"><section class="flyer-booking"><div class="flyer-booking-inner"><p class="flyer-intro" data-i18n="shortIntro">Der Morgen beginnt bei CULT Pilates und geht anschliessend im LOVE Creative Café weiter.</p><div class="poster"><img src="assets/img/pilates-paint.jpeg" width="1080" height="1350" alt="Pilates & Paint: LOVE Creative Café und CULT Pilates. 5. Dezember, 10–14 Uhr, CHF 89 inklusive Pilates, Keramik, Kaffee und Croissant."></div><button type="button" class="btn btn-rose flyer-booking-button" disabled aria-disabled="true" style="color:#b42318;background:#fff1f0;border:2px solid #b42318;opacity:1;cursor:not-allowed" data-i18n="soldOut">Ausgebucht</button><p class="event-cancellation" lang="de">Verbindliche Anmeldung. Keine Erstattung der Anmeldegebühr bei Absage innerhalb 48 Stunden vor Beginn oder bei Nichtantritt, ansonsten 50 %.</p></div></section></main><footer class="site-foot">
+</header>
+<div class="sticky-cta"><a class="btn btn-rose" href="reservieren.html" data-i18n="cta.reserve3">Tisch reservieren</a></div><main id="main"><section class="flyer-booking"><div class="flyer-booking-inner"><p class="flyer-intro" data-i18n="shortIntro">Der Morgen beginnt bei CULT Pilates und geht anschliessend im LOVE Creative Café weiter.</p><div class="poster"><img src="assets/img/pilates-paint.jpeg" width="1080" height="1350" alt="Pilates & Paint: LOVE Creative Café und CULT Pilates. 5. Dezember, 10–14 Uhr, CHF 89 inklusive Pilates, Keramik, Kaffee und Croissant."></div><button type="button" class="btn btn-rose flyer-booking-button" disabled aria-disabled="true" style="color:#b42318;background:#fff1f0;border:2px solid #b42318;opacity:1;cursor:not-allowed" data-i18n="soldOut">Ausgebucht</button><p class="event-cancellation" lang="de">Verbindliche Anmeldung. Keine Erstattung der Anmeldegebühr bei Absage innerhalb 48 Stunden vor Beginn oder bei Nichtantritt, ansonsten 50 %.</p></div></section><section aria-label="LOVE Creative Café Adresse">
+  <div class="wrap" style="max-width:640px">
+    <div class="addr-card">
+      <p class="lbl">LOVE Creative Café</p>
+      <p class="big">Seestrasse 287B</p>
+      <p class="big">8804 Au ZH</p>
+      <p data-i18n="ct.lake">direkt am Zürichsee</p>
+      <img src="assets/logo/logo-love.svg" alt="" width="72" height="72" style="margin:1rem auto 0">
+    </div>
+  </div>
+</section>
+</main><footer class="site">
   <div class="wrap">
     <div class="foot-grid">
-      <div>
-        <p class="foot-brand">LOVE <small>Creative Café</small></p>
-        <p class="script-line">Made for moments that matter.</p>
-        <p data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen bald</p>
+      <div class="foot-brand">
+        <img src="assets/logo/logo-love.svg" alt="LOVE Creative Café Logo" width="74" height="74" loading="lazy">
+        <p>Made for moments that matter.</p>
+        <p style="margin-top:.7rem;font-size:.85rem" data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen</p>
       </div>
       <div>
         <h4 data-i18n="ft.worlds">Entdecken</h4>
         <ul>
           <li><a href="walkin.html" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
           <li><a href="events.html" data-i18n="ft.events">Events</a></li>
-          <li><a href="teamevents.html" data-i18n="ft.firmen">Team- &amp; Firmenevents</a></li>
           <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
           <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
         </ul>
@@ -76,6 +87,16 @@
         </ul>
       </div>
     </div>
+
+    <div class="foot-pay" id="footPay" role="group" aria-label="Akzeptierte Zahlungsmethoden">
+      <span data-i18n="ft.pay">Sichere Zahlung:</span>
+      <img src="assets/img/pay/twint.svg" alt="TWINT" loading="lazy" height="26">
+      <img src="assets/img/pay/visa.svg" alt="Visa" loading="lazy" height="26">
+      <img src="assets/img/pay/mastercard.svg" alt="Mastercard" loading="lazy" height="26">
+      <img src="assets/img/pay/amex.svg" alt="American Express" loading="lazy" height="26">
+      <img src="assets/img/pay/applepay.svg" alt="Apple Pay" loading="lazy" height="26">
+      <img src="assets/img/pay/klarna.svg" alt="Klarna" loading="lazy" height="26">
+    </div>
     <div class="foot-bottom">
       <p>© <span id="year">2026</span> LOVE Creative GmbH, Wädenswil ZH</p>
       <div class="lang-switch" role="group" aria-label="Sprache / Language">
@@ -85,5 +106,6 @@
     </div>
   </div>
 </footer><dialog id="purchase-dialog" class="preview-modal purchase-dialog"><button type="button" class="dialog-x" aria-label="Close" data-close-purchase>×</button><h2 data-i18n="purchaseTitle">Pilates &amp; Keramik buchen</h2><p class="checkout-note" data-i18n="purchaseNotice">Bezahle sicher über Payrexx. Dein Platz ist erst nach bestätigter Zahlung gebucht.</p><form id="purchase-form"><div class="checkout-fields"><label><span data-i18n="people">Anzahl Personen</span><input name="persons" type="number" min="1" max="2" step="1" value="1" required></label><label><span data-i18n="fullName">Vor- und Nachname</span><input name="name" required autocomplete="off"></label><label><span data-i18n="email">E-Mail</span><input name="email" type="email" required autocomplete="off"></label><label><span data-i18n="phone">Mobiltelefon</span><input name="phone" type="tel" required autocomplete="off"></label><label class="full"><span data-i18n="participants">Namen der Teilnehmenden</span><input name="participants" required autocomplete="off"></label></div><label class="checkout-consent"><input name="terms" type="checkbox" required><span data-i18n="terms">Ich akzeptiere die <a href="https://lovecreative.ch/agb.html" target="_blank" rel="noopener">AGB</a>.</span></label><label class="checkout-consent"><input name="privacy" type="checkbox" required><span data-i18n="privacy">Ich stimme der Bearbeitung meiner Angaben gemäss <a href="https://lovecreative.ch/datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</span></label><p class="checkout-total" id="purchase-total">CHF 89.00</p><button type="submit" class="btn btn-rose" disabled aria-disabled="true" style="color:#b42318;background:#fff1f0;border:2px solid #b42318;opacity:1;cursor:not-allowed" data-i18n="soldOut">Ausgebucht</button></form><p role="alert" id="purchase-error"></p><p id="purchase-result" aria-live="polite"></p><button type="button" id="purchase-resume" class="btn btn-rose" hidden data-i18n="resume">Zahlung fortsetzen →</button></dialog>
-<script src="assets/js/love-pilates-copy.js?v=two-places-20261031"></script><script src="assets/js/love-pilates-purchase.js?v=two-places-20261031"></script><script src="assets/js/love-cloud.js"></script><script src="assets/js/love-pilates-adapter.js"></script><script src="assets/js/love-pilates-ui.js?v=soldout-20261102"></script></body></html>
+<script src="assets/js/love-pilates-copy.js?v=09f4fc40f99d"></script><script src="assets/js/love-pilates-purchase.js?v=two-places-20261031"></script><script src="assets/js/love-cloud.js"></script><script src="assets/js/love-pilates-adapter.js"></script><script src="assets/js/love-pilates-ui.js?v=soldout-20261102"></script></body></html>
+
 
