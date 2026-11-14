@@ -175,12 +175,6 @@ document.querySelectorAll('header.site .sub').forEach(menu => {
   movie.textContent = 'Kino & Keramik bemalen';
   movie.style.whiteSpace = 'normal';
   links.filter(a => /(?:^|\/)kinokeramik\.html(?:[?#]|$)/.test(a.getAttribute('href') || '')).forEach(a => a.closest('li')?.remove());
-  if (!menu.querySelector('[data-i18n="nav.ornaments"]')) {
-    const li = document.createElement('li'), a = document.createElement('a');
-    a.href = 'weihnachtsornamente.html'; a.dataset.i18n = 'nav.ornaments';
-    a.textContent = 'Weihnachtskugeln & Baumschmuck'; a.style.whiteSpace = 'normal';
-    li.appendChild(a); menu.insertBefore(li, movie.closest('li'));
-  }
   const camp = menu.querySelector('[data-i18n="nav.camp"]')?.closest('li');
   const pilates = Array.from(menu.querySelectorAll('a')).find(a => /(?:^|\/)pilates-paint\.html(?:[?#]|$)/.test(a.getAttribute('href') || ''))?.closest('li');
   if (pilates) menu.appendChild(pilates);
@@ -192,7 +186,6 @@ const COMMON_EN = {
   'brand.sub': 'Creative Café',
   'nav.menu': 'Menu',
   'nav.keramik': 'Paint ceramics', 'nav.workshop': 'Workshop', 'nav.walkin': 'Walk-in', 'nav.kidscamp': 'Kids camp', 'nav.geburtstage': 'Birthdays', 'nav.kidsgeb': 'Kids camp &amp; birthdays', 'nav.camp': 'Holiday kids camp', 'nav.geb': 'Birthday', 'nav.team': 'Team &amp; corporate events', 'nav.hallo': 'Movie evenings', 'nav.kinoK': 'Movie &amp; Pottery', 'nav.monet': 'Claude Monet Kids', 'nav.monetA': 'Claude Monet Adults', 'ft.firmen': 'Team &amp; corporate events', 'nav.cafe': 'Café &amp; Bar', 'nav.kino': 'Cinema Night',
-  'nav.ornaments': 'Christmas baubles &amp; tree decorations',
   'nav.events': 'Events', 'nav.pilates': 'Pilates &amp; Pottery', 'nav.membership': 'Membership', 'nav.geschenk': 'Gift', 'nav.kontakt': 'Contact', 'nav.shop': 'Shop',
   'nav.howto': 'How it works', 'nav.prices': 'Price and service',
   'nav.reservieren': 'Reserve',
