@@ -207,7 +207,7 @@ const TODAY = [
   {first:'Noah',last:'Brunner',phone:'078 555 04 56',persons:3,time:'15:30'}
 ];
 /* Abholung laut AGB während der Öffnungszeiten */
-const OPENH = {3:'14–20 Uhr',5:'15–21 Uhr',6:'13–21 Uhr',0:'13–18 Uhr'};
+const OPENH = {3:'14–20 Uhr',5:'15–21 Uhr',6:'13–19 Uhr',0:'13–18 Uhr'};
 const isPick = w => w in OPENH;
 const slotText = d => fmtDay(d)+' · '+OPENH[d.getDay()];
 const PICK_SLOTS = days(4,15,isPick).map(slotText);
