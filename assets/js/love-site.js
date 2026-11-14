@@ -51,7 +51,7 @@ const OEFFNUNG = {
   2: null,                           // Dienstag — geschlossen
   3: { von: '14:00', bis: '20:00' }, // Mittwoch
   4: null,                           // Donnerstag — geschlossen
-  5: { von: '15:00', bis: '21:00' }, // Freitag
+  5: { von: '15:00', bis: '20:00' }, // Freitag
   6: { von: '13:00', bis: '19:00' }  // Samstag
 };
 Object.values(OEFFNUNG).forEach(t => { if (t) t.slots = startfenster(t.von, t.bis); });
@@ -198,7 +198,7 @@ const COMMON_EN = {
   'nav.reservieren': 'Reserve',
   'cta.reserve': 'Reserve a table', 'cta.reserve2': 'Reserve a table', 'cta.reserve3': 'Reserve a table',
   'ft.social': 'Instagram · TikTok · Pinterest — profiles coming soon',
-  'ft.worlds': 'Discover', 'ft.visit': 'Visit us', 'ft.hours': 'Wed 14:00–20:00 · Fri 15:00–21:00 · Sat 13:00–19:00 · Sun 13:00–18:00', 'ft.kino': 'Cinema Night: every Friday',
+  'ft.worlds': 'Discover', 'ft.visit': 'Visit us', 'ft.hours': 'Wed 14:00–20:00 · Fri 15:00–20:00 · Sat 13:00–19:00 · Sun 13:00–18:00', 'ft.kino': 'Cinema Night: every Friday',
   'ft.legal': 'Legal', 'ft.privacy': 'Privacy', 'ft.imprint': 'Imprint', 'ft.team': 'Team portal',
   'ft.cafe': 'Café &amp; menu', 'ft.res': 'Reserve a table', 'ft.member': 'Membership', 'ft.gift': 'Gift an experience', 'ft.shop': 'Shop', 'ft.services': 'Offering &amp; services',
   'ft.keramik': 'Ceramics &amp; prices', 'ft.kinoL': 'Cinema Night', 'ft.events': 'Events',
