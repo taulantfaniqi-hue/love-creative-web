@@ -9,18 +9,11 @@
 <link rel="icon" href="assets/logo/logo-love.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/love.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/love.css?v=d5045f8e">
+<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
 <link rel="stylesheet" href="assets/css/love-movies.css?v=a8c857a9">
 <style>
-.wood-top{background:var(--mimi);border-bottom:1px solid var(--line)}
-.wood-top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:66px}
-.wood-brand{display:inline-flex;align-items:center;gap:.54rem;color:var(--green);font-weight:700;line-height:1.1;text-decoration:none}
-.wood-brand img{width:42px;height:42px}
-.wood-brand small{display:block;font-size:.71rem;font-weight:500}
-.wood-lang{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--cream)}
-.wood-lang button{font:inherit;font-size:.875rem;min-width:44px;min-height:44px;padding:.32rem .5rem;border-radius:999px;border:0;background:transparent;color:var(--green);cursor:pointer}
-.wood-lang button[aria-pressed=true]{background:var(--green);color:white}
 .wood-page h1{font-size:clamp(1.65rem,6vw,2.55rem);margin:0 0 .85rem}
 .wood-page .wood-photo{margin:0}
 .wood-page .wood-photo img{height:clamp(175px,55vw,290px);object-fit:cover;object-position:center 76%}
@@ -37,11 +30,46 @@
 </head>
 <body>
 <a class="skip" href="#main">Zum Inhalt springen</a>
-<header class="wood-top">
- <div class="wrap">
-  <a href="https://lovecreative.ch/" class="wood-brand" aria-label="LOVE Creative Café, Startseite"><img src="assets/logo/logo-love.svg" width="42" height="42" alt=""><span>LOVE<small>Creative Café</small></span></a>
-  <div class="wood-lang" role="group" aria-label="Sprache / Language"><button type="button" data-wood-lang="de" aria-pressed="true">DE</button><button type="button" data-wood-lang="en" aria-pressed="false">EN</button></div>
- </div>
+<header class="site" id="top">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="LOVE Creative Café — Start">
+      <img src="assets/logo/logo-love.svg" alt="" width="46" height="46">
+      <span class="brand-name">LOVE<small data-i18n="brand.sub">Creative Café</small></span>
+    </a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mainnav" data-i18n-aria="nav.menu" aria-label="Menü">☰</button>
+    <nav class="main" id="mainnav" aria-label="Hauptnavigation">
+      <ul>
+        <li class="has-sub">
+          <a href="preise-leistungen.html" data-i18n="nav.keramik">Keramik bemalen</a>
+          <ul class="sub">
+            <li><a href="so-funktionierts.html" data-i18n="nav.howto">So funktioniert’s</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="events.html" data-i18n="nav.events">Events</a>
+          <ul class="sub">
+            <li><a href="weihnachtsworkshop-holzhaus.html" style="white-space:normal" data-i18n="nav.woodHouse">Weihnachtsworkshop: Holzhaus gestalten</a></li>
+            <li><a href="kino-keramik-bemalen.html" style="white-space:normal" data-i18n="nav.hallo">Kino &amp; Keramik bemalen</a></li>
+            <li><a href="monetkids.html" data-i18n="nav.monet">Claude Monet Kids</a></li>
+            <li><a href="monetadults.html" data-i18n="nav.monetA">Claude Monet Adults</a></li>
+            <li><a href="geburtstag.html" data-i18n="nav.geb">Geburtstag</a></li>
+            
+            <li><a href="teamevents.html" data-i18n="nav.team">Team- &amp; Firmenevents</a></li>
+            <li><a href="pilates-paint.html" data-i18n="nav.pilates">Pilates &amp; Keramik</a></li>
+            <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
+          </ul>
+        </li>
+        <li><a href="shop.html" data-i18n="nav.shop">Shop</a></li>
+        <li><a href="geschenk.html" data-i18n="nav.geschenk">Geschenk</a></li>
+        <li><a href="index.html#kontakt" data-i18n="nav.kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Sprache / Language">
+      <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn btn-rose nav-cta" href="reservieren.html" data-i18n="cta.reserve">Tisch reservieren</a>
+  </div>
 </header>
 <main id="main">
  <section class="flyer-booking wood-page">
@@ -71,25 +99,22 @@
  </dialog>
 </main>
 <footer class="wood-bottom"><div class="wrap"><a href="https://lovecreative.ch/events.html" data-wood="wood.more">Alle Events ansehen</a><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></div></footer>
+<script src="assets/js/love-site.js?v=wood-workshop-nav-20261121"></script>
+<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-account.js?v=d3e7e9a8"></script>
 <script>
 (() => {
  const copy = {"wood.notice":"20 places in total · Online payment via Payrexx.","wood.close":"Close","wood.cap":"20 places in total","wood.booking":"Book the Christmas workshop","wood.label":"Christmas workshop · LOVE Creative Café","wood.title":"Christmas Workshop","wood.lead":"Make a little wooden house your own with paint and festive details, then take it home with you.","wood.date":"Date & time","wood.when":"Sunday, 13 December 2026 · 10 am–12 pm","wood.price":"Price","wood.cost":"CHF 55 per person","wood.perPerson":"per person","wood.day":"Sunday, 13 December 2026","wood.time":"10 am–12 pm","wood.material":"All materials included","wood.where":"Where","wood.ask":"Book now","wood.more":"See all events","wood.logo":"LOVE Creative Café, home","wood.image":"Wooden houses and Christmas decorations on the workshop table","wood.checkoutInfo":"Choose the number of places and pay online via Payrexx. CHF 55 per person, all materials included.","wood.pay":"Continue to Payrexx"};
  const de = new Map([...document.querySelectorAll('[data-wood]')].map(el => [el,el.textContent]));
- const btns = [...document.querySelectorAll('[data-wood-lang]')];
  function set(lang) {
-  lang = lang === 'en' ? 'en' : 'de';
-  document.documentElement.lang = lang;
-  document.title = lang === 'en' ? "Christmas Workshop | LOVE Creative Café" : "Weihnachtsworkshop | LOVE Creative Café";
-  for (const [el,txt] of de) el.textContent = lang === 'en' ? (copy[el.dataset.wood] ?? txt) : txt;
-  for (const el of btns) el.setAttribute('aria-pressed', String(el.dataset.woodLang === lang));
-  document.querySelector('.wood-brand').setAttribute('aria-label',lang==='en'?copy['wood.logo']:'LOVE Creative Café, Startseite');
-  document.querySelector('.wood-photo img').alt=lang==='en'?copy['wood.image']:'Holzhäuschen und Weihnachtsdeko auf dem vorbereiteten Workshop-Tisch';
-  document.querySelector('#wood-close').setAttribute('aria-label',lang==='en'?'Close':'Schliessen');
-  try { localStorage.setItem('love-wood-language',lang); } catch {}
+  const en = lang === 'en';
+  document.title = en ? "Christmas Workshop | LOVE Creative Café" : "Weihnachtsworkshop | LOVE Creative Café";
+  for (const [el,txt] of de) el.textContent = en ? (copy[el.dataset.wood] ?? txt) : txt;
+  document.querySelector('.wood-photo img').alt = en ? copy['wood.image'] : 'Holzhäuschen und Weihnachtsdeko auf dem vorbereiteten Workshop-Tisch';
+  document.querySelector('#wood-close').setAttribute('aria-label', en ? 'Close' : 'Schliessen');
  }
- let lang='de'; try { lang=localStorage.getItem('love-wood-language') || 'de'; } catch {}
- for (const b of btns) b.addEventListener('click', () => set(b.dataset.woodLang));
- set(lang);
+ document.addEventListener('love:lang', e => set(e.detail));
+ set(window.LoveSite?.lang());
  const dialog=document.querySelector('#buchen');
  const open=document.querySelector('#wood-open');
  const close=document.querySelector('#wood-close');
