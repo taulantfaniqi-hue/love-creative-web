@@ -136,8 +136,8 @@
      <div><dt data-wood="wood.price">Preis</dt><dd><strong data-wood="wood.cost">CHF 55 pro Person</strong><small data-wood="wood.material">Alle Materialien inklusive</small></dd></div>
      <div><dt data-wood="wood.where">Wo</dt><dd>LOVE Creative Café, Seestrasse 287B, 8804 Au ZH</dd></div>
     </dl>
-    <button class="wood-action" type="button" id="wood-open" aria-haspopup="dialog" aria-controls="buchen" data-wood="wood.ask">Buchungsdetails</button>
-    <p class="wood-note" data-wood="wood.notice">Onlinebuchung noch nicht verfügbar.</p>
+    <button class="wood-action" type="button" id="wood-open" aria-haspopup="dialog" aria-controls="buchen" data-wood="wood.ask">Jetzt buchen</button>
+    <p class="wood-note" data-wood="wood.notice">20 Plätze insgesamt · Online-Zahlung über Payrexx.</p>
    </div>
 
   </div>
@@ -146,25 +146,14 @@
     <button type="button" id="wood-close" class="wood-close" aria-label="Schliessen" data-wood-label="wood.close">×</button>
     <h2 id="wood-booking-title" data-wood="wood.booking">Weihnachtsworkshop buchen</h2>
     <p data-wood="wood.cap">20 Plätze insgesamt</p>
-    <form id="wood-form">
-     <div class="wood-fields">
-      <label><span data-wood="wood.qty">Anzahl Personen</span><select id="wood-quantity" name="persons"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option></select></label>
-      <label><span data-wood="wood.name">Vor- und Nachname</span><input type="text" autocomplete="off" disabled></label>
-      <label><span data-wood="wood.email">E-Mail-Adresse</span><input type="email" autocomplete="off" disabled></label>
-      <label><span data-wood="wood.phone">Mobiltelefon</span><input type="tel" autocomplete="off" disabled></label>
-     </div>
-     <label class="wood-consent"><input type="checkbox" disabled><span><span data-wood="wood.termLead">Ich akzeptiere die</span> <a href="https://lovecreative.ch/agb.html" target="_blank" rel="noopener" data-wood="wood.termLink">AGB</a>.</span></label>
-     <label class="wood-consent"><input type="checkbox" disabled><span><span data-wood="wood.privacyLead">Ich stimme der Bearbeitung meiner Angaben gemäss</span> <a href="https://lovecreative.ch/datenschutz.html" target="_blank" rel="noopener" data-wood="wood.privacyLink">Datenschutzerklärung</a> <span data-wood="wood.privacyEnd">zu</span>.</span></label>
-     <div class="wood-total"><span data-wood="wood.total">Total</span><output id="wood-total" for="wood-quantity" aria-live="polite">CHF 55.00</output></div>
-     <button class="wood-action" type="submit" disabled data-wood="wood.submit">Onlinebuchung noch nicht verfügbar</button>
-     <p class="wood-booking-note" data-wood="wood.preview">Noch keine Onlinebuchung möglich. Bei Fragen schreib uns gerne.</p>
-    </form>
+    <p data-wood="wood.checkoutInfo">Wähle bei Payrexx die Anzahl Plätze und bezahle online. CHF 55 pro Person, alle Materialien inklusive.</p>
+    <a class="wood-action" href="https://lovecreative.payrexx.com/pay?tid=7b778cdf" data-wood="wood.pay">Weiter zu Payrexx</a>
    </dialog>
 </main>
 <footer class="wood-bottom"><div class="wrap"><a href="https://lovecreative.ch/events.html" data-wood="wood.more">Alle Events ansehen</a><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></div></footer>
 <script>
 (() => {
- const copy = {"wood.notice":"Online booking is not yet available.","wood.close":"Close","wood.phone":"Mobile phone","wood.termLead":"I accept the","wood.termLink":"terms and conditions","wood.privacyLead":"I agree to the processing of my data under the","wood.privacyLink":"privacy notice","wood.privacyEnd":"","wood.cap": "20 places in total", "wood.booking": "Book the Christmas workshop", "wood.qty": "Number of people", "wood.name": "Full name", "wood.email": "Email address", "wood.total": "Total", "wood.privacy": "Privacy notice", "wood.preview": "Online booking is not open yet. Please email us if you have questions.", "wood.submit": "Online booking is not yet available", "wood.label": "Christmas workshop · LOVE Creative Café", "wood.title": "Christmas Workshop", "wood.lead": "Make a little wooden house your own with paint and festive details, then take it home with you.", "wood.date": "Date & time", "wood.when": "Sunday, 13 December 2026 · 10 am–12 pm", "wood.price": "Price", "wood.cost": "CHF 55 per person", "wood.material": "All materials included", "wood.where": "Where", "wood.ask": "Booking details", "wood.hint": "Please include your name and the number of participants. Your place is only confirmed once you hear back from us.", "wood.more": "See all events", "wood.logo": "LOVE Creative Café, home", "wood.image": "Wooden houses and Christmas decorations on the workshop table"};
+ const copy = {"wood.notice":"20 places in total · Online payment via Payrexx.","wood.close":"Close","wood.cap":"20 places in total","wood.booking":"Book the Christmas workshop","wood.label":"Christmas workshop · LOVE Creative Café","wood.title":"Christmas Workshop","wood.lead":"Make a little wooden house your own with paint and festive details, then take it home with you.","wood.date":"Date & time","wood.when":"Sunday, 13 December 2026 · 10 am–12 pm","wood.price":"Price","wood.cost":"CHF 55 per person","wood.material":"All materials included","wood.where":"Where","wood.ask":"Book now","wood.more":"See all events","wood.logo":"LOVE Creative Café, home","wood.image":"Wooden houses and Christmas decorations on the workshop table","wood.checkoutInfo":"Choose the number of places and pay online via Payrexx. CHF 55 per person, all materials included.","wood.pay":"Continue to Payrexx"};
  const de = new Map([...document.querySelectorAll('[data-wood]')].map(el => [el,el.textContent]));
  const btns = [...document.querySelectorAll('[data-wood-lang]')];
  function set(lang) {
@@ -188,12 +177,6 @@
  close.addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',e=>{if(e.target===dialog){const b=dialog.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)dialog.close()}});
  dialog.addEventListener('close',()=>open.focus());
- const qty=document.querySelector('#wood-quantity');
- const total=document.querySelector('#wood-total');
- const update=()=>{ const n=Number(qty.value); total.textContent='CHF '+ (Number.isInteger(n)&&n>=1&&n<=20?n*55:55)+'.00'; };
- qty.addEventListener('change',update);
- document.querySelector('#wood-form').addEventListener('submit',e=>e.preventDefault());
- update();
 })();
 </script>
 </body>
