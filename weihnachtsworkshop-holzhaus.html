@@ -24,8 +24,6 @@
 .wood-booking .dialog-x{min-width:44px;min-height:44px}
 .wood-booking .event-meta{margin:0 0 14px}
 .wood-booking .checkout-note{margin-bottom:0}
-.wood-bottom{background:var(--cream);border-top:1px solid var(--line)}
-.wood-bottom .wrap{max-width:990px;padding-top:1rem;padding-bottom:1rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:.65rem 1.5rem;font-size:.9rem}
 </style>
 </head>
 <body>
@@ -99,8 +97,64 @@
   <p class="checkout-note" data-wood="wood.checkoutInfo">Wähle bei Payrexx die Anzahl Plätze und bezahle online. CHF 55 pro Person, alle Materialien inklusive.</p>
   <a class="btn btn-rose flyer-booking-button" href="https://lovecreative.payrexx.com/pay?tid=7b778cdf" data-wood="wood.pay">Weiter zu Payrexx</a>
  </dialog>
+<section aria-label="LOVE Creative Café Adresse">
+  <div class="wrap" style="max-width:640px">
+    <div class="addr-card reveal">
+      <p class="lbl">LOVE Creative Café</p>
+      <p class="big">Seestrasse 287B</p>
+      <p class="big">8804 Au ZH</p>
+      <p data-i18n="ct.lake">direkt am Zürichsee</p>
+      <img src="assets/logo/logo-love.svg" alt="" width="72" height="72" style="margin:1rem auto 0">
+    </div>
+  </div>
+</section>
 </main>
-<footer class="wood-bottom"><div class="wrap"><a href="https://lovecreative.ch/events.html" data-wood="wood.more">Alle Events ansehen</a><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></div></footer>
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo/logo-love.svg" alt="LOVE Creative Café Logo" width="74" height="74" loading="lazy">
+        <p>Made for moments that matter.</p>
+        <p style="margin-top:.7rem;font-size:.85rem" data-i18n="ft.social">Instagram · TikTok · Pinterest — Profile folgen</p>
+      </div>
+      <div>
+        <h4 data-i18n="ft.worlds">Entdecken</h4>
+        <ul>
+          <li><a href="walkin.html" data-i18n="ft.keramik">Keramik &amp; Preise</a></li>
+          <li><a href="events.html" data-i18n="ft.events">Events</a></li>
+          <li><a href="shop.html" data-i18n="ft.shop">Shop</a></li>
+          <li><a href="geschenk.html" data-i18n="ft.gift">Erlebnis verschenken</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.visit">Besuch uns</h4>
+        <ul>
+          <li>Seestrasse 287B, 8804 Au ZH</li>
+          <li><a href="mailto:hello@lovecreative.ch">hello@lovecreative.ch</a></li>
+          <li data-i18n="ft.hours">Mi 14–20 · Fr 15–20 · Sa 13–19 · So 13–18</li>
+          <li><a href="reservieren.html" data-i18n="ft.res">Tisch reservieren</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="ft.legal">Rechtliches</h4>
+        <ul>
+          <li><a href="agb.html">AGB</a></li>
+          <li><a href="datenschutz.html" data-i18n="ft.privacy">Datenschutz</a></li>
+          <li><a href="impressum.html" data-i18n="ft.imprint">Impressum</a></li>
+          <li><a href="leistungen.html" data-i18n="ft.services">Angebot &amp; Leistungen</a></li>
+          <li style="margin-top:.5rem"><a href="host.html">Host</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="year">2026</span> LOVE Creative GmbH, Wädenswil ZH</p>
+      <div class="lang-switch" role="group" aria-label="Sprache / Language">
+        <button class="lang-btn" data-lang="de" aria-pressed="true">DE</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
 <script src="assets/js/love-site.js?v=wood-workshop-nav-20261121"></script>
 <script src="assets/js/love-cloud.js?v=a1c36180"></script>
 <script src="assets/js/love-account.js?v=d3e7e9a8"></script>
