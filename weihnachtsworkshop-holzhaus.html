@@ -20,10 +20,21 @@
 .wood-page .event-meta{margin:1rem 0 .55rem}
 .wood-page .event-price{margin:.65rem 0 .05rem}
 .wood-page .limited{margin:.55rem 0}
-.wood-booking{max-width:500px;max-height:calc(100dvh - 24px)}
+.wood-desc{max-width:560px;margin:.4rem auto .2rem;white-space:pre-line}
+.wood-seats{display:inline-block;margin:.6rem 0 .2rem;padding:.35rem .95rem;border-radius:999px;font-weight:600;background:#eef7f1;color:#337357}
+.wood-seats.low{background:#fdeef2;color:#c2185b}
+.wood-seats.out{background:#f3f3f3;color:#666}
+.wood-booking{max-width:520px;max-height:calc(100dvh - 24px);overflow:auto}
 .wood-booking .dialog-x{min-width:44px;min-height:44px}
 .wood-booking .event-meta{margin:0 0 14px}
 .wood-booking .checkout-note{margin-bottom:0}
+.wood-form{display:grid;gap:.75rem;text-align:left;margin-top:.9rem}
+.wood-form label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.25rem}
+.wood-form input[type=text],.wood-form input[type=email],.wood-form input[type=tel],.wood-form select{width:100%;padding:.6rem .7rem;border:1px solid #ddd;border-radius:10px;font:inherit}
+.wood-form .chk{display:flex;gap:.55rem;align-items:flex-start;font-size:.85rem}
+.wood-form .chk input{margin-top:.2rem;min-width:18px;min-height:18px}
+.wood-err{color:#c2185b;font-size:.88rem;min-height:1.2em;margin:.3rem 0 0}
+.wood-ok{background:#eef7f1;color:#337357;border-radius:12px;padding:.9rem 1rem;margin-top:.9rem}
 </style>
 </head>
 <body>
@@ -51,7 +62,7 @@
             <li><a href="monetkids.html" data-i18n="nav.monet">Claude Monet Kids</a></li>
             <li><a href="monetadults.html" data-i18n="nav.monetA">Claude Monet Adults</a></li>
             <li><a href="geburtstag.html" data-i18n="nav.geb">Geburtstag</a></li>
-            
+
             <li><a href="teamevents.html" data-i18n="nav.team">Team- &amp; Firmenevents</a></li>
             <li><a href="pilates-paint.html" data-i18n="nav.pilates">Pilates &amp; Keramik</a></li>
             <li><a href="kidscamp.html" data-i18n="nav.camp">Ferien-Kidscamp</a></li>
@@ -72,30 +83,52 @@
 <main id="main">
  <section class="flyer-booking wood-page">
   <div class="flyer-booking-inner">
-   <h1 data-wood="wood.title">Weihnachtsworkshop</h1>
+   <h1 id="wood-title" data-wood="wood.title">Weihnachtsworkshop</h1>
    <figure class="poster wood-photo"><img src="assets/img/weihnachtsworkshop-holzhaus.jpg" alt="Holzhäuschen und Weihnachtsdeko auf dem vorbereiteten Workshop-Tisch" width="900" height="1200" fetchpriority="high"></figure>
    <div class="event-meta">
-    <span><time datetime="2026-12-05" data-wood="wood.day">Samstag, 5. Dezember 2026</time></span>
-    <span data-wood="wood.time">17:00–19:00 Uhr</span>
-    <span data-wood="wood.cap">15 Plätze insgesamt</span>
+    <span><time id="wood-date" datetime="2026-12-05" data-wood="wood.day">Samstag, 5. Dezember 2026</time></span>
+    <span id="wood-time" data-wood="wood.time">17:00–19:00 Uhr</span>
+    <span id="wood-cap" data-wood="wood.cap">15 Plätze insgesamt</span>
    </div>
-   <p class="event-price">CHF 55 <small data-wood="wood.perPerson">pro Person</small></p>
-   <p data-wood="wood.material">Alle Materialien inklusive</p>
+   <p class="event-price"><span id="wood-price">CHF 55</span> <small data-wood="wood.perPerson">pro Person</small></p>
+   <p id="wood-info" data-wood="wood.material">Alle Materialien inklusive</p>
+   <p class="wood-desc" id="wood-desc">Gestalte dein eigenes Holzhäuschen mit Farbe und weihnachtlichen Details — und nimm es am Schluss direkt mit nach Hause.</p>
    <p class="limited">LOVE Creative Café · Seestrasse 287B, 8804 Au ZH</p>
-   <p class="checkout-note" data-wood="wood.timeNotice">Der Workshop findet um 17:00–19:00 Uhr statt. Bei Payrexx kann vorübergehend noch die frühere Uhrzeit stehen.</p>
-   <a class="btn btn-rose flyer-booking-button" id="wood-open" aria-haspopup="dialog" aria-controls="buchen" href="https://lovecreative.payrexx.com/pay?tid=7b778cdf" data-wood="wood.ask">Jetzt buchen</a>
+   <p><span class="wood-seats" id="wood-seats" aria-live="polite">&nbsp;</span></p>
+   <button class="btn btn-rose flyer-booking-button" id="wood-open" aria-haspopup="dialog" aria-controls="buchen" data-wood="wood.ask" type="button">Jetzt buchen</button>
+   <div class="wood-ok" id="wood-paid" hidden></div>
   </div>
  </section>
  <dialog class="preview-modal purchase-dialog wood-booking" id="buchen" aria-labelledby="wood-booking-title">
   <button type="button" id="wood-close" class="dialog-x" aria-label="Schliessen">×</button>
   <h2 id="wood-booking-title" data-wood="wood.booking">Weihnachtsworkshop buchen</h2>
   <div class="event-meta">
-   <span><time datetime="2026-12-05" data-wood="wood.day">Samstag, 5. Dezember 2026</time></span>
-   <span data-wood="wood.time">17:00–19:00 Uhr</span>
+   <span id="wood-date2">Samstag, 5. Dezember 2026</span>
+   <span id="wood-time2">17:00–19:00 Uhr</span>
   </div>
-  <p class="checkout-note" data-wood="wood.timeNotice">Der Workshop findet um 17:00–19:00 Uhr statt. Bei Payrexx kann vorübergehend noch die frühere Uhrzeit stehen.</p>
-  <p class="checkout-note" data-wood="wood.checkoutInfo">Wähle bei Payrexx die Anzahl Plätze und bezahle online. CHF 55 pro Person, alle Materialien inklusive.</p>
-  <a class="btn btn-rose flyer-booking-button" href="https://lovecreative.payrexx.com/pay?tid=7b778cdf" data-wood="wood.pay">Weiter zu Payrexx</a>
+  <p class="checkout-note" data-wood="wood.checkoutInfo">Platz auswählen, Angaben ausfüllen und sicher online bezahlen (TWINT, Kredit- oder Debitkarte über Payrexx). Der Platz ist während der Zahlung 20 Minuten für dich reserviert.</p>
+  <form class="wood-form" id="wood-form" novalidate>
+   <div>
+    <label for="wf-persons" data-wood="wood.persons">Anzahl Personen</label>
+    <select id="wf-persons" required></select>
+   </div>
+   <div>
+    <label for="wf-name" data-wood="wood.name">Vor- und Nachname</label>
+    <input type="text" id="wf-name" autocomplete="name" required>
+   </div>
+   <div>
+    <label for="wf-email" data-wood="wood.email">E-Mail</label>
+    <input type="email" id="wf-email" autocomplete="email" required>
+   </div>
+   <div>
+    <label for="wf-phone" data-wood="wood.phone">Telefon</label>
+    <input type="tel" id="wf-phone" autocomplete="tel" required>
+   </div>
+   <label class="chk"><input type="checkbox" id="wf-terms"> <span data-wood="wood.terms">Ich akzeptiere die <a href="agb.html" target="_blank" rel="noopener">AGB</a>.</span></label>
+   <label class="chk"><input type="checkbox" id="wf-privacy"> <span data-wood="wood.privacy">Ich habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen.</span></label>
+   <p class="wood-err" id="wf-err" aria-live="polite"></p>
+   <button class="btn btn-rose flyer-booking-button" id="wf-go" type="submit" data-wood="wood.pay">Weiter zur Zahlung — <span id="wf-total">CHF 55</span></button>
+  </form>
  </dialog>
 <section aria-label="LOVE Creative Café Adresse">
   <div class="wrap" style="max-width:640px">
@@ -160,28 +193,203 @@
 <script src="assets/js/love-account.js?v=d3e7e9a8"></script>
 <script>
 (() => {
- const copy = {"wood.notice":"15 places in total · Online payment via Payrexx.","wood.close":"Close","wood.cap":"15 places in total","wood.booking":"Book the Christmas workshop","wood.label":"Christmas workshop · LOVE Creative Café","wood.title":"Christmas Workshop","wood.lead":"Make a little wooden house your own with paint and festive details, then take it home with you.","wood.date":"Date & time","wood.when":"Saturday, 5 December 2026 · 5–7 pm","wood.price":"Price","wood.cost":"CHF 55 per person","wood.perPerson":"per person","wood.day":"Saturday, 5 December 2026","wood.time":"5–7 pm","wood.material":"All materials included","wood.where":"Where","wood.ask":"Book now","wood.more":"See all events","wood.logo":"LOVE Creative Café, home","wood.image":"Wooden houses and Christmas decorations on the workshop table","wood.checkoutInfo":"Choose the number of places and pay online via Payrexx. CHF 55 per person, all materials included.","wood.pay":"Continue to Payrexx","wood.timeNotice":"The workshop runs from 5 to 7 pm. Payrexx may temporarily still show the previous time."};
- const de = new Map([...document.querySelectorAll('[data-wood]')].map(el => [el,el.textContent]));
- function set(lang) {
+ 'use strict';
+ const EVENT_ID = 'weihnachts-holzhaus';
+ const KEY = 'love-event-checkout-' + EVENT_ID;
+ const $ = s => document.querySelector(s);
+
+ /* ---------- Sprache (statische Texte) ---------- */
+ const copy = {"wood.cap":"15 places in total","wood.booking":"Book the Christmas workshop","wood.title":"Christmas Workshop","wood.perPerson":"per person","wood.day":"Saturday, 5 December 2026","wood.time":"5–7 pm","wood.material":"All materials included","wood.ask":"Book now","wood.checkoutInfo":"Choose your places, fill in your details and pay securely online (TWINT, credit or debit card via Payrexx). Your places are held for 20 minutes during payment.","wood.pay":"Continue to payment — ","wood.persons":"Number of people","wood.name":"First and last name","wood.email":"E-mail","wood.phone":"Phone","wood.terms":"I accept the terms and conditions.","wood.privacy":"I have read the privacy policy."};
+ const de = new Map([...document.querySelectorAll('[data-wood]')].map(el => [el, el.innerHTML]));
+ let lang = 'de';
+ function setLang(l) {
+  lang = l === 'en' ? 'en' : 'de';
   const en = lang === 'en';
   document.title = en ? "Christmas Workshop | LOVE Creative Café" : "Weihnachtsworkshop | LOVE Creative Café";
-  for (const [el,txt] of de) el.textContent = en ? (copy[el.dataset.wood] ?? txt) : txt;
-  document.querySelector('.wood-photo img').alt = en ? copy['wood.image'] : 'Holzhäuschen und Weihnachtsdeko auf dem vorbereiteten Workshop-Tisch';
-  document.querySelector('#wood-close').setAttribute('aria-label', en ? 'Close' : 'Schliessen');
+  for (const [el, html] of de) {
+   const k = el.dataset.wood;
+   if (en && copy[k] !== undefined) {
+    if (k === 'wood.terms') el.innerHTML = 'I accept the <a href="agb.html" target="_blank" rel="noopener">terms and conditions</a>.';
+    else if (k === 'wood.privacy') el.innerHTML = 'I have read the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>.';
+    else if (k === 'wood.pay') el.innerHTML = copy[k] + '<span id="wf-total"></span>';
+    else el.textContent = copy[k];
+   } else el.innerHTML = html;
+  }
+  render(); // Preis/Plätze neu einsetzen (wf-total wurde evtl. ersetzt)
  }
- document.addEventListener('love:lang', e => set(e.detail));
- set(window.LoveSite?.lang());
- const dialog=document.querySelector('#buchen');
- const open=document.querySelector('#wood-open');
- const close=document.querySelector('#wood-close');
- open.addEventListener('click',e=>{
-  if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||typeof dialog.showModal!=='function') return;
+ document.addEventListener('love:lang', e => setLang(e.detail));
+
+ /* ---------- Event-Daten aus der Cloud ---------- */
+ let ev = { title: 'Weihnachtsworkshop', date: '2026-12-05', time_start: '17:00', time_end: '19:00',
+            price_cents: 5500, capacity: 15, max_per_booking: 15, info: 'Alle Materialien inklusive', description: '' };
+ let remaining = null, open = true;
+ const chf = c => 'CHF ' + (c % 100 === 0 ? (c / 100) : (c / 100).toFixed(2));
+ const fmtDate = iso => {
+  try {
+   const d = new Date(iso + 'T12:00:00');
+   return d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-CH', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  } catch (e) { return iso; }
+ };
+ function render() {
+  const zeit = ev.time_start + (ev.time_end ? '–' + ev.time_end : '') + (lang === 'en' ? '' : ' Uhr');
+  $('#wood-title').textContent = ev.title.replace(/:.*$/, '') || ev.title;
+  $('#wood-date').textContent = fmtDate(ev.date); $('#wood-date').setAttribute('datetime', ev.date);
+  $('#wood-date2').textContent = fmtDate(ev.date);
+  $('#wood-time').textContent = zeit; $('#wood-time2').textContent = zeit;
+  $('#wood-cap').textContent = ev.capacity + (lang === 'en' ? ' places in total' : ' Plätze insgesamt');
+  $('#wood-price').textContent = chf(ev.price_cents);
+  if (ev.info) $('#wood-info').textContent = ev.info;
+  if (ev.description) $('#wood-desc').textContent = ev.description;
+  const seats = $('#wood-seats'), btn = $('#wood-open');
+  if (remaining === null) { seats.textContent = ''; seats.className = 'wood-seats'; }
+  else if (!open || remaining < 1) {
+   seats.textContent = lang === 'en' ? 'Sold out' : 'Ausverkauft';
+   seats.className = 'wood-seats out';
+   btn.disabled = true; btn.style.opacity = .5;
+  } else {
+   seats.textContent = (lang === 'en' ? 'Still available: ' : 'Noch frei: ') + remaining + (lang === 'en' ? ' of ' : ' von ') + ev.capacity + (lang === 'en' ? ' places' : ' Plätzen');
+   seats.className = 'wood-seats' + (remaining <= 4 ? ' low' : '');
+   btn.disabled = false; btn.style.opacity = 1;
+  }
+  /* Personen-Auswahl */
+  const sel = $('#wf-persons'), max = Math.max(1, Math.min(ev.max_per_booking, remaining ?? ev.capacity));
+  const cur = sel.value;
+  sel.innerHTML = '';
+  for (let i = 1; i <= max; i++) {
+   const o = document.createElement('option'); o.value = i;
+   o.textContent = i + ' · ' + chf(i * ev.price_cents);
+   sel.appendChild(o);
+  }
+  if (cur && Number(cur) <= max) sel.value = cur;
+  total();
+ }
+ function total() {
+  const n = Number($('#wf-persons').value || 1);
+  const t = document.getElementById('wf-total');
+  if (t) t.textContent = chf(n * ev.price_cents);
+ }
+ async function loadEvent() {
+  try {
+   const r = await LoveCloud.call('event_info&id=' + EVENT_ID);
+   if (r && r.ok) { ev = r.event; remaining = r.remaining; open = r.open; }
+  } catch (e) { /* Seite bleibt mit Standardwerten nutzbar */ }
+  render();
+ }
+
+ /* ---------- Buchung + Payrexx ---------- */
+ let saved = null;
+ try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && !/^B-[A-F0-9]{20}$/i.test(saved.id)) saved = null; } catch (e) { saved = null; }
+ const persist = v => { try { localStorage.setItem(KEY, JSON.stringify(v)); saved = v; } catch (e) {} };
+ const clear = () => { try { localStorage.removeItem(KEY); } catch (e) {} saved = null; };
+ const call = (a, d) => LoveCloud.call(a, d);
+ const ERR = {
+  'full': ['Der Workshop ist leider ausgebucht.', 'The workshop is sold out.'],
+  'invalid-persons': ['Bitte eine gültige Personenzahl wählen.', 'Please choose a valid number of people.'],
+  'invalid-contact': ['Bitte Name, Telefon und eine gültige E-Mail angeben.', 'Please enter your name, phone and a valid e-mail.'],
+  'consent': ['Bitte AGB und Datenschutz bestätigen.', 'Please accept the terms and privacy policy.'],
+  'hold-expired': ['Die Reservierung ist abgelaufen — bitte erneut buchen.', 'The hold has expired — please book again.'],
+  'invalid-event': ['Der Workshop kann gerade nicht gebucht werden.', 'This workshop cannot be booked right now.'],
+  'network': ['Verbindung fehlgeschlagen — bitte nochmals versuchen.', 'Connection failed — please try again.'],
+ };
+ const errMsg = e => (ERR[e] || ERR.network)[lang === 'en' ? 1 : 0];
+ function newRef() {
+  const b = new Uint8Array(10); crypto.getRandomValues(b);
+  return 'B-' + Array.from(b, x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+ }
+ async function startCheckout(e) {
   e.preventDefault();
-  if(!dialog.open) dialog.showModal();
- });
- close.addEventListener('click',()=>dialog.close());
- dialog.addEventListener('click',e=>{if(e.target===dialog){const b=dialog.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)dialog.close()}});
- dialog.addEventListener('close',()=>open.focus());
+  const err = $('#wf-err'); err.textContent = '';
+  const btn = $('#wf-go'); if (btn.disabled) return;
+  const data = {
+   event: EVENT_ID,
+   persons: Number($('#wf-persons').value || 0),
+   name: $('#wf-name').value.trim(), email: $('#wf-email').value.trim(), phone: $('#wf-phone').value.trim(),
+   terms: $('#wf-terms').checked, privacy: $('#wf-privacy').checked, lang,
+  };
+  if (!data.name || !data.phone || !/^\S+@[^\s@]+\.[^\s@]+$/.test(data.email)) { err.textContent = errMsg('invalid-contact'); return; }
+  if (data.terms !== true || data.privacy !== true) { err.textContent = errMsg('consent'); return; }
+  btn.disabled = true;
+  try {
+   let ref = saved && saved.token ? saved.id : null, token = saved && saved.token ? saved.token : null;
+   if (!ref) {
+    const id = newRef();
+    persist({ id, state: 'uncertain' });
+    let r;
+    try { r = await call('event_booking_add', { ...data, id }); } catch (x) { clear(); throw Error('network'); }
+    if (!r || r.ok !== true) {
+     if (['full', 'invalid-persons', 'invalid-contact', 'invalid-event', 'consent', 'invalid-reference'].includes(r && r.error)) clear();
+     throw Error((r && r.error) || 'network');
+    }
+    persist({ id, token: r.checkout_token, state: 'pending' });
+    ref = id; token = r.checkout_token;
+   }
+   const g = await call('event_gateway_create', { code: ref, checkout_token: token });
+   if (!g || g.ok !== true) {
+    if ((g && g.error) === 'hold-expired') clear();
+    if ((g && g.error) === 'already-paid') { showPaid(ref); clear(); return; }
+    throw Error((g && g.error) || 'network');
+   }
+   const url = new URL(g.link);
+   if (url.protocol !== 'https:' || !(url.hostname === 'payrexx.com' || url.hostname.endsWith('.payrexx.com'))) throw Error('network');
+   location.href = url.href;
+  } catch (x) {
+   err.textContent = errMsg(x.message);
+   btn.disabled = false;
+   loadEvent();
+  }
+ }
+ function showPaid(ref) {
+  const box = $('#wood-paid');
+  box.hidden = false;
+  box.innerHTML = (lang === 'en'
+   ? '<b>Thank you — your booking is confirmed!</b><br>You will receive a confirmation by e-mail. Reference: '
+   : '<b>Danke — deine Buchung ist bestätigt!</b><br>Du erhältst eine Bestätigung per E-Mail. Referenz: ') + ref;
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ }
+ async function handleReturn() {
+  const q = new URLSearchParams(location.search);
+  const paidRef = q.get('paid'), failRef = q.get('payfail');
+  if (!paidRef && !failRef) return;
+  history.replaceState(null, '', location.pathname);
+  if (paidRef) {
+   /* Zahlung prüfen (Webhook setzt paid) — kurz nachfragen, dann bestätigen */
+   if (saved && saved.token && saved.id === paidRef.toUpperCase()) {
+    for (let i = 0; i < 6; i++) {
+     try {
+      const s = await call('event_booking_status', { code: saved.id, checkout_token: saved.token });
+      if (s && s.ok && s.paid) { showPaid(saved.id); clear(); loadEvent(); return; }
+     } catch (e) {}
+     await new Promise(r => setTimeout(r, 2000));
+    }
+   }
+   showPaid(paidRef.toUpperCase()); clear(); loadEvent();
+  } else if (failRef) {
+   const box = $('#wood-paid');
+   box.hidden = false;
+   box.style.background = '#fdeef2'; box.style.color = '#c2185b';
+   box.textContent = lang === 'en'
+    ? 'The payment was not completed. You can simply try again — your places are held for 20 minutes.'
+    : 'Die Zahlung wurde nicht abgeschlossen. Du kannst es einfach nochmals versuchen — dein Platz ist 20 Minuten reserviert.';
+  }
+ }
+
+ /* ---------- Dialog ---------- */
+ const dialog = $('#buchen'), openBtn = $('#wood-open'), closeBtn = $('#wood-close');
+ openBtn.addEventListener('click', () => { if (typeof dialog.showModal === 'function' && !dialog.open) dialog.showModal(); });
+ closeBtn.addEventListener('click', () => dialog.close());
+ dialog.addEventListener('click', e => { if (e.target === dialog) { const b = dialog.getBoundingClientRect(); if (e.clientX < b.left || e.clientX > b.right || e.clientY < b.top || e.clientY > b.bottom) dialog.close(); } });
+ dialog.addEventListener('close', () => openBtn.focus());
+ $('#wood-form').addEventListener('submit', startCheckout);
+ $('#wf-persons').addEventListener('change', total);
+
+ setLang(window.LoveSite?.lang());
+ let booted = false;
+ function boot() { if (booted) return; booted = true; loadEvent(); handleReturn(); }
+ document.addEventListener('love:cloud', e => { if (e.detail) boot(); });
+ if (typeof LoveCloud !== 'undefined' && LoveCloud.isOnline()) boot();
+ /* Offline-Fallback: Rückkehr von Payrexx trotzdem quittieren */
+ setTimeout(() => { if (!booted) handleReturn(); }, 4000);
+ render();
 })();
 </script>
 </body>

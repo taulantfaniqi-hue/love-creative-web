@@ -219,6 +219,20 @@ function loadClosures() {
   }).catch(() => {});
 }
 
+/* ---------- Events (buchbare Anlässe mit Platzlimit) ---------- */
+let eventsAdmin = null;   // { events: […], bookings: […] } vom Server
+let eventsLoading = false;
+function loadEventsAdmin(force) {
+  if (typeof LoveCloud === 'undefined' || !hostCreds || !cloudData) return;
+  if (eventsAdmin && !force) return;
+  if (eventsLoading) return;
+  eventsLoading = true;
+  LoveCloud.call('events_admin', hostCreds).then(r => {
+    eventsLoading = false;
+    if (r && r.ok) { eventsAdmin = r; if (chapter === 'events') render(); }
+  }).catch(() => { eventsLoading = false; });
+}
+
 /* ---------- Daten-Helfer ---------- */
 const fmtTs = iso => iso ? new Date(iso).toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
 const fmtDay = iso => iso ? String(iso).split('-').reverse().join('.') : '—';
@@ -226,10 +240,10 @@ const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.g
 const TYPE_LBL = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Event', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session', halloween: 'Halloween Party', monetkids: 'Monet Kids', monetadults: 'Monet Adults' };
 const typeLbl = t => TYPE_LBL[t] || (t ? t.charAt(0).toUpperCase() + t.slice(1) : '—');
 const STATUS_CLS = s => s === 'neu' ? 'neu' : (s === 'bestätigt' || s === 'gewonnen') ? 'ok' : '';
-const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert' };
+const STATUS_LBL = { neu: 'Anfrage', 'bestätigt': 'bestätigt', gewonnen: 'bestätigt', abgelehnt: 'abgelehnt', storniert: 'storniert', verloren: 'storniert', archiviert: 'archiviert' };
 
 /* Kurse, Events, Kidscamp und Geburtstag zählen erst mit Zahlungseingang (14.10.2026) */
-const ZAHLPFLICHT = ['geburtstag', 'halloween', 'kidscamp', 'kinokeramik', 'monetadults', 'monetkids', 'pilates'];
+const ZAHLPFLICHT = ['geburtstag', 'halloween', 'kidscamp', 'kinokeramik', 'monetadults', 'monetkids', 'pilates', 'event'];
 const istBezahlt = x => x.paid == 1 || x.paid === true;
 const zahlungOffen = b => ZAHLPFLICHT.includes(b.type) && !istBezahlt(b) && !['storniert', 'abgelehnt', 'verloren'].includes(b.status);
 function getData() {
@@ -239,10 +253,13 @@ function getData() {
   const kontakte = cloudData
     ? cloudData.contacts.map(c => ({ email: c.email, name: c.name, phone: c.phone, tags: String(c.tags || '').split(',').filter(Boolean), lastSeen: c.last_seen }))
     : LoveData.listContacts();
+  const alleBuchungen = cloudData ? cloudData.bookings : LoveData.listBookings();
+  const aktive = alleBuchungen.filter(b => b.status !== 'archiviert');
   return {
     kunden, kontakte,
-    buchungen: (cloudData ? cloudData.bookings : LoveData.listBookings()).filter(b => !zahlungOffen(b)),
-    zahlungOffen: (cloudData ? cloudData.bookings : LoveData.listBookings()).filter(zahlungOffen),
+    buchungen: aktive.filter(b => !zahlungOffen(b)),
+    zahlungOffen: aktive.filter(zahlungOffen),
+    archiv: alleBuchungen.filter(b => b.status === 'archiviert'),
     gutscheine: (cloudData ? cloudData.vouchers : LoveData.listVouchers()).filter(istBezahlt),
     gutscheineOffen: (cloudData ? cloudData.vouchers : LoveData.listVouchers()).filter(v => !istBezahlt(v)),
     members: cloudData ? cloudData.members : (LoveData.listMembers ? LoveData.listMembers() : []),
@@ -357,6 +374,8 @@ const CHAPTERS = [
   { id: 'termine', ic: '📅', lbl: 'Interner Kalender', badge: d => upcoming(d).filter(b => b.date === todayISO()).length },
   { id: 'kalender', ic: '🗓️', lbl: 'Kundenkalender' },
   { id: 'buchungen', ic: '📖', lbl: 'Buchungen' },
+  { id: 'events', ic: '🎟️', lbl: 'Events' },
+  { id: 'archiv', ic: '🗂️', lbl: 'Archiv', badge: d => d.archiv.length },
   { id: 'kunden', ic: '👥', lbl: 'Kunden' },
   { id: 'bestellungen', ic: '🛍️', lbl: 'Shop', badge: d => d.bestellungen.filter(o => o.status === 'neu').length },
   { id: 'gutscheine', ic: '🎁', lbl: 'Gutscheine' },
@@ -481,6 +500,7 @@ function bookingCard(b, withActions, withStorno) {
     ${withActions ? `<div class="hcard-actions">
       <button class="btn btn-green btn-sm" data-bact="booking_confirm" data-id="${esc(b.id)}">✓ Annehmen</button>
       <button class="btn btn-ghost btn-sm" data-bact="booking_reject" data-id="${esc(b.id)}">Ablehnen</button>
+      <button class="btn btn-ghost btn-sm" data-bact="booking_archive" data-id="${esc(b.id)}" title="Ohne E-Mail an den Gast ins Archiv verschieben">🗂 Ignorieren</button>
     </div>` : ''}
     ${withActions && typeof LoveBookingManager !== 'undefined' ? LoveBookingManager.panel(b) : ''}
     ${withStorno && b.email ? `<div class="hcard-actions">
@@ -592,6 +612,7 @@ function wireBookingActions(box) {
   if (typeof LoveBookingManager !== 'undefined') LoveBookingManager.wire(box);
   box.querySelectorAll('button[data-bact]').forEach(btn => btn.addEventListener('click', () => {
     if (btn.dataset.bact === 'booking_reject' && !confirm('Diese Anfrage wirklich ablehnen? Der Gast bekommt eine Absage-Mail.')) return;
+    if (btn.dataset.bact === 'booking_archive' && !confirm('Diese Anfrage ins Archiv verschieben? Der Gast bekommt KEINE E-Mail.')) return;
     btn.disabled = true;
     hostCall(btn.dataset.bact, { id: btn.dataset.id });
   }));
@@ -753,6 +774,131 @@ function render() {
     </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`) + zahlungOffenListe(d);
     wirePaylinks(box, d);
     wireRemail(box);
+
+  /* ═══ Events: Anlässe mit Platzlimit verwalten ═══ */
+  } else if (chapter === 'events') {
+    if (!cloudData) {
+      box.innerHTML = `<h3 class="host-sect">Events</h3><p class="host-empty">Für die Event-Verwaltung wird die Cloud-Verbindung gebraucht.</p>`;
+    } else if (!eventsAdmin) {
+      box.innerHTML = `<h3 class="host-sect">Events</h3><p class="host-empty">Events werden geladen …</p>`;
+      loadEventsAdmin();
+    } else {
+      const evs = eventsAdmin.events || [];
+      const ebk = eventsAdmin.bookings || [];
+      const chf = c => 'CHF ' + (c % 100 === 0 ? (c / 100) : (c / 100).toFixed(2));
+      box.innerHTML = `<h3 class="host-sect">Events</h3>
+        <div class="host-note">Buchbare Anlässe mit Platzlimit und Payrexx-Zahlung (wie der <b>Weihnachtsworkshop</b>). Titel, Beschreibung, Datum, Zeit, Preis und Plätze änderst du hier — die Event-Seite auf der Website übernimmt alles <b>automatisch</b>. Sind alle Plätze weg, zeigt die Seite «Ausverkauft» und niemand kann mehr buchen.</div>
+        <div class="hcards">${evs.map(ev => {
+          const list = ebk.filter(b => b.plan === ev.id);
+          const bezahlt = list.filter(b => b.paid == 1);
+          return `<div class="hcard">
+            <div class="hcard-top"><b>${esc(ev.title)}</b>
+              <span class="host-pill ${ev.remaining < 1 ? '' : 'ok'}">${ev.visible ? (ev.remaining < 1 ? 'ausverkauft' : ev.remaining + ' frei') : 'versteckt'}</span></div>
+            <p class="hcard-meta">${fmtDay(ev.date)} · ${esc(ev.time_start)}${ev.time_end ? '–' + esc(ev.time_end) : ''} · ${chf(ev.price_cents)} p. P. · ${ev.used}/${ev.capacity} Plätze belegt${ev.page ? ` · <a href="${esc(ev.page)}" target="_blank" rel="noopener">Seite öffnen ↗</a>` : ''}</p>
+            ${ev.description ? `<p class="hcard-msg">💬 ${esc(ev.description)}</p>` : ''}
+            <div class="hcard-actions">
+              <button type="button" class="btn btn-rose btn-sm" data-evedit="${esc(ev.id)}">✏️ Bearbeiten</button>
+            </div>
+            ${list.length ? `<details style="margin-top:.5rem"><summary style="cursor:pointer">${bezahlt.length} bezahlte Buchung(en) · ${list.length} Anmeldung(en)</summary>
+              <div class="host-table-wrap" style="margin-top:.5rem"><table class="host-table">
+              <thead><tr><th>Name</th><th>E-Mail</th><th>Pers.</th><th>Betrag</th><th>Bezahlt</th><th>Status</th><th>Ref.</th></tr></thead>
+              <tbody>${list.map(b => `<tr><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${esc(b.persons)}</td><td>${esc(b.price || '—')}</td><td>${b.paid == 1 ? '✓' : '—'}</td><td>${esc(STATUS_LBL[b.status] || b.status)}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
+              </table></div></details>` : `<p class="hint" style="margin-top:.4rem">Noch keine Anmeldungen.</p>`}
+          </div>`;
+        }).join('')}</div>
+        <div class="hcard-actions" style="margin-top:.8rem"><button type="button" class="btn btn-green btn-sm" id="evNew">➕ Neues Event</button></div>
+        <div class="hcard" id="evBox" hidden style="margin-top:.9rem;border-left:4px solid var(--rose)">
+          <div class="hcard-top"><b id="evBoxTitle">Event bearbeiten</b></div>
+          <div class="two-col" style="margin-top:.6rem">
+            <div class="field"><label for="evTitle">Titel</label><input type="text" id="evTitle" maxlength="160"></div>
+            <div class="field"><label for="evDate">Datum</label><input type="date" id="evDate"></div>
+          </div>
+          <div class="field"><label for="evDesc">Beschreibung (erscheint automatisch auf der Event-Seite)</label><textarea id="evDesc" rows="4"></textarea></div>
+          <div class="two-col">
+            <div class="field"><label for="evStart">Beginn (z. B. 17:00)</label><input type="text" id="evStart" placeholder="17:00" maxlength="5"></div>
+            <div class="field"><label for="evEnd">Ende (z. B. 19:00)</label><input type="text" id="evEnd" placeholder="19:00" maxlength="5"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="evPrice">Preis pro Person (CHF)</label><input type="number" id="evPrice" min="0" step="0.05"></div>
+            <div class="field"><label for="evCap">Plätze insgesamt</label><input type="number" id="evCap" min="1" step="1"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="evInfo">Zusatzzeile (z. B. «Alle Materialien inklusive»)</label><input type="text" id="evInfo" maxlength="200"></div>
+            <div class="field"><label for="evPage">Website-Seite (Dateiname)</label><input type="text" id="evPage" placeholder="weihnachtsworkshop-holzhaus.html"></div>
+          </div>
+          <label class="check" style="margin:.2rem 0 .5rem"><input type="checkbox" id="evVisible" checked><span>Sichtbar &amp; buchbar auf der Website</span></label>
+          <div class="hcard-actions">
+            <button type="button" class="btn btn-rose btn-sm" id="evSave">Speichern</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="evAbbr">Abbrechen</button>
+          </div>
+          <p class="hint" id="evHint" aria-live="polite" style="margin-top:.4rem"></p>
+        </div>`;
+      /* Editor verdrahten */
+      let evAktivId = '';
+      const openEditor = ev => {
+        evAktivId = ev ? ev.id : '';
+        $('#evBoxTitle').textContent = ev ? 'Event bearbeiten — ' + ev.title : 'Neues Event';
+        $('#evTitle').value = ev ? ev.title : '';
+        $('#evDate').value = ev ? ev.date : '';
+        $('#evDesc').value = ev ? (ev.description || '') : '';
+        $('#evStart').value = ev ? ev.time_start : '';
+        $('#evEnd').value = ev ? ev.time_end : '';
+        $('#evPrice').value = ev ? (ev.price_cents / 100) : '';
+        $('#evCap').value = ev ? ev.capacity : '';
+        $('#evInfo').value = ev ? (ev.info || '') : '';
+        $('#evPage').value = ev ? (ev.page || '') : '';
+        $('#evVisible').checked = ev ? !!ev.visible : true;
+        $('#evHint').textContent = '';
+        $('#evBox').hidden = false;
+        $('#evBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+      box.querySelectorAll('[data-evedit]').forEach(btn => btn.addEventListener('click', () => {
+        const ev = evs.find(x => x.id === btn.dataset.evedit);
+        if (ev) openEditor(ev);
+      }));
+      $('#evNew').addEventListener('click', () => openEditor(null));
+      $('#evAbbr').addEventListener('click', () => { $('#evBox').hidden = true; });
+      $('#evSave').addEventListener('click', async () => {
+        const hint = $('#evHint');
+        hint.textContent = 'Speichern …';
+        const payload = {
+          id: evAktivId,
+          title: $('#evTitle').value.trim(),
+          description: $('#evDesc').value.trim(),
+          date: $('#evDate').value,
+          time_start: $('#evStart').value.trim(),
+          time_end: $('#evEnd').value.trim(),
+          price: Number($('#evPrice').value),
+          capacity: Number($('#evCap').value),
+          info: $('#evInfo').value.trim(),
+          page: $('#evPage').value.trim(),
+          visible: $('#evVisible').checked,
+        };
+        try {
+          const r = await LoveCloud.call('event_save', Object.assign({}, hostCreds, { event: payload }));
+          if (r && r.ok) { hint.textContent = '✓ Gespeichert — die Website zeigt die Änderung sofort.'; loadEventsAdmin(true); }
+          else hint.textContent = 'Fehler: ' + ((r && r.error) || 'unbekannt');
+        } catch (e) { hint.textContent = 'Cloud-Fehler — bitte erneut versuchen.'; }
+      });
+    }
+
+  /* ═══ Archiv: ignorierte Anfragen (ohne Absage-Mail) ═══ */
+  } else if (chapter === 'archiv') {
+    box.innerHTML = `<h3 class="host-sect">Archiv</h3>
+      <div class="host-note">Hierhin wandern Anfragen über <b>🗂 Ignorieren</b> — <b>ohne</b> E-Mail an den Gast. Sie blockieren keine Plätze und tauchen in Anfragen, Buchungen und Kalender nicht mehr auf. Mit <b>Wiederherstellen</b> holst du sie zurück.</div>` +
+      (d.archiv.length ? `<div class="host-table-wrap"><table class="host-table">
+      <thead><tr><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Zeit</th><th>Pers.</th><th>Eingegangen</th><th>Ref.</th><th>Aktion</th></tr></thead>
+      <tbody>${d.archiv.map(b => `<tr>
+        <td>${esc(typeLbl(b.type))}</td>
+        <td><b>${esc(b.name || '—')}</b></td>
+        <td>${esc(b.email || '—')}</td>
+        <td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.time || '—')}</td>
+        <td>${esc(b.persons || '—')}</td>
+        <td>${fmtTs(b.ts)}</td>
+        <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td>
+        <td>${cloudData ? `<button class="btn btn-ghost btn-sm" data-act="booking_unarchive" data-id="${esc(b.id)}">↩ Wiederherstellen</button>` : '—'}</td></tr>`).join('')}</tbody>
+      </table></div>` : `<p class="host-empty">Das Archiv ist leer.</p>`);
+    wireHostActions(box);
 
   /* ═══ Kunden: Konten + CRM + Members ═══ */
   } else if (chapter === 'kunden') {
