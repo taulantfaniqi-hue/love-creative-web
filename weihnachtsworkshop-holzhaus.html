@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lexend:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/love.css?v=d5045f8e">
-<link rel="stylesheet" href="assets/css/love-account.css?v=487c39c4">
+<link rel="stylesheet" href="assets/css/love-account.css?v=821343eb">
 <link rel="stylesheet" href="assets/css/love-movies.css?v=a8c857a9">
 <style>
 .wood-page h1{font-size:clamp(1.65rem,6vw,2.55rem);margin:0 0 .85rem}
@@ -19,6 +19,7 @@
 .wood-page .wood-photo img{height:clamp(175px,55vw,290px);object-fit:cover;object-position:center 76%}
 .wood-page .event-meta{margin:1rem 0 .55rem}
 .wood-page .event-price{margin:.65rem 0 .05rem}
+@media(max-width:880px){.wood-page .event-price{text-align:right}}
 .wood-page .limited{margin:.55rem 0}
 .wood-desc{max-width:560px;margin:.4rem auto .2rem;white-space:pre-line}
 .wood-seats{display:inline-block;margin:.6rem 0 .2rem;padding:.35rem .95rem;border-radius:999px;font-weight:600;background:#eef7f1;color:#337357}
@@ -94,9 +95,9 @@
     <span id="wood-time" data-wood="wood.time">17:00–19:00 Uhr</span>
     <span id="wood-cap" data-wood="wood.cap">15 Plätze insgesamt</span>
    </div>
-   <p class="event-price"><span id="wood-price">CHF 55</span> <small data-wood="wood.perPerson">pro Person</small></p>
-   <p id="wood-info" data-wood="wood.material">Alle Materialien inklusive</p>
    <p class="wood-desc" id="wood-desc">Gestalte dein eigenes Holzhäuschen mit Farbe und weihnachtlichen Details — und nimm es am Schluss direkt mit nach Hause.</p>
+   <p id="wood-info" data-wood="wood.material">Alle Materialien inklusive</p>
+   <p class="event-price"><span id="wood-price">CHF 55</span> <small data-wood="wood.perPerson">pro Person</small></p>
    <p class="limited">LOVE Creative Café · Seestrasse 287B, 8804 Au ZH</p>
    <p><span class="wood-seats" id="wood-seats" aria-live="polite">&nbsp;</span></p>
    <button class="btn btn-rose flyer-booking-button" id="wood-open" aria-haspopup="dialog" aria-controls="buchen" data-wood="wood.ask" type="button">Jetzt buchen</button>
@@ -207,7 +208,7 @@
   </div>
 </footer>
 <script src="assets/js/love-site.js?v=wood-workshop-nav-20261121"></script>
-<script src="assets/js/love-cloud.js?v=a1c36180"></script>
+<script src="assets/js/love-cloud.js?v=68e002bf"></script>
 <script src="assets/js/love-account.js?v=d3e7e9a8"></script>
 <script>
 (() => {
