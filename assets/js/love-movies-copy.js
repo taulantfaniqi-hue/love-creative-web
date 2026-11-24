@@ -12,7 +12,7 @@ window.LOVE_EN={
  'movie.privacy':'I agree to my details being processed according to the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>.',
  'movie.pay':'Book & pay →','movie.resume':'Resume payment →','movie.check':'Check payment status', 'movie.new':'Start a new booking',
  'movie.date1':'13 November · Wonka','movie.date2':'28 November · Home Alone','movie.date3':'4 December · The Grinch','movie.date4':'11 December · Home Alone 2',
- 'movie.dates':'13 & 28 November / 5 & 11 December 2026','movie.time':'Starts at 6:30 pm',
+ 'movie.dates':'13 & 28 November / 4 & 11 December 2026','movie.time':'Starts at 6:30 pm',
  'nav.hallo':'Movie evenings'
 };
 
