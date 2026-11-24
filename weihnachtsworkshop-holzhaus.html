@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Weihnachtsworkshop | LOVE Creative Café</title>
+<title>Weihnachtsworkshop (kids) | LOVE Creative Café</title>
 <meta name="description" content="Weihnachtsworkshop mit Holzhaus im LOVE Creative Café in Au ZH. Samstag, 5. Dezember 2026, 17:00–19:00 Uhr. CHF 55 pro Person, alle Materialien inklusive.">
 <link rel="canonical" href="https://lovecreative.ch/weihnachtsworkshop-holzhaus.html">
 <link rel="icon" href="assets/logo/logo-love.svg" type="image/svg+xml">
@@ -88,7 +88,7 @@
 <main id="main">
  <section class="flyer-booking wood-page">
   <div class="flyer-booking-inner">
-   <h1 id="wood-title" data-wood="wood.title">Weihnachtsworkshop</h1>
+   <h1 id="wood-title" data-wood="wood.title">Weihnachtsworkshop (kids)</h1>
    <figure class="poster wood-photo"><img src="assets/img/weihnachtsworkshop-holzhaus.jpg" alt="Holzhäuschen und Weihnachtsdeko auf dem vorbereiteten Workshop-Tisch" width="900" height="1200" fetchpriority="high"></figure>
    <div class="event-meta">
     <span><time id="wood-date" datetime="2026-12-05" data-wood="wood.day">Samstag, 5. Dezember 2026</time></span>
@@ -218,13 +218,13 @@
  const $ = s => document.querySelector(s);
 
  /* ---------- Sprache (statische Texte) ---------- */
- const copy = {"wood.cap":"15 places in total","wood.booking":"Book the Christmas workshop","wood.title":"Christmas Workshop","wood.perPerson":"per person","wood.day":"Saturday, 5 December 2026","wood.time":"5–7 pm","wood.material":"All materials included","wood.ask":"Book now","wood.checkoutInfo":"Choose your places, fill in your details and pay securely online (TWINT, credit or debit card via Payrexx). Your places are held for 20 minutes during payment.","wood.pay":"Continue to payment","wood.persons":"Number of people","wood.name":"First and last name","wood.email":"E-mail","wood.phone":"Phone","wood.terms":"I accept the terms and conditions.","wood.privacy":"I have read the privacy policy."};
+ const copy = {"wood.cap":"15 places in total","wood.booking":"Book the Christmas workshop","wood.title":"Christmas Workshop (kids)","wood.perPerson":"per person","wood.day":"Saturday, 5 December 2026","wood.time":"5–7 pm","wood.material":"All materials included","wood.ask":"Book now","wood.checkoutInfo":"Choose your places, fill in your details and pay securely online (TWINT, credit or debit card via Payrexx). Your places are held for 20 minutes during payment.","wood.pay":"Continue to payment","wood.persons":"Number of people","wood.name":"First and last name","wood.email":"E-mail","wood.phone":"Phone","wood.terms":"I accept the terms and conditions.","wood.privacy":"I have read the privacy policy."};
  const de = new Map([...document.querySelectorAll('[data-wood]')].map(el => [el, el.innerHTML]));
  let lang = 'de';
  function setLang(l) {
   lang = l === 'en' ? 'en' : 'de';
   const en = lang === 'en';
-  document.title = en ? "Christmas Workshop | LOVE Creative Café" : "Weihnachtsworkshop | LOVE Creative Café";
+  document.title = en ? "Christmas Workshop (kids) | LOVE Creative Café" : "Weihnachtsworkshop (kids) | LOVE Creative Café";
   for (const [el, html] of de) {
    const k = el.dataset.wood;
    if (en && copy[k] !== undefined) {
