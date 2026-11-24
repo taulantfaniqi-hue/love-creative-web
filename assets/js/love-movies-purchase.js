@@ -1,7 +1,7 @@
 /* Event-specific checkout. Injected transport and storage keep tests offline. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.LoveMoviesPurchase=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
-const EVENT=Object.freeze({dates:['2026-11-13','2026-11-28','2026-12-05','2026-12-11'],priceCents:5500,capacity:20});
+const EVENT=Object.freeze({dates:['2026-11-13','2026-11-28','2026-12-04','2026-12-11'],priceCents:5500,capacity:20});
 const KEY='love-movies-checkout-v1';
 function validate(x){
   const persons=Number(x.persons);
