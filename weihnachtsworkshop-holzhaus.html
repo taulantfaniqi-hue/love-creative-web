@@ -24,7 +24,11 @@
 .wood-seats{display:inline-block;margin:.6rem 0 .2rem;padding:.35rem .95rem;border-radius:999px;font-weight:600;background:#eef7f1;color:#337357}
 .wood-seats.low{background:#fdeef2;color:#c2185b}
 .wood-seats.out{background:#f3f3f3;color:#666}
-.wood-booking{max-width:520px;max-height:calc(100dvh - 24px);overflow:auto}
+.wood-booking{max-width:520px;max-height:calc(100dvh - 24px);overflow:auto;position:relative}
+.wood-snow{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.wood-snow span{position:absolute;top:-10%;color:#aecfe4;text-shadow:0 0 4px rgba(255,255,255,.9);animation-name:woodSnow;animation-timing-function:linear;animation-iteration-count:infinite;user-select:none}
+@keyframes woodSnow{from{top:-10%;transform:translateX(0) rotate(0deg)}50%{transform:translateX(10px) rotate(180deg)}to{top:104%;transform:translateX(-8px) rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.wood-snow{display:none}}
 .wood-booking .dialog-x{min-width:44px;min-height:44px}
 .wood-booking .event-meta{margin:0 0 14px}
 .wood-booking .checkout-note{margin-bottom:0}
@@ -100,6 +104,19 @@
   </div>
  </section>
  <dialog class="preview-modal purchase-dialog wood-booking" id="buchen" aria-labelledby="wood-booking-title">
+  <div class="wood-snow" aria-hidden="true">
+   <span style="left:4%;font-size:13px;animation-duration:9s">❄</span>
+   <span style="left:14%;font-size:9px;animation-duration:12s;animation-delay:-4s">❅</span>
+   <span style="left:24%;font-size:15px;animation-duration:8s;animation-delay:-2s">❆</span>
+   <span style="left:33%;font-size:10px;animation-duration:11s;animation-delay:-7s">❄</span>
+   <span style="left:43%;font-size:12px;animation-duration:10s;animation-delay:-5s">❅</span>
+   <span style="left:52%;font-size:8px;animation-duration:13s;animation-delay:-9s">❄</span>
+   <span style="left:61%;font-size:14px;animation-duration:9s;animation-delay:-3s">❆</span>
+   <span style="left:70%;font-size:10px;animation-duration:12s;animation-delay:-6s">❄</span>
+   <span style="left:79%;font-size:12px;animation-duration:8s;animation-delay:-1s">❅</span>
+   <span style="left:88%;font-size:9px;animation-duration:11s;animation-delay:-8s">❄</span>
+   <span style="left:95%;font-size:13px;animation-duration:10s;animation-delay:-5s">❆</span>
+  </div>
   <button type="button" id="wood-close" class="dialog-x" aria-label="Schliessen">×</button>
   <h2 id="wood-booking-title" data-wood="wood.booking">Weihnachtsworkshop buchen</h2>
   <div class="event-meta">
@@ -126,8 +143,9 @@
    </div>
    <label class="chk"><input type="checkbox" id="wf-terms"> <span data-wood="wood.terms">Ich akzeptiere die <a href="agb.html" target="_blank" rel="noopener">AGB</a>.</span></label>
    <label class="chk"><input type="checkbox" id="wf-privacy"> <span data-wood="wood.privacy">Ich habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen.</span></label>
+   <p style="text-align:right;font-size:1.05rem;margin:.2rem 0 0">Total: <b id="wf-total">CHF 55</b></p>
    <p class="wood-err" id="wf-err" aria-live="polite"></p>
-   <button class="btn btn-rose flyer-booking-button" id="wf-go" type="submit" data-wood="wood.pay">Weiter zur Zahlung — <span id="wf-total">CHF 55</span></button>
+   <button class="btn btn-rose flyer-booking-button" id="wf-go" type="submit" data-wood="wood.pay">Weiter zur Zahlung</button>
   </form>
  </dialog>
 <section aria-label="LOVE Creative Café Adresse">
@@ -199,7 +217,7 @@
  const $ = s => document.querySelector(s);
 
  /* ---------- Sprache (statische Texte) ---------- */
- const copy = {"wood.cap":"15 places in total","wood.booking":"Book the Christmas workshop","wood.title":"Christmas Workshop","wood.perPerson":"per person","wood.day":"Saturday, 5 December 2026","wood.time":"5–7 pm","wood.material":"All materials included","wood.ask":"Book now","wood.checkoutInfo":"Choose your places, fill in your details and pay securely online (TWINT, credit or debit card via Payrexx). Your places are held for 20 minutes during payment.","wood.pay":"Continue to payment — ","wood.persons":"Number of people","wood.name":"First and last name","wood.email":"E-mail","wood.phone":"Phone","wood.terms":"I accept the terms and conditions.","wood.privacy":"I have read the privacy policy."};
+ const copy = {"wood.cap":"15 places in total","wood.booking":"Book the Christmas workshop","wood.title":"Christmas Workshop","wood.perPerson":"per person","wood.day":"Saturday, 5 December 2026","wood.time":"5–7 pm","wood.material":"All materials included","wood.ask":"Book now","wood.checkoutInfo":"Choose your places, fill in your details and pay securely online (TWINT, credit or debit card via Payrexx). Your places are held for 20 minutes during payment.","wood.pay":"Continue to payment","wood.persons":"Number of people","wood.name":"First and last name","wood.email":"E-mail","wood.phone":"Phone","wood.terms":"I accept the terms and conditions.","wood.privacy":"I have read the privacy policy."};
  const de = new Map([...document.querySelectorAll('[data-wood]')].map(el => [el, el.innerHTML]));
  let lang = 'de';
  function setLang(l) {
@@ -211,7 +229,6 @@
    if (en && copy[k] !== undefined) {
     if (k === 'wood.terms') el.innerHTML = 'I accept the <a href="agb.html" target="_blank" rel="noopener">terms and conditions</a>.';
     else if (k === 'wood.privacy') el.innerHTML = 'I have read the <a href="datenschutz.html" target="_blank" rel="noopener">privacy policy</a>.';
-    else if (k === 'wood.pay') el.innerHTML = copy[k] + '<span id="wf-total"></span>';
     else el.textContent = copy[k];
    } else el.innerHTML = html;
   }
@@ -257,7 +274,7 @@
   sel.innerHTML = '';
   for (let i = 1; i <= max; i++) {
    const o = document.createElement('option'); o.value = i;
-   o.textContent = i + ' · ' + chf(i * ev.price_cents);
+   o.textContent = i;
    sel.appendChild(o);
   }
   if (cur && Number(cur) <= max) sel.value = cur;
