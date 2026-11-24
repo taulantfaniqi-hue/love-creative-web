@@ -199,7 +199,7 @@ async function loadCloud() {
   if (!LoveCloud.isOnline()) { note.textContent = '○ Cloud nicht erreichbar — lokale Daten (dieses Gerät)'; return; }
   try {
     const r = await LoveCloud.call('host_data', hostCreds);
-    if (r.ok) { cloudData = r; note.textContent = '● Cloud verbunden — zentrale Live-Daten'; render(); }
+    if (r.ok) { cloudData = r; note.textContent = '● Cloud verbunden — zentrale Live-Daten'; render(); if (chapter === 'events') loadEventsAdmin(true); }
     else note.textContent = '○ Cloud-Anmeldung fehlgeschlagen — lokale Daten';
   } catch (e) { note.textContent = '○ Cloud-Fehler — lokale Daten'; }
 }
@@ -799,11 +799,15 @@ function render() {
             ${ev.description ? `<p class="hcard-msg">💬 ${esc(ev.description)}</p>` : ''}
             <div class="hcard-actions">
               <button type="button" class="btn btn-rose btn-sm" data-evedit="${esc(ev.id)}">✏️ Bearbeiten</button>
+              <button type="button" class="btn btn-green btn-sm" data-evmanual="${esc(ev.id)}">➕ Manuell einbuchen</button>
             </div>
-            ${list.length ? `<details style="margin-top:.5rem"><summary style="cursor:pointer">${bezahlt.length} bezahlte Buchung(en) · ${list.length} Anmeldung(en)</summary>
+            ${list.length ? `<details open style="margin-top:.5rem"><summary style="cursor:pointer">${bezahlt.length} bezahlte Buchung(en) · ${list.length} Anmeldung(en)</summary>
               <div class="host-table-wrap" style="margin-top:.5rem"><table class="host-table">
-              <thead><tr><th>Name</th><th>E-Mail</th><th>Pers.</th><th>Betrag</th><th>Bezahlt</th><th>Status</th><th>Ref.</th></tr></thead>
-              <tbody>${list.map(b => `<tr><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${esc(b.persons)}</td><td>${esc(b.price || '—')}</td><td>${b.paid == 1 ? '✓' : '—'}</td><td>${esc(STATUS_LBL[b.status] || b.status)}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
+              <thead><tr><th>Name</th><th>E-Mail</th><th>Pers.</th><th>Betrag</th><th>Bezahlt</th><th>Status</th><th>Ref.</th><th>Aktion</th></tr></thead>
+              <tbody>${list.map(b => `<tr><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${esc(b.persons)}</td><td>${esc(b.price || '—')}</td><td>${b.paid == 1 ? '✓' : '—'}</td><td>${esc(STATUS_LBL[b.status] || b.status)}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td>
+                <td style="min-width:8rem">${['storniert', 'abgelehnt', 'verloren', 'archiviert'].includes(b.status) ? '—'
+                  : b.paid == 1 && b.email ? `<button type="button" class="btn btn-ghost btn-sm" data-storno="${esc(b.id)}" style="border-color:#B3261E;color:#B3261E">✕ Stornieren…</button>`
+                  : `<button type="button" class="btn btn-ghost btn-sm" data-bact="booking_archive" data-id="${esc(b.id)}" title="Ohne E-Mail ins Archiv — gibt den Platz sofort frei">🗂 Ignorieren</button>`}</td></tr>`).join('')}</tbody>
               </table></div></details>` : `<p class="hint" style="margin-top:.4rem">Noch keine Anmeldungen.</p>`}
           </div>`;
         }).join('')}</div>
@@ -833,7 +837,28 @@ function render() {
             <button type="button" class="btn btn-ghost btn-sm" id="evAbbr">Abbrechen</button>
           </div>
           <p class="hint" id="evHint" aria-live="polite" style="margin-top:.4rem"></p>
-        </div>`;
+        </div>
+        <div class="hcard" id="emBox" hidden style="margin-top:.9rem;border-left:4px solid var(--green, #337357)">
+          <div class="hcard-top"><b id="emBoxTitle">➕ Manuell einbuchen</b></div>
+          <div class="host-note">Für Gäste, die an der <b>Bar</b> reserviert oder bezahlt haben. Der Eintrag zählt zum Platzlimit — die Website zeigt sofort weniger freie Plätze und bei vollem Event «Ausverkauft». Es geht <b>keine</b> Mail an den Gast raus.</div>
+          <div class="two-col" style="margin-top:.6rem">
+            <div class="field"><label for="emName">Name</label><input type="text" id="emName" maxlength="120"></div>
+            <div class="field"><label for="emPers">Anzahl Personen</label><input type="number" id="emPers" min="1" step="1" value="1"></div>
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="emMail">E-Mail (optional)</label><input type="email" id="emMail"></div>
+            <div class="field"><label for="emTel">Telefon (optional)</label><input type="text" id="emTel" maxlength="40"></div>
+          </div>
+          <label class="check" style="margin:.2rem 0 .4rem"><input type="checkbox" id="emPaid" checked><span>Bereits bezahlt (Bar/TWINT vor Ort)</span></label>
+          <div class="field"><label for="emNote">Notiz (optional)</label><input type="text" id="emNote" maxlength="200" placeholder="z. B. Bar-Reservation vom 24.11."></div>
+          <div class="hcard-actions">
+            <button type="button" class="btn btn-green btn-sm" id="emGo">Einbuchen</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="emAbbr">Abbrechen</button>
+          </div>
+          <p class="hint" id="emHint" aria-live="polite" style="margin-top:.4rem"></p>
+        </div>` + stornoPanel();
+      wireStorno(box, d);
+      wireBookingActions(box);
       /* Editor verdrahten */
       let evAktivId = '';
       const openEditor = ev => {
@@ -857,6 +882,43 @@ function render() {
         const ev = evs.find(x => x.id === btn.dataset.evedit);
         if (ev) openEditor(ev);
       }));
+      /* ➕ Manuell einbuchen (Bar-Reservationen) */
+      let emEventId = '';
+      box.querySelectorAll('[data-evmanual]').forEach(btn => btn.addEventListener('click', () => {
+        const ev = evs.find(x => x.id === btn.dataset.evmanual);
+        if (!ev) return;
+        emEventId = ev.id;
+        $('#emBoxTitle').textContent = '➕ Manuell einbuchen — ' + ev.title + ' (' + ev.remaining + ' frei)';
+        $('#emName').value = ''; $('#emPers').value = '1'; $('#emMail').value = ''; $('#emTel').value = '';
+        $('#emPaid').checked = true; $('#emNote').value = ''; $('#emHint').textContent = '';
+        $('#emPers').max = String(Math.max(1, ev.remaining));
+        $('#emBox').hidden = false;
+        $('#emBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }));
+      $('#emAbbr').addEventListener('click', () => { $('#emBox').hidden = true; });
+      $('#emGo').addEventListener('click', async () => {
+        const hint = $('#emHint');
+        const name = $('#emName').value.trim();
+        const pers = Number($('#emPers').value);
+        if (!name) { hint.textContent = 'Bitte einen Namen eingeben.'; return; }
+        if (!Number.isInteger(pers) || pers < 1) { hint.textContent = 'Bitte eine gültige Personenzahl eingeben.'; return; }
+        const go = $('#emGo'); go.disabled = true;
+        hint.textContent = 'Wird eingebucht …';
+        try {
+          const r = await LoveCloud.call('event_manual_add', Object.assign({}, hostCreds, {
+            event: emEventId, name, persons: pers,
+            email: $('#emMail').value.trim(), phone: $('#emTel').value.trim(),
+            paid: $('#emPaid').checked ? 1 : 0, note: $('#emNote').value.trim(),
+          }));
+          if (r && r.ok) {
+            hint.textContent = `✓ Eingebucht (Ref. ${r.id}) — noch ${r.remaining} Plätze frei. Die Website ist sofort aktuell.`;
+            loadEventsAdmin(true); loadCloud();
+          } else hint.textContent = (r && r.error) === 'full'
+            ? 'Das Event ist voll — so viele Plätze sind nicht mehr frei.'
+            : 'Fehler: ' + ((r && r.error) || 'unbekannt');
+        } catch (e) { hint.textContent = 'Cloud-Fehler — bitte erneut versuchen.'; }
+        go.disabled = false;
+      });
       $('#evNew').addEventListener('click', () => openEditor(null));
       $('#evAbbr').addEventListener('click', () => { $('#evBox').hidden = true; });
       $('#evSave').addEventListener('click', async () => {
