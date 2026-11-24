@@ -279,7 +279,7 @@ function zahlungOffenListe(d) {
     <div class="host-note">Diese Anmeldungen wurden <b>nicht bezahlt</b> — die Zahlung wurde abgebrochen oder Payrexx war nicht erreichbar. Sie gelten <b>nicht als Buchung</b> und erscheinen nicht in Anfragen und Kalender. Zahlt jemand nachträglich, rückt die Anmeldung automatisch zu den Buchungen — bis dahin bleibt sie hier stehen. Mit <b>💳 Zahlungslink</b> schickst du der Kundin oder dem Kunden per E-Mail einen frischen Payrexx-Link (Text und Betrag anpassbar).</div>
     <div class="host-table-wrap"><table class="host-table"><thead><tr><th>Typ</th><th>Name</th><th>E-Mail</th><th>Datum</th><th>Pers.</th><th>Betrag</th><th>Ref.</th><th>Aktion</th></tr></thead>
     <tbody>${d.zahlungOffen.map(b => `<tr style="opacity:.85"><td>${esc(typeLbl(b.type))}</td><td>${esc(b.name || '—')}</td><td>${esc(b.email || '—')}</td><td>${b.date ? fmtDay(b.date) : '—'}</td><td>${esc(b.persons || '—')}</td><td>${esc(b.price || '—')}</td><td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td>
-      <td style="min-width:9.5rem">${b.email ? `<button type="button" class="btn btn-rose btn-sm" data-paylink="${esc(b.id)}">💳 Zahlungslink</button>` : '—'}${gesendet(b) ? `<br><span class="hint" style="font-size:.74rem">✓ gesendet ${esc(gesendet(b))}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>
+      <td style="min-width:9.5rem">${b.type === 'event' ? `<button type="button" class="btn btn-ghost btn-sm" data-bact="booking_archive" data-id="${esc(b.id)}" title="Ohne E-Mail ins Archiv — gibt den Platz sofort frei">🗂 Ignorieren</button>` : b.email ? `<button type="button" class="btn btn-rose btn-sm" data-paylink="${esc(b.id)}">💳 Zahlungslink</button>` : '—'}${gesendet(b) ? `<br><span class="hint" style="font-size:.74rem">✓ gesendet ${esc(gesendet(b))}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>
     <div class="hcard" id="plBox" hidden style="margin-top:.9rem;border-left:4px solid var(--rose)">
       <div class="hcard-top"><b>💳 Zahlungslink per E-Mail senden</b><span class="hcard-meta" id="plWer"></span></div>
       <div class="two-col" style="margin-top:.6rem">
@@ -773,6 +773,7 @@ function render() {
         <td style="font-size:.78rem;color:var(--ink-soft)">${esc(b.id)}</td></tr>`).join('')}</tbody>
     </table></div>` : `<p class="host-empty">Noch keine Buchungen.</p>`) + zahlungOffenListe(d);
     wirePaylinks(box, d);
+    wireBookingActions(box);
     wireRemail(box);
 
   /* ═══ Events: Anlässe mit Platzlimit verwalten ═══ */
