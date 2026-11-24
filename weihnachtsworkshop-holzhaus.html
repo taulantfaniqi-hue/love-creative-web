@@ -250,7 +250,7 @@
  };
  function render() {
   const zeit = ev.time_start + (ev.time_end ? '–' + ev.time_end : '') + (lang === 'en' ? '' : ' Uhr');
-  $('#wood-title').textContent = ev.title.replace(/:.*$/, '') || ev.title;
+  $('#wood-title').textContent = (ev.title.replace(/:.*$/, '') || ev.title).replace(/ \(kids\)$/, '') + ' (kids)';
   $('#wood-date').textContent = fmtDate(ev.date); $('#wood-date').setAttribute('datetime', ev.date);
   $('#wood-date2').textContent = fmtDate(ev.date);
   $('#wood-time').textContent = zeit; $('#wood-time2').textContent = zeit;
