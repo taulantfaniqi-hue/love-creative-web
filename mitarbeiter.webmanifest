@@ -1,0 +1,16 @@
+{
+  "id": "/mitarbeiter.html",
+  "name": "LOVE Team",
+  "short_name": "Team",
+  "description": "Arbeitszeit, Einsätze und Abwesenheiten von LOVE Creative",
+  "lang": "de-CH",
+  "start_url": "/mitarbeiter.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FBF7F1",
+  "theme_color": "#337357",
+  "icons": [
+    { "src": "assets/app/team-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/app/team-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Termine — LOVE Creative</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#337357">
+<link rel="manifest" href="termine.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/app/termine-192.png">
+<link rel="apple-touch-icon" href="assets/app/termine-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#337357;--green-d:#27593f;--asparagus:#6D9F71;--mimi:#FFDBE5;--rose:#E27396;--rose-d:#b9456b;--cream:#FBF7F1;--card:#fff;--ink:#2C3A31;--soft:#56685D;--line:rgba(51,115,87,.18);--line-s:rgba(51,115,87,.09);--warn:#9a5b00;--warn-bg:#fff3d6;--ok-bg:#e3f1e6;--r:16px;
+  --ff-d:"Playfair Display",Georgia,serif;--ff:"Lexend","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ff);color:var(--ink);background:var(--cream);font-size:16px;line-height:1.5;min-height:100vh}
+h1,h2,h3{font-family:var(--ff-d);color:var(--green);line-height:1.2;text-wrap:balance}
+h1{font-size:1.55rem}h2{font-size:1.2rem}
+button,input,select{font:inherit;color:inherit}
+.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:30;background:var(--green);color:#fff;display:flex;align-items:center;gap:.75rem;padding:.6rem clamp(.9rem,3vw,1.6rem);padding-top:calc(.6rem + env(safe-area-inset-top))}
+.top img{height:34px;width:34px;border-radius:50%;background:#fff}
+.top .t{font-family:var(--ff-d);font-weight:700;font-size:1.1rem;flex:1}
+.top .stand{font-size:.78rem;opacity:.9;text-align:right;line-height:1.25}
+.top button{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:999px;padding:.4rem .8rem;font-size:.82rem;font-weight:600;cursor:pointer;min-height:36px}
+.hinweis{background:var(--warn-bg);color:var(--warn);font-size:.82rem;font-weight:600;text-align:center;padding:.35rem .8rem}
+main{max-width:1080px;margin:0 auto;padding:1rem clamp(.9rem,3vw,1.6rem) 3rem}
+.card{background:var(--card);border:1px solid var(--line-s);border-radius:var(--r);padding:1.1rem;margin-bottom:1rem;box-shadow:0 6px 20px rgba(21,84,55,.05)}
+.muted{color:var(--soft);font-size:.88rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:1px solid var(--green);background:var(--green);color:#fff;border-radius:999px;padding:.6rem 1.15rem;font-weight:600;font-size:.93rem;cursor:pointer;min-height:44px;text-decoration:none}
+.btn.sec{background:#fff;color:var(--green)}
+.btn.sec:hover{background:var(--ok-bg)}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+label{display:block;font-size:.84rem;font-weight:600;margin-bottom:.25rem}
+input,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:.6rem .75rem;background:#fff;min-height:44px}
+.feld{margin-bottom:.75rem}
+.check{display:flex;gap:.5rem;align-items:center;font-weight:400;font-size:.9rem}
+.check input{width:20px;height:20px;min-height:0}
+.msg.err{background:var(--mimi);color:#8a2346;border-radius:12px;padding:.6rem .8rem;font-size:.9rem;margin:.6rem 0}
+.gate{max-width:420px;margin:6vh auto 0}
+.gate .logo{display:block;width:84px;height:84px;margin:0 auto 1rem;border-radius:50%}
+.gate h1{text-align:center;margin-bottom:.3rem}
+.gate p.sub{text-align:center;color:var(--soft);margin-bottom:1.2rem;font-size:.93rem}
+/* Kennzahlen */
+.zahlen{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin-bottom:1rem}
+.zahl{background:#fff;border:1px solid var(--line-s);border-radius:var(--r);padding:.8rem 1rem}
+.zahl b{display:block;font-family:var(--ff-d);font-size:1.7rem;color:var(--green);line-height:1.1}
+.zahl span{font-size:.82rem;color:var(--soft)}
+.zahl.akzent{background:var(--mimi);border-color:transparent}.zahl.akzent b{color:var(--rose-d)}
+/* Leiste */
+.leiste{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;border-radius:999px;padding:.45rem 1rem;font-weight:600;font-size:.9rem;cursor:pointer;color:var(--soft);min-height:38px}
+.seg button[aria-pressed="true"]{background:var(--green);color:#fff}
+.leiste input[type=search]{flex:1;min-width:180px;border-radius:999px}
+/* Agenda */
+.tagkopf{display:flex;align-items:baseline;gap:.6rem;margin:1.2rem 0 .5rem}
+.tagkopf h2{font-size:1.1rem}
+.tagkopf.heute h2::after{content:"heute";font-family:var(--ff);font-size:.72rem;font-weight:700;background:var(--rose);color:#fff;border-radius:999px;padding:.1rem .55rem;margin-left:.5rem;vertical-align:middle}
+.termin{display:grid;grid-template-columns:112px 1fr auto;gap:.8rem;align-items:center;width:100%;text-align:left;background:#fff;border:1px solid var(--line-s);border-left:5px solid var(--asparagus);border-radius:12px;padding:.7rem .9rem;margin-bottom:.45rem;cursor:pointer}
+.termin:hover{background:#fdfbf8;border-color:var(--line)}
+.termin .zeit{font-weight:600;font-variant-numeric:tabular-nums;font-size:.95rem;white-space:nowrap}
+.termin .wer b{font-weight:600}
+.termin .wer div{font-size:.84rem;color:var(--soft)}
+.termin .rechts{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:flex-end}
+.termin.anfrage{border-left-color:var(--rose)}
+.termin.anlass{border-left-color:var(--green);background:var(--ok-bg)}
+.termin.weg{opacity:.55;border-left-color:#bbb}.termin.weg .wer b{text-decoration:line-through}
+@media (max-width:560px){.termin{grid-template-columns:1fr;gap:.25rem}.termin .rechts{justify-content:flex-start}}
+.chip{display:inline-block;border-radius:999px;padding:.12rem .6rem;font-size:.75rem;font-weight:600;background:var(--line-s);color:var(--green);white-space:nowrap}
+.chip.ok{background:var(--ok-bg)}.chip.warn{background:var(--warn-bg);color:var(--warn)}.chip.rot{background:var(--mimi);color:var(--rose-d)}.chip.grau{background:#eee;color:#666}
+/* Monat */
+.monatnav{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
+.monatnav b{min-width:10rem;text-align:center;font-family:var(--ff-d);color:var(--green);font-size:1.15rem}
+.monatnav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:1.1rem}
+.kal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.kal .wt{font-size:.72rem;font-weight:600;color:var(--soft);text-align:center;padding:.2rem 0;text-transform:uppercase}
+.kal button{min-height:74px;background:#fff;border:1px solid var(--line-s);border-radius:10px;padding:.3rem .35rem;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:.15rem;font-size:.78rem}
+.kal button .n{font-weight:600;font-size:.9rem}
+.kal button.leer{background:transparent;border:0;cursor:default}
+.kal button.heute{border:2px solid var(--rose)}
+.kal button[aria-pressed="true"]{background:var(--ok-bg);border-color:var(--green)}
+.kal button .anz{background:var(--green);color:#fff;border-radius:6px;padding:0 .3rem;align-self:flex-start;font-weight:600}
+.kal button .anf{background:var(--rose);color:#fff;border-radius:6px;padding:0 .3rem;align-self:flex-start;font-weight:600}
+@media (max-width:560px){.kal button{min-height:56px;font-size:.68rem}.kal button .pers{display:none}}
+/* Dialog */
+dialog{margin:auto;border:0;border-radius:var(--r);padding:1.2rem;width:min(520px,calc(100vw - 1.6rem));box-shadow:0 20px 60px rgba(0,0,0,.25);color:var(--ink)}
+dialog::backdrop{background:rgba(30,50,40,.45)}
+dl{display:grid;grid-template-columns:110px 1fr;gap:.35rem .8rem;margin:.8rem 0;font-size:.94rem}
+dt{color:var(--soft);font-size:.84rem}
+dd{overflow-wrap:anywhere}
+.dlgfuss{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1rem;flex-wrap:wrap}
+.teiln{list-style:none;margin-top:.5rem}
+.teiln li{display:flex;justify-content:space-between;gap:.6rem;padding:.4rem 0;border-top:1px solid var(--line-s);font-size:.92rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+<script>
+'use strict';
+/* LOVE Creative — Termine: alle Buchungen und Anlässe auf einen Blick.
+   Liest die zentralen Daten des Buchungs-Servers (wie der Host-Bereich) und ändert nichts.
+   Bestätigen, absagen und verschieben bleiben im Host-Bereich. */
+const LOKAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const DEMO = LOKAL || /[?&]demo/.test(location.search);
+const API = 'https://api.lovecreative.ch/api/index.php';
+const K_LOGIN = 'love.termine.login.v1', K_CACHE = 'love.termine.cache.v1';
+const $ = (s, r = document) => r.querySelector(s);
+const app = $('#app'), dlg = $('#dlg');
+const S = { login: null, dauerhaft: false, termine: [], stand: null, ansicht: 'agenda', suche: '', monat: null, tag: null, frueher: false, abgesagte: false, offline: false };
+
+const TYP = { tisch: 'Tisch', reservation: 'Tisch', kino: 'Kino-Night', workshop: 'Workshop', kidscamp: 'Kidscamp', geburtstag: 'Geburtstag', event: 'Anlass', warteliste: 'Warteliste', membership: 'Membership', geschenk: 'Geschenk', intern: 'Termin', 'keramik-privat': 'Privat-Session', halloween: 'Halloween Party', monetkids: 'Monet Kids', monetadults: 'Monet Adults', teamevent: 'Firmenanlass', sonstiges: 'Anfrage' };
+const STATUS = { neu: ['Anfrage', 'rot'], 'bestätigt': ['bestätigt', 'ok'], gewonnen: ['bestätigt', 'ok'], abgelehnt: ['abgelehnt', 'grau'], storniert: ['storniert', 'grau'], verloren: ['storniert', 'grau'], archiviert: ['archiviert', 'grau'], offeriert: ['offeriert', 'warn'], 'follow-up': ['Follow-up', 'warn'] };
+const WEG = ['abgelehnt', 'storniert', 'verloren', 'archiviert'];
+const WT = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+const MON = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const p2 = n => String(n).padStart(2, '0');
+const iso = d => d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate());
+const zuDate = s => { const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(NaN); };
+const plusTage = (s, n) => { const d = zuDate(s); d.setDate(d.getDate() + n); return iso(d); };
+const heute = () => iso(new Date());
+const datumLang = s => { const d = zuDate(s); return WT[d.getDay()] + ', ' + d.getDate() + '. ' + MON[d.getMonth()] + (d.getFullYear() !== new Date().getFullYear() ? ' ' + d.getFullYear() : ''); };
+const ersteZeit = t => (String(t || '').match(/([01]?\d|2[0-3])[:.]([0-5]\d)/) || []).slice(1, 3).map((x, i) => i ? x : p2(x)).join(':') || '99:99';
+const istWeg = t => WEG.includes(t.status);
+const personenZahl = t => parseInt(t.personen, 10) || 0;
+
+/* ---------- Daten ---------- */
+async function ruf(action) {
+  const r = await fetch(API + '?action=' + action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S.login) });
+  return r.json();
+}
+function ausServer(host, ev) {
+  const liste = [];
+  (host.bookings || []).forEach(b => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '') || b.type === 'event') return;
+    liste.push({ art: 'buchung', id: b.id, datum: b.date, zeit: b.time || '', typ: b.type, name: b.name, personen: b.persons, status: b.status, bezahlt: +b.paid === 1, preis: b.price, telefon: b.phone, email: b.email, nachricht: b.message, welt: b.world, erfasst: b.ts });
+  });
+  ((ev && ev.events) || []).forEach(e => {
+    const teiln = ((ev.bookings || []).filter(b => b.plan === e.id && b.status !== 'archiviert'));
+    liste.push({ art: 'anlass', id: e.id, datum: e.date, zeit: [e.time_start, e.time_end].filter(Boolean).join('–'), typ: 'event', name: e.title, personen: e.used, kapazitaet: e.capacity, status: 'bestätigt', bezahlt: true, sichtbar: +e.visible === 1, teilnehmer: teiln, seite: e.page });
+  });
+  return liste.sort((a, b) => (a.datum + ersteZeit(a.zeit)).localeCompare(b.datum + ersteZeit(b.zeit)));
+}
+function beispiel() {
+  const h = heute(), t = n => plusTage(h, n);
+  const b = (id, d, zeit, type, name, persons, status, paid, extra = {}) => Object.assign({ id, date: t(d), time: zeit, type, name, persons, status, paid, price: '', phone: '079 000 00 0' + (id.length % 10), email: name.toLowerCase().replace(/[^a-z]+/g, '.') + '@beispiel.ch', message: '', world: '', ts: t(-3) + ' 10:00:00' }, extra);
+  return ausServer({ bookings: [
+    b('B-DEMO1', 0, '10:30', 'tisch', 'Sandra Keller', '2', 'bestätigt', 0), b('B-DEMO2', 0, '14:00–17:00', 'geburtstag', 'Familie Brunner', '8', 'bestätigt', 1, { price: '450', message: 'Thema Einhorn, ein Kind mit Nussallergie.' }),
+    b('B-DEMO3', 0, '16:00', 'tisch', 'Marco Rossi', '4', 'neu', 0), b('B-DEMO4', 1, '13:30', 'keramik-privat', 'Lea Zimmermann', '3', 'bestätigt', 1),
+    b('B-DEMO5', 2, '18:00', 'teamevent', 'Kanzlei Huber & Partner', '12', 'neu', 0, { message: 'Offerte für Firmenanlass mit Apéro gewünscht.' }), b('B-DEMO6', 4, '11:00', 'tisch', 'Nina Graf', '2', 'storniert', 0),
+    b('B-DEMO7', 6, '09:00–12:00', 'kidscamp', 'Tim Meier', '1', 'bestätigt', 1), b('B-DEMO8', 9, '15:00', 'tisch', 'Petra Vogel', '5', 'bestätigt', 0), b('B-DEMO9', -2, '14:00', 'tisch', 'Hans Frei', '2', 'bestätigt', 0)
+  ] }, { events: [{ id: 'holzhaus-demo', title: 'Weihnachtsworkshop Holzhaus', date: t(5), time_start: '16:00', time_end: '19:00', capacity: 15, used: 9, visible: 1, page: 'weihnachtsworkshop-holzhaus.html' }],
+    bookings: [{ id: 'B-EV1', plan: 'holzhaus-demo', name: 'Carla Weber', persons: '2', paid: 1, status: 'bestätigt', phone: '079 000 00 11', email: 'carla.weber@beispiel.ch' }, { id: 'B-EV2', plan: 'holzhaus-demo', name: 'Jonas Baumann', persons: '4', paid: 1, status: 'bestätigt', phone: '', email: 'jonas.baumann@beispiel.ch' }, { id: 'B-EV3', plan: 'holzhaus-demo', name: 'Mia Keller', persons: '3', paid: 0, status: 'neu', phone: '', email: 'mia.keller@beispiel.ch' }] });
+}
+async function lade() {
+  if (DEMO) { S.termine = beispiel(); S.stand = new Date(); S.offline = false; return; }
+  try {
+    const host = await ruf('host_data');
+    if (!host.ok) { const f = new Error('login'); f.login = true; throw f; }
+    let ev = null; try { ev = await ruf('events_admin'); if (!ev.ok) ev = null; } catch (e) { }
+    S.termine = ausServer(host, ev); S.stand = new Date(); S.offline = false;
+    if (S.dauerhaft) try { localStorage.setItem(K_CACHE, JSON.stringify({ stand: S.stand.toISOString(), termine: S.termine })); } catch (e) { }
+  } catch (e) {
+    if (e.login) throw e;
+    /* Kein Netz: letzten gespeicherten Stand zeigen, falls vorhanden. */
+    let c = null; try { c = JSON.parse(localStorage.getItem(K_CACHE)); } catch (x) { }
+    if (c && S.dauerhaft) { S.termine = c.termine; S.stand = new Date(c.stand); S.offline = true; } else throw e;
+  }
+}
+
+/* ---------- Anmeldung ---------- */
+function zeigeLogin(hinweis) {
+  app.innerHTML = `<main><div class="gate"><img class="logo" src="assets/logo/logo-dark.png" alt="LOVE Creative" width="84" height="84">
+    <h1>Termine</h1><p class="sub">Alle Buchungen und Anlässe auf einen Blick</p>
+    <form class="card" id="f">
+      ${hinweis ? '<div class="msg err" role="alert">' + esc(hinweis) + '</div>' : ''}
+      <div class="feld"><label for="u">Benutzer (wie im Host-Bereich)</label><input id="u" name="user" autocomplete="username" required></div>
+      <div class="feld"><label for="p">Passwort</label><input id="p" name="pass" type="password" autocomplete="current-password" required></div>
+      <div class="feld"><label class="check"><input type="checkbox" name="merken"> Auf diesem Gerät angemeldet bleiben</label><p class="muted" style="margin-top:.3rem">Nur auf deinem eigenen Gerät ankreuzen. Die App zeigt dann auch ohne Internet den letzten Stand.</p></div>
+      <div class="msg err hidden" role="alert" id="err"></div>
+      <button class="btn" style="width:100%">Anmelden</button>
+    </form></div></main>`;
+  $('#f').addEventListener('submit', async ev => {
+    ev.preventDefault(); const fd = new FormData(ev.target), m = $('#err');
+    S.login = { user: String(fd.get('user')).trim().toLowerCase(), pass: fd.get('pass') }; S.dauerhaft = !!fd.get('merken');
+    try {
+      await lade();
+      try { (S.dauerhaft ? localStorage : sessionStorage).setItem(K_LOGIN, JSON.stringify(S.login)); } catch (e) { }
+      zeige();
+    } catch (e) { S.login = null; m.textContent = e.login ? 'Benutzer oder Passwort stimmt nicht.' : 'Keine Verbindung zum Server. Bitte prüfe das Internet.'; m.classList.remove('hidden'); }
+  });
+}
+function abmelden() {
+  S.login = null; S.termine = [];
+  try { sessionStorage.removeItem(K_LOGIN); localStorage.removeItem(K_LOGIN); localStorage.removeItem(K_CACHE); } catch (e) { }
+  zeigeLogin();
+}
+
+/* ---------- Darstellung ---------- */
+function gefiltert() {
+  const q = S.suche.trim().toLowerCase();
+  return S.termine.filter(t => (S.abgesagte || !istWeg(t)) && (!q || [t.name, t.email, t.telefon, t.id, TYP[t.typ] || t.typ].join(' ').toLowerCase().includes(q)));
+}
+function terminHtml(t) {
+  const st = STATUS[t.status] || [t.status || '', ''];
+  const kl = t.art === 'anlass' ? 'anlass' : istWeg(t) ? 'weg' : t.status === 'neu' ? 'anfrage' : '';
+  const rechts = t.art === 'anlass'
+    ? `<span class="chip ok">${t.personen} von ${t.kapazitaet} Plätzen</span>${t.sichtbar ? '' : '<span class="chip grau">nicht sichtbar</span>'}`
+    : `<span class="chip ${st[1]}">${esc(st[0])}</span>${t.bezahlt ? '<span class="chip ok">bezahlt</span>' : ''}`;
+  return `<button class="termin ${kl}" data-id="${esc(t.id)}"><span class="zeit">${esc(t.zeit || 'ganztags')}</span>
+    <span class="wer"><b>${esc(t.name || 'ohne Namen')}</b><div>${esc(TYP[t.typ] || t.typ || '')}${t.art !== 'anlass' && personenZahl(t) ? ' · ' + personenZahl(t) + (personenZahl(t) === 1 ? ' Person' : ' Personen') : ''}</div></span>
+    <span class="rechts">${rechts}</span></button>`;
+}
+function tagBlock(datum, liste) {
+  const pers = liste.filter(t => !istWeg(t)).reduce((s, t) => s + personenZahl(t), 0);
+  return `<div class="tagkopf${datum === heute() ? ' heute' : ''}"><h2>${datumLang(datum)}</h2><span class="muted">${liste.length} ${liste.length === 1 ? 'Termin' : 'Termine'}${pers ? ' · ' + pers + (pers === 1 ? ' Person' : ' Personen') : ''}</span></div>` + liste.map(terminHtml).join('');
+}
+function zeige() {
+  const h = heute(), alle = S.termine.filter(t => !istWeg(t));
+  const woEnde = plusTage(h, 6);
+  const hTerm = alle.filter(t => t.datum === h), wTerm = alle.filter(t => t.datum >= h && t.datum <= woEnde), anfragen = alle.filter(t => t.status === 'neu' && t.datum >= h);
+  const stand = S.stand ? p2(S.stand.getHours()) + ':' + p2(S.stand.getMinutes()) : '–';
+  app.innerHTML = `${DEMO ? '<div class="hinweis">Beispieldaten zur Vorschau · keine echten Buchungen</div>' : ''}${S.offline ? '<div class="hinweis">Keine Verbindung · gezeigt wird der letzte gespeicherte Stand</div>' : ''}
+    <header class="top"><img src="assets/logo/logo-dark.png" alt="" width="34" height="34"><div class="t">Termine</div>
+      <div class="stand">Stand ${stand} Uhr${S.offline ? '<br>vom ' + S.stand.getDate() + '.' + (S.stand.getMonth() + 1) + '.' : ''}</div><button id="neu">Aktualisieren</button>${DEMO ? '' : '<button id="aus">Abmelden</button>'}</header>
+    <main>
+      <div class="zahlen">
+        <div class="zahl"><b>${hTerm.length}</b><span>${hTerm.length === 1 ? 'Termin' : 'Termine'} heute · ${hTerm.reduce((s, t) => s + personenZahl(t), 0)} Pers.</span></div>
+        <div class="zahl"><b>${wTerm.length}</b><span>in den nächsten 7 Tagen</span></div>
+        <div class="zahl${anfragen.length ? ' akzent' : ''}"><b>${anfragen.length}</b><span>offene ${anfragen.length === 1 ? 'Anfrage' : 'Anfragen'}</span></div>
+      </div>
+      <div class="leiste">
+        <div class="seg" role="group" aria-label="Ansicht">${[['agenda', 'Agenda'], ['monat', 'Monat'], ['offen', 'Offen']].map(a => `<button data-a="${a[0]}" aria-pressed="${S.ansicht === a[0]}">${a[1]}</button>`).join('')}</div>
+        <input type="search" id="suche" placeholder="Name, Telefon oder Buchungsnummer" aria-label="Suchen" value="${esc(S.suche)}">
+        <label class="check" style="margin:0"><input type="checkbox" id="abg"${S.abgesagte ? ' checked' : ''}> Abgesagte zeigen</label>
+      </div>
+      <div id="liste"></div>
+      <p class="muted" style="margin-top:1.5rem">Bestätigen, absagen und manuell einbuchen: <a href="host.html">im Host-Bereich</a>.</p>
+    </main>`;
+  $('#neu').onclick = async () => { $('#neu').textContent = 'Lädt …'; try { await lade(); } catch (e) { if (e.login) return abmelden(); } zeige(); };
+  if ($('#aus')) $('#aus').onclick = abmelden;
+  document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { S.ansicht = b.dataset.a; zeige(); });
+  $('#suche').oninput = e => { S.suche = e.target.value; liste(); };
+  $('#abg').onchange = e => { S.abgesagte = e.target.checked; liste(); };
+  liste();
+}
+function liste() {
+  const el = $('#liste'), h = heute(), alle = gefiltert();
+  let html = '';
+  if (S.ansicht === 'agenda') {
+    const ab = S.frueher ? plusTage(h, -30) : h, sicht = alle.filter(t => t.datum >= ab), tage = {};
+    sicht.forEach(t => (tage[t.datum] = tage[t.datum] || []).push(t));
+    if (!S.frueher) html += '<button class="btn sec" id="fr" style="margin-bottom:.2rem">Frühere Termine zeigen</button>';
+    if (!tage[h] && !S.suche) html += `<div class="tagkopf heute"><h2>${datumLang(h)}</h2></div><p class="muted">Heute steht nichts im Kalender.</p>`;
+    html += Object.keys(tage).sort().map(d => tagBlock(d, tage[d])).join('') || (S.suche ? '<p class="muted">Kein Termin passt zur Suche.</p>' : '');
+  } else if (S.ansicht === 'offen') {
+    const offen = alle.filter(t => t.status === 'neu').sort((a, b) => a.datum.localeCompare(b.datum));
+    html = offen.length ? '<p class="muted">Anfragen, die noch auf eine Antwort warten, nach Datum des Termins.</p>' + offen.map(t => `<div class="tagkopf"><h2 style="font-size:.98rem">${datumLang(t.datum)}</h2></div>` + terminHtml(t)).join('') : '<p class="muted">Keine offenen Anfragen.</p>';
+  } else {
+    const m = S.monat || h.slice(0, 7), erster = new Date(+m.slice(0, 4), +m.slice(5, 7) - 1, 1), anz = new Date(+m.slice(0, 4), +m.slice(5, 7), 0).getDate();
+    const versatz = (erster.getDay() + 6) % 7, zellen = [];
+    for (let i = 0; i < versatz; i++) zellen.push('<button class="leer" disabled aria-hidden="true"></button>');
+    for (let d = 1; d <= anz; d++) {
+      const dat = m + '-' + p2(d), tt = alle.filter(t => t.datum === dat), aktiv = tt.filter(t => !istWeg(t)), anf = aktiv.filter(t => t.status === 'neu').length, pers = aktiv.reduce((s, t) => s + personenZahl(t), 0);
+      zellen.push(`<button data-tag="${dat}" class="${dat === h ? 'heute' : ''}" aria-pressed="${S.tag === dat}" aria-label="${datumLang(dat)}, ${aktiv.length} Termine"><span class="n">${d}</span>${aktiv.length ? `<span class="anz">${aktiv.length}</span>` : ''}${anf ? `<span class="anf">${anf} offen</span>` : ''}${pers ? `<span class="pers muted" style="font-size:.7rem">${pers} Pers.</span>` : ''}</button>`);
+    }
+    const tagListe = S.tag ? alle.filter(t => t.datum === S.tag) : [];
+    html = `<div class="card"><div class="monatnav"><button id="mz" aria-label="Monat zurück">‹</button><b>${MON[+m.slice(5, 7) - 1]} ${m.slice(0, 4)}</b><button id="mv" aria-label="Monat vor">›</button><button class="btn sec" id="mh" style="min-height:40px;padding:.3rem .9rem;width:auto">Heute</button></div>
+      <div class="kal">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<div class="wt">${w}</div>`).join('')}${zellen.join('')}</div></div>
+      ${S.tag ? (tagListe.length ? tagBlock(S.tag, tagListe) : `<div class="tagkopf"><h2>${datumLang(S.tag)}</h2></div><p class="muted">An diesem Tag steht nichts im Kalender.</p>`) : '<p class="muted">Tippe auf einen Tag für die Einzelheiten.</p>'}`;
+  }
+  el.innerHTML = html;
+  if ($('#fr')) $('#fr').onclick = () => { S.frueher = true; liste(); };
+  const mon = n => { const m = S.monat || h.slice(0, 7), d = new Date(+m.slice(0, 4), +m.slice(5, 7) - 1 + n, 1); S.monat = d.getFullYear() + '-' + p2(d.getMonth() + 1); S.tag = null; liste(); };
+  if ($('#mz')) { $('#mz').onclick = () => mon(-1); $('#mv').onclick = () => mon(1); $('#mh').onclick = () => { S.monat = h.slice(0, 7); S.tag = h; liste(); }; }
+  el.querySelectorAll('[data-tag]').forEach(b => b.onclick = () => { S.tag = b.dataset.tag; liste(); });
+  el.querySelectorAll('.termin').forEach(b => b.onclick = () => detail(S.termine.find(t => t.id === b.dataset.id)));
+}
+function detail(t) {
+  if (!t) return;
+  const st = STATUS[t.status] || [t.status || '', ''];
+  const tel = t.telefon ? `<a href="tel:${esc(String(t.telefon).replace(/[^+\d]/g, ''))}">${esc(t.telefon)}</a>` : '–';
+  const mail = t.email ? `<a href="mailto:${esc(t.email)}">${esc(t.email)}</a>` : '–';
+  const zeile = (k, v) => v ? `<dt>${k}</dt><dd>${v}</dd>` : '';
+  dlg.innerHTML = t.art === 'anlass'
+    ? `<h2>${esc(t.name)}</h2><dl>${zeile('Datum', datumLang(t.datum))}${zeile('Zeit', esc(t.zeit))}${zeile('Plätze', t.personen + ' von ' + t.kapazitaet + ' belegt')}${zeile('Online', t.sichtbar ? 'sichtbar und buchbar' : 'nicht sichtbar')}</dl>
+       <h3 style="font-family:var(--ff);font-size:.95rem;color:var(--ink)">Anmeldungen</h3>
+       ${t.teilnehmer.length ? `<ul class="teiln">${t.teilnehmer.map(b => `<li><span><b>${esc(b.name)}</b> · ${esc(b.persons)} ${+b.persons === 1 ? 'Person' : 'Personen'}${b.phone ? ' · <a href="tel:' + esc(String(b.phone).replace(/[^+\d]/g, '')) + '">' + esc(b.phone) + '</a>' : ''}</span><span class="chip ${+b.paid === 1 ? 'ok' : 'warn'}">${+b.paid === 1 ? 'bezahlt' : 'Zahlung offen'}</span></li>`).join('')}</ul>` : '<p class="muted">Noch keine Anmeldungen.</p>'}
+       <div class="dlgfuss"><a class="btn sec" href="host.html">Im Host-Bereich öffnen</a><button class="btn" id="zu">Schliessen</button></div>`
+    : `<h2>${esc(t.name || 'ohne Namen')}</h2><p><span class="chip">${esc(TYP[t.typ] || t.typ || '')}</span> <span class="chip ${st[1]}">${esc(st[0])}</span> ${t.bezahlt ? '<span class="chip ok">bezahlt</span>' : ''}</p>
+       <dl>${zeile('Datum', datumLang(t.datum))}${zeile('Zeit', esc(t.zeit))}${zeile('Personen', esc(t.personen))}${zeile('Telefon', tel)}${zeile('E-Mail', mail)}${zeile('Bereich', esc(t.welt))}${zeile('Preis', t.preis ? 'CHF ' + esc(t.preis) : '')}${zeile('Nachricht', esc(t.nachricht))}${zeile('Buchung', esc(t.id))}${zeile('Eingang', esc(String(t.erfasst || '').slice(0, 16)))}</dl>
+       <div class="dlgfuss"><a class="btn sec" href="host.html">Im Host-Bereich bearbeiten</a><button class="btn" id="zu">Schliessen</button></div>`;
+  $('#zu', dlg).onclick = () => dlg.close();
+  dlg.showModal();
+}
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+/* ---------- Start ---------- */
+(async () => {
+  if ('serviceWorker' in navigator && !LOKAL) navigator.serviceWorker.register('sw-apps.js').catch(() => { });
+  if (DEMO) { await lade(); return zeige(); }
+  try { const l = localStorage.getItem(K_LOGIN); if (l) { S.login = JSON.parse(l); S.dauerhaft = true; } else { const s = sessionStorage.getItem(K_LOGIN); if (s) S.login = JSON.parse(s); } } catch (e) { }
+  if (!S.login) return zeigeLogin();
+  try { await lade(); zeige(); } catch (e) { S.login = null; zeigeLogin(e.login ? 'Bitte melde dich neu an.' : 'Keine Verbindung zum Server. Bitte prüfe das Internet.'); }
+  /* Alle drei Minuten neu laden, solange die App offen ist. */
+  setInterval(async () => { if (S.login && !dlg.open && document.visibilityState === 'visible' && !(document.activeElement && document.activeElement.id === 'suche')) { try { await lade(); zeige(); } catch (e) { } } }, 180000);
+})();
+</script>
+</body>
+</html>

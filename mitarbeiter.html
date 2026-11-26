@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Team — LOVE Creative</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#337357">
+<link rel="manifest" href="mitarbeiter.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/app/team-192.png">
+<link rel="apple-touch-icon" href="assets/app/team-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#337357;--green-d:#27593f;--asparagus:#6D9F71;--mimi:#FFDBE5;--rose:#E27396;--rose-d:#b9456b;--cream:#FBF7F1;--card:#fff;--ink:#2C3A31;--soft:#56685D;--line:rgba(51,115,87,.18);--line-s:rgba(51,115,87,.09);--warn:#9a5b00;--warn-bg:#fff3d6;--ok-bg:#e3f1e6;--r:16px;
+  --ff-d:"Playfair Display",Georgia,serif;--ff:"Lexend","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--ff);color:var(--ink);background:var(--cream);font-size:16px;line-height:1.5;min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+h1,h2,h3{font-family:var(--ff-d);color:var(--green);line-height:1.2;text-wrap:balance}
+h1{font-size:1.55rem}h2{font-size:1.2rem}h3{font-size:1rem;font-family:var(--ff);font-weight:600;color:var(--ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:30;background:var(--green);color:#fff;display:flex;align-items:center;gap:.75rem;padding:.6rem clamp(.9rem,3vw,1.6rem);padding-top:calc(.6rem + env(safe-area-inset-top))}
+.top img{height:34px;width:34px;border-radius:50%;background:#fff}
+.top .t{font-family:var(--ff-d);font-weight:700;font-size:1.1rem;flex:1;min-width:0}
+.top .wer{font-size:.82rem;opacity:.9;text-align:right;line-height:1.25}
+.top button{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:999px;padding:.4rem .8rem;font-size:.82rem;font-weight:600;cursor:pointer}
+.test{background:var(--warn-bg);color:var(--warn);font-size:.8rem;font-weight:600;text-align:center;padding:.3rem .8rem}
+main{max-width:980px;margin:0 auto;padding:1.1rem clamp(.9rem,3vw,1.6rem) 2rem}
+.card{background:var(--card);border:1px solid var(--line-s);border-radius:var(--r);padding:1.1rem;margin-bottom:1rem;box-shadow:0 6px 20px rgba(21,84,55,.05)}
+.card>h2{margin-bottom:.7rem}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.sp{justify-content:space-between}
+.muted{color:var(--soft);font-size:.88rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:1px solid var(--green);background:var(--green);color:#fff;border-radius:999px;padding:.62rem 1.15rem;font-weight:600;font-size:.93rem;cursor:pointer;min-height:44px;text-decoration:none}
+.btn:hover{background:var(--green-d)}
+.btn.sec{background:#fff;color:var(--green)}
+.btn.sec:hover{background:var(--ok-bg)}
+.btn.rot{background:var(--rose-d);border-color:var(--rose-d)}
+.btn.klein{min-height:36px;padding:.35rem .8rem;font-size:.84rem}
+.btn:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+label{display:block;font-size:.84rem;font-weight:600;margin-bottom:.25rem}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:.6rem .75rem;background:#fff;min-height:44px}
+textarea{min-height:80px}
+.feld{margin-bottom:.75rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}}
+.chip{display:inline-block;border-radius:999px;padding:.12rem .6rem;font-size:.76rem;font-weight:600;background:var(--line-s);color:var(--green);white-space:nowrap}
+.chip.ok{background:var(--ok-bg)}.chip.warn{background:var(--warn-bg);color:var(--warn)}.chip.rot{background:var(--mimi);color:var(--rose-d)}
+.msg{border-radius:12px;padding:.6rem .8rem;font-size:.9rem;margin:.6rem 0}
+.msg.err{background:var(--mimi);color:#8a2346}.msg.ok{background:var(--ok-bg);color:var(--green-d)}
+/* Stempelkarte */
+.stempel{text-align:center;padding:1.6rem 1.1rem}
+.stempel .uhr{font-family:var(--ff-d);font-size:2.6rem;color:var(--green);font-variant-numeric:tabular-nums;line-height:1.1}
+.stempel .zustand{margin:.35rem 0 1.1rem;font-size:1rem}
+.stempel .btn{font-size:1.1rem;padding:1rem 2.2rem;min-width:240px}
+/* Listen und Tabellen */
+.liste{list-style:none}
+.liste li{display:flex;gap:.7rem;align-items:center;justify-content:space-between;padding:.65rem 0;border-top:1px solid var(--line-s);flex-wrap:wrap}
+.liste li:first-child{border-top:0}
+.liste .haupt{flex:1;min-width:180px}
+.liste .haupt b{font-weight:600}
+.tagkopf{font-weight:600;color:var(--green);margin:.9rem 0 .1rem;font-size:.92rem}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th{text-align:left;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--soft);font-weight:600;padding:.4rem .5rem;border-bottom:1px solid var(--line)}
+td{padding:.55rem .5rem;border-bottom:1px solid var(--line-s);vertical-align:top}
+td.z,th.z{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.klick{cursor:pointer}tr.klick:hover{background:var(--cream)}
+tfoot td{font-weight:700;border-bottom:0;border-top:2px solid var(--line)}
+.monatnav{display:flex;align-items:center;gap:.5rem}
+.monatnav b{min-width:9.5rem;text-align:center}
+.monatnav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:1.1rem}
+/* Navigation unten */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);overflow-x:auto}
+nav.tabs button{flex:1 1 0;max-width:150px;min-width:0;border:0;background:none;padding:.5rem .35rem .55rem;font-size:.72rem;font-weight:600;color:var(--soft);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.15rem;position:relative}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button span:not(.punkt){max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:480px){nav.tabs button{font-size:.6rem;letter-spacing:-.01em;padding-left:0;padding-right:0}}
+nav.tabs button[aria-current="page"]{color:var(--green)}
+nav.tabs button[aria-current="page"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;background:var(--green);border-radius:0 0 3px 3px}
+nav.tabs .punkt{position:absolute;top:4px;right:calc(50% - 18px);background:var(--rose);color:#fff;border-radius:999px;font-size:.62rem;min-width:16px;height:16px;line-height:16px;padding:0 4px}
+/* Anmeldung */
+.gate{max-width:420px;margin:6vh auto 0}
+.gate .logo{display:block;width:84px;height:84px;margin:0 auto 1rem;border-radius:50%}
+.gate h1{text-align:center;margin-bottom:.3rem}
+.gate p.sub{text-align:center;color:var(--soft);margin-bottom:1.2rem;font-size:.93rem}
+.check{display:flex;gap:.5rem;align-items:center;font-weight:400;font-size:.9rem}
+.check input{width:20px;height:20px;min-height:0}
+/* Dialog */
+dialog{margin:auto;border:0;border-radius:var(--r);padding:1.2rem;width:min(460px,calc(100vw - 1.6rem));box-shadow:0 20px 60px rgba(0,0,0,.25);color:var(--ink)}
+dialog::backdrop{background:rgba(30,50,40,.45)}
+dialog h2{margin-bottom:.8rem}
+.dlgfuss{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1rem;flex-wrap:wrap}
+/* Studio-Gerät */
+.studio{max-width:900px;margin:0 auto;padding:1.2rem}
+.studio .uhr{font-family:var(--ff-d);font-size:3.2rem;color:var(--green);text-align:center;font-variant-numeric:tabular-nums}
+.studio .dat{text-align:center;color:var(--soft);margin-bottom:1.2rem}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem}
+.pgrid button{background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:1.2rem .8rem;font-size:1.15rem;font-weight:600;cursor:pointer;min-height:96px}
+.pgrid button.da{border-color:var(--green);background:var(--ok-bg)}
+.pgrid button small{display:block;font-weight:400;font-size:.8rem;color:var(--soft);margin-top:.25rem}
+.pinfeld{font-size:2rem;letter-spacing:.5em;text-align:center;min-height:3rem;font-variant-numeric:tabular-nums}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem}
+.pad button{min-height:60px;font-size:1.4rem;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.pausen{display:flex;gap:.4rem;flex-wrap:wrap;margin:.3rem 0 .6rem}
+.pausen button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.4rem .8rem;cursor:pointer;min-height:40px}
+.pausen button[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.gross{font-family:var(--ff-d);font-size:1.6rem;color:var(--green);text-align:center;padding:2rem 1rem}
+.nurdruck{display:none}
+@media print{
+  body{background:#fff;padding:0}.top,nav.tabs,.test,.nichtdruck,.btn,.monatnav button{display:none!important}
+  .card{border:0;box-shadow:none;padding:0}.nurdruck{display:block}
+  .unterschrift{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3.5rem}
+  .unterschrift div{border-top:1px solid #000;padding-top:.3rem;font-size:.85rem}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+<script>
+'use strict';
+/* LOVE Creative — Team-App: Arbeitszeit, Einsätze, Abwesenheiten.
+   Daten liegen zentral auf dem Server (team.php). Lokal (Vorschau) spricht die App mit der Testumgebung. */
+const LOKAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const API = LOKAL ? 'https://test-api.lovecreative.ch/api/team.php' : 'https://api.lovecreative.ch/api/team.php';
+const K_TOKEN = 'love.team.sitzung.v1', K_GERAET = 'love.team.geraet.v1';
+const $ = (s, r = document) => r.querySelector(s);
+const app = $('#app'), dlg = $('#dlg');
+const S = { token: null, ich: null, view: 'heute', monat: null, person: null, offen: null, diff: 0, personen: [], test: false, alleAbw: false, antraege: 0 };
+
+const FEHLER = {
+  'login-falsch': 'E-Mail oder Passwort stimmt nicht.', 'gesperrt': 'Zu viele Fehlversuche. Bitte in 15 Minuten nochmals versuchen.',
+  'nicht-angemeldet': 'Deine Sitzung ist abgelaufen. Bitte melde dich neu an.', 'keine-berechtigung': 'Dafür fehlt dir die Berechtigung.',
+  'passwort-zu-kurz': 'Das Passwort braucht mindestens 10 Zeichen.', 'passwort-falsch': 'Das bisherige Passwort stimmt nicht.',
+  'pin-ungueltig': 'Die PIN besteht aus 4 bis 6 Ziffern.', 'pin-falsch': 'Die PIN stimmt nicht.', 'keine-pin': 'Für diese Person ist noch keine PIN gesetzt. Sie kann sie in der App unter «Konto» festlegen.',
+  'angaben-fehlen': 'Bitte fülle alle Felder richtig aus.', 'email-vergeben': 'Diese E-Mail-Adresse ist schon vergeben.',
+  'schon-eingestempelt': 'Du bist schon eingestempelt.', 'nicht-eingestempelt': 'Du bist nicht eingestempelt.', 'noch-eingestempelt': 'In diesem Monat ist noch eine Zeit offen. Bitte zuerst ausstempeln.',
+  'zeit-ungueltig': 'Beginn und Ende passen nicht zusammen.', 'monat-abgeschlossen': 'Dieser Monat ist abgeschlossen. Die Geschäftsführung kann ihn wieder öffnen.',
+  'einladung-ungueltig': 'Dieser Einladungs-Link ist abgelaufen oder schon benutzt. Bitte verlange einen neuen.', 'schon-beantwortet': 'Dieser Einsatz ist schon beantwortet.',
+  'schon-eingerichtet': 'Die App ist schon eingerichtet.', 'host-login-falsch': 'Das Host-Login stimmt nicht.', 'eigene-rolle': 'Die eigene Rolle kannst du nicht ändern.',
+  'geraet-unbekannt': 'Dieses Gerät ist nicht mehr als Studio-Gerät angemeldet.', 'netz': 'Keine Verbindung zum Server. Bitte prüfe das Internet.', 'server': 'Der Server meldet einen Fehler. Bitte versuche es nochmals.'
+};
+const ROLLE = { gf: 'Geschäftsführung', leitung: 'Leitung', team: 'Team' };
+const ABW = { ferien: 'Ferien', krank: 'Krankheit', unfall: 'Unfall', frei: 'Freier Tag', andere: 'Anderes' };
+const WT = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+const MON = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+const IC = {
+  heute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  zeiten: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4h14v16H5zM9 9h6M9 13h6M9 17h3"/></svg>',
+  einsaetze: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',
+  abwesenheit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v2M5 12H3M21 12h-2M6 6l1.5 1.5M18 6l-1.5 1.5"/><circle cx="12" cy="12" r="4"/><path d="M4 20h16"/></svg>',
+  team: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.3"/><path d="M3 19c0-3.3 2.7-6 6-6s6 2.700 6 6M15.500 13.500c2.800 0 5 2 5 5"/></svg>',
+  verwaltung: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.600 5.600l2.100 2.100M16.300 16.300l2.100 2.100M5.600 18.400l2.100-2.100M16.300 7.700l2.100-2.100"/></svg>',
+  konto: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.400 3.600-8 8-8s8 3.600 8 8"/></svg>'
+};
+
+/* ---------- Helfer ---------- */
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const p2 = n => String(n).padStart(2, '0');
+const jetzt = () => new Date(Date.now() + S.diff);                       // Uhr des Servers (Zürich)
+const zuDate = s => { const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/); return m ? new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)) : new Date(NaN); };
+const iso = d => d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate());
+const uhr = s => String(s).slice(11, 16);
+const datumKurz = s => { const d = zuDate(s); return WT[d.getDay()].slice(0, 2) + ', ' + d.getDate() + '.' + (d.getMonth() + 1) + '.'; };
+const datumLang = s => { const d = zuDate(s); return WT[d.getDay()] + ', ' + d.getDate() + '. ' + MON[d.getMonth()] + ' ' + d.getFullYear(); };
+const monatText = m => MON[+m.slice(5, 7) - 1] + ' ' + m.slice(0, 4);
+const monatPlus = (m, n) => { const d = new Date(+m.slice(0, 4), +m.slice(5, 7) - 1 + n, 1); return d.getFullYear() + '-' + p2(d.getMonth() + 1); };
+const dauer = min => Math.floor(min / 60) + ':' + p2(min % 60);
+const dezimal = min => (min / 60).toFixed(2);
+const chef = () => S.ich && S.ich.rolle !== 'team';
+const gf = () => S.ich && S.ich.rolle === 'gf';
+const meldung = e => FEHLER[e && e.code] || FEHLER.server;
+/* Pause nach Arbeitsgesetz als Vorschlag: über 5,5 h 15 Min., über 7 h 30 Min., über 9 h 60 Min. */
+const pauseVorschlag = min => min > 540 ? 60 : min > 420 ? 30 : min > 330 ? 15 : 0;
+
+async function api(action, daten = {}) {
+  let r, j;
+  try {
+    r = await fetch(API + '?action=' + action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ token: S.token }, daten)) });
+    j = await r.json();
+  } catch (e) { const f = new Error('netz'); f.code = 'netz'; throw f; }
+  if (!j.ok) {
+    if (j.error === 'nicht-angemeldet' && S.token) { vergiss(); zeigeLogin(FEHLER['nicht-angemeldet']); }
+    const f = new Error(j.error); f.code = j.error; throw f;
+  }
+  if (j.zeit) S.diff = zuDate(j.zeit).getTime() - Date.now();
+  return j;
+}
+function merke(sitzung, dauerhaft) {
+  S.token = sitzung.token;
+  try { sessionStorage.setItem(K_TOKEN, S.token); if (dauerhaft) localStorage.setItem(K_TOKEN, S.token); } catch (e) { }
+}
+function vergiss() {
+  S.token = null; S.ich = null;
+  try { sessionStorage.removeItem(K_TOKEN); localStorage.removeItem(K_TOKEN); } catch (e) { }
+}
+function oeffne(html, beiAbsenden) {
+  dlg.innerHTML = '<form method="dialog">' + html + '</form>';
+  const form = $('form', dlg);
+  form.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    if (ev.submitter && ev.submitter.value === 'zu') { dlg.close(); return; }
+    const knopf = ev.submitter; if (knopf) knopf.disabled = true;
+    try { await beiAbsenden(new FormData(form), ev.submitter ? ev.submitter.value : ''); dlg.close(); }
+    catch (e) { let m = $('.msg', form); if (!m) { m = document.createElement('div'); m.className = 'msg err'; m.setAttribute('role', 'alert'); $('.dlgfuss', form).before(m); } m.textContent = meldung(e); if (knopf) knopf.disabled = false; }
+  });
+  dlg.showModal();
+}
+const fuss = (text, extra = '') => '<div class="dlgfuss">' + extra + '<button class="btn sec" value="zu" formnovalidate>Abbrechen</button><button class="btn" value="ok">' + text + '</button></div>';
+
+/* ---------- Start ---------- */
+async function start() {
+  S.monat = iso(new Date()).slice(0, 7);
+  const einl = (location.hash.match(/einladung=([a-f0-9]{64})/) || [])[1];
+  const geraet = (() => { try { return localStorage.getItem(K_GERAET); } catch (e) { return null; } })();
+  let st;
+  try { st = await api('status'); } catch (e) { app.innerHTML = rahmenLeer('<div class="msg err" role="alert">' + esc(meldung(e)) + '</div><button class="btn" onclick="location.reload()">Nochmals versuchen</button>'); return; }
+  S.test = st.test;
+  if (einl) return zeigeEinladung(einl);
+  if (!st.eingerichtet) return zeigeSetup();
+  if (geraet && location.hash === '#studio') return zeigeStudio(geraet);
+  try { S.token = sessionStorage.getItem(K_TOKEN) || localStorage.getItem(K_TOKEN); } catch (e) { }
+  if (S.token) { try { await ladeIch(); return zeige(); } catch (e) { if (e.code !== 'nicht-angemeldet') { vergiss(); } else return; } }
+  zeigeLogin();
+}
+async function ladeIch() {
+  const r = await api('ich');
+  S.ich = r.ich; S.offen = r.offen; S.meineEinsaetze = r.einsaetze;
+}
+const testHinweis = () => S.test ? '<div class="test">Testumgebung · Daten sind nicht echt</div>' : '';
+const rahmenLeer = inhalt => testHinweis() + '<main><div class="gate"><img class="logo" src="assets/logo/logo-dark.png" alt="LOVE Creative" width="84" height="84">' + inhalt + '</div></main>';
+
+/* ---------- Anmeldung, Einrichtung, Einladung ---------- */
+function zeigeLogin(hinweis) {
+  document.body.style.paddingBottom = '0';
+  app.innerHTML = rahmenLeer(`<h1>Team</h1><p class="sub">Arbeitszeit, Einsätze und Abwesenheiten</p>
+    <form class="card" id="f">
+      ${hinweis ? '<div class="msg err" role="alert">' + esc(hinweis) + '</div>' : ''}
+      <div class="feld"><label for="e">E-Mail</label><input id="e" name="email" type="email" autocomplete="username" required></div>
+      <div class="feld"><label for="p">Passwort</label><input id="p" name="pass" type="password" autocomplete="current-password" required></div>
+      <div class="feld"><label class="check"><input type="checkbox" name="merken"> Auf diesem Gerät angemeldet bleiben</label></div>
+      <div class="msg err hidden" role="alert" id="err"></div>
+      <button class="btn" style="width:100%">Anmelden</button>
+    </form>
+    <p class="muted" style="text-align:center">Passwort vergessen? Die Geschäftsführung schickt dir einen neuen Link.</p>`);
+  $('#f').addEventListener('submit', async ev => {
+    ev.preventDefault(); const fd = new FormData(ev.target);
+    try { const r = await api('login', { email: fd.get('email'), pass: fd.get('pass'), merken: !!fd.get('merken') }); merke(r.sitzung, !!fd.get('merken')); await ladeIch(); zeige(); }
+    catch (e) { const m = $('#err'); m.textContent = meldung(e); m.classList.remove('hidden'); }
+  });
+}
+function zeigeSetup() {
+  document.body.style.paddingBottom = '0';
+  app.innerHTML = rahmenLeer(`<h1>Ersteinrichtung</h1><p class="sub">Lege das erste Konto der Geschäftsführung an.</p>
+    <form class="card" id="f">
+      ${S.test ? '' : '<p class="muted" style="margin-bottom:.8rem">Zur Sicherheit braucht es einmalig das Login des Host-Bereichs.</p><div class="grid2"><div class="feld"><label>Host-Benutzer</label><input name="host_user" autocomplete="off" required></div><div class="feld"><label>Host-Passwort</label><input name="host_pass" type="password" autocomplete="off" required></div></div>'}
+      <div class="grid2"><div class="feld"><label>Vorname</label><input name="vorname" required></div><div class="feld"><label>Name</label><input name="name" required></div></div>
+      <div class="feld"><label>E-Mail</label><input name="email" type="email" autocomplete="username" required></div>
+      <div class="feld"><label>Neues Passwort (mindestens 10 Zeichen)</label><input name="pass" type="password" autocomplete="new-password" minlength="10" required></div>
+      <div class="msg err hidden" role="alert" id="err"></div>
+      <button class="btn" style="width:100%">Konto anlegen</button>
+    </form>`);
+  $('#f').addEventListener('submit', async ev => {
+    ev.preventDefault(); const d = Object.fromEntries(new FormData(ev.target));
+    try { const r = await api('setup', d); merke(r.sitzung, false); await ladeIch(); zeige(); }
+    catch (e) { const m = $('#err'); m.textContent = meldung(e); m.classList.remove('hidden'); }
+  });
+}
+async function zeigeEinladung(tok) {
+  document.body.style.paddingBottom = '0';
+  let info;
+  try { info = await api('einladung_info', { einladung: tok }); }
+  catch (e) { app.innerHTML = rahmenLeer('<h1>Einladung</h1><div class="msg err" role="alert">' + esc(meldung(e)) + '</div><a class="btn" href="mitarbeiter.html">Zur Anmeldung</a>'); return; }
+  app.innerHTML = rahmenLeer(`<h1>Willkommen, ${esc(info.vorname)}</h1><p class="sub">Lege dein Passwort für ${esc(info.email)} fest.</p>
+    <form class="card" id="f">
+      <div class="feld"><label>Passwort (mindestens 10 Zeichen)</label><input name="pass" type="password" autocomplete="new-password" minlength="10" required></div>
+      <div class="feld"><label>Passwort wiederholen</label><input name="pass2" type="password" autocomplete="new-password" required></div>
+      <div class="feld"><label>PIN für das Studio-Gerät (4 bis 6 Ziffern, freiwillig)</label><input name="pin" inputmode="numeric" pattern="[0-9]{4,6}" autocomplete="off"></div>
+      <div class="msg err hidden" role="alert" id="err"></div>
+      <button class="btn" style="width:100%">Speichern und anmelden</button>
+    </form>`);
+  $('#f').addEventListener('submit', async ev => {
+    ev.preventDefault(); const d = Object.fromEntries(new FormData(ev.target)); const m = $('#err');
+    if (d.pass !== d.pass2) { m.textContent = 'Die beiden Passwörter sind nicht gleich.'; m.classList.remove('hidden'); return; }
+    try { const r = await api('passwort_setzen', { einladung: tok, pass: d.pass, pin: d.pin || '' }); merke(r.sitzung, false); history.replaceState(null, '', location.pathname); await ladeIch(); zeige(); }
+    catch (e) { m.textContent = meldung(e); m.classList.remove('hidden'); }
+  });
+}
+
+/* ---------- Rahmen ---------- */
+function zeige() {
+  document.body.style.paddingBottom = '';
+  const tabs = [['heute', 'Heute'], ['zeiten', 'Zeiten'], ['einsaetze', 'Einsätze'], ['abwesenheit', 'Abwesend']];
+  if (chef()) tabs.push(['team', 'Team']);
+  if (gf()) tabs.push(['verwaltung', 'Verwaltung']);
+  tabs.push(['konto', 'Konto']);
+  app.innerHTML = testHinweis() + `<header class="top"><img src="assets/logo/logo-dark.png" alt="" width="34" height="34"><div class="t">Team</div>
+      <div class="wer">${esc(S.ich.vorname)} ${esc(S.ich.name)}<br>${ROLLE[S.ich.rolle]}</div><button id="aus">Abmelden</button></header>
+    <main id="inhalt" tabindex="-1"></main>
+    <nav class="tabs" aria-label="Bereiche">${tabs.map(t => `<button data-v="${t[0]}"${S.view === t[0] ? ' aria-current="page"' : ''}>${IC[t[0]]}<span>${t[1]}</span>${t[0] === 'team' && S.antraege ? '<span class="punkt">' + S.antraege + '</span>' : ''}</button>`).join('')}</nav>`;
+  $('#aus').onclick = async () => { try { await api('logout'); } catch (e) { } vergiss(); zeigeLogin(); };
+  document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { S.view = b.dataset.v; zeige(); });
+  ({ heute: vHeute, zeiten: vZeiten, einsaetze: vEinsaetze, abwesenheit: vAbwesenheit, team: vTeam, verwaltung: vVerwaltung, konto: vKonto }[S.view] || vHeute)().catch(e => { $('#inhalt').innerHTML = '<div class="msg err" role="alert">' + esc(meldung(e)) + '</div>'; });
+}
+const inhalt = html => { $('#inhalt').innerHTML = html; };
+let ticker = null;
+
+/* ---------- Heute ---------- */
+async function vHeute() {
+  await ladeIch();
+  const zeichne = () => {
+    const el = $('#stUhr'); if (!el) { clearInterval(ticker); return; }
+    const n = jetzt(); el.textContent = p2(n.getHours()) + ':' + p2(n.getMinutes());
+    if (S.offen) { const min = Math.max(0, Math.round((n - zuDate(S.offen.beginn)) / 60000)); $('#stSeit').textContent = 'Eingestempelt seit ' + uhr(S.offen.beginn) + ' Uhr · ' + dauer(min) + ' Std.'; }
+  };
+  const offene = S.meineEinsaetze.filter(e => e.status === 'angeboten'), fix = S.meineEinsaetze.filter(e => e.status === 'angenommen');
+  inhalt(`<section class="card stempel" aria-live="polite">
+      <div class="uhr" id="stUhr">--:--</div>
+      <div class="zustand" id="stSeit">${S.offen ? '' : 'Nicht eingestempelt'}</div>
+      <button class="btn${S.offen ? ' rot' : ''}" id="stKnopf">${S.offen ? 'Ausstempeln' : 'Einstempeln'}</button>
+      <div class="msg err hidden" role="alert" id="stErr"></div>
+    </section>
+    ${offene.length ? `<section class="card"><h2>Angebotene Einsätze</h2><ul class="liste">${offene.map(e => `<li><div class="haupt"><b>${datumKurz(e.datum)}</b> ${e.von}–${e.bis} Uhr${e.notiz ? '<div class="muted">' + esc(e.notiz) + '</div>' : ''}</div><div class="row"><button class="btn klein" data-ja="${e.id}">Annehmen</button><button class="btn klein sec" data-nein="${e.id}">Ablehnen</button></div></li>`).join('')}</ul></section>` : ''}
+    <section class="card"><h2>Meine nächsten Einsätze</h2>${fix.length ? `<ul class="liste">${fix.map(e => `<li><div class="haupt"><b>${datumKurz(e.datum)}</b> ${e.von}–${e.bis} Uhr${e.notiz ? '<div class="muted">' + esc(e.notiz) + '</div>' : ''}</div><span class="chip ok">angenommen</span></li>`).join('')}</ul>` : '<p class="muted">Noch keine angenommenen Einsätze.</p>'}</section>`);
+  clearInterval(ticker); zeichne(); ticker = setInterval(zeichne, 15000);
+  $('#stKnopf').onclick = () => S.offen ? ausstempeln() : stempel('ein', {});
+  document.querySelectorAll('[data-ja],[data-nein]').forEach(b => b.onclick = async () => {
+    try { await api('einsatz_antwort', { id: +(b.dataset.ja || b.dataset.nein), antwort: b.dataset.ja ? 'angenommen' : 'abgelehnt' }); vHeute(); } catch (e) { alert(meldung(e)); }
+  });
+}
+async function stempel(aktion, mehr) {
+  try { await api('stempeln', Object.assign({ aktion }, mehr)); await vHeute(); }
+  catch (e) { const m = $('#stErr'); if (m) { m.textContent = meldung(e); m.classList.remove('hidden'); } throw e; }
+}
+function ausstempeln() {
+  const min = Math.max(0, Math.round((jetzt() - zuDate(S.offen.beginn)) / 60000)), v = pauseVorschlag(min);
+  oeffne(`<h2>Ausstempeln</h2><p class="muted" style="margin-bottom:.8rem">Eingestempelt seit ${uhr(S.offen.beginn)} Uhr, das sind ${dauer(min)} Stunden.</p>
+    <div class="feld"><label for="pm">Pause in Minuten</label><input id="pm" name="pause_min" type="number" min="0" max="600" step="5" value="${v}" required></div>
+    <div class="feld"><label for="nz">Notiz (freiwillig)</label><input id="nz" name="notiz" maxlength="300"></div>` + fuss('Ausstempeln'),
+    async fd => { await api('stempeln', { aktion: 'aus', pause_min: +fd.get('pause_min'), notiz: fd.get('notiz') }); vHeute(); });
+}
+
+/* ---------- Zeiten ---------- */
+async function vZeiten() {
+  if (chef() && !S.personen.length) S.personen = (await api('personen')).personen;
+  const sid = chef() && S.person ? S.person : S.ich.id;
+  const r = await api('zeiten', { monat: S.monat, staff_id: sid });
+  const eigen = sid === S.ich.id, zu = !!r.abgeschlossen_am;
+  inhalt(`<section class="card">
+      <div class="row sp nichtdruck" style="margin-bottom:.8rem">
+        <div class="monatnav"><button id="mz" aria-label="Monat zurück">‹</button><b>${monatText(r.monat)}</b><button id="mv" aria-label="Monat vor">›</button></div>
+        ${chef() ? `<select id="wer" style="width:auto;min-width:180px" aria-label="Person">${S.personen.filter(p => p.aktiv).map(p => `<option value="${p.id}"${p.id === sid ? ' selected' : ''}>${esc(p.vorname)} ${esc(p.name)}</option>`).join('')}</select>` : ''}
+      </div>
+      <div class="nurdruck"><h2>Arbeitszeit ${monatText(r.monat)}</h2><p>${esc(r.person.vorname)} ${esc(r.person.name)} · LOVE Creative GmbH</p><br></div>
+      <div class="row" style="margin-bottom:.6rem">
+        <span class="chip ${r.bestaetigt_am ? 'ok' : 'warn'}">${r.bestaetigt_am ? 'von ' + esc(r.person.vorname) + ' bestätigt am ' + datumKurz(r.bestaetigt_am) : 'noch nicht bestätigt'}</span>
+        ${zu ? '<span class="chip ok">abgeschlossen</span>' : ''}
+      </div>
+      <div class="tw"><table>
+        <thead><tr><th>Tag</th><th>Von</th><th>Bis</th><th class="z">Pause</th><th class="z">Stunden</th><th>Notiz</th></tr></thead>
+        <tbody>${r.zeilen.length ? r.zeilen.map(z => `<tr${chef() && !zu ? ' class="klick" data-id="' + z.id + '" tabindex="0"' : ''}><td>${datumKurz(z.beginn)}</td><td>${uhr(z.beginn)}</td><td>${z.ende ? uhr(z.ende) : '<span class="chip warn">offen</span>'}</td><td class="z">${z.pause_min} Min.</td><td class="z">${z.ende ? dauer(z.minuten) : '–'}</td><td>${esc(z.notiz)}${z.quelle === 'manuell' ? ' <span class="chip">nachgetragen</span>' : z.geaendert_am ? ' <span class="chip">korrigiert</span>' : ''}</td></tr>`).join('') : '<tr><td colspan="6" class="muted">Keine Einträge in diesem Monat.</td></tr>'}</tbody>
+        <tfoot><tr><td colspan="4">Total</td><td class="z">${dauer(r.minuten)}</td><td class="muted">${dezimal(r.minuten)} Std.</td></tr></tfoot>
+      </table></div>
+      <div class="nurdruck unterschrift"><div>Mitarbeiterin / Mitarbeiter</div><div>Arbeitgeberin</div></div>
+      <div class="row nichtdruck" style="margin-top:1rem">
+        ${eigen && !r.bestaetigt_am && r.zeilen.length ? '<button class="btn" id="best">Monat bestätigen</button>' : ''}
+        ${chef() && !zu ? '<button class="btn sec" id="neu">Zeit nachtragen</button>' : ''}
+        ${gf() ? `<button class="btn sec" id="abschl">${zu ? 'Monat wieder öffnen' : 'Monat abschliessen'}</button>` : ''}
+        <button class="btn sec" onclick="window.print()">Drucken</button>
+      </div>
+      ${eigen && !r.bestaetigt_am ? '<p class="muted nichtdruck" style="margin-top:.6rem">Mit der Bestätigung erklärst du, dass die erfassten Zeiten stimmen. Stimmt etwas nicht, melde es der Leitung, bevor du bestätigst.</p>' : ''}
+    </section>`);
+  $('#mz').onclick = () => { S.monat = monatPlus(S.monat, -1); vZeiten(); };
+  $('#mv').onclick = () => { S.monat = monatPlus(S.monat, 1); vZeiten(); };
+  if ($('#wer')) $('#wer').onchange = e => { S.person = +e.target.value; vZeiten(); };
+  if ($('#best')) $('#best').onclick = async () => { try { await api('monat_bestaetigen', { monat: S.monat }); vZeiten(); } catch (e) { alert(meldung(e)); } };
+  if ($('#abschl')) $('#abschl').onclick = async () => { try { await api('monat_abschliessen', { monat: S.monat, staff_id: sid, oeffnen: zu }); vZeiten(); } catch (e) { alert(meldung(e)); } };
+  if ($('#neu')) $('#neu').onclick = () => zeitDialog(sid, null);
+  document.querySelectorAll('tr.klick').forEach(tr => { const auf = () => zeitDialog(sid, r.zeilen.find(z => z.id === +tr.dataset.id)); tr.onclick = auf; tr.onkeydown = e => { if (e.key === 'Enter') auf(); }; });
+}
+function zeitDialog(sid, z) {
+  const tag = z ? z.beginn.slice(0, 10) : iso(jetzt());
+  oeffne(`<h2>${z ? 'Zeit korrigieren' : 'Zeit nachtragen'}</h2>
+    <div class="feld"><label>Tag</label><input name="tag" type="date" value="${tag}" required></div>
+    <div class="grid2"><div class="feld"><label>Von</label><input name="von" type="time" value="${z ? uhr(z.beginn) : ''}" required></div><div class="feld"><label>Bis</label><input name="bis" type="time" value="${z && z.ende ? uhr(z.ende) : ''}"${z ? '' : ' required'}></div></div>
+    <div class="feld"><label>Pause in Minuten</label><input name="pause_min" type="number" min="0" max="600" step="5" value="${z ? z.pause_min : 0}" required></div>
+    <div class="feld"><label>Grund oder Notiz</label><input name="notiz" maxlength="300" value="${z ? esc(z.notiz) : ''}"></div>
+    <p class="muted">Jede Änderung wird im Protokoll festgehalten.</p>` + fuss('Speichern', z && gf() ? '<button class="btn rot" value="weg" formnovalidate style="margin-right:auto">Löschen</button>' : ''),
+    async (fd, knopf) => {
+      if (knopf === 'weg') { await api('zeit_loeschen', { id: z.id }); return vZeiten(); }
+      const von = fd.get('tag') + 'T' + fd.get('von'); let bis = '';
+      if (fd.get('bis')) { let t = fd.get('tag'); if (fd.get('bis') <= fd.get('von')) { const d = zuDate(t); d.setDate(d.getDate() + 1); t = iso(d); } bis = t + 'T' + fd.get('bis'); }
+      await api('zeit_speichern', { id: z ? z.id : 0, staff_id: sid, beginn: von, ende: bis, pause_min: +fd.get('pause_min'), notiz: fd.get('notiz') }); vZeiten();
+    });
+}
+
+/* ---------- Einsätze ---------- */
+async function vEinsaetze() {
+  if (!S.personen.length) S.personen = (await api('personen')).personen;
+  const von = iso(jetzt()), r = await api('einsaetze', { von });
+  const tage = {}; r.einsaetze.forEach(e => (tage[e.datum] = tage[e.datum] || []).push(e));
+  const chipS = s => ({ angeboten: '<span class="chip warn">angeboten</span>', angenommen: '<span class="chip ok">angenommen</span>', abgelehnt: '<span class="chip rot">abgelehnt</span>', abgesagt: '<span class="chip">abgesagt</span>' }[s] || '');
+  inhalt(`<section class="card"><div class="row sp"><h2>Einsatzplan · nächste vier Wochen</h2>${chef() ? '<button class="btn klein" id="neu">Einsatz anbieten</button>' : ''}</div>
+    ${Object.keys(tage).length ? Object.keys(tage).sort().map(t => `<div class="tagkopf">${datumLang(t)}</div><ul class="liste">${tage[t].map(e => `<li><div class="haupt"><b>${e.von}–${e.bis}</b> · ${esc(e.vorname)} ${esc(e.name)}${e.notiz ? '<div class="muted">' + esc(e.notiz) + '</div>' : ''}</div><div class="row">${chipS(e.status)}${e.staff_id === S.ich.id && e.status === 'angeboten' ? `<button class="btn klein" data-ja="${e.id}">Annehmen</button><button class="btn klein sec" data-nein="${e.id}">Ablehnen</button>` : ''}${chef() && e.status !== 'abgesagt' ? `<button class="btn klein sec" data-edit="${e.id}">Ändern</button>` : ''}</div></li>`).join('')}</ul>`).join('') : '<p class="muted">In den nächsten vier Wochen ist noch nichts geplant.</p>'}
+    </section>`);
+  if ($('#neu')) $('#neu').onclick = () => einsatzDialog(null);
+  document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => einsatzDialog(r.einsaetze.find(e => e.id === +b.dataset.edit)));
+  document.querySelectorAll('[data-ja],[data-nein]').forEach(b => b.onclick = async () => { try { await api('einsatz_antwort', { id: +(b.dataset.ja || b.dataset.nein), antwort: b.dataset.ja ? 'angenommen' : 'abgelehnt' }); vEinsaetze(); } catch (e) { alert(meldung(e)); } });
+}
+function einsatzDialog(e) {
+  oeffne(`<h2>${e ? 'Einsatz ändern' : 'Einsatz anbieten'}</h2>
+    <div class="feld"><label>Person</label><select name="staff_id" required>${S.personen.filter(p => p.aktiv).map(p => `<option value="${p.id}"${e && e.staff_id === p.id ? ' selected' : ''}>${esc(p.vorname)} ${esc(p.name)}</option>`).join('')}</select></div>
+    <div class="feld"><label>Tag</label><input name="datum" type="date" value="${e ? e.datum : ''}" min="${iso(jetzt())}" required></div>
+    <div class="grid2"><div class="feld"><label>Von</label><input name="von" type="time" value="${e ? e.von : ''}" required></div><div class="feld"><label>Bis</label><input name="bis" type="time" value="${e ? e.bis : ''}" required></div></div>
+    <div class="feld"><label>Notiz (zum Beispiel «Kindergeburtstag»)</label><input name="notiz" maxlength="300" value="${e ? esc(e.notiz) : ''}"></div>
+    <p class="muted">Die Person sieht den Einsatz in der App und nimmt ihn an oder lehnt ihn ab.</p>` + fuss('Speichern', e ? '<button class="btn rot" value="ab" formnovalidate style="margin-right:auto">Absagen</button>' : ''),
+    async (fd, knopf) => {
+      if (knopf === 'ab') { await api('einsatz_antwort', { id: e.id, antwort: 'abgesagt' }); return vEinsaetze(); }
+      await api('einsatz_speichern', { id: e ? e.id : 0, staff_id: +fd.get('staff_id'), datum: fd.get('datum'), von: fd.get('von'), bis: fd.get('bis'), notiz: fd.get('notiz') }); vEinsaetze();
+    });
+}
+
+/* ---------- Abwesenheit ---------- */
+async function vAbwesenheit() {
+  if (chef() && !S.personen.length) S.personen = (await api('personen')).personen;
+  const r = await api('abwesenheiten', { alle: S.alleAbw });
+  const chipS = s => ({ beantragt: '<span class="chip warn">beantragt</span>', bewilligt: '<span class="chip ok">bewilligt</span>', abgelehnt: '<span class="chip rot">abgelehnt</span>', zurueckgezogen: '<span class="chip">zurückgezogen</span>' }[s] || '');
+  inhalt(`<section class="card"><div class="row sp"><h2>Ferien und Abwesenheiten</h2><button class="btn klein" id="neu">${chef() ? 'Eintragen' : 'Beantragen'}</button></div>
+      ${chef() ? `<label class="check" style="margin:.4rem 0 .2rem"><input type="checkbox" id="alle"${S.alleAbw ? ' checked' : ''}> Ganzes Team anzeigen</label>` : ''}
+      ${r.abwesenheiten.length ? `<ul class="liste">${r.abwesenheiten.map(a => `<li><div class="haupt"><b>${ABW[a.art] || esc(a.art)}</b> · ${datumKurz(a.von)}${a.bis !== a.von ? ' bis ' + datumKurz(a.bis) : ''}${S.alleAbw ? ' · ' + esc(a.vorname) + ' ' + esc(a.name) : ''}${a.notiz ? '<div class="muted">' + esc(a.notiz) + '</div>' : ''}</div><div class="row">${chipS(a.status)}${a.status === 'beantragt' && chef() && (a.staff_id !== S.ich.id || gf()) ? `<button class="btn klein" data-e="${a.id}" data-s="bewilligt">Bewilligen</button><button class="btn klein sec" data-e="${a.id}" data-s="abgelehnt">Ablehnen</button>` : ''}${a.status === 'beantragt' && a.staff_id === S.ich.id ? `<button class="btn klein sec" data-e="${a.id}" data-s="zurueckgezogen">Zurückziehen</button>` : ''}</div></li>`).join('')}</ul>` : '<p class="muted">Noch keine Einträge.</p>'}
+    </section>`);
+  if ($('#alle')) $('#alle').onchange = e => { S.alleAbw = e.target.checked; vAbwesenheit(); };
+  document.querySelectorAll('[data-e]').forEach(b => b.onclick = async () => { try { await api('abwesenheit_entscheiden', { id: +b.dataset.e, status: b.dataset.s }); vAbwesenheit(); } catch (e) { alert(meldung(e)); } });
+  $('#neu').onclick = () => oeffne(`<h2>Abwesenheit ${chef() ? 'eintragen' : 'beantragen'}</h2>
+    ${chef() ? `<div class="feld"><label>Person</label><select name="staff_id">${S.personen.filter(p => p.aktiv).map(p => `<option value="${p.id}"${p.id === S.ich.id ? ' selected' : ''}>${esc(p.vorname)} ${esc(p.name)}</option>`).join('')}</select></div>` : ''}
+    <div class="feld"><label>Art</label><select name="art">${Object.keys(ABW).map(k => `<option value="${k}">${ABW[k]}</option>`).join('')}</select></div>
+    <div class="grid2"><div class="feld"><label>Von</label><input name="von" type="date" required></div><div class="feld"><label>Bis</label><input name="bis" type="date" required></div></div>
+    <div class="feld"><label>Notiz (freiwillig)</label><input name="notiz" maxlength="300"></div>` + fuss('Speichern'),
+    async fd => { await api('abwesenheit_beantragen', Object.fromEntries(fd)); vAbwesenheit(); });
+}
+
+/* ---------- Team (Leitung und Geschäftsführung) ---------- */
+async function vTeam() {
+  const [j, u] = await Promise.all([api('team_jetzt'), api('uebersicht', { monat: S.monat })]);
+  S.antraege = j.offene_antraege;
+  const n = jetzt();
+  inhalt(`<section class="card"><h2>Jetzt im Studio</h2>
+      ${j.anwesend.length ? `<ul class="liste">${j.anwesend.map(a => { const min = Math.max(0, Math.round((n - zuDate(a.beginn)) / 60000)); return `<li><div class="haupt"><b>${esc(a.vorname)} ${esc(a.name)}</b><div class="muted">seit ${uhr(a.beginn)} Uhr${a.beginn.slice(0, 10) !== iso(n) ? ' (' + datumKurz(a.beginn) + ')' : ''} · ${dauer(min)} Std.</div></div>${min > 780 ? '<span class="chip rot">Ausstempeln vergessen?</span>' : '<span class="chip ok">anwesend</span>'}</li>`; }).join('')}</ul>` : '<p class="muted">Im Moment ist niemand eingestempelt.</p>'}
+      ${j.heute.length ? `<h3 style="margin-top:1rem">Heute geplant</h3><ul class="liste">${j.heute.map(e => `<li><div class="haupt"><b>${e.von}–${e.bis}</b> · ${esc(e.vorname)} ${esc(e.name)}</div><span class="chip ${e.status === 'angenommen' ? 'ok' : 'warn'}">${e.status}</span></li>`).join('')}</ul>` : ''}
+      ${j.offene_antraege ? `<p style="margin-top:.8rem"><button class="btn klein sec" id="zuAbw">${j.offene_antraege} offene${j.offene_antraege === 1 ? 'r Antrag' : ' Anträge'} auf Abwesenheit</button></p>` : ''}
+    </section>
+    <section class="card"><div class="row sp" style="margin-bottom:.6rem"><h2>Monat im Überblick</h2><div class="monatnav"><button id="mz" aria-label="Monat zurück">‹</button><b>${monatText(u.monat)}</b><button id="mv" aria-label="Monat vor">›</button></div></div>
+      <div class="tw"><table><thead><tr><th>Person</th><th class="z">Stunden</th><th class="z">Tage</th><th>Bestätigt</th><th>Abschluss</th></tr></thead>
+      <tbody>${u.personen.map(p => `<tr class="klick" data-p="${p.id}" tabindex="0"><td><b>${esc(p.vorname)} ${esc(p.name)}</b>${p.aktiv ? '' : ' <span class="chip">inaktiv</span>'}<div class="muted">${esc(p.funktion)}</div></td><td class="z">${dauer(p.minuten)}<div class="muted">${dezimal(p.minuten)}</div></td><td class="z">${p.tage}</td><td>${p.bestaetigt_am ? '<span class="chip ok">ja</span>' : p.minuten ? '<span class="chip warn">offen</span>' : '–'}</td><td>${p.abgeschlossen_am ? '<span class="chip ok">abgeschlossen</span>' : '–'}</td></tr>`).join('')}</tbody>
+      <tfoot><tr><td>Total</td><td class="z">${dauer(u.personen.reduce((s, p) => s + p.minuten, 0))}</td><td colspan="3"></td></tr></tfoot></table></div>
+      <p class="muted" style="margin-top:.6rem">Tippe auf eine Person für die einzelnen Zeiten.</p>
+      ${gf() ? '<div class="row" style="margin-top:.8rem"><button class="btn sec" id="csv">Export für die Lohnabrechnung (CSV)</button></div>' : ''}
+    </section>`);
+  $('#mz').onclick = () => { S.monat = monatPlus(S.monat, -1); vTeam(); };
+  $('#mv').onclick = () => { S.monat = monatPlus(S.monat, 1); vTeam(); };
+  if ($('#zuAbw')) $('#zuAbw').onclick = () => { S.alleAbw = true; S.view = 'abwesenheit'; zeige(); };
+  document.querySelectorAll('tr[data-p]').forEach(tr => { const auf = () => { S.person = +tr.dataset.p; S.view = 'zeiten'; zeige(); }; tr.onclick = auf; tr.onkeydown = e => { if (e.key === 'Enter') auf(); }; });
+  if ($('#csv')) $('#csv').onclick = async () => {
+    try {
+      const x = await api('export', { monat: S.monat });
+      const z = [['Vorname', 'Name', 'Datum', 'Von', 'Bis', 'Pause Min.', 'Stunden', 'Stunden dezimal', 'Erfasst', 'Notiz']].concat(x.zeilen.map(r => [r.vorname, r.name, r.beginn.slice(0, 10), uhr(r.beginn), r.ende ? uhr(r.ende) : '', r.pause_min, dauer(r.minuten), dezimal(r.minuten).replace('.', ','), r.quelle, r.notiz]));
+      const csv = '﻿' + z.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = 'LOVE-Arbeitszeit-' + S.monat + '.csv'; a.click(); URL.revokeObjectURL(a.href);
+    } catch (e) { alert(meldung(e)); }
+  };
+}
+
+/* ---------- Verwaltung (Geschäftsführung) ---------- */
+async function vVerwaltung() {
+  const [p, g, l] = await Promise.all([api('personen'), api('geraete'), api('protokoll')]);
+  S.personen = p.personen;
+  const istStudio = (() => { try { return !!localStorage.getItem(K_GERAET); } catch (e) { return false; } })();
+  inhalt(`<section class="card"><div class="row sp"><h2>Personen</h2><button class="btn klein" id="neu">Person hinzufügen</button></div>
+      <ul class="liste">${p.personen.map(x => `<li><div class="haupt"><b>${esc(x.vorname)} ${esc(x.name)}</b> <span class="chip">${ROLLE[x.rolle]}</span>${x.aktiv ? '' : ' <span class="chip rot">inaktiv</span>'}${x.hat_passwort ? '' : ' <span class="chip warn">noch nicht angemeldet</span>'}<div class="muted">${esc(x.email)}${x.funktion ? ' · ' + esc(x.funktion) : ''}${x.hat_pin ? ' · PIN gesetzt' : ''}</div></div><div class="row"><button class="btn klein sec" data-edit="${x.id}">Bearbeiten</button><button class="btn klein sec" data-einl="${x.id}">${x.hat_passwort ? 'Passwort-Link' : 'Einladung'}</button></div></li>`).join('')}</ul>
+    </section>
+    <section class="card"><h2>Studio-Gerät</h2>
+      <p class="muted" style="margin-bottom:.7rem">Auf einem gemeinsamen Tablet im Studio stempelt das Team mit der persönlichen PIN, ohne eigenes Login.</p>
+      ${g.geraete.length ? `<ul class="liste">${g.geraete.map(x => `<li><div class="haupt"><b>${esc(x.info)}</b><div class="muted">eingerichtet am ${datumKurz(x.erstellt)}</div></div><button class="btn klein sec" data-weg="${esc(x.kennung)}">Entfernen</button></li>`).join('')}</ul>` : ''}
+      <div class="row" style="margin-top:.7rem"><button class="btn sec" id="ger">Dieses Gerät als Studio-Gerät einrichten</button>${istStudio ? '<a class="btn sec" href="#studio" id="zuStudio">Stempel-Ansicht öffnen</a>' : ''}</div>
+    </section>
+    <section class="card"><h2>Protokoll</h2><div class="tw" style="max-height:340px;overflow-y:auto"><table><thead><tr><th>Wann</th><th>Wer</th><th>Was</th><th>Einzelheiten</th></tr></thead><tbody>${l.protokoll.map(x => `<tr><td style="white-space:nowrap">${datumKurz(x.ts)} ${uhr(x.ts)}</td><td>${esc(x.vorname || '–')}</td><td>${esc(x.aktion)}</td><td class="muted">${esc(x.detail)}</td></tr>`).join('')}</tbody></table></div></section>`);
+  $('#neu').onclick = () => personDialog(null);
+  if ($('#zuStudio')) $('#zuStudio').onclick = () => setTimeout(() => location.reload(), 50);
+  document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => personDialog(p.personen.find(x => x.id === +b.dataset.edit)));
+  document.querySelectorAll('[data-einl]').forEach(b => b.onclick = async () => { try { const r = await api('person_einladen', { id: +b.dataset.einl }); zeigeLink(p.personen.find(x => x.id === +b.dataset.einl), r.einladung); } catch (e) { alert(meldung(e)); } });
+  document.querySelectorAll('[data-weg]').forEach(b => b.onclick = async () => { try { await api('geraete', { entfernen: b.dataset.weg }); vVerwaltung(); } catch (e) { alert(meldung(e)); } });
+  $('#ger').onclick = () => oeffne(`<h2>Studio-Gerät einrichten</h2><p class="muted" style="margin-bottom:.8rem">Danach zeigt dieses Gerät unter «Stempel-Ansicht» die Namen des Teams. Gestempelt wird mit der PIN.</p><div class="feld"><label>Name des Geräts</label><input name="name" value="Tablet Studio" maxlength="60" required></div>` + fuss('Einrichten'),
+    async fd => { const r = await api('geraet_einrichten', { name: fd.get('name') }); try { localStorage.setItem(K_GERAET, r.geraet); } catch (e) { } vVerwaltung(); });
+}
+function personDialog(x) {
+  oeffne(`<h2>${x ? 'Person bearbeiten' : 'Person hinzufügen'}</h2>
+    <div class="grid2"><div class="feld"><label>Vorname</label><input name="vorname" value="${x ? esc(x.vorname) : ''}" required></div><div class="feld"><label>Name</label><input name="name" value="${x ? esc(x.name) : ''}" required></div></div>
+    <div class="feld"><label>E-Mail</label><input name="email" type="email" value="${x ? esc(x.email) : ''}" required></div>
+    <div class="grid2"><div class="feld"><label>Rolle</label><select name="rolle">${Object.keys(ROLLE).map(k => `<option value="${k}"${(x ? x.rolle : 'team') === k ? ' selected' : ''}>${ROLLE[k]}</option>`).join('')}</select></div><div class="feld"><label>Eintritt</label><input name="eintritt" type="date" value="${x && x.eintritt ? x.eintritt : ''}"></div></div>
+    <div class="feld"><label>Funktion</label><input name="funktion" value="${x ? esc(x.funktion) : ''}" maxlength="80" placeholder="zum Beispiel Café und Studio"></div>
+    ${x ? `<div class="feld"><label class="check"><input type="checkbox" name="aktiv"${x.aktiv ? ' checked' : ''}> Aktiv (kann sich anmelden und stempeln)</label></div>` : '<p class="muted">Nach dem Speichern erhältst du einen Einladungs-Link für diese Person.</p>'}` + fuss('Speichern', x && x.hat_pin ? '<button class="btn sec" value="pin" formnovalidate style="margin-right:auto">PIN zurücksetzen</button>' : ''),
+    async (fd, knopf) => {
+      if (knopf === 'pin') { await api('pin_zuruecksetzen', { id: x.id }); return vVerwaltung(); }
+      const d = Object.fromEntries(fd); d.id = x ? x.id : 0; d.aktiv = x ? !!fd.get('aktiv') : true;
+      const r = await api('person_speichern', d); await vVerwaltung(); if (r.einladung) setTimeout(() => zeigeLink(r.person, r.einladung), 60);
+    });
+}
+function zeigeLink(person, tok) {
+  const link = location.origin + location.pathname + '#einladung=' + tok;
+  const text = 'Hallo ' + person.vorname + '\n\nHier ist dein Link für die Team-App von LOVE Creative. Er gilt 48 Stunden und nur einmal:\n' + link + '\n\nLege damit dein Passwort fest.';
+  oeffne(`<h2>Link für ${esc(person.vorname)}</h2><p class="muted" style="margin-bottom:.7rem">Der Link gilt 48 Stunden und nur einmal. Schicke ihn nur an ${esc(person.email)}.</p>
+    <div class="feld"><label>Link</label><textarea readonly id="lk" rows="3">${esc(link)}</textarea></div>
+    <div class="dlgfuss"><button class="btn sec" type="button" id="kop">Link kopieren</button><a class="btn sec" href="mailto:${encodeURIComponent(person.email)}?subject=${encodeURIComponent('Dein Zugang zur Team-App von LOVE Creative')}&body=${encodeURIComponent(text)}">Per E-Mail senden</a><button class="btn" value="zu">Fertig</button></div>`, async () => { });
+  $('#kop').onclick = async () => { try { await navigator.clipboard.writeText(link); $('#kop').textContent = 'Kopiert'; } catch (e) { $('#lk').select(); } };
+}
+
+/* ---------- Konto ---------- */
+async function vKonto() {
+  inhalt(`<section class="card"><h2>Mein Konto</h2><p>${esc(S.ich.vorname)} ${esc(S.ich.name)} · ${ROLLE[S.ich.rolle]}</p><p class="muted">${esc(S.ich.email)}${S.ich.funktion ? ' · ' + esc(S.ich.funktion) : ''}</p></section>
+    <section class="card"><h2>PIN für das Studio-Gerät</h2><p class="muted" style="margin-bottom:.7rem">${S.ich.hat_pin ? 'Du hast eine PIN gesetzt.' : 'Du hast noch keine PIN.'} Mit ihr stempelst du am gemeinsamen Gerät im Studio.</p>
+      <form id="fpin" class="row"><input name="pin" inputmode="numeric" pattern="[0-9]{4,6}" placeholder="4 bis 6 Ziffern" aria-label="Neue PIN" style="max-width:200px" autocomplete="off" required><button class="btn sec">${S.ich.hat_pin ? 'PIN ändern' : 'PIN festlegen'}</button></form><div class="msg hidden" role="status" id="mpin"></div></section>
+    <section class="card"><h2>Passwort ändern</h2>
+      <form id="fpw"><div class="feld"><label>Bisheriges Passwort</label><input name="alt" type="password" autocomplete="current-password" required></div>
+      <div class="feld"><label>Neues Passwort (mindestens 10 Zeichen)</label><input name="neu" type="password" autocomplete="new-password" minlength="10" required></div>
+      <button class="btn sec">Passwort ändern</button><div class="msg hidden" role="status" id="mpw"></div></form></section>`);
+  const zeig = (el, text, gut) => { el.textContent = text; el.className = 'msg ' + (gut ? 'ok' : 'err'); };
+  $('#fpin').onsubmit = async ev => { ev.preventDefault(); try { const r = await api('konto', { pin: new FormData(ev.target).get('pin') }); S.ich = r.ich; await vKonto(); zeig($('#mpin'), 'Die PIN ist gespeichert.', true); } catch (e) { zeig($('#mpin'), meldung(e), false); } };
+  $('#fpw').onsubmit = async ev => { ev.preventDefault(); const fd = new FormData(ev.target); try { await api('konto', { alt: fd.get('alt'), neu: fd.get('neu') }); ev.target.reset(); zeig($('#mpw'), 'Das Passwort ist geändert.', true); } catch (e) { zeig($('#mpw'), meldung(e), false); } };
+}
+
+/* ---------- Studio-Gerät: Stempeln mit PIN ---------- */
+async function zeigeStudio(geraet) {
+  document.body.style.paddingBottom = '0';
+  const rufe = (a, d = {}) => api(a, Object.assign({ geraet }, d));
+  let personen = [];
+  const lade = async () => {
+    try { personen = (await rufe('geraet_liste')).personen; }
+    catch (e) { if (e.code === 'geraet-unbekannt') { try { localStorage.removeItem(K_GERAET); } catch (x) { } location.hash = ''; location.reload(); return; } }
+    zeichne();
+  };
+  const zeichne = () => {
+    const n = jetzt();
+    app.innerHTML = testHinweis() + `<div class="studio"><div class="uhr">${p2(n.getHours())}:${p2(n.getMinutes())}</div><div class="dat">${datumLang(iso(n))} · Tippe auf deinen Namen</div>
+      <div class="pgrid">${personen.map(p => `<button data-id="${p.id}" class="${p.offen_seit ? 'da' : ''}">${esc(p.vorname)} ${esc(p.initial)}.<small>${p.offen_seit ? 'da seit ' + uhr(p.offen_seit) : 'nicht da'}</small></button>`).join('')}</div>
+      <p style="text-align:center;margin-top:1.6rem"><a class="muted" href="mitarbeiter.html" id="raus">Zur Anmeldung</a></p></div>`;
+    document.querySelectorAll('.pgrid button').forEach(b => b.onclick = () => pinDialog(personen.find(p => p.id === +b.dataset.id)));
+    $('#raus').onclick = ev => { ev.preventDefault(); history.replaceState(null, '', location.pathname); location.reload(); };
+  };
+  const pinDialog = p => {
+    let pin = '', pause = 0;
+    const min = p.offen_seit ? Math.max(0, Math.round((jetzt() - zuDate(p.offen_seit)) / 60000)) : 0;
+    pause = pauseVorschlag(min);
+    dlg.innerHTML = `<h2>${esc(p.vorname)}: ${p.offen_seit ? 'ausstempeln' : 'einstempeln'}</h2>
+      ${p.offen_seit ? `<p class="muted">Da seit ${uhr(p.offen_seit)} Uhr, das sind ${dauer(min)} Stunden. Pause:</p><div class="pausen">${[0, 15, 30, 45, 60].map(m => `<button type="button" data-m="${m}" aria-pressed="${m === pause}">${m} Min.</button>`).join('')}</div>` : ''}
+      <div class="pinfeld" id="pf" aria-live="polite" aria-label="PIN"></div><div class="msg err hidden" role="alert" id="pe"></div>
+      <div class="pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button type="button" data-n="${n}">${n}</button>`).join('')}<button type="button" data-n="x" aria-label="Abbrechen">✕</button><button type="button" data-n="0">0</button><button type="button" data-n="ok" aria-label="Bestätigen">OK</button></div>`;
+    const mal = () => { $('#pf', dlg).textContent = '•'.repeat(pin.length); };
+    dlg.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { pause = +b.dataset.m; dlg.querySelectorAll('[data-m]').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+    dlg.querySelectorAll('[data-n]').forEach(b => b.onclick = async () => {
+      const n = b.dataset.n;
+      if (n === 'x') return dlg.close();
+      if (n !== 'ok') { if (pin.length < 6) pin += n; return mal(); }
+      try {
+        const r = await rufe('geraet_stempeln', { staff_id: p.id, pin, pause_min: pause });
+        dlg.close();
+        app.innerHTML = testHinweis() + `<div class="studio"><div class="gross" role="status">${esc(r.vorname)} ist ${r.aktion === 'ein' ? 'eingestempelt' : 'ausgestempelt'}<br>${uhr(r.aktion === 'ein' ? r.zeile.beginn : r.zeile.ende)} Uhr${r.aktion === 'aus' ? '<br><span class="muted">' + dauer(r.zeile.minuten) + ' Stunden</span>' : ''}</div></div>`;
+        setTimeout(lade, 2600);
+      } catch (e) { pin = ''; mal(); const m = $('#pe', dlg); m.textContent = meldung(e); m.classList.remove('hidden'); }
+    });
+    dlg.showModal();
+  };
+  await lade();
+  setInterval(() => { if (!dlg.open && $('.pgrid')) lade(); }, 60000);
+}
+
+window.addEventListener('hashchange', () => { if (location.hash === '#studio' || /einladung=/.test(location.hash)) location.reload(); });
+if ('serviceWorker' in navigator && !LOKAL) navigator.serviceWorker.register('sw-apps.js').catch(() => { });
+start();
+</script>
+</body>
+</html>
